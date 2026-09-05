@@ -66,7 +66,7 @@ Assert-NativeBinary (Join-Path $game $rimeLibrary)
 foreach ($name in @('postgres', 'initdb', 'pg_ctl', 'pg_isready', 'pg_dump', 'pg_restore', 'psql')) {
     Assert-NativeBinary (Join-Path $postgres "bin/$name")
 }
-foreach ($asset in @('Data/Local/Mix.bmd', 'config.ini')) {
+foreach ($asset in @('Data/Local/mix.bmd', 'config.ini')) {
     if (-not (Test-Path -LiteralPath (Join-Path $game $asset))) { throw "Missing game asset: $asset" }
 }
 foreach ($userFile in @('Data/Keys', 'Data/PostgreSQL')) {
@@ -101,6 +101,13 @@ foreach ($entry in @(
         '-r', $Runtime, '--self-contained', 'true', '--disable-build-servers',
         '-p:ci=true', '-p:BuildInParallel=false', '-maxcpucount:1', '-p:RunAnalyzers=false',
         '-p:GeneratePersistenceModels=false', '-p:PersistenceGeneratorRunning=true', '-o', (Join-Path $output $entry[1]))
+}
+# Optional EventPipe/LTTng tracing is not required by the packaged game.
+if ($IsLinux) {
+    foreach ($directory in @('App/GameHost', 'App/GMHost', 'App/Server')) {
+        $provider = Join-Path $output "$directory/libcoreclrtraceptprovider.so"
+        if (Test-Path -LiteralPath $provider) { Remove-Item -LiteralPath $provider }
+    }
 }
 Copy-Item -LiteralPath (Join-Path $repo 'LICENSE') -Destination (Join-Path $output 'Licenses/OpenMU-MIT.txt')
 Copy-Item -LiteralPath $license -Destination (Join-Path $output 'Licenses/PostgreSQL.txt')

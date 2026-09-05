@@ -77,7 +77,7 @@ public class Listener
         {
             this._clientListener.Start(backlog);
             this._isListening = true;
-            this._clientListener.BeginAcceptSocket(this.OnAccept, null);
+            this._clientListener.BeginAcceptSocket(this.OnAccept, this._clientListener);
         }
         catch
         {
@@ -93,7 +93,9 @@ public class Listener
     public void Stop()
     {
         this._isListening = false;
-        this._clientListener?.Stop();
+        // Detach once so overlapping shutdown calls cannot stop the same listener twice.
+        var listener = System.Threading.Interlocked.Exchange(ref this._clientListener, null);
+        listener?.Stop();
     }
 
     /// <summary>
@@ -130,12 +132,12 @@ public class Listener
             Socket socket;
             try
             {
-                if (this._clientListener is null)
+                if (result.AsyncState is not TcpListener listener)
                 {
                     return;
                 }
 
-                socket = this._clientListener.EndAcceptSocket(result);
+                socket = listener.EndAcceptSocket(result);
             }
             catch (ObjectDisposedException)
             {
@@ -154,10 +156,10 @@ public class Listener
             }
 
             // Accept the next client:
-            if (this._isListening)
+            if (this._isListening && ReferenceEquals(result.AsyncState, this._clientListener))
             {
                 // todo: refactor to use AcceptSocketAsync
-                this._clientListener.BeginAcceptSocket(this.OnAccept, null);
+                ((TcpListener)result.AsyncState!).BeginAcceptSocket(this.OnAccept, result.AsyncState);
             }
 
             ClientAcceptingEventArgs? cancel = null;

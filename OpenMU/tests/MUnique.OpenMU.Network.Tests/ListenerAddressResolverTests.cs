@@ -113,6 +113,34 @@ public class ListenerAddressResolverTests
         Assert.That(listener.IsBound, Is.False);
     }
 
+    /// <summary>Repeated shutdown must release an exclusive socket without recreating it.</summary>
+    [Test]
+    public async Task RepeatedConcurrentStopReleasesPortAndAllowsRestart()
+    {
+        Environment.SetEnvironmentVariable(ListenerAddressResolver.EnvironmentVariableName, "127.0.0.1");
+        var probe = new TcpListener(IPAddress.Loopback, 0);
+        probe.Start();
+        var port = ((IPEndPoint)probe.LocalEndpoint).Port;
+        probe.Stop();
+        var listener = new Listener(port, null, null, NullLoggerFactory.Instance);
+        try
+        {
+            for (var attempt = 0; attempt < 10; attempt++)
+            {
+                listener.Start();
+                await Task.WhenAll(Task.Run(listener.Stop), Task.Run(listener.Stop)).ConfigureAwait(false);
+                Assert.That(listener.IsBound, Is.False);
+            }
+        }
+        finally
+        {
+            listener.Stop();
+        }
+        var replacement = new TcpListener(IPAddress.Loopback, port) { ExclusiveAddressUse = true };
+        try { Assert.DoesNotThrow(() => replacement.Start()); }
+        finally { replacement.Stop(); }
+    }
+
     /// <summary>Verifies malformed or IPv6 values fail closed.</summary>
     [TestCase("localhost")]
     [TestCase("::1")]

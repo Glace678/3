@@ -12,6 +12,7 @@
 #include "Engine/Object/ZzzCharacter.h"
 #include "Engine/Object/ZzzInterface.h"
 #include "Network/Reconnect/ReconnectManager.h"
+#include "Network/Login/LocalLoginCredentials.h"
 #include "UI/Legacy/UIControls.h"
 #include "Scenes/SceneCore.h"
 #include "I18N/All.h"
@@ -394,16 +395,36 @@ void CLoginWin::RequestLogin()
     }
 }
 
-bool CLoginWin::RequestSavedLogin()
+bool CLoginWin::RequestAutomaticLogin()
 {
     GameConfig& config = GameConfig::GetInstance();
-    if (CurrentProtocolState != RECEIVE_JOIN_SERVER_SUCCESS
-        || !config.GetRememberMe() || !config.GetSavePassword())
+    if (CurrentProtocolState != RECEIVE_JOIN_SERVER_SUCCESS)
     {
         return false;
     }
 
-    config.DecryptCredentials(m_Username, m_Password, _countof(m_Username), _countof(m_Password));
+    m_Username[0] = L'\0';
+    m_Password[0] = L'\0';
+    if (config.GetRememberMe() && !config.GetEncryptedUsername().empty())
+    {
+        // Never switch an existing player's saved account to an empty local account.
+        if (!config.GetSavePassword())
+        {
+            return false;
+        }
+        config.DecryptCredentials(m_Username, m_Password, _countof(m_Username), _countof(m_Password));
+    }
+    else
+    {
+        const auto credentials = Network::Login::LocalLoginCredentials::FromEnvironment();
+        if (!credentials.IsValid())
+        {
+            return false;
+        }
+        wcsncpy_s(m_Username, _countof(m_Username), credentials.Username().c_str(), _TRUNCATE);
+        wcsncpy_s(m_Password, _countof(m_Password), credentials.Password().c_str(), _TRUNCATE);
+    }
+
     if (m_Username[0] == L'\0' || m_Password[0] == L'\0')
     {
         return false;

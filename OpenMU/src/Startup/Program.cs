@@ -499,11 +499,34 @@ internal sealed class Program : IDisposable
             }
 
             await this.ApplySoloBalanceAsync(contextProvider).ConfigureAwait(false);
+            await InitializeLocalGameAccountAsync(contextProvider).ConfigureAwait(false);
         }
 
         await this.ReadSystemConfigurationAsync(contextProvider).ConfigureAwait(false);
 
         return contextProvider;
+    }
+
+    private static async Task InitializeLocalGameAccountAsync(IPersistenceContextProvider provider)
+    {
+        var username = Environment.GetEnvironmentVariable("OPENMU_LOCAL_GAME_USERNAME");
+        var password = Environment.GetEnvironmentVariable("OPENMU_LOCAL_GAME_PASSWORD");
+        if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)
+            || Environment.GetEnvironmentVariable("OPENMU_BIND_ADDRESS") != "127.0.0.1"
+            || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("OPENMU_CONTROL_PIPE")))
+        {
+            throw new InvalidOperationException("Automatic game account setup requires the local loopback launcher.");
+        }
+
+        using var readContext = provider.CreateNewConfigurationContext();
+        var configuration = (await readContext.GetAsync<GameConfiguration>().ConfigureAwait(false)).First();
+        using var context = provider.CreateNewPlayerContext(configuration);
+        await SoloAccountInitializer.EnsureAsync(context, username, password).ConfigureAwait(false);
     }
 
     private async Task ApplySoloBalanceAsync(IPersistenceContextProvider provider)

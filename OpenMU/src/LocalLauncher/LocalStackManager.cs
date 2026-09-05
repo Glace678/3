@@ -334,6 +334,8 @@ public sealed class LocalStackManager : IDisposable
         }
 
         var configurationFile = PrepareGameConfiguration(this._paths);
+        var gameLogin = this.Settings.AutomaticGameLogin
+            ? LocalGameLogin.FromSecrets(this._secretStore.Load()) : null;
 
         this._client = this._processRunner.Start(
             this._paths.GameExecutable,
@@ -344,7 +346,7 @@ public sealed class LocalStackManager : IDisposable
                 $"/p{this.Settings.ConnectServerPort.ToString(System.Globalization.CultureInfo.InvariantCulture)}",
             },
             this._paths.GameDirectory,
-            CreateGameEnvironment(configurationFile, this.Settings.AutomaticGameLogin));
+            CreateGameEnvironment(configurationFile, this.Settings.AutomaticGameLogin, gameLogin));
         await this.SetStatusAsync(LocalStackState.Running, null, cancellationToken).ConfigureAwait(false);
     }
 
@@ -368,12 +370,15 @@ public sealed class LocalStackManager : IDisposable
     }
 
     /// <summary>Enables automatic login only for the locally launched game process.</summary>
-    internal static IReadOnlyDictionary<string, string?> CreateGameEnvironment(string configurationFile, bool automaticLogin)
+    internal static IReadOnlyDictionary<string, string?> CreateGameEnvironment(
+        string configurationFile, bool automaticLogin, LocalGameLogin? gameLogin = null)
         => new Dictionary<string, string?>
         {
             ["MU_SOLO_BALANCE"] = "1",
             ["MU_CONFIG_FILE"] = configurationFile,
             ["MU_LOCAL_AUTO_LOGIN"] = automaticLogin ? "1" : "0",
+            ["MU_LOCAL_GAME_USERNAME"] = automaticLogin ? gameLogin?.Username : null,
+            ["MU_LOCAL_GAME_PASSWORD"] = automaticLogin ? gameLogin?.Password : null,
         };
 
     /// <summary>Creates the stop backup and then stops the database, unless a normal stop must fail closed.</summary>

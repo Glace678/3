@@ -79,6 +79,7 @@ endif()
 # Editor mode option (for admin builds)
 option(ENABLE_EDITOR "Enable editor features for admin builds" OFF)
 option(ENABLE_VIRTUAL_GAMEPAD_TESTS "Enable the SDL virtual-gamepad acceptance-test bridge" OFF)
+option(ENABLE_FRAMEBUFFER_CAPTURE_TESTS "Enable opt-in framebuffer capture for native acceptance tests" OFF)
 
 # ---------------------------------------------------------------------------
 # Engine/game code -> static library (libMuClient); MuMain -> thin executable.
@@ -898,6 +899,10 @@ target_link_libraries(MuClient PUBLIC
   SDL3::SDL3
   SDL3_mixer::SDL3_mixer
 )
+
+if(ENABLE_FRAMEBUFFER_CAPTURE_TESTS)
+  target_compile_definitions(Main PRIVATE MU_ENABLE_FRAMEBUFFER_CAPTURE_TESTS=1)
+endif()
 
 if(ENABLE_VIRTUAL_GAMEPAD_TESTS)
   target_compile_definitions(MuClient PRIVATE

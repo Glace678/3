@@ -69,10 +69,12 @@ public class LocalStackSettingsStoreTests
     {
         var configuration = Path.Combine(this._directory, "game-config.ini");
         var environment = LocalStackManager.CreateGameEnvironment(configuration, enabled);
-        Assert.That(environment, Has.Count.EqualTo(3));
+        Assert.That(environment, Has.Count.EqualTo(5));
         Assert.That(environment["MU_CONFIG_FILE"], Is.EqualTo(configuration));
         Assert.That(environment["MU_SOLO_BALANCE"], Is.EqualTo("1"));
         Assert.That(environment["MU_LOCAL_AUTO_LOGIN"], Is.EqualTo(expectedValue));
+        Assert.That(environment["MU_LOCAL_GAME_USERNAME"], Is.Null);
+        Assert.That(environment["MU_LOCAL_GAME_PASSWORD"], Is.Null);
     }
     /// <summary>Verifies duplicate ports are rejected.</summary>
     [Test]

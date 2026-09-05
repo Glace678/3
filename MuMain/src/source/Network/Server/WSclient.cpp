@@ -24,6 +24,7 @@
 #include "Scenes/SceneCore.h"
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/Login/LocalAutoLogin.h"
+#include "Network/Login/LocalLoginCredentials.h"
 #include "Network/IncomingPacketQueue.h"
 #include "I18N/All.h"
 
@@ -501,9 +502,11 @@ static bool TrySelectLocalServer()
     auto& automaticLogin = Network::Login::LocalAutoLogin::Instance();
     const auto& config = GameConfig::GetInstance();
     const char* enabled = std::getenv(Network::Login::LocalAutoLoginEnvironment);
+    const bool hasSavedCredentials = config.GetRememberMe() && config.GetSavePassword()
+        && !config.GetEncryptedUsername().empty() && !config.GetEncryptedPassword().empty();
+    const bool hasLocalCredentials = Network::Login::LocalLoginCredentials::FromEnvironment().IsValid();
     automaticLogin.Initialize(enabled != nullptr && std::string_view(enabled) == "1",
-        szServerIpAddress, config.GetRememberMe() && config.GetSavePassword()
-            && !config.GetEncryptedUsername().empty() && !config.GetEncryptedPassword().empty());
+        szServerIpAddress, hasSavedCredentials || hasLocalCredentials);
     if (!automaticLogin.CanSelectServer() || ReconnectManager::Instance().IsActive())
     {
         return false;
@@ -663,7 +666,7 @@ void ReceiveJoinServer(const BYTE* ReceiveBuffer)
         }
         else if (!ReconnectManager::Instance().IsActive())
         {
-            if (automaticLogin.TryBeginLogin() && rUIMng.m_LoginWin.RequestSavedLogin())
+            if (automaticLogin.TryBeginLogin() && rUIMng.m_LoginWin.RequestAutomaticLogin())
             {
                 g_ErrorReport.Write(L"> Local automatic login requested.\r\n");
             }

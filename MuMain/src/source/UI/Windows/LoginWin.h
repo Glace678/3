@@ -32,7 +32,7 @@ public:
     bool CursorInWin(int nArea);
 
     void ConnectConnectionServer();
-    bool RequestSavedLogin();
+    bool RequestAutomaticLogin();
 
     CUITextInputBox* GetUsernameInputBox() const { return m_pUsernameInputBox; }
     CUITextInputBox* GetPasswordInputBox() const { return m_pPasswordInputBox; }

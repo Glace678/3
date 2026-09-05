@@ -90,31 +90,11 @@ public sealed class OpenMuServerManager
             throw new FileNotFoundException("缺少已发布的 OpenMU 服务器。", this._paths.ServerExecutable);
         }
 
-        var environment = new Dictionary<string, string?>
-        {
-            ["OPENMU_CONNECTION_SETTINGS_FILE"] = this._paths.ConnectionSettingsFile,
-            ["OPENMU_BIND_ADDRESS"] = "127.0.0.1",
-            ["OPENMU_CONTROL_PIPE"] = this.PipeName,
-            ["OPENMU_ADMIN_USER"] = "localadmin",
-            ["OPENMU_ADMIN_PASSWORD"] = secrets.AdminPanelPassword,
-            ["OPENMU_ADMIN_TOTP_SECRET"] = null,
-            ["DB_HOST"] = null,
-            ["DB_ADMIN_USER"] = null,
-            ["DB_ADMIN_PW"] = null,
-            ["ASPNETCORE_URLS"] = $"http://127.0.0.1:{this._settings.AdminPanelPort}",
-            ["ASPNETCORE_ENVIRONMENT"] = "Production",
-            ["DOTNET_ENVIRONMENT"] = "Production",
-            ["Database__AssumeExternallyProvisioned"] = "false",
-            ["AdminPanel__Auth__DataProtectionKeyPath"] = this._paths.DataProtectionKeysDirectory,
-            ["OPENMU_LOG_DIRECTORY"] = this._paths.LogsDirectory,
-            ["Serilog__WriteTo__1__Args__path"] = Path.Combine(this._paths.LogsDirectory, "openmu.log"),
-            ["Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Components.Server.Circuits"] = "Error",
-        };
         var process = this._processRunner.Start(
             this._paths.ServerExecutable,
             new[] { "-autostart", "-resolveIP:127.0.0.1", "-version:season6", "-gameservers:1", "-testaccounts:false", "-solo" },
             this._paths.ServerDirectory,
-            environment);
+            this.CreateServerEnvironment(secrets));
         this._process = process;
         try
         {
@@ -279,6 +259,33 @@ public sealed class OpenMuServerManager
         {
             await this.ForceTerminateVerifiedProcessAsync(process, cancellationToken).ConfigureAwait(false);
         }
+    }
+
+    internal IReadOnlyDictionary<string, string?> CreateServerEnvironment(LocalSecrets secrets)
+    {
+        var gameLogin = LocalGameLogin.FromSecrets(secrets);
+        return new Dictionary<string, string?>
+        {
+            ["OPENMU_LOCAL_GAME_USERNAME"] = this._settings.AutomaticGameLogin ? gameLogin.Username : null,
+            ["OPENMU_LOCAL_GAME_PASSWORD"] = this._settings.AutomaticGameLogin ? gameLogin.Password : null,
+            ["OPENMU_CONNECTION_SETTINGS_FILE"] = this._paths.ConnectionSettingsFile,
+            ["OPENMU_BIND_ADDRESS"] = "127.0.0.1",
+            ["OPENMU_CONTROL_PIPE"] = this.PipeName,
+            ["OPENMU_ADMIN_USER"] = "localadmin",
+            ["OPENMU_ADMIN_PASSWORD"] = secrets.AdminPanelPassword,
+            ["OPENMU_ADMIN_TOTP_SECRET"] = null,
+            ["DB_HOST"] = null,
+            ["DB_ADMIN_USER"] = null,
+            ["DB_ADMIN_PW"] = null,
+            ["ASPNETCORE_URLS"] = $"http://127.0.0.1:{this._settings.AdminPanelPort}",
+            ["ASPNETCORE_ENVIRONMENT"] = "Production",
+            ["DOTNET_ENVIRONMENT"] = "Production",
+            ["Database__AssumeExternallyProvisioned"] = "false",
+            ["AdminPanel__Auth__DataProtectionKeyPath"] = this._paths.DataProtectionKeysDirectory,
+            ["OPENMU_LOG_DIRECTORY"] = this._paths.LogsDirectory,
+            ["Serilog__WriteTo__1__Args__path"] = Path.Combine(this._paths.LogsDirectory, "openmu.log"),
+            ["Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Components.Server.Circuits"] = "Error",
+        };
     }
 
     private static string CreatePipeName(string rootDirectory)

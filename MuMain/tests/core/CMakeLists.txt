@@ -15,6 +15,7 @@ mu_add_test(
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/SdlGamepadBackend.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Haptics/Haptics.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Network/Login/LocalAutoLogin.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Login/LocalLoginCredentials.cpp
     LINK_LIBS
         SDL3::SDL3
 )

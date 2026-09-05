@@ -215,13 +215,14 @@ GLvoid KillGLWindow(GLvoid)
 
 #if defined(MU_ENABLE_FRAMEBUFFER_CAPTURE_TESTS)
 // Acceptance-only framebuffer capture: when MU_CAPTURE_FRAME=<N> is set, dump
-// the Nth presented frame to MU_CAPTURE_PATH as a PPM. CMake only defines this
-// bridge for an explicit virtual-gamepad Debug test build, never a normal or
-// Release client.
+// the Nth matching frame to MU_CAPTURE_PATH as a PPM. Only explicit acceptance
+// builds enable this; normal release packages do not expose the capture bridge.
 static void MaybeCaptureFrame()
 {
     const char* want = std::getenv("MU_CAPTURE_FRAME");
     if (!want) return;
+    const char* scene = std::getenv("MU_CAPTURE_SCENE");
+    if (scene && SceneFlag != std::strtol(scene, nullptr, 10)) return;
     static long s_frame = 0;
     const long target = std::strtol(want, nullptr, 10);
     if (++s_frame != target) return;
@@ -249,6 +250,9 @@ static void MaybeCaptureFrame()
         std::fwrite(pixels.data(), 1, static_cast<size_t>(w) * h * 3, fp);
         std::fclose(fp);
         std::fprintf(stderr, "[capture] wrote frame %ld (%dx%d) to %s\n", target, w, h, path);
+        std::fprintf(stderr, "[capture] scene=%d protocol=%d loginVisible=%d serverSelectionVisible=%d\n",
+            SceneFlag, CurrentProtocolState, CUIMng::Instance().m_LoginWin.IsShow(),
+            CUIMng::Instance().m_ServerSelWin.IsShow());
     }
 }
 #endif

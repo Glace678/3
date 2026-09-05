@@ -253,23 +253,29 @@ readiness/status checks, and fast stop. It then removes its temporary package
 `Data` directory and ProgramData smoke aliases; do not point it at a package
 which already contains persistent data.
 
-Use the launcher's management-panel button and the `localadmin` password from
-first-run setup to create the first game account. The game client has no account
-registration screen.
-
-For an account whose username and password are already remembered by the client,
-the local launcher now skips server selection and the login form and opens the
-normal character selection screen. This uses normal server authentication, not
-an offline world or an authentication bypass. No accounts or passwords are
-created, changed, or copied from the management panel.
+The local launcher skips server selection and the login form and opens normal
+character selection, including on first launch. A saved game account and
+password take priority, preserving existing characters. Without a saved account,
+the local service creates an installation-specific ordinary game account.
+The game password is derived from the original private package keys and is not
+the administrator password. It is supplied only to the local game process,
+never on the command line or in the public game configuration.
+Server authentication remains enabled; existing accounts are never reset or
+granted GM rights. The management panel can still create additional accounts.
 
 Automatic login makes one attempt per client launch and accepts only the literal
 `127.0.0.1` connect and game-server addresses. Missing credentials, unavailable
 servers, or login failures retain the normal manual recovery flow; they do not
 retry passwords indefinitely. A working server handshake is still required.
 Set `AutomaticGameLogin` to `false` in `Data/Keys/local-settings.json` and restart
-the launcher to restore manual login. The launcher passes `MU_LOCAL_AUTO_LOGIN=1`
+the launcher and local service to restore manual login. The launcher passes `MU_LOCAL_AUTO_LOGIN=1`
 only to the game process; clients started normally keep their existing behavior.
+
+Native visual acceptance builds can opt into MuMain's
+`-DENABLE_FRAMEBUFFER_CAPTURE_TESTS=ON`. With `MU_CAPTURE_FRAME` and
+`MU_CAPTURE_PATH` set, the client writes one PPM framebuffer; `MU_CAPTURE_SCENE`
+optionally limits the counter to one scene. The capture log reports scene,
+protocol state and login visibility. This option is off for normal packages.
 
 Normal stop first asks OpenMU to exit through its current-user-only named pipe,
 waits for the server process to finish, creates an automatic backup, and then

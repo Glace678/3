@@ -1,7 +1,36 @@
 #include "doctest.h"
 #include "Network/Login/LocalAutoLogin.h"
+#include "Network/Login/LocalLoginCredentials.h"
 
 using Network::Login::LocalAutoLogin;
+using Network::Login::LocalLoginCredentials;
+
+TEST_CASE("First-run launcher credentials fit the normal login protocol")
+{
+    const auto credentials = LocalLoginCredentials::Parse("soloABC123", "AbCd0123456789_abc-Z");
+    REQUIRE(credentials.IsValid());
+    CHECK(credentials.Username() == L"soloABC123");
+    CHECK(credentials.Password() == L"AbCd0123456789_abc-Z");
+    LocalAutoLogin login;
+    login.Initialize(true, L"127.0.0.1", credentials.IsValid());
+    REQUIRE(login.CanSelectServer());
+    login.ServerSelected();
+    login.ServerAddressReceived(L"127.0.0.1");
+    CHECK(login.TryBeginLogin());
+    CHECK_FALSE(login.TryBeginLogin());
+}
+
+TEST_CASE("Malformed launcher credentials cannot be truncated or injected into login")
+{
+    for (auto username : {"", "a", "ab", "toolongname", "user name", "user\nname", "user/name"})
+    {
+        CHECK_FALSE(LocalLoginCredentials::Parse(username, "AbCd0123456789_abc-Z").IsValid());
+    }
+    for (auto password : {"", "short", "012345678901234567890", "invalid password", "invalid\npassword"})
+    {
+        CHECK_FALSE(LocalLoginCredentials::Parse("soloABC123", password).IsValid());
+    }
+}
 
 TEST_CASE("Local automatic login requires opt-in, saved credentials and literal loopback")
 {

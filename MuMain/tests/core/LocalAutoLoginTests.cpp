@@ -83,6 +83,33 @@ TEST_CASE("A remote or unsolicited game server address cannot receive automatic 
     CHECK_FALSE(unsolicited.TryBeginLogin());
 }
 
+TEST_CASE("Mobile automatic login accepts only a pinned private IPv4 game server")
+{
+    for (auto host : {L"10.0.0.8", L"127.0.0.2", L"172.16.5.10", L"172.31.255.254", L"192.168.1.2", L"169.254.10.20"})
+    {
+        LocalAutoLogin mobile;
+        mobile.Initialize(true, host, true, true);
+        REQUIRE(mobile.CanSelectServer());
+        mobile.ServerSelected();
+        mobile.ServerAddressReceived(host);
+        CHECK(mobile.TryBeginLogin());
+    }
+
+    for (auto host : {L"8.8.8.8", L"172.15.1.1", L"172.32.1.1", L"example.com", L"", L"192.168.1"})
+    {
+        LocalAutoLogin mobile;
+        mobile.Initialize(true, host, true, true);
+        CHECK_FALSE(mobile.CanSelectServer());
+    }
+
+    LocalAutoLogin redirected;
+    redirected.Initialize(true, L"192.168.1.2", true, true);
+    REQUIRE(redirected.CanSelectServer());
+    redirected.ServerSelected();
+    redirected.ServerAddressReceived(L"192.168.1.3");
+    CHECK_FALSE(redirected.TryBeginLogin());
+}
+
 TEST_CASE("Cancellation and repeated server addresses do not restart automatic login")
 {
     LocalAutoLogin cancelled;

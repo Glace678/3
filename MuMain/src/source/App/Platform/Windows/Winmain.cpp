@@ -1,10 +1,11 @@
-///////////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Core/Input/FocusNavigator.h"
 #include "Core/Input/Input.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Input/GamepadService.h"
+#include "Core/Input/MobileGestureMapper.h"
 #include "UI/ControllerKeyboard/ControllerShortcuts.h"
 
 #define WIN32_LEAN_AND_MEAN
@@ -375,6 +376,39 @@ int GetFPSLimit()
     return static_cast<int>(std::lround(GetDisplayRefreshRate().hertz));
 }
 
+#if defined(__ANDROID__) || defined(__OHOS__)
+// High-refresh phones leave the fullscreen surface at their default refresh
+// (often 60 Hz) until an application asks for a faster display mode. Request the
+// closest fullscreen mode at the desired rate so the frame-rate slider's "max"
+// position (and the default DisplayMaximum policy) actually presents at the
+// device's peak refresh. Lower fixed caps are enforced by the frame limiter
+// without a (flickery) mode switch, so this is only called for the max case.
+// Desktop manages display modes through MuApplyWindowResolution; this is
+// intentionally mobile-only and never compiles into the Windows build.
+static void RequestMobileDisplayMode(double desiredHz)
+{
+    if (!g_sdlWindow)
+        return;
+    if ((SDL_GetWindowFlags(g_sdlWindow) & SDL_WINDOW_FULLSCREEN) == 0)
+        return;
+
+    const SDL_DisplayID display = SDL_GetDisplayForWindow(g_sdlWindow);
+    if (display == 0)
+        return;
+
+    int width = 0;
+    int height = 0;
+    SDL_GetWindowSize(g_sdlWindow, &width, &height);
+
+    SDL_DisplayMode mode;
+    if (SDL_GetClosestFullscreenDisplayMode(
+            display, width, height, static_cast<float>(desiredHz), false, &mode))
+    {
+        SDL_SetWindowFullscreenMode(g_sdlWindow, &mode);
+    }
+}
+#endif
+
 const Core::Time::EffectiveFramePolicy& GetEffectiveFramePolicy()
 {
     return g_effectiveFramePolicy;
@@ -399,6 +433,13 @@ void ApplyFrameTimingConfiguration(bool foreground)
     SetTargetFps(g_effectiveFramePolicy.verticalSyncPacesFrames
         ? -1.0
         : g_effectiveFramePolicy.effectiveFrameRate);
+
+#if defined(__ANDROID__) || defined(__OHOS__)
+    // Ask the OS for the high-refresh surface when running at the device's peak
+    // rate (the "max" end of the frame-rate slider / default DisplayMaximum).
+    if (settings.mode == Core::Time::FrameRateMode::DisplayMaximum)
+        RequestMobileDisplayMode(g_effectiveFramePolicy.effectiveFrameRate);
+#endif
 
     g_ErrorReport.Write(
         L"> Frame policy: requested %.3f Hz, effective %.3f Hz, display %.3f Hz, %hs.\r\n",
@@ -1685,6 +1726,113 @@ namespace
         }
     }
 
+#if defined(__ANDROID__) || defined(__OHOS__)
+    Core::Input::MobileGestureMapper g_mobileGestureMapper;
+
+    void HandleMobileGestureAction(const Core::Input::MobileGestureAction& action)
+    {
+        using Core::Input::MobileGestureActionType;
+        const float windowX = action.x * static_cast<float>(WindowWidth);
+        const float windowY = action.y * static_cast<float>(WindowHeight);
+        switch (action.type)
+        {
+        case MobileGestureActionType::PointerMove:
+            HandleMouseMotion(windowX, windowY);
+            break;
+        case MobileGestureActionType::LeftButtonDown:
+        case MobileGestureActionType::LeftButtonUp:
+        case MobileGestureActionType::RightButtonDown:
+        case MobileGestureActionType::RightButtonUp:
+        {
+            SDL_Event mouse{};
+            const bool left = action.type == MobileGestureActionType::LeftButtonDown
+                || action.type == MobileGestureActionType::LeftButtonUp;
+            const bool down = action.type == MobileGestureActionType::LeftButtonDown
+                || action.type == MobileGestureActionType::RightButtonDown;
+            mouse.type = down ? SDL_EVENT_MOUSE_BUTTON_DOWN : SDL_EVENT_MOUSE_BUTTON_UP;
+            mouse.button.button = left ? SDL_BUTTON_LEFT : SDL_BUTTON_RIGHT;
+            mouse.button.clicks = 1;
+            mouse.button.x = windowX;
+            mouse.button.y = windowY;
+            HandleMouseButton(mouse);
+            if (down)
+                Core::Input::GamepadService::Instance().PublishHaptic(
+                    Core::Haptics::HapticEvent::InputAcknowledged,
+                    static_cast<double>(SDL_GetTicks()));
+            break;
+        }
+        case MobileGestureActionType::CancelLeftButton:
+            MouseLButtonPush = false;
+            MouseLButtonPop = false;
+            MouseLButton = false;
+            ReleaseCapture();
+            break;
+        case MobileGestureActionType::CancelRightButton:
+            MouseRButtonPush = false;
+            MouseRButtonPop = false;
+            MouseRButton = false;
+            ReleaseCapture();
+            break;
+        case MobileGestureActionType::PreviousSkill:
+            if (g_pSkillList != nullptr)
+                g_pSkillList->SelectAdjacentHotKeySkill(-1);
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::FocusMoved, static_cast<double>(SDL_GetTicks()));
+            break;
+        case MobileGestureActionType::NextSkill:
+            if (g_pSkillList != nullptr)
+                g_pSkillList->SelectAdjacentHotKeySkill(1);
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::FocusMoved, static_cast<double>(SDL_GetTicks()));
+            break;
+        case MobileGestureActionType::ZoomOut:
+            MouseWheel = -1;
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::SettingChanged, static_cast<double>(SDL_GetTicks()));
+            break;
+        case MobileGestureActionType::ZoomIn:
+            MouseWheel = 1;
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::SettingChanged, static_cast<double>(SDL_GetTicks()));
+            break;
+        case MobileGestureActionType::OpenMap:
+            if (g_pNewUISystem != nullptr)
+                g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MOVEMAP);
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::Confirmed, static_cast<double>(SDL_GetTicks()));
+            break;
+        case MobileGestureActionType::OpenSettings:
+            if (g_pNewUISystem != nullptr)
+                g_pNewUISystem->Toggle(SEASON3B::INTERFACE_OPTION);
+            Core::Input::GamepadService::Instance().PublishHaptic(
+                Core::Haptics::HapticEvent::Confirmed, static_cast<double>(SDL_GetTicks()));
+            break;
+        }
+    }
+
+    void HandleMobileFinger(const SDL_Event& event)
+    {
+        Core::Input::TouchPhase phase = Core::Input::TouchPhase::Move;
+        switch (event.type)
+        {
+        case SDL_EVENT_FINGER_DOWN: phase = Core::Input::TouchPhase::Down; break;
+        case SDL_EVENT_FINGER_UP: phase = Core::Input::TouchPhase::Up; break;
+        case SDL_EVENT_FINGER_CANCELED: phase = Core::Input::TouchPhase::Cancel; break;
+        default: break;
+        }
+
+        const auto actions = g_mobileGestureMapper.Handle({
+            static_cast<std::int64_t>(event.tfinger.fingerID),
+            phase,
+            event.tfinger.x,
+            event.tfinger.y,
+            static_cast<std::uint64_t>(SDL_GetTicks()),
+        });
+        for (const auto& action : actions)
+            HandleMobileGestureAction(action);
+    }
+#endif
+
     void HandleWindowResize(int width, int height)
     {
         if (width <= 0 || height <= 0) return;
@@ -1705,6 +1853,9 @@ namespace
         Core::Input::GamepadService::Instance().OnFocusChanged(active);
         if (!active)
         {
+#if defined(__ANDROID__) || defined(__OHOS__)
+            g_mobileGestureMapper.Reset();
+#endif
             Core::Input::FocusNavigator::Instance().Clear();
             g_pNewKeyInput->ResetKeyStates();
             CancelLegacyButtonPress();
@@ -1957,6 +2108,14 @@ MSG MainLoop()
                     ? -static_cast<int>(event.wheel.y)
                     : static_cast<int>(event.wheel.y);
                 break;
+#if defined(__ANDROID__) || defined(__OHOS__)
+            case SDL_EVENT_FINGER_DOWN:
+            case SDL_EVENT_FINGER_UP:
+            case SDL_EVENT_FINGER_MOTION:
+            case SDL_EVENT_FINGER_CANCELED:
+                HandleMobileFinger(event);
+                break;
+#endif
             case SDL_EVENT_WINDOW_RESIZED:
                 HandleWindowResize(event.window.data1, event.window.data2);
                 break;
@@ -2132,21 +2291,33 @@ MSG MainLoop()
 
 namespace
 {
-    // Tahoma font size scales with window height; these are the tuned base values.
-    constexpr int BASE_FONT_HEIGHT = 12;
-    constexpr float FONT_HEIGHT_GROWTH_PER_PIXEL = 1.f / 200.f;
-    constexpr int FIX_FONT_HEIGHT_SMALL = 14;  // used when WindowHeight <= 600
-    constexpr int FIX_FONT_HEIGHT_LARGE = 15;
-    constexpr int SMALL_WINDOW_HEIGHT_THRESHOLD = 600;
+    // The whole interface is authored in a 640x480 reference space and stretched
+    // by g_fScreenRate; the text buffer is full-window-resolution. A glyph that is
+    // N px tall in the reference must therefore be N*rate px to keep its on-screen
+    // proportion -- this is what makes text grow when the window is enlarged and
+    // shrink when it is dragged smaller, and keeps every label centered/aligned
+    // with its UI art at any size. (The old fixed 1px-per-200px slope left text at
+    // ~6 reference px on large windows: tiny copyright/options text that looked
+    // offset from its row.)
+    constexpr int BASE_FONT_HEIGHT = 12;       // reference UI font (480px-tall space)
+    constexpr int BASE_FIX_FONT_HEIGHT = 14;   // reference fixed-width/label font
+    constexpr int MIN_FONT_HEIGHT = 9;         // floor for unusually small windows
 
     struct FontSizes { int uiFontSize; int fixFontSize; };
 
+    int ScaleReferenceFontHeight(int referenceHeight)
+    {
+        const float verticalScale = (g_fScreenRate_y > 0.0f) ? g_fScreenRate_y : 1.0f;
+        int scaled = static_cast<int>(std::lround(referenceHeight * verticalScale));
+        if (scaled < MIN_FONT_HEIGHT)
+            scaled = MIN_FONT_HEIGHT;
+        return scaled;
+    }
+
     FontSizes CalculateFontSizes()
     {
-        FontHeight = static_cast<int>(std::ceil(
-            BASE_FONT_HEIGHT + (WindowHeight - REFERENCE_HEIGHT) * FONT_HEIGHT_GROWTH_PER_PIXEL));
-        int fixFontHeight = (WindowHeight <= SMALL_WINDOW_HEIGHT_THRESHOLD)
-            ? FIX_FONT_HEIGHT_SMALL : FIX_FONT_HEIGHT_LARGE;
+        FontHeight = ScaleReferenceFontHeight(BASE_FONT_HEIGHT);
+        const int fixFontHeight = ScaleReferenceFontHeight(BASE_FIX_FONT_HEIGHT);
         return { FontHeight - 1, fixFontHeight - 1 };
     }
 
@@ -2444,6 +2615,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
 
     // Load game settings from INI file first
     GameConfig::GetInstance().Load();
+#if defined(__ANDROID__) || defined(__OHOS__)
+    g_mobileGestureMapper.SetLeftHanded(GameConfig::GetInstance().GetMobileLeftHanded());
+#endif
     InitRenderConfig();
 
   // Check if animation task pool should be enabled (disabled by default)
@@ -2543,7 +2717,13 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     // every map/panel; compatibility (CoreProfile=0) remains available as a rollback.
     // Core additionally needs an explicit version request (compatibility takes the
     // driver's highest, and must keep doing so -- see the else branch below).
+#if defined(__ANDROID__) || defined(__OHOS__)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#else
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, g_CoreProfile ? SDL_GL_CONTEXT_PROFILE_CORE : SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+#endif
 #if defined(_DEBUG) && ENABLE_GL_KHR_DEBUG_CALLBACK
     // KHR_debug callback (registered below, after context creation) needs the context
     // created with the debug flag to get synchronous, precisely-attributed messages.
@@ -2555,6 +2735,12 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     SDL_WindowFlags windowFlags = SDL_WINDOW_OPENGL;
     if (g_bUseWindowMode != TRUE)
         windowFlags |= SDL_WINDOW_FULLSCREEN;
+#if !defined(__ANDROID__) && !defined(__OHOS__)
+    // Desktop: let the player drag the window corner to resize. No-op while the
+    // window is fullscreen; takes effect in windowed mode. Mobile is always
+    // fullscreen and must keep its fixed surface.
+    windowFlags |= SDL_WINDOW_RESIZABLE;
+#endif
 
     if (g_CoreProfile)
     {
@@ -2632,6 +2818,31 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     OpenglWindowWidth = WindowWidth;
     OpenglWindowHeight = WindowHeight;
 
+#if !defined(__ANDROID__) && !defined(__OHOS__)
+    // Desktop: the configured Width/Height is only a *request*. In fullscreen SDL
+    // switches to the real display mode, and the window may come back at a
+    // different size before the first SDL_EVENT_WINDOW_RESIZED arrives. Sync to
+    // the actual size now so fonts/UI scale correctly from the very first frame,
+    // and clamp how small the player can drag a windowed corner.
+    SDL_SetWindowMinimumSize(g_sdlWindow, REFERENCE_WIDTH, REFERENCE_HEIGHT);
+    {
+        int actualWidth = 0;
+        int actualHeight = 0;
+        SDL_GetWindowSize(g_sdlWindow, &actualWidth, &actualHeight);
+        if (actualWidth > 0 && actualHeight > 0 &&
+            (static_cast<unsigned int>(actualWidth) != WindowWidth ||
+             static_cast<unsigned int>(actualHeight) != WindowHeight))
+        {
+            WindowWidth = static_cast<unsigned int>(actualWidth);
+            WindowHeight = static_cast<unsigned int>(actualHeight);
+            OpenglWindowWidth = WindowWidth;
+            OpenglWindowHeight = WindowHeight;
+            g_fScreenRate_x = static_cast<float>(WindowWidth) / static_cast<float>(REFERENCE_WIDTH);
+            g_fScreenRate_y = static_cast<float>(WindowHeight) / static_cast<float>(REFERENCE_HEIGHT);
+        }
+    }
+#endif
+
     if (!g_sdlGLContext)
     {
         g_ErrorReport.Write(L"OpenGL Create Context Error.\r\n");
@@ -2640,7 +2851,42 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
         return FALSE;
     }
 
-    SDL_GL_MakeCurrent(g_sdlWindow, g_sdlGLContext);
+    if (!SDL_GL_MakeCurrent(g_sdlWindow, g_sdlGLContext))
+    {
+        g_ErrorReport.Write(L"OpenGL Make Current Error: %hs.\r\n", SDL_GetError());
+        MessageBox(nullptr, L"Unable to activate the OpenGL context.", L"OpenGL Error", MB_OK | MB_ICONEXCLAMATION);
+        KillGLWindow();
+        return FALSE;
+    }
+
+#if defined(__ANDROID__) || defined(__OHOS__)
+    // These entry points are core in OpenGL ES 3.0 and are required by the
+    // renderer's UBO, integer-attribute and VAO paths. Fail explicitly instead
+    // of continuing into a device-specific black screen.
+    static constexpr const char* kRequiredGLES3Functions[] = {
+        "glBindBufferBase",
+        "glGetUniformBlockIndex",
+        "glUniformBlockBinding",
+        "glGenVertexArrays",
+        "glBindVertexArray",
+        "glVertexAttribIPointer",
+    };
+    for (const char* functionName : kRequiredGLES3Functions)
+    {
+        if (SDL_GL_GetProcAddress(functionName) == nullptr)
+        {
+            g_ErrorReport.Write(L"OpenGL ES 3.0 entry point missing: %hs.\r\n", functionName);
+            SDL_ShowSimpleMessageBox(
+                SDL_MESSAGEBOX_ERROR,
+                "OpenMU graphics requirement",
+                "This device does not provide the OpenGL ES 3.0 features required by OpenMU.",
+                g_sdlWindow);
+            KillGLWindow();
+            return FALSE;
+        }
+    }
+#endif
+
     RHI::Init(nullptr, static_cast<int>(WindowWidth), static_cast<int>(WindowHeight));
 
 #if defined(_DEBUG) && ENABLE_GL_KHR_DEBUG_CALLBACK
@@ -2686,6 +2932,33 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     PassthroughShader::Instance().Create();
     BMDMeshShader::Instance().Create();
     TerrainShader::Instance().Create();
+
+#if defined(__ANDROID__) || defined(__OHOS__)
+    if (!GlobalUBO::Instance().IsCreated()
+        || !SceneUBO::Instance().IsCreated()
+        || !PassthroughShader::Instance().IsCreated()
+        || !BMDMeshShader::Instance().IsCreated()
+        || !TerrainShader::Instance().IsCreated())
+    {
+        g_ErrorReport.Write(L"OpenGL ES 3.0 renderer initialization failed.\r\n");
+        SDL_ShowSimpleMessageBox(
+            SDL_MESSAGEBOX_ERROR,
+            "OpenMU graphics error",
+            "The OpenMU renderer could not start on this device. Check the game log for shader details.",
+            g_sdlWindow);
+        TerrainShader::Instance().Destroy();
+        BMDMeshShader::Instance().Destroy();
+        PassthroughShader::Instance().Destroy();
+        SceneUBO::Instance().Destroy();
+        GlobalUBO::Instance().Destroy();
+        CPlanarShadowShader::Instance().Shutdown();
+        CItemSpecularShader::Instance().Shutdown();
+        RHI::Shutdown();
+        KillGLWindow();
+        return FALSE;
+    }
+#endif
+
     IR::Create();
 
 #ifdef _WIN32

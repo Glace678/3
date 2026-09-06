@@ -5,6 +5,8 @@
 namespace MUnique.OpenMU.LocalLauncher;
 
 using System.Diagnostics;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -90,9 +92,11 @@ public sealed class OpenMuServerManager
             throw new FileNotFoundException("缺少已发布的 OpenMU 服务器。", this._paths.ServerExecutable);
         }
 
+        var advertisedAddress = ResolveAdvertisedAddress(this._settings);
+        var gameplayProfile = GetGameplayProfileArgument(this._settings.GameplayProfile);
         var process = this._processRunner.Start(
             this._paths.ServerExecutable,
-            new[] { "-autostart", "-resolveIP:127.0.0.1", "-version:season6", "-gameservers:1", "-testaccounts:false", "-solo" },
+            new[] { "-autostart", $"-resolveIP:{advertisedAddress}", "-version:season6", "-gameservers:1", "-testaccounts:false", gameplayProfile },
             this._paths.ServerDirectory,
             this.CreateServerEnvironment(secrets));
         this._process = process;
@@ -263,13 +267,17 @@ public sealed class OpenMuServerManager
 
     internal IReadOnlyDictionary<string, string?> CreateServerEnvironment(LocalSecrets secrets)
     {
-        var gameLogin = LocalGameLogin.FromSecrets(secrets);
+        var gameLogin = this._settings.MobileAccessEnabled && this._settings.AutomaticGameLogin
+            ? LocalGameLogin.FromMobilePackageKey(this._settings.MobilePackageKey)
+            : LocalGameLogin.FromSecrets(secrets);
+        var listenerAddress = this._settings.MobileAccessEnabled ? "0.0.0.0" : "127.0.0.1";
         return new Dictionary<string, string?>
         {
             ["OPENMU_LOCAL_GAME_USERNAME"] = this._settings.AutomaticGameLogin ? gameLogin.Username : null,
             ["OPENMU_LOCAL_GAME_PASSWORD"] = this._settings.AutomaticGameLogin ? gameLogin.Password : null,
+            ["OPENMU_MOBILE_PACKAGE_KEY"] = this._settings.MobileAccessEnabled ? this._settings.MobilePackageKey : null,
             ["OPENMU_CONNECTION_SETTINGS_FILE"] = this._paths.ConnectionSettingsFile,
-            ["OPENMU_BIND_ADDRESS"] = "127.0.0.1",
+            ["OPENMU_BIND_ADDRESS"] = listenerAddress,
             ["OPENMU_CONTROL_PIPE"] = this.PipeName,
             ["OPENMU_ADMIN_USER"] = "localadmin",
             ["OPENMU_ADMIN_PASSWORD"] = secrets.AdminPanelPassword,
@@ -277,7 +285,7 @@ public sealed class OpenMuServerManager
             ["DB_HOST"] = null,
             ["DB_ADMIN_USER"] = null,
             ["DB_ADMIN_PW"] = null,
-            ["ASPNETCORE_URLS"] = $"http://127.0.0.1:{this._settings.AdminPanelPort}",
+            ["ASPNETCORE_URLS"] = $"http://{listenerAddress}:{this._settings.AdminPanelPort}",
             ["ASPNETCORE_ENVIRONMENT"] = "Production",
             ["DOTNET_ENVIRONMENT"] = "Production",
             ["Database__AssumeExternallyProvisioned"] = "false",
@@ -286,6 +294,66 @@ public sealed class OpenMuServerManager
             ["Serilog__WriteTo__1__Args__path"] = Path.Combine(this._paths.LogsDirectory, "openmu.log"),
             ["Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Components.Server.Circuits"] = "Error",
         };
+    }
+
+    internal static string ResolveAdvertisedAddress(LocalStackSettings settings)
+    {
+        if (!settings.MobileAccessEnabled)
+        {
+            return IPAddress.Loopback.ToString();
+        }
+
+        if (!string.IsNullOrWhiteSpace(settings.MobileAdvertisedAddress))
+        {
+            return settings.MobileAdvertisedAddress.Trim();
+        }
+
+        var candidates = NetworkInterface.GetAllNetworkInterfaces()
+            .Where(network => network.OperationalStatus == OperationalStatus.Up
+                && network.NetworkInterfaceType is not NetworkInterfaceType.Loopback
+                && network.NetworkInterfaceType is not NetworkInterfaceType.Tunnel)
+            .SelectMany(network => network.GetIPProperties().UnicastAddresses
+                .Where(address => address.Address.AddressFamily == AddressFamily.InterNetwork
+                    && !IPAddress.IsLoopback(address.Address)
+                    && !address.Address.ToString().StartsWith("169.254.", StringComparison.Ordinal))
+                .Select(address => new
+                {
+                    Address = address.Address,
+                    Score = ScoreNetwork(network, address.Address),
+                }))
+            .OrderByDescending(candidate => candidate.Score)
+            .ThenBy(candidate => candidate.Address.ToString(), StringComparer.Ordinal)
+            .ToArray();
+        return candidates.FirstOrDefault()?.Address.ToString()
+            ?? throw new InvalidOperationException("已启用手机访问，但没有检测到可用的局域网 IPv4 地址。请先连接 Wi-Fi/网线，或在设置文件中指定 MobileAdvertisedAddress。");
+    }
+
+    internal static string GetGameplayProfileArgument(string profile)
+        => profile switch
+        {
+            "solo" => "-solo",
+            "balance-v1-standard" => "-balance-v1:standard",
+            "balance-v1-relaxed" => "-balance-v1:relaxed",
+            "balance-v1-journey" => "-balance-v1:journey",
+            _ => throw new InvalidDataException("Unsupported gameplay profile."),
+        };
+
+    private static int ScoreNetwork(NetworkInterface network, IPAddress address)
+    {
+        var bytes = address.GetAddressBytes();
+        var isPrivate = bytes[0] == 10
+            || (bytes[0] == 172 && bytes[1] is >= 16 and <= 31)
+            || (bytes[0] == 192 && bytes[1] == 168);
+        var interfaceScore = network.NetworkInterfaceType switch
+        {
+            NetworkInterfaceType.Wireless80211 => 100,
+            NetworkInterfaceType.Ethernet => 80,
+            _ => 0,
+        };
+        var hasGateway = network.GetIPProperties().GatewayAddresses.Any(gateway =>
+            gateway.Address.AddressFamily == AddressFamily.InterNetwork
+            && !gateway.Address.Equals(IPAddress.Any));
+        return interfaceScore + (isPrivate ? 50 : 0) + (hasGateway ? 20 : 0);
     }
 
     private static string CreatePipeName(string rootDirectory)

@@ -502,11 +502,16 @@ static bool TrySelectLocalServer()
     auto& automaticLogin = Network::Login::LocalAutoLogin::Instance();
     const auto& config = GameConfig::GetInstance();
     const char* enabled = std::getenv(Network::Login::LocalAutoLoginEnvironment);
+    const char* mobileEnabled = std::getenv(Network::Login::MobileLocalAutoLoginEnvironment);
+    const bool isMobileAutomaticLogin = mobileEnabled != nullptr && std::string_view(mobileEnabled) == "1";
     const bool hasSavedCredentials = config.GetRememberMe() && config.GetSavePassword()
         && !config.GetEncryptedUsername().empty() && !config.GetEncryptedPassword().empty();
     const bool hasLocalCredentials = Network::Login::LocalLoginCredentials::FromEnvironment().IsValid();
+    const bool hasAutomaticCredentials = isMobileAutomaticLogin
+        ? hasLocalCredentials
+        : hasSavedCredentials || hasLocalCredentials;
     automaticLogin.Initialize(enabled != nullptr && std::string_view(enabled) == "1",
-        szServerIpAddress, hasSavedCredentials || hasLocalCredentials);
+        szServerIpAddress, hasAutomaticCredentials, isMobileAutomaticLogin);
     if (!automaticLogin.CanSelectServer() || ReconnectManager::Instance().IsActive())
     {
         return false;

@@ -289,6 +289,22 @@ namespace
     constexpr int FPS_COMBO_HEIGHT = 16;
     constexpr int FPS_COMBO_MAX_VISIBLE = 5;
 
+    // Touch builds (Android / HarmonyOS) expose frame rate as a draggable slider
+    // spanning 30 FPS up to the device's highest detected refresh rate, instead
+    // of the desktop drop-down combo. The slider code is compiled on EVERY
+    // platform so the Windows build type-checks it; it is only ever active on
+    // touch builds (the desktop combo path is untouched when this is false).
+    constexpr bool kUseFrameRateSlider =
+#if defined(__ANDROID__) || defined(__OHOS__)
+        true;
+#else
+        false;
+#endif
+    constexpr int FPS_SLIDER_MIN_FPS = 30;          // lowest selectable frame rate
+    constexpr int FPS_SLIDER_DEFAULT_MAX_FPS = 60;  // fallback ceiling if detection fails
+    constexpr int FPS_SLIDER_HARD_MAX_FPS = 240;    // sanity clamp for the ceiling
+    constexpr int FPS_SLIDER_WHEEL_STEP = 5;        // mouse-wheel step (desktop parity)
+
     constexpr int ADVANCED_CHECKBOX_X_LOCAL = ADVANCED_X_LOCAL + 150;
     constexpr int ADVANCED_CHECKBOX_SIZE = 15;
     constexpr int VSYNC_CHECK_Y_LOCAL = 79;
@@ -464,13 +480,16 @@ SEASON3B::CNewUIOptionWindow::CNewUIOptionWindow()
     m_bSlideHelp = true;
     m_iVolumeLevel = GameConfig::GetInstance().GetSoundVolume();
     m_iMusicLevel = GameConfig::GetInstance().GetMusicVolume();
-    m_iRenderLevel = 4;
-    m_bRenderAllEffects = true;
+    m_iRenderLevel = GameConfig::GetInstance().GetRenderLevel();
+    m_bRenderAllEffects = GameConfig::GetInstance().GetRenderAllEffects();
     m_iResolutionIndex = FindCurrentResolutionIndex();
     m_bWindowedMode = (g_bUseWindowMode == TRUE);
     m_iLanguageIndex = FindCurrentLanguageIndex();
     m_iFontIndex = FindCurrentFontIndex();
     m_iFrameRateIndex = FindCurrentFrameRateIndex();
+    m_iFrameRateFps = FPS_SLIDER_DEFAULT_MAX_FPS;
+    m_iFrameRateMaxFps = FPS_SLIDER_DEFAULT_MAX_FPS;
+    InitFrameRateSlider();
 
     const auto& frameSettings = GameConfig::GetInstance().GetFrameTimingSettings();
     m_bVSync = frameSettings.verticalSync;
@@ -511,6 +530,7 @@ bool SEASON3B::CNewUIOptionWindow::Create(CNewUIManager* pNewUIMng, int x, int y
     InitLanguageCombo();
     InitFontCombo();
     InitFrameRateCombo();
+    InitFrameRateSlider();
     InitGamepadMappingCombos();
     Show(false);
     return true;
@@ -566,6 +586,111 @@ void SEASON3B::CNewUIOptionWindow::InitFrameRateCombo()
         s_NumFrameRates,
         m_iFrameRateIndex,
         FPS_COMBO_MAX_VISIBLE);
+}
+
+int SEASON3B::CNewUIOptionWindow::DetectMaximumFrameRate() const
+{
+    // SDL reports the display's available modes; take the highest refresh rate
+    // the device advertises at the current resolution. Works for both phones
+    // (Android / HarmonyOS) and desktop monitors. Falls back to 60 when SDL
+    // cannot enumerate a mode (e.g. before the window exists).
+    int maximum = FPS_SLIDER_DEFAULT_MAX_FPS;
+    const Core::Time::DisplayRefreshRate detected = GetMaximumDisplayRefreshRate();
+    if (detected.detected && detected.hertz >= static_cast<double>(FPS_SLIDER_MIN_FPS))
+    {
+        maximum = static_cast<int>(std::lround(detected.hertz));
+    }
+    return std::clamp(maximum, FPS_SLIDER_MIN_FPS, FPS_SLIDER_HARD_MAX_FPS);
+}
+
+void SEASON3B::CNewUIOptionWindow::InitFrameRateSlider()
+{
+    m_iFrameRateMaxFps = DetectMaximumFrameRate();
+
+    const auto& settings = GameConfig::GetInstance().GetFrameTimingSettings();
+    if (settings.mode == Core::Time::FrameRateMode::Fixed)
+    {
+        m_iFrameRateFps = std::clamp(
+            static_cast<int>(std::lround(settings.fixedFrameRate)),
+            FPS_SLIDER_MIN_FPS, m_iFrameRateMaxFps);
+    }
+    else
+    {
+        // FollowDisplay / DisplayMaximum -> top of the slider (native high refresh).
+        m_iFrameRateFps = m_iFrameRateMaxFps;
+    }
+}
+
+bool SEASON3B::CNewUIOptionWindow::HandleFrameRateSlider()
+{
+    const int oldFps = m_iFrameRateFps;
+    const int oldMax = m_iFrameRateMaxFps;
+
+    // Re-detect the ceiling in case the window moved to a display with a
+    // different maximum refresh rate.
+    m_iFrameRateMaxFps = DetectMaximumFrameRate();
+    if (m_iFrameRateMaxFps != oldMax)
+        m_iFrameRateFps = std::clamp(m_iFrameRateFps, FPS_SLIDER_MIN_FPS, m_iFrameRateMaxFps);
+
+    const bool dragged = HandleIntegerSlider(
+        m_iFrameRateFps, FPS_SLIDER_MIN_FPS, m_iFrameRateMaxFps,
+        FPS_COMBO_X_LOCAL, FPS_COMBO_Y_LOCAL, FPS_COMBO_WIDTH,
+        FPS_SLIDER_WHEEL_STEP);
+
+    if (dragged || m_iFrameRateFps != oldFps || m_iFrameRateMaxFps != oldMax)
+    {
+        ApplyFrameRateSlider();
+        return true;
+    }
+    return false;
+}
+
+void SEASON3B::CNewUIOptionWindow::ApplyFrameRateSlider()
+{
+    auto settings = GameConfig::GetInstance().GetFrameTimingSettings();
+    if (m_iFrameRateFps >= m_iFrameRateMaxFps)
+    {
+        // Dragged all the way to the top: unlock to the display's highest rate.
+        settings.mode = Core::Time::FrameRateMode::DisplayMaximum;
+    }
+    else
+    {
+        settings.mode = Core::Time::FrameRateMode::Fixed;
+        settings.fixedFrameRate = static_cast<double>(m_iFrameRateFps);
+    }
+
+    GameConfig::GetInstance().SetFrameTimingSettings(settings);
+    GameConfig::GetInstance().Save();
+    ApplyFrameTimingConfiguration();
+    PublishSettingHaptic();
+}
+
+void SEASON3B::CNewUIOptionWindow::RenderFrameRateSlider()
+{
+    const int span = std::max(1, m_iFrameRateMaxFps - FPS_SLIDER_MIN_FPS);
+    const float fraction =
+        static_cast<float>(m_iFrameRateFps - FPS_SLIDER_MIN_FPS) / static_cast<float>(span);
+
+    const int trackX = m_Pos.x + FPS_COMBO_X_LOCAL;
+    const int trackY = m_Pos.y + FPS_COMBO_Y_LOCAL;
+
+    RenderImage(IMAGE_OPTION_VOLUME_BACK, trackX, trackY,
+                static_cast<float>(FPS_COMBO_WIDTH), static_cast<float>(FPS_COMBO_HEIGHT));
+    if (fraction > 0.0f)
+    {
+        RenderImage(IMAGE_OPTION_VOLUME_COLOR, trackX, trackY,
+                    static_cast<float>(FPS_COMBO_WIDTH) * fraction,
+                    static_cast<float>(FPS_COMBO_HEIGHT));
+    }
+
+    // Readout centered on the track: "<n> FPS", or "<n> MAX" at the ceiling.
+    wchar_t text[24] = {};
+    if (m_iFrameRateFps >= m_iFrameRateMaxFps)
+        std::swprintf(text, sizeof(text) / sizeof(text[0]), L"%d MAX", m_iFrameRateFps);
+    else
+        std::swprintf(text, sizeof(text) / sizeof(text[0]), L"%d FPS", m_iFrameRateFps);
+    g_pRenderText->SetTextColor(255, 255, 255, 255);
+    g_pRenderText->RenderText(trackX, trackY + 2, text, FPS_COMBO_WIDTH, 0, RT3_SORT_CENTER);
 }
 
 void SEASON3B::CNewUIOptionWindow::InitGamepadMappingCombos()
@@ -696,7 +821,10 @@ void SEASON3B::CNewUIOptionWindow::RegisterStandardFocusNodes()
     m_ResolutionCombo.RegisterFocusNodes();
     m_LanguageCombo.RegisterFocusNodes();
     m_FontCombo.RegisterFocusNodes();
-    m_FrameRateCombo.RegisterFocusNodes();
+    // On touch builds the frame-rate combo is hidden (slider replaces it); don't
+    // let a hidden field claim focus.
+    if (!kUseFrameRateSlider)
+        m_FrameRateCombo.RegisterFocusNodes();
     m_GamepadActionCombo.RegisterFocusNodes();
     m_GamepadControlCombo.RegisterFocusNodes();
     for (const OptionFocusTarget& target : StandardFocusTargets)
@@ -863,6 +991,10 @@ bool SEASON3B::CNewUIOptionWindow::ProcessMouseEvent()
     {
         for (const ComboSlot& s : slots)
         {
+            // Touch builds drive frame rate with the slider instead of this combo.
+            if (kUseFrameRateSlider && s.combo == &m_FrameRateCombo)
+                continue;
+
             const bool wasOpen = s.combo->IsOpen();
             if (wasOpen != (pass == 0))
                 continue;
@@ -907,6 +1039,10 @@ bool SEASON3B::CNewUIOptionWindow::ProcessMouseEvent()
 
     HandleRenderLevelSlider();
     HandleAdvancedInputs();
+
+    // Touch builds: the frame-rate slider replaces the desktop combo (skipped above).
+    if (kUseFrameRateSlider)
+        HandleFrameRateSlider();
 
     // Combo box already processed at the top. Just consume clicks inside the
     // option window itself so they don't fall through to the world.
@@ -1267,6 +1403,9 @@ void SEASON3B::CNewUIOptionWindow::OpenningProcess()
     m_FrameRateCombo.Close();
     m_bWindowedMode = (g_bUseWindowMode == TRUE);
 
+    m_iRenderLevel = GameConfig::GetInstance().GetRenderLevel();
+    m_bRenderAllEffects = GameConfig::GetInstance().GetRenderAllEffects();
+
     const auto& frameSettings = GameConfig::GetInstance().GetFrameTimingSettings();
     m_bVSync = frameSettings.verticalSync;
     const auto& gamepadSettings = GameConfig::GetInstance().GetGamepadSettings();
@@ -1293,6 +1432,9 @@ void SEASON3B::CNewUIOptionWindow::OpenningProcess()
 
 void SEASON3B::CNewUIOptionWindow::ClosingProcess()
 {
+    GameConfig::GetInstance().SetRenderQuality(m_iRenderLevel, m_bRenderAllEffects);
+    GameConfig::GetInstance().Save();
+
     if (m_bDisplayChangePending)
         RevertDisplayChange();
 
@@ -1798,6 +1940,12 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
     // physically below an open one would draw its closed field on top of
     // that open dropdown's list (since they overlap in screen space when
     // the upper one expands downward).
+    // Touch builds draw a draggable frame-rate slider where the desktop combo
+    // would be (30 FPS .. device maximum). It is drawn before the combos so an
+    // open dropdown of an adjacent combo still overlays it like any other field.
+    if (kUseFrameRateSlider)
+        RenderFrameRateSlider();
+
     CNewUIComboBox* combos[] = {
         &m_ResolutionCombo,
         &m_LanguageCombo,
@@ -1806,8 +1954,18 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
         &m_GamepadActionCombo,
         &m_GamepadControlCombo,
     };
-    for (auto* c : combos) if (!c->IsOpen()) c->Render();
-    for (auto* c : combos) if (c->IsOpen())  c->Render();
+    for (auto* c : combos)
+    {
+        if (kUseFrameRateSlider && c == &m_FrameRateCombo)
+            continue;
+        if (!c->IsOpen()) c->Render();
+    }
+    for (auto* c : combos)
+    {
+        if (kUseFrameRateSlider && c == &m_FrameRateCombo)
+            continue;
+        if (c->IsOpen())  c->Render();
+    }
 }
 
 void SEASON3B::CNewUIOptionWindow::SetAutoAttack(bool bAuto)
@@ -2045,6 +2203,7 @@ void SEASON3B::CNewUIOptionWindow::ApplyLanguage()
     GameConfig::GetInstance().Save();
     InitFontCombo();
     InitFrameRateCombo();
+    InitFrameRateSlider();
     InitGamepadMappingCombos();
     PublishSettingHaptic();
 }

@@ -72,6 +72,7 @@ public class GameContext : AsyncDisposable, IGameContext
     {
         try
         {
+            BalanceV1.ValidateProfileMarkers(configuration);
             this.Configuration = configuration;
             this.PersistenceContextProvider = persistenceContextProvider;
             this.PlugInManager = plugInManager;
@@ -86,8 +87,12 @@ public class GameContext : AsyncDisposable, IGameContext
             this.FeaturePlugIns = new FeaturePlugInContainer(this.PlugInManager);
             this._configChangeHandlerRegistration = this.ConfigurationChangeMediator.RegisterObject(this.Configuration, this, this.OnGameConfigurationChangeAsync);
             this.DuelRoomManager = new DuelRoomManager(this.Configuration.DuelConfiguration!);
-            this.ExperienceTable = CreateExpTable(this.Configuration.ExperienceFormula ?? DefaultExperienceFormula, this.Configuration.MaximumLevel);
-            this.MasterExperienceTable = CreateExpTable(this.Configuration.MasterExperienceFormula ?? DefaultMasterExperienceFormula, this.Configuration.MaximumMasterLevel);
+            this.ExperienceTable = BalanceV1.IsEnabled(this.Configuration)
+                ? BalanceV1.CreateExperienceTable(false)
+                : CreateExpTable(this.Configuration.ExperienceFormula ?? DefaultExperienceFormula, this.Configuration.MaximumLevel);
+            this.MasterExperienceTable = BalanceV1.IsEnabled(this.Configuration)
+                ? BalanceV1.CreateExperienceTable(true)
+                : CreateExpTable(this.Configuration.MasterExperienceFormula ?? DefaultMasterExperienceFormula, this.Configuration.MaximumMasterLevel);
         }
         catch (Exception ex)
         {
@@ -495,9 +500,14 @@ public class GameContext : AsyncDisposable, IGameContext
     private async ValueTask OnGameConfigurationChangeAsync(Action unregisterAction, GameConfiguration gameConfiguration, GameContext context)
 #pragma warning restore CS1998
     {
+        BalanceV1.ValidateProfileMarkers(gameConfiguration);
         this._recoverTimer.Change(gameConfiguration.RecoveryInterval, gameConfiguration.RecoveryInterval);
-        this.ExperienceTable = CreateExpTable(gameConfiguration.ExperienceFormula ?? DefaultExperienceFormula, gameConfiguration.MaximumLevel);
-        this.MasterExperienceTable = CreateExpTable(gameConfiguration.MasterExperienceFormula ?? DefaultMasterExperienceFormula, gameConfiguration.MaximumMasterLevel);
+        this.ExperienceTable = BalanceV1.IsEnabled(gameConfiguration)
+            ? BalanceV1.CreateExperienceTable(false)
+            : CreateExpTable(gameConfiguration.ExperienceFormula ?? DefaultExperienceFormula, gameConfiguration.MaximumLevel);
+        this.MasterExperienceTable = BalanceV1.IsEnabled(gameConfiguration)
+            ? BalanceV1.CreateExperienceTable(true)
+            : CreateExpTable(gameConfiguration.MasterExperienceFormula ?? DefaultMasterExperienceFormula, gameConfiguration.MaximumMasterLevel);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = "Catching all Exceptions.")]

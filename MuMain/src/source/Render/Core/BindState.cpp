@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BindState.h"
+#include "Render/Core/GLProcAddress.h"
 #include "Render/Core/ImmediateRenderer.h" // GLP-19 -- IR::Flush() before any bind changes
 #include "Core/Utilities/FrameProfiler.h"
 #include <SDL3/SDL.h>
@@ -24,9 +25,9 @@ static bool LoadBindStateFunctions()
     static bool loaded = false;
     if (loaded) return true;
 
-    fn_glUseProgram      = (PFNGLUSEPROGRAMPROC)SDL_GL_GetProcAddress("glUseProgram");
-    fn_glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)SDL_GL_GetProcAddress("glBindVertexArray");
-    fn_glActiveTexture   = (PFNGLACTIVETEXTUREPROC)SDL_GL_GetProcAddress("glActiveTexture");
+    fn_glUseProgram      = (PFNGLUSEPROGRAMPROC)MuGL::GetProcAddress("glUseProgram");
+    fn_glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)MuGL::GetProcAddress("glBindVertexArray");
+    fn_glActiveTexture   = (PFNGLACTIVETEXTUREPROC)MuGL::GetProcAddress("glActiveTexture");
 
     loaded = (fn_glUseProgram != nullptr && fn_glBindVertexArray != nullptr && fn_glActiveTexture != nullptr);
     return loaded;

@@ -51,15 +51,22 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
     internal ItemUpgradeConfiguration Configuration { get; }
 
     /// <inheritdoc/>
-    protected override bool ModifyItem(Player player, Item item) =>
-        this.ModifyItem(item, player.PersistenceContext,
-            SoloBalance.IsEnabled(player.GameContext.Configuration) ? 1 : this.Configuration.SuccessChance);
+    protected override bool ModifyItem(Player player, Item item)
+    {
+        var configuration = player.GameContext.Configuration;
+        var successChance = SoloBalance.IsEnabled(configuration) ? 1 : this.Configuration.SuccessChance;
+        return this.ModifyItem(
+            item,
+            player.PersistenceContext,
+            successChance,
+            preserveOnFailure: BalanceV1.IsEnabled(configuration));
+    }
 
     /// <inheritdoc/>
     protected override bool ModifyItem(Item item, IContext persistenceContext) =>
-        this.ModifyItem(item, persistenceContext, this.Configuration.SuccessChance);
+        this.ModifyItem(item, persistenceContext, this.Configuration.SuccessChance, preserveOnFailure: false);
 
-    private bool ModifyItem(Item item, IContext persistenceContext, double successChance)
+    private bool ModifyItem(Item item, IContext persistenceContext, double successChance, bool preserveOnFailure)
     {
         if (!this.ItemCanHaveOption(item))
         {
@@ -68,7 +75,7 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
 
         if (this.ItemHasOptionAlready(item))
         {
-            return this.TryUpgradeItemOption(item, successChance);
+            return this.TryUpgradeItemOption(item, successChance, preserveOnFailure);
         }
 
         return this.TryAddItemOption(item, persistenceContext, successChance);
@@ -89,8 +96,9 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
     /// </summary>
     /// <param name="item">The item to upgrade.</param>
     /// <param name="successChance">The success chance for this operation.</param>
+    /// <param name="preserveOnFailure">Whether a failed roll must leave the target unchanged.</param>
     /// <returns>Flag indicating whether the item option was upgraded.</returns>
-    protected virtual bool TryUpgradeItemOption(Item item, double successChance)
+    protected virtual bool TryUpgradeItemOption(Item item, double successChance, bool preserveOnFailure)
     {
         if (!this.Configuration.IncreasesOption)
         {
@@ -109,7 +117,7 @@ public abstract class ItemUpgradeConsumeHandlerPlugIn : ItemModifyConsumeHandler
         {
             itemOption.Level++;
         }
-        else
+        else if (!preserveOnFailure)
         {
             this.HandleFailedUpgrade(item, itemOption);
         }

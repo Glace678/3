@@ -14,6 +14,8 @@
 #elif defined(__APPLE__)
 #include <TargetConditionals.h>     // TARGET_OS_IPHONE
 #include <sys/sysctl.h>             // sysctlbyname
+#elif defined(__OHOS__)
+#include <sys/utsname.h>            // uname
 #else
 #include <sys/utsname.h>
 #include <cstdio>       // sscanf, fopen
@@ -115,6 +117,29 @@ std::wstring GetOSVersionString()
 }
 
 std::wstring GetOSDistroName() { return {}; }  // macOS/iOS report their own name
+
+#elif defined(__OHOS__)  // ---- HarmonyOS / OpenHarmony ---------------------
+
+std::wstring GetOSVersionString()
+{
+    static const std::wstring osVersion = []() -> std::wstring
+    {
+        utsname uts{};
+        const std::wstring name = L"HarmonyOS";
+        if (uname(&uts) != 0)
+            return name;
+
+        // OHOS kernel releases look like a Linux "5.10.x" version; report major.minor.
+        int major = 0;
+        int minor = 0;
+        if (sscanf(uts.release, "%d.%d", &major, &minor) == 2)
+            return name + L" (" + std::to_wstring(major) + L"." + std::to_wstring(minor) + L")";
+        return name;
+    }();
+    return osVersion;
+}
+
+std::wstring GetOSDistroName() { return {}; }  // HarmonyOS reports its own name
 
 #else  // ---- generic POSIX (Linux, BSD) ------------------------------------
 

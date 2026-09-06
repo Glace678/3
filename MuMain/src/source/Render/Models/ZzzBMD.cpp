@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Core/GLProcAddress.h"
 #include <cstdint>
 #include <cmath>
 #include <cassert>
@@ -68,16 +69,16 @@ static bool LoadBMDGLFunctions()
     static bool loaded = false;
     if (loaded) return true;
 
-    fn_glGenVertexArrays          = (PFNGLGENVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glGenVertexArrays");
-    fn_glDeleteVertexArrays       = (PFNGLDELETEVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glDeleteVertexArrays");
-    fn_glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribPointer");
-    fn_glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glEnableVertexAttribArray");
-    fn_glGenBuffers               = (PFNGLGENBUFFERSPROC)SDL_GL_GetProcAddress("glGenBuffers");
-    fn_glBindBuffer               = (PFNGLBINDBUFFERPROC)SDL_GL_GetProcAddress("glBindBuffer");
-    fn_glBufferData               = (PFNGLBUFFERDATAPROC)SDL_GL_GetProcAddress("glBufferData");
-    fn_glBufferSubData            = (PFNGLBUFFERSUBDATAPROC)SDL_GL_GetProcAddress("glBufferSubData");
-    fn_glDeleteBuffers            = (PFNGLDELETEBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteBuffers");
-    fn_glVertexAttribIPointer     = (PFNGLVERTEXATTRIBIPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribIPointer");
+    fn_glGenVertexArrays          = (PFNGLGENVERTEXARRAYSPROC)MuGL::GetProcAddress("glGenVertexArrays");
+    fn_glDeleteVertexArrays       = (PFNGLDELETEVERTEXARRAYSPROC)MuGL::GetProcAddress("glDeleteVertexArrays");
+    fn_glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)MuGL::GetProcAddress("glVertexAttribPointer");
+    fn_glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)MuGL::GetProcAddress("glEnableVertexAttribArray");
+    fn_glGenBuffers               = (PFNGLGENBUFFERSPROC)MuGL::GetProcAddress("glGenBuffers");
+    fn_glBindBuffer               = (PFNGLBINDBUFFERPROC)MuGL::GetProcAddress("glBindBuffer");
+    fn_glBufferData               = (PFNGLBUFFERDATAPROC)MuGL::GetProcAddress("glBufferData");
+    fn_glBufferSubData            = (PFNGLBUFFERSUBDATAPROC)MuGL::GetProcAddress("glBufferSubData");
+    fn_glDeleteBuffers            = (PFNGLDELETEBUFFERSPROC)MuGL::GetProcAddress("glDeleteBuffers");
+    fn_glVertexAttribIPointer     = (PFNGLVERTEXATTRIBIPOINTERPROC)MuGL::GetProcAddress("glVertexAttribIPointer");
 
     loaded = (fn_glGenVertexArrays != nullptr &&
               fn_glDeleteVertexArrays != nullptr &&

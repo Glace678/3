@@ -83,6 +83,63 @@ struct LoginCameraState {
 // File-local camera state instance
 LoginCameraState g_loginCamera;
 
+#if defined(__ANDROID__) || defined(__OHOS__)
+// Mobile opening-cinematic tap gate.
+//
+// On phones/tablets the client logs in automatically, so there is no
+// "connect" button press that naturally ends the login fly-through. Once the
+// server accepts the login we keep the cinematic tour playing and show a
+// blinking "tap to start" prompt; the player taps to move on to character
+// selection. Desktop keeps its original immediate transition (a manual login
+// already has a deliberate button press), so this whole path compiles out
+// there and desktop behaviour is untouched.
+struct MobileTapGate
+{
+    static constexpr double GRACE_SECONDS = 0.6;
+
+    bool armed = false;
+    double armedAtWorldTime = 0.0;
+
+    void Arm(double nowWorldTime)
+    {
+        if (!armed)
+        {
+            armed = true;
+            armedAtWorldTime = nowWorldTime;
+        }
+    }
+
+    void Reset()
+    {
+        armed = false;
+        armedAtWorldTime = 0.0;
+    }
+
+    // Returns true once the player taps, after a short grace window so a tap
+    // already in flight when login completed does not instantly skip the
+    // cinematic. Any tap while the gate owns the screen is consumed (the edge
+    // cleared) so no underlying login control also acts on it.
+    bool ConsumeTap(double nowWorldTime)
+    {
+        if (!MouseLButtonPop)
+            return false;
+
+        MouseLButtonPop = false;
+
+        if (!armed || (nowWorldTime - armedAtWorldTime) < GRACE_SECONDS)
+            return false;
+
+        return true;
+    }
+};
+
+MobileTapGate g_mobileTapGate;
+
+// Reference-space Y (of the 640x480 UI canvas) for the centered tap prompt;
+// sits in the lower-middle, clear of the top logo and the bottom copyright.
+constexpr int MOBILE_TAP_PROMPT_Y = 352;
+#endif
+
 }  // namespace
 
 //=============================================================================
@@ -325,6 +382,9 @@ void NewMoveLogInScene()
     {
         InitLogIn = true;
         CreateLogInScene();
+#if defined(__ANDROID__) || defined(__OHOS__)
+        g_mobileTapGate.Reset();
+#endif
     }
 
     if (!CUIMng::Instance().m_CreditWin.IsShow())
@@ -350,17 +410,31 @@ void NewMoveLogInScene()
     // ESC menu toggle is handled by CUIMng::Update()
     if (RECEIVE_LOG_IN_SUCCESS == CurrentProtocolState)
     {
-        g_ErrorReport.Write(L"> Request Character list\r\n");
+        bool proceedToCharacterSelect = true;
+#if defined(__ANDROID__) || defined(__OHOS__)
+        // Hold the opening cinematic until the player taps the screen. The
+        // tour camera keeps animating (the Move* calls above) until then.
+        g_mobileTapGate.Arm(WorldTime);
+        if (!g_mobileTapGate.ConsumeTap(WorldTime))
+            proceedToCharacterSelect = false;
+        else
+            g_mobileTapGate.Reset();
+#endif
 
-        CCameraMove::GetInstancePtr()->SetTourMode(FALSE);
+        if (proceedToCharacterSelect)
+        {
+            g_ErrorReport.Write(L"> Request Character list\r\n");
 
-        // Tear down the login scene data before asking the server for the
-        // account characters, otherwise a fast reply can be cleared again.
-        ReleaseLogoSceneData();
+            CCameraMove::GetInstancePtr()->SetTourMode(FALSE);
 
-        SceneFlag = CHARACTER_SCENE;
-        CurrentProtocolState = REQUEST_CHARACTERS_LIST;
-        SocketClient->ToGameServer()->SendRequestCharacterList(g_pMultiLanguage->GetLanguage());
+            // Tear down the login scene data before asking the server for the
+            // account characters, otherwise a fast reply can be cleared again.
+            ReleaseLogoSceneData();
+
+            SceneFlag = CHARACTER_SCENE;
+            CurrentProtocolState = REQUEST_CHARACTERS_LIST;
+            SocketClient->ToGameServer()->SendRequestCharacterList(g_pMultiLanguage->GetLanguage());
+        }
     }
 
     g_ConsoleDebug->UpdateMainScene();
@@ -455,17 +529,40 @@ bool NewRenderLogInScene(HDC hDC)
 
     wcscpy_s(Text, 100, I18N::Game::CCopyright2001Webzen);
     GetTextExtentPoint32(g_pRenderText->GetFontDC(), Text, lstrlen(Text), &Size);
-    g_pRenderText->RenderText(335 - Size.cx * REFERENCE_WIDTH / WindowWidth, REFERENCE_HEIGHT - Size.cy * REFERENCE_WIDTH / WindowWidth - 1, Text);
+    g_pRenderText->RenderText(335 - Size.cx * REFERENCE_WIDTH / WindowWidth, REFERENCE_HEIGHT - Size.cy * REFERENCE_HEIGHT / WindowHeight - 1, Text);
 
     wcscpy_s(Text, 100, I18N::Game::AllRightsReserved);
 
     GetTextExtentPoint32(g_pRenderText->GetFontDC(), Text, lstrlen(Text), &Size);
-    g_pRenderText->RenderText(335, REFERENCE_HEIGHT - Size.cy * REFERENCE_WIDTH / WindowWidth - 1, Text);
+    g_pRenderText->RenderText(335, REFERENCE_HEIGHT - Size.cy * REFERENCE_HEIGHT / WindowHeight - 1, Text);
 
     swprintf_s(Text, 100, I18N::Game::VerS, m_ExeVersion);
 
     GetTextExtentPoint32(g_pRenderText->GetFontDC(), Text, lstrlen(Text), &Size);
-    g_pRenderText->RenderText(0, REFERENCE_HEIGHT - Size.cy * REFERENCE_WIDTH / WindowWidth - 1, Text);
+    g_pRenderText->RenderText(0, REFERENCE_HEIGHT - Size.cy * REFERENCE_HEIGHT / WindowHeight - 1, Text);
+
+#if defined(__ANDROID__) || defined(__OHOS__)
+    // Blinking "tap to start" prompt while the opening cinematic is waiting
+    // for a tap. Centered across the full reference width so it stays centered
+    // on every screen size/aspect ratio; the pulse is driven by real
+    // WorldTime so it blinks at the same rate regardless of frame rate.
+    if (g_mobileTapGate.armed)
+    {
+        const float pulse = 0.5f + 0.5f * sinf(static_cast<float>(WorldTime) * 3.0f);
+        const BYTE promptAlpha = static_cast<BYTE>(110 + 145 * pulse);
+
+        g_pRenderText->SetFont(g_hFont);
+        g_pRenderText->SetTextColor(255, 255, 255, promptAlpha);
+        g_pRenderText->SetBgColor(0, 0, 0, static_cast<BYTE>(90 * pulse + 30));
+
+        g_pRenderText->RenderText(
+            0, MOBILE_TAP_PROMPT_Y, L"点击屏幕开始    Tap to Start",
+            REFERENCE_WIDTH, 0, RT3_SORT_CENTER);
+
+        g_pRenderText->SetTextColor(255, 255, 255, 255);
+        g_pRenderText->SetBgColor(0, 0, 0, 128);
+    }
+#endif
 
     RenderInfomation();
 

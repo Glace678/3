@@ -12,6 +12,8 @@ using System.Net.Sockets;
 /// </summary>
 public class LocalStackSettingsStoreTests
 {
+    private static readonly string MobilePackageKey = new('A', 43);
+
     private string _directory = null!;
 
     /// <summary>Creates an isolated test directory.</summary>
@@ -40,6 +42,8 @@ public class LocalStackSettingsStoreTests
             Assert.That(settings.DatabasePort, Is.EqualTo(55432));
             Assert.That(settings.AdminPanelPort, Is.EqualTo(5080));
             Assert.That(settings.ConnectServerPort, Is.EqualTo(44406));
+            Assert.That(settings.MobileAccessEnabled, Is.False);
+            Assert.That(settings.GameplayProfile, Is.EqualTo("solo"));
             Assert.That(settings.BackupRetentionCount, Is.EqualTo(10));
             Assert.That(settings.AutomaticGameLogin, Is.True);
         });
@@ -53,6 +57,24 @@ public class LocalStackSettingsStoreTests
         Assert.That(store.Load().AutomaticGameLogin, Is.False);
     }
 
+    /// <summary>Only explicit, mutually exclusive gameplay profiles can reach the server command line.</summary>
+    [TestCase("solo", "-solo")]
+    [TestCase("balance-v1-standard", "-balance-v1:standard")]
+    [TestCase("balance-v1-relaxed", "-balance-v1:relaxed")]
+    [TestCase("balance-v1-journey", "-balance-v1:journey")]
+    public void GameplayProfileMapsToOneServerArgument(string profile, string expected)
+    {
+        Assert.That(OpenMuServerManager.GetGameplayProfileArgument(profile), Is.EqualTo(expected));
+    }
+
+    /// <summary>Unknown gameplay profiles are rejected before a process is started.</summary>
+    [Test]
+    public void UnknownGameplayProfileIsRejected()
+    {
+        var store = new LocalStackSettingsStore(Path.Combine(this._directory, "settings.json"));
+        Assert.Throws<InvalidDataException>(() => store.Save(new LocalStackSettings { GameplayProfile = "mixed" }));
+    }
+
     /// <summary>Older local settings enable the reversible automatic-login option.</summary>
     [Test]
     public void ExistingSettingsEnableAutomaticGameLogin()
@@ -60,6 +82,34 @@ public class LocalStackSettingsStoreTests
         var path = Path.Combine(this._directory, "settings.json");
         File.WriteAllText(path, "{}");
         Assert.That(new LocalStackSettingsStore(path).Load().AutomaticGameLogin, Is.True);
+    }
+
+    /// <summary>Mobile mode cannot be persisted without its exact package credential.</summary>
+    [TestCase("")]
+    [TestCase("too-short")]
+    [TestCase("invalid/key")]
+    public void MobileModeRequiresAValidPackageKey(string packageKey)
+    {
+        var store = new LocalStackSettingsStore(Path.Combine(this._directory, "settings.json"));
+        Assert.Throws<InvalidDataException>(() => store.Save(new LocalStackSettings
+        {
+            MobileAccessEnabled = true,
+            MobilePackageKey = packageKey,
+        }));
+    }
+
+    /// <summary>A valid mobile package key survives settings persistence unchanged.</summary>
+    [Test]
+    public void MobilePackageKeyRoundTrips()
+    {
+        var store = new LocalStackSettingsStore(Path.Combine(this._directory, "settings.json"));
+        store.Save(new LocalStackSettings
+        {
+            MobileAccessEnabled = true,
+            MobilePackageKey = MobilePackageKey,
+        });
+
+        Assert.That(store.Load().MobilePackageKey, Is.EqualTo(MobilePackageKey));
     }
 
     /// <summary>The game inherits no administrator password through this feature.</summary>
@@ -92,6 +142,19 @@ public class LocalStackSettingsStoreTests
         var store = new LocalStackSettingsStore(Path.Combine(this._directory, "settings.json"));
         var settings = new LocalStackSettings { ServerStartupTimeoutSeconds = -1 };
         Assert.Throws<InvalidDataException>(() => store.Save(settings));
+    }
+
+    /// <summary>Wildcard and loopback addresses cannot be advertised to phones.</summary>
+    [TestCase("0.0.0.0")]
+    [TestCase("127.0.0.1")]
+    [TestCase("not an ip")]
+    public void InvalidMobileAdvertisedAddressIsRejected(string address)
+    {
+        var store = new LocalStackSettingsStore(Path.Combine(this._directory, "settings.json"));
+        Assert.Throws<InvalidDataException>(() => store.Save(new LocalStackSettings
+        {
+            MobileAdvertisedAddress = address,
+        }));
     }
 
     /// <summary>Verifies launcher-owned ports cannot overlap fixed game-service ports.</summary>

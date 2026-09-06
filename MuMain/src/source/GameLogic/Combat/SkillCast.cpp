@@ -918,7 +918,10 @@ void UseSkillRagefighter(CHARACTER* pCha, OBJECT* pObj)
     case AT_SKILL_DEF_UP_OURFORCES_MASTERY:
     {
         SendRequestMagic(iSkill, HeroKey);
-        if (rand_fps_check(2))
+        // This is a one-shot 50/50 pick between the two cast animations at cast
+        // time (not a per-frame event), so it must be a plain coin flip. The
+        // per-frame rand_fps_check() normalizer skewed it to ~9% on 144Hz screens.
+        if (rand() % 2 == 0)
         {
             SetAction(pObj, PLAYER_SKILL_ATT_UP_OURFORCES);
             PlayBuffer(SOUND_RAGESKILL_BUFF_1);

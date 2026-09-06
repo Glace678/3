@@ -162,7 +162,10 @@ bool CreateDevilSquareRain(PARTICLE* o, int Index)
     }
 
     vec3_t Velocity;
-    Vector(0.f, 0.f, -((Random::RangeFloat(0, 39) + RainSpeed) * FPS_ANIMATION_FACTOR), Velocity);
+    // Velocity is stored in reference-frame units; MoveDevilSquareRain applies the
+    // single per-frame FPS_ANIMATION_FACTOR during integration. Do NOT pre-scale here
+    // (double-scaling made rain fall in slow-motion on high-refresh screens).
+    Vector(0.f, 0.f, -(Random::RangeFloat(0, 39) + RainSpeed), Velocity);
     float Matrix[3][4];
     AngleMatrix(o->Angle, Matrix);
     VectorRotate(Velocity, Matrix, o->Velocity);
@@ -207,7 +210,8 @@ bool CreateChaosCastleRain(PARTICLE* o, int Index)
         Vector(-(Random::RangeFloat(30, 49) + RainAngle), 0.f, 0.f, o->Angle);
     }
     vec3_t Velocity;
-    Vector(0.f, 0.f, -((Random::RangeFloat(0, 39) + RainSpeed + 20) * FPS_ANIMATION_FACTOR), Velocity);
+    // Reference-frame units; MoveChaosCastleRain applies the single integration factor.
+    Vector(0.f, 0.f, -(Random::RangeFloat(0, 39) + RainSpeed + 20), Velocity);
     float Matrix[3][4];
     AngleMatrix(o->Angle, Matrix);
     VectorRotate(Velocity, Matrix, o->Velocity);
@@ -233,9 +237,11 @@ bool CreateLorenciaLeaf(PARTICLE* o)
         o->Velocity[0] = -o->Velocity[0] + 3.2f;
     }
 
-    o->Velocity[0] *= FPS_ANIMATION_FACTOR;
-    o->Velocity[1] = Random::RangeFloat(-16, 15) * 0.1f * FPS_ANIMATION_FACTOR;
-    o->Velocity[2] = Random::RangeFloat(-16, 15) * 0.1f * FPS_ANIMATION_FACTOR;
+    // Wind velocity is stored raw (reference-frame units); MoveHeavenRain applies the
+    // single FPS_ANIMATION_FACTOR during integration. Pre-scaling here double-applied
+    // it and made leaves fall nearly straight down on high-refresh screens.
+    o->Velocity[1] = Random::RangeFloat(-16, 15) * 0.1f;
+    o->Velocity[2] = Random::RangeFloat(-16, 15) * 0.1f;
     o->TurningForce[0] = Random::RangeFloat(-8, 7) * 0.1f;
     o->TurningForce[1] = Random::RangeFloat(-32, 31) * 0.1f;
     o->TurningForce[2] = Random::RangeFloat(-8, 7) * 0.1f;
@@ -277,7 +283,9 @@ bool CreateDeviasSnow(PARTICLE* o)
 
     o->Type = BITMAP_LEAF1;
     o->Scale = 5.f;
-    if (rand_fps_check(10))
+    // One-shot per-spawn flake-size trait: keep a constant 10% large-flake mix at
+    // every refresh rate (rand_fps_check would shrink the mix as fps rises).
+    if (Random::FpsCheck(10))
     {
         o->Type = BITMAP_LEAF2;
         o->Scale = 10.f;
@@ -387,7 +395,9 @@ bool MoveHeavenRain(PARTICLE* o)
         o->TurningForce[0] += Random::RangeFloat(-4, 3) * 0.02f * FPS_ANIMATION_FACTOR;
         o->TurningForce[1] += Random::RangeFloat(-8, 7) * 0.02f * FPS_ANIMATION_FACTOR;
         o->TurningForce[2] += Random::RangeFloat(-4, 3) * 0.02f * FPS_ANIMATION_FACTOR;
-        VectorAdd(o->Angle, o->TurningForce, o->Angle);
+        // Integrate angular velocity (leaf tumble) by the same frame factor as the
+        // position/acceleration steps above, so spin rate is constant in real time.
+        VectorAddScaled(o->Angle, o->TurningForce, o->Angle, FPS_ANIMATION_FACTOR);
 
         vec3_t Range;
         VectorSubtract(o->StartPosition, o->Position, Range);
@@ -458,8 +468,12 @@ bool MoveLeaves()
     else if (RainCurrent < RainTarget)
         RainCurrent += FPS_ANIMATION_FACTOR;
 
-    RainSpeed = ((int)sinf(WorldTime * 0.001f) * 10 + 30) * FPS_ANIMATION_FACTOR;
-    RainAngle = (int)sinf(WorldTime * 0.0005f + 50.f) * 20 * FPS_ANIMATION_FACTOR;
+    // Gust timing already comes from real-time WorldTime; these are per-reference-frame
+    // velocity magnitude and a spawn orientation, so they must NOT carry the frame factor
+    // (the move integration applies it). RainPosition below IS an integrated accumulator
+    // and correctly keeps the factor.
+    RainSpeed = ((int)sinf(WorldTime * 0.001f) * 10 + 30);
+    RainAngle = (int)sinf(WorldTime * 0.0005f + 50.f) * 20;
     RainPosition += 20 * FPS_ANIMATION_FACTOR;
     RainPosition %= 2000;
 

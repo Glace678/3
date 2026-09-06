@@ -17,6 +17,7 @@ using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Persistence;
 using MUnique.OpenMU.Persistence.Initialization.Updates;
 using MUnique.OpenMU.Persistence.Initialization.VersionSeasonSix;
+using MUnique.OpenMU.Web.AdminPanel.API;
 using MUnique.OpenMU.Web.AdminPanel.Auth;
 using MUnique.OpenMU.Web.AdminPanel.Components;
 using MUnique.OpenMU.Web.AdminPanel.Services;
@@ -77,6 +78,7 @@ public static class WebApplicationExtensions
         services.AddScoped<CreationPanelService>();
 
         services.AddAdminPanelAuth(builder.Configuration);
+        services.AddSingleton<MobileGmService>();
 
         services.AddSingleton<IDataSource<GameConfiguration>, GameConfigurationDataSource>();
         services.AddSingleton<IDataSource<Account>, AccountDataSource>();
@@ -147,6 +149,7 @@ public static class WebApplicationExtensions
 
         app.MapControllers().RequireAuthorization();
         app.MapAdminPanelAuthEndpoints();
+        app.MapMobileGmEndpoints();
 
         AdminPanelEnvironment.IsHostingEmbedded = true;
 

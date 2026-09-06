@@ -9,6 +9,7 @@
 #include <iterator>
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Core/BindState.h"
+#include "Render/Core/GLProcAddress.h"
 #include "Core/Utilities/FrameProfiler.h"
 #include "Render/Models/ZzzBMD.h"
 #include "ZzzLodTerrain.h"
@@ -1112,17 +1113,17 @@ static bool LoadTerrainGLFunctions()
     static bool loaded = false;
     if (loaded) return true;
 
-    fn_glGenBuffers              = (PFNGLGENBUFFERSPROC)SDL_GL_GetProcAddress("glGenBuffers");
-    fn_glDeleteBuffers           = (PFNGLDELETEBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteBuffers");
-    fn_glBindBuffer              = (PFNGLBINDBUFFERPROC)SDL_GL_GetProcAddress("glBindBuffer");
-    fn_glBufferData              = (PFNGLBUFFERDATAPROC)SDL_GL_GetProcAddress("glBufferData");
-    fn_glBufferSubData           = (PFNGLBUFFERSUBDATAPROC)SDL_GL_GetProcAddress("glBufferSubData");
-    fn_glGenVertexArrays         = (PFNGLGENVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glGenVertexArrays");
-    fn_glDeleteVertexArrays      = (PFNGLDELETEVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glDeleteVertexArrays");
-    fn_glVertexAttribPointer     = (PFNGLVERTEXATTRIBPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribPointer");
-    fn_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glEnableVertexAttribArray");
-    fn_glPushDebugGroup          = (PFNGLPUSHDEBUGGROUPPROC)SDL_GL_GetProcAddress("glPushDebugGroup");
-    fn_glPopDebugGroup           = (PFNGLPOPDEBUGGROUPPROC)SDL_GL_GetProcAddress("glPopDebugGroup");
+    fn_glGenBuffers              = (PFNGLGENBUFFERSPROC)MuGL::GetProcAddress("glGenBuffers");
+    fn_glDeleteBuffers           = (PFNGLDELETEBUFFERSPROC)MuGL::GetProcAddress("glDeleteBuffers");
+    fn_glBindBuffer              = (PFNGLBINDBUFFERPROC)MuGL::GetProcAddress("glBindBuffer");
+    fn_glBufferData              = (PFNGLBUFFERDATAPROC)MuGL::GetProcAddress("glBufferData");
+    fn_glBufferSubData           = (PFNGLBUFFERSUBDATAPROC)MuGL::GetProcAddress("glBufferSubData");
+    fn_glGenVertexArrays         = (PFNGLGENVERTEXARRAYSPROC)MuGL::GetProcAddress("glGenVertexArrays");
+    fn_glDeleteVertexArrays      = (PFNGLDELETEVERTEXARRAYSPROC)MuGL::GetProcAddress("glDeleteVertexArrays");
+    fn_glVertexAttribPointer     = (PFNGLVERTEXATTRIBPOINTERPROC)MuGL::GetProcAddress("glVertexAttribPointer");
+    fn_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)MuGL::GetProcAddress("glEnableVertexAttribArray");
+    fn_glPushDebugGroup          = (PFNGLPUSHDEBUGGROUPPROC)MuGL::GetProcAddress("glPushDebugGroup");
+    fn_glPopDebugGroup           = (PFNGLPOPDEBUGGROUPPROC)MuGL::GetProcAddress("glPopDebugGroup");
 
     loaded = (fn_glGenBuffers && fn_glBindBuffer && fn_glBufferData && fn_glBufferSubData && fn_glGenVertexArrays);
     return loaded;

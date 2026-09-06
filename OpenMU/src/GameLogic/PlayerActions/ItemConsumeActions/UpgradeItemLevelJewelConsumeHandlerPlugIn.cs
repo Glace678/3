@@ -44,7 +44,20 @@ public abstract class UpgradeItemLevelJewelConsumeHandlerPlugIn<TConfig>
     public abstract object CreateDefaultConfig();
 
     /// <inheritdoc/>
+    protected override bool ModifyItem(Player player, Item item)
+    {
+        return BalanceV1.IsEnabled(player.GameContext.Configuration)
+            ? this.ModifyItemCore(item, useBalanceV1Rules: true)
+            : this.ModifyItem(item, player.PersistenceContext);
+    }
+
+    /// <inheritdoc/>
     protected override bool ModifyItem(Item item, IContext persistenceContext)
+    {
+        return this.ModifyItemCore(item, useBalanceV1Rules: false);
+    }
+
+    private bool ModifyItemCore(Item item, bool useBalanceV1Rules)
     {
         if (!item.CanLevelBeUpgraded())
         {
@@ -74,10 +87,18 @@ public abstract class UpgradeItemLevelJewelConsumeHandlerPlugIn<TConfig>
             return false;
         }
 
-        int percent = this.Configuration.SuccessRatePercentage;
-        if (ItemHasLuck(item))
+        int percent;
+        if (useBalanceV1Rules)
         {
-            percent += this.Configuration.SuccessRateBonusWithLuckPercentage;
+            percent = checked((int)Math.Round(BalanceV1.GetUpgradeStep(item.Level + levelAmount).Chance * 100));
+        }
+        else
+        {
+            percent = this.Configuration.SuccessRatePercentage;
+            if (ItemHasLuck(item))
+            {
+                percent += this.Configuration.SuccessRateBonusWithLuckPercentage;
+            }
         }
 
         if (this._randomizer.NextRandomBool(percent))
@@ -85,6 +106,11 @@ public abstract class UpgradeItemLevelJewelConsumeHandlerPlugIn<TConfig>
             item.Level += (byte)levelAmount;
             item.Durability = item.GetMaximumDurabilityOfOnePiece();
             return true; // true doesn't mean that it was successful, just that the consumption happened.
+        }
+
+        if (useBalanceV1Rules)
+        {
+            return true;
         }
 
         if (item.Level >= this.Configuration.ResetToLevel0WhenFailMinLevel)

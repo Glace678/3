@@ -39,6 +39,7 @@ public class DefaultDropGenerator : IDropGenerator
 
     private readonly byte _maxItemOptionLevelDrop;
     private readonly byte _excellentItemDropLevelDelta;
+    private readonly bool _balanceV1Enabled;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultDropGenerator" /> class.
@@ -47,6 +48,8 @@ public class DefaultDropGenerator : IDropGenerator
     /// <param name="randomizer">The randomizer.</param>
     public DefaultDropGenerator(GameConfiguration config, IRandomizer randomizer)
     {
+        BalanceV1.ValidateProfileMarkers(config);
+        this._balanceV1Enabled = BalanceV1.IsEnabled(config);
         this._excellentItemDropLevelDelta = config.ExcellentItemDropLevelDelta;
         this._randomizer = randomizer;
         this._maxItemOptionLevelDrop = IsValidOptionLevelDrop(config.MaximumItemOptionLevelDrop)
@@ -71,6 +74,11 @@ public class DefaultDropGenerator : IDropGenerator
         }
 
         using var l = await this._lock.LockAsync();
+        if (this._balanceV1Enabled && monster.ObjectKind == NpcObjectKind.Monster)
+        {
+            return await this.GenerateBalanceV1DropsAsync(monster, player).ConfigureAwait(false);
+        }
+
         this._guaranteedDropGroups.Clear();
         this._chanceDropGroups.Clear();
 
@@ -268,6 +276,91 @@ public class DefaultDropGenerator : IDropGenerator
         }
 
         return itemDefinition.MaximumDropLevel is not { } maxDropLevel || monsterLevel <= maxDropLevel;
+    }
+
+    private async ValueTask<(IEnumerable<Item> Items, uint? Money)> GenerateBalanceV1DropsAsync(
+        MonsterDefinition monster,
+        Player player)
+    {
+        var contentRank = Math.Max(1, monster[Stats.Level]);
+        var roll = BalanceV1.RollLoot(
+            contentRank,
+            this._randomizer.NextDouble(),
+            this._randomizer.NextDouble(),
+            this._randomizer.NextDouble());
+        var items = new List<Item>(3);
+
+        var equipment = roll.Equipment switch
+        {
+            BalanceV1.EquipmentDrop.Common => this.GenerateRandomItem((int)contentRank, false),
+            BalanceV1.EquipmentDrop.Excellent => this.GenerateRandomExcellentItem((int)contentRank),
+            BalanceV1.EquipmentDrop.Ancient => this.GenerateRandomAncient(),
+            BalanceV1.EquipmentDrop.Socket => this.GenerateRandomItem((int)contentRank, true),
+            _ => null,
+        };
+        if (equipment is not null)
+        {
+            items.Add(equipment);
+        }
+
+        if (roll.Jewel
+            && this.SelectBalanceV1JewelGroup(monster, player) is { } jewelGroup
+            && this.GenerateItemFromGroup(monster, jewelGroup) is { } jewel)
+        {
+            items.Add(jewel);
+        }
+
+        foreach (var questGroup in (await GetQuestItemGroupsAsync(player).ConfigureAwait(false))
+                     .Where(group => IsGroupRelevant(monster, group)))
+        {
+            if (questGroup.Chance >= 1 || this._randomizer.NextDouble() < questGroup.Chance)
+            {
+                var questItem = this.GenerateItemFromGroup(monster, questGroup);
+                if (questItem is not null)
+                {
+                    items.Add(questItem);
+                }
+            }
+        }
+
+        var money = roll.Money
+            ? BalanceV1.CalculateZen(contentRank, monster.Number)
+            : default(uint?);
+        return (items, money);
+    }
+
+    private DropItemGroup? SelectBalanceV1JewelGroup(MonsterDefinition monster, Player player)
+    {
+        var groups = (monster.DropItemGroups ?? [])
+            .Concat(player.SelectedCharacter?.DropItemGroups ?? [])
+            .Concat(player.CurrentMap?.Definition.DropItemGroups ?? [])
+            .Where(group => group.ItemType == SpecialItemType.Jewel
+                            && group.PossibleItems?.Count > 0
+                            && IsGroupRelevant(monster, group))
+            .Distinct()
+            .ToList();
+        if (groups.Count == 0)
+        {
+            return null;
+        }
+
+        var totalWeight = groups.Sum(group => Math.Max(0, group.Chance));
+        if (totalWeight <= 0)
+        {
+            return groups[this._randomizer.NextInt(0, groups.Count)];
+        }
+
+        var threshold = this._randomizer.NextDouble() * totalWeight;
+        foreach (var group in groups)
+        {
+            threshold -= Math.Max(0, group.Chance);
+            if (threshold <= 0)
+            {
+                return group;
+            }
+        }
+
+        return groups[^1];
     }
 
     private (IList<Item>? Items, uint Money) GenerateDrops(MonsterDefinition monster, int gainedExperience)

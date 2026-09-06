@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Render/Shaders/PlanarShadowShader.h"
+#include "Render/Shaders/ShaderLanguage.h"
 #include "Render/Core/BindState.h"
+#include "Render/Core/GLProcAddress.h"
 #include "Render/Core/RenderConfig.h"
 #include "Core/Utilities/FrameProfiler.h"
 #include "Core/Utilities/Log/ErrorReport.h"
@@ -72,8 +74,7 @@ static PFNGLDELETEBUFFERSPROC            fn_glDeleteBuffers            = nullptr
 //   rel = v.xyz - u_BodyOrigin;
 //   projX_rel = rel.x + (rel.z * (rel.x + u_Sx) / (rel.z - u_Sy));
 // ===========================================================================
-static const char* g_szPlanarVert = R"(
-#version 330 core
+static const char* g_szPlanarVert = MU_GLSL_SOURCE_PREFIX R"(
 layout(location = 0) in vec3 a_Pos;
 layout(location = 4) in int  a_BoneIndex; // DXP-20: only used when u_UseGPUSkin==1; matches
                                            // BMD::m_VAO_StaticGPU's attribute layout (BMDMeshShader.cpp)
@@ -132,8 +133,7 @@ void main()
 // ===========================================================================
 // GLSL Planar Shadow Fragment Shader (DXP-06: 330 core, explicit fragColor)
 // ===========================================================================
-static const char* g_szPlanarFrag = R"(
-#version 330 core
+static const char* g_szPlanarFrag = MU_GLSL_SOURCE_PREFIX R"(
 uniform float u_ShadowAlpha;
 out vec4 fragColor;
 
@@ -154,32 +154,32 @@ CPlanarShadowShader::~CPlanarShadowShader() { Shutdown(); }
 
 bool CPlanarShadowShader::LoadGLFunctions()
 {
-    fn_glCreateShader       = (PFNGLCREATESHADERPROC)      SDL_GL_GetProcAddress("glCreateShader");
-    fn_glShaderSource       = (PFNGLSHADERSOURCEPROC)      SDL_GL_GetProcAddress("glShaderSource");
-    fn_glCompileShader      = (PFNGLCOMPILESHADERPROC)     SDL_GL_GetProcAddress("glCompileShader");
-    fn_glGetShaderiv        = (PFNGLGETSHADERIVPROC)       SDL_GL_GetProcAddress("glGetShaderiv");
-    fn_glCreateProgram      = (PFNGLCREATEPROGRAMPROC)     SDL_GL_GetProcAddress("glCreateProgram");
-    fn_glAttachShader       = (PFNGLATTACHSHADERPROC)      SDL_GL_GetProcAddress("glAttachShader");
-    fn_glLinkProgram        = (PFNGLLINKPROGRAMPROC)       SDL_GL_GetProcAddress("glLinkProgram");
-    fn_glGetProgramiv       = (PFNGLGETPROGRAMIVPROC)      SDL_GL_GetProcAddress("glGetProgramiv");
-    fn_glDeleteShader       = (PFNGLDELETESHADERPROC)      SDL_GL_GetProcAddress("glDeleteShader");
-    fn_glDeleteProgram      = (PFNGLDELETEPROGRAMPROC)     SDL_GL_GetProcAddress("glDeleteProgram");
-    fn_glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)SDL_GL_GetProcAddress("glGetUniformLocation");
-    fn_glGetUniformBlockIndex = (PFNGLGETUNIFORMBLOCKINDEXPROC)SDL_GL_GetProcAddress("glGetUniformBlockIndex");
-    fn_glUniformBlockBinding  = (PFNGLUNIFORMBLOCKBINDINGPROC) SDL_GL_GetProcAddress("glUniformBlockBinding");
-    fn_glUniform1i          = (PFNGLUNIFORM1IPROC)         SDL_GL_GetProcAddress("glUniform1i");
-    fn_glUniform1f          = (PFNGLUNIFORM1FPROC)         SDL_GL_GetProcAddress("glUniform1f");
-    fn_glUniform3fv         = (PFNGLUNIFORM3FVPROC)        SDL_GL_GetProcAddress("glUniform3fv");
-    fn_glUniformMatrix4fv   = (PFNGLUNIFORMMATRIX4FVPROC)  SDL_GL_GetProcAddress("glUniformMatrix4fv");
-    fn_glGenVertexArrays          = (PFNGLGENVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glGenVertexArrays");
-    fn_glDeleteVertexArrays       = (PFNGLDELETEVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glDeleteVertexArrays");
-    fn_glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribPointer");
-    fn_glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glEnableVertexAttribArray");
-    fn_glGenBuffers               = (PFNGLGENBUFFERSPROC)SDL_GL_GetProcAddress("glGenBuffers");
-    fn_glBindBuffer               = (PFNGLBINDBUFFERPROC)SDL_GL_GetProcAddress("glBindBuffer");
-    fn_glBufferData               = (PFNGLBUFFERDATAPROC)SDL_GL_GetProcAddress("glBufferData");
-    fn_glBufferSubData            = (PFNGLBUFFERSUBDATAPROC)SDL_GL_GetProcAddress("glBufferSubData");
-    fn_glDeleteBuffers            = (PFNGLDELETEBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteBuffers");
+    fn_glCreateShader       = (PFNGLCREATESHADERPROC)      MuGL::GetProcAddress("glCreateShader");
+    fn_glShaderSource       = (PFNGLSHADERSOURCEPROC)      MuGL::GetProcAddress("glShaderSource");
+    fn_glCompileShader      = (PFNGLCOMPILESHADERPROC)     MuGL::GetProcAddress("glCompileShader");
+    fn_glGetShaderiv        = (PFNGLGETSHADERIVPROC)       MuGL::GetProcAddress("glGetShaderiv");
+    fn_glCreateProgram      = (PFNGLCREATEPROGRAMPROC)     MuGL::GetProcAddress("glCreateProgram");
+    fn_glAttachShader       = (PFNGLATTACHSHADERPROC)      MuGL::GetProcAddress("glAttachShader");
+    fn_glLinkProgram        = (PFNGLLINKPROGRAMPROC)       MuGL::GetProcAddress("glLinkProgram");
+    fn_glGetProgramiv       = (PFNGLGETPROGRAMIVPROC)      MuGL::GetProcAddress("glGetProgramiv");
+    fn_glDeleteShader       = (PFNGLDELETESHADERPROC)      MuGL::GetProcAddress("glDeleteShader");
+    fn_glDeleteProgram      = (PFNGLDELETEPROGRAMPROC)     MuGL::GetProcAddress("glDeleteProgram");
+    fn_glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)MuGL::GetProcAddress("glGetUniformLocation");
+    fn_glGetUniformBlockIndex = (PFNGLGETUNIFORMBLOCKINDEXPROC)MuGL::GetNativeProcAddress("glGetUniformBlockIndex");
+    fn_glUniformBlockBinding  = (PFNGLUNIFORMBLOCKBINDINGPROC) MuGL::GetNativeProcAddress("glUniformBlockBinding");
+    fn_glUniform1i          = (PFNGLUNIFORM1IPROC)         MuGL::GetProcAddress("glUniform1i");
+    fn_glUniform1f          = (PFNGLUNIFORM1FPROC)         MuGL::GetProcAddress("glUniform1f");
+    fn_glUniform3fv         = (PFNGLUNIFORM3FVPROC)        MuGL::GetProcAddress("glUniform3fv");
+    fn_glUniformMatrix4fv   = (PFNGLUNIFORMMATRIX4FVPROC)  MuGL::GetProcAddress("glUniformMatrix4fv");
+    fn_glGenVertexArrays          = (PFNGLGENVERTEXARRAYSPROC)MuGL::GetProcAddress("glGenVertexArrays");
+    fn_glDeleteVertexArrays       = (PFNGLDELETEVERTEXARRAYSPROC)MuGL::GetProcAddress("glDeleteVertexArrays");
+    fn_glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)MuGL::GetProcAddress("glVertexAttribPointer");
+    fn_glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)MuGL::GetProcAddress("glEnableVertexAttribArray");
+    fn_glGenBuffers               = (PFNGLGENBUFFERSPROC)MuGL::GetProcAddress("glGenBuffers");
+    fn_glBindBuffer               = (PFNGLBINDBUFFERPROC)MuGL::GetProcAddress("glBindBuffer");
+    fn_glBufferData               = (PFNGLBUFFERDATAPROC)MuGL::GetProcAddress("glBufferData");
+    fn_glBufferSubData            = (PFNGLBUFFERSUBDATAPROC)MuGL::GetProcAddress("glBufferSubData");
+    fn_glDeleteBuffers            = (PFNGLDELETEBUFFERSPROC)MuGL::GetProcAddress("glDeleteBuffers");
 
     return fn_glCreateShader && fn_glShaderSource && fn_glCompileShader && fn_glGetShaderiv &&
            fn_glCreateProgram && fn_glAttachShader && fn_glLinkProgram && fn_glGetProgramiv &&

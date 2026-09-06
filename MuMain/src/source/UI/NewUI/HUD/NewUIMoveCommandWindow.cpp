@@ -151,7 +151,7 @@ void SEASON3B::CNewUIMoveCommandWindow::SetPos(int x, int y)
     m_MapNameUISize.x += 10;
 
     m_listMoveInfoData = CMoveCommandData::GetInstance()->GetMoveCommandDatalist();
-    m_iRealFontHeight = FontHeight * REFERENCE_WIDTH / WindowWidth + 2;
+    m_iRealFontHeight = FontHeight * REFERENCE_HEIGHT / WindowHeight + 2;
 
     m_MapNameUISize.y = 60 + (m_iRealFontHeight * MOVECOMMAND_MAX_RENDER_TEXTLINE);
 

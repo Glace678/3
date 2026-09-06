@@ -31,6 +31,19 @@ public abstract class RecoverConsumeHandlerPlugIn : BaseConsumeHandlerPlugIn, IS
     /// <inheritdoc/>
     public override async ValueTask<bool> ConsumeItemAsync(Player player, Item item, Item? targetItem, FruitUsage fruitUsage)
     {
+        if (this.TryGetBalanceV1Rule(player, item, out var balanceRule))
+        {
+            if (!this.CheckPreconditions(player, item)
+                || !player.TryBeginBalanceV1PotionCooldown(balanceRule.CooldownGroup, balanceRule.Cooldown, DateTime.UtcNow))
+            {
+                return false;
+            }
+
+            await this.ConsumeSourceItemAsync(player, item).ConfigureAwait(false);
+            await this.RecoverAsync(player, item).ConfigureAwait(false);
+            return true;
+        }
+
         if (await base.ConsumeItemAsync(player, item, targetItem, fruitUsage).ConfigureAwait(false))
         {
             await this.RecoverAsync(player, item).ConfigureAwait(false);
@@ -52,6 +65,16 @@ public abstract class RecoverConsumeHandlerPlugIn : BaseConsumeHandlerPlugIn, IS
     {
         if (player.Attributes is null)
         {
+            return;
+        }
+
+        if (this.TryGetBalanceV1Rule(player, item, out var balanceRule))
+        {
+            var maximum = Math.Max(0, player.Attributes[this.MaximumAttribute]);
+            var current = Math.Clamp(player.Attributes[this.CurrentAttribute], 0, maximum);
+            var recoverAmount = Math.Min(balanceRule.RecoveryCap, maximum * balanceRule.RecoveryFraction);
+            player.Attributes[this.CurrentAttribute] = (float)Math.Min(maximum, current + recoverAmount);
+            await this.OnAfterRecoverAsync(player).ConfigureAwait(false);
             return;
         }
 
@@ -77,6 +100,13 @@ public abstract class RecoverConsumeHandlerPlugIn : BaseConsumeHandlerPlugIn, IS
     /// <inheritdoc />
     protected override bool CheckPreconditions(Player player, Item item)
     {
+        if (this.TryGetBalanceV1Rule(player, item, out var balanceRule))
+        {
+            return base.CheckPreconditions(player, item)
+                   && player.Attributes is { } attributes
+                   && attributes[Stats.Level] >= balanceRule.UnlockLevel;
+        }
+
         return base.CheckPreconditions(player, item)
                && player.PotionCooldownUntil <= DateTime.UtcNow;
     }
@@ -89,6 +119,40 @@ public abstract class RecoverConsumeHandlerPlugIn : BaseConsumeHandlerPlugIn, IS
     protected virtual ValueTask OnAfterRecoverAsync(Player player)
     {
         return default;
+    }
+
+    private bool TryGetBalanceV1Rule(Player player, Item item, out BalanceV1.PotionRule rule)
+    {
+        if (BalanceV1.IsEnabled(player.GameContext.Configuration)
+            && item.Definition is { } definition
+            && BalanceV1.TryGetPotionRule(definition.Group, definition.Number, out rule)
+            && rule.CooldownGroup == this.GetPotionGroup())
+        {
+            return true;
+        }
+
+        rule = default;
+        return false;
+    }
+
+    private BalanceV1.PotionGroup GetPotionGroup()
+    {
+        if (this.CurrentAttribute.Id == Stats.CurrentHealth.Id)
+        {
+            return BalanceV1.PotionGroup.Health;
+        }
+
+        if (this.CurrentAttribute.Id == Stats.CurrentMana.Id)
+        {
+            return BalanceV1.PotionGroup.Mana;
+        }
+
+        if (this.CurrentAttribute.Id == Stats.CurrentShield.Id)
+        {
+            return BalanceV1.PotionGroup.Shield;
+        }
+
+        throw new InvalidOperationException($"Unsupported balance-v1 recovery attribute {this.CurrentAttribute}.");
     }
 
     private async Task RecoverByStepsAsync(Player player, double delayReduction, RecoverConsumeHandlerConfiguration configuration, double totalRecoverAmount)

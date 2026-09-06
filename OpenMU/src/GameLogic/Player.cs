@@ -75,6 +75,10 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
 
     private DateTime _lastRegenerate = DateTime.UtcNow;
 
+    private readonly object _balanceV1PotionCooldownLock = new();
+
+    private readonly Dictionary<BalanceV1.PotionGroup, DateTime> _balanceV1PotionCooldowns = new();
+
     private GameMap? _currentMap;
 
     private IDisposable? _accountLoggingScope;
@@ -570,6 +574,25 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
     /// Gets or sets the cooldown timestamp until no further potion can be consumed.
     /// </summary>
     public DateTime PotionCooldownUntil { get; set; } = DateTime.UtcNow;
+
+    /// <summary>Atomically starts a balance-v1 resource-specific potion cooldown.</summary>
+    /// <param name="group">The independently cooled-down potion resource.</param>
+    /// <param name="cooldown">The cooldown duration.</param>
+    /// <param name="now">The timestamp used for the decision.</param>
+    /// <returns><see langword="true"/> when the group was available and is now reserved.</returns>
+    internal bool TryBeginBalanceV1PotionCooldown(BalanceV1.PotionGroup group, TimeSpan cooldown, DateTime now)
+    {
+        lock (this._balanceV1PotionCooldownLock)
+        {
+            if (this._balanceV1PotionCooldowns.TryGetValue(group, out var cooldownUntil) && cooldownUntil > now)
+            {
+                return false;
+            }
+
+            this._balanceV1PotionCooldowns[group] = now.Add(cooldown);
+            return true;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the timestamp of when the shield hiatus was last accrued.

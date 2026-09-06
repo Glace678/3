@@ -17,7 +17,47 @@ function(mu_resolve_client_library_platform)
     endif()
   endforeach()
 
-  if(ARG_SYSTEM_NAME STREQUAL "Linux")
+  if(ARG_SYSTEM_NAME STREQUAL "Android")
+    string(TOLOWER "${ARG_SYSTEM_PROCESSOR}" target_processor)
+    if(NOT ARG_POINTER_SIZE EQUAL 8
+        OR NOT target_processor MATCHES "^(aarch64|arm64|arm64-v8a)$")
+      message(FATAL_ERROR
+        "The Native AOT client library supports Android arm64-v8a only")
+    endif()
+
+    # Android's jniLibs packaging and native loader only discover shared
+    # libraries which follow the conventional lib*.so naming scheme.
+    set(library_name "libMUnique.Client.Library.so")
+    set(runtime_identifier "linux-bionic-arm64")
+    set(platform "arm64")
+    set(extra_args "-p:ci=true;-p:NativeLib=Shared")
+  elseif(ARG_SYSTEM_NAME STREQUAL "OHOS" OR ARG_SYSTEM_NAME STREQUAL "OpenHarmony")
+    # HarmonyOS / OpenHarmony. The .NET library is Native-AOT compiled out of
+    # band with nativeaot-ohos/build-clientlibrary-ohos.sh (Linux + OHOS NDK)
+    # and packaged as a prebuilt, so this RID is only used if a host tries to
+    # publish from CMake -- which the main build disables for OHOS. Phones and
+    # most tablets are arm64; HarmonyOS PCs / 2-in-1 devices may be x86_64.
+    if(NOT ARG_POINTER_SIZE EQUAL 8)
+      message(FATAL_ERROR
+        "The Native AOT client library supports 64-bit OpenHarmony only")
+    endif()
+    string(TOLOWER "${ARG_SYSTEM_PROCESSOR}" ohos_processor)
+    if(ohos_processor MATCHES "^(aarch64|arm64|arm64-v8a)$")
+      # Preferred RID when .NET ships an OHOS runtime pack; the build script
+      # falls back to linux-bionic-arm64 against the OHOS sysroot otherwise.
+      set(runtime_identifier "linux-ohos-arm64")
+      set(platform "arm64")
+    elseif(ohos_processor MATCHES "^(x86_64|amd64)$")
+      set(runtime_identifier "linux-ohos-x64")
+      set(platform "x64")
+    else()
+      message(FATAL_ERROR "Unsupported OpenHarmony processor: ${ohos_processor}")
+    endif()
+    # Connection.h dlopens the __OHOS__ soname "libMUnique.Client.Library.so";
+    # the lib prefix also matches how DevEco packages libs/<abi>/*.so.
+    set(library_name "libMUnique.Client.Library.so")
+    set(extra_args "-p:ci=true;-p:NativeLib=Shared")
+  elseif(ARG_SYSTEM_NAME STREQUAL "Linux")
     if(NOT ARG_POINTER_SIZE EQUAL 8)
       message(FATAL_ERROR "The Native AOT client library supports Linux x64 only")
     endif()

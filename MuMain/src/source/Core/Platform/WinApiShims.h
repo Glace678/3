@@ -17,6 +17,7 @@
 #include <cwctype>
 #include <strings.h>  // strcasecmp
 #include <thread>     // Sleep
+#include <type_traits>
 #include <unistd.h>   // readlink
 #include "Core/Platform/WinCompat.h"  // DWORD, FILE handle types
 #include "Core/Platform/WinNls.h"     // MultiByteToWideChar / CP_UTF8
@@ -29,6 +30,19 @@ namespace mu_detail
     {
         static const std::chrono::steady_clock::time_point epoch = std::chrono::steady_clock::now();
         return epoch;
+    }
+
+    template <typename ThreadId>
+    inline std::uintptr_t threadIdValue(ThreadId id)
+    {
+        if constexpr (std::is_pointer_v<ThreadId>)
+        {
+            return reinterpret_cast<std::uintptr_t>(id);
+        }
+        else
+        {
+            return static_cast<std::uintptr_t>(id);
+        }
     }
 }
 
@@ -133,7 +147,7 @@ inline DWORD GetCurrentThreadId()
 {
     // pthread_t is 8 bytes on LP64; fold the high half into the low half before
     // truncating so two threads are less likely to collide on the low 32 bits.
-    const std::uint64_t id = reinterpret_cast<std::uintptr_t>(pthread_self());
+    const std::uint64_t id = mu_detail::threadIdValue(pthread_self());
     return static_cast<DWORD>(id ^ (id >> 32));
 }
 

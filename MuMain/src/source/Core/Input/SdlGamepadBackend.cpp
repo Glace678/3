@@ -1,4 +1,4 @@
-#include "Core/Input/SdlGamepadBackend.h"
+﻿#include "Core/Input/SdlGamepadBackend.h"
 
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
 #ifdef _WIN32
@@ -62,6 +62,29 @@ namespace Core::Input
 #endif
         if (!SDL_InitSubSystem(SDL_INIT_GAMEPAD)) return false;
         m_initialized = true;
+#if defined(__ANDROID__) || defined(__OHOS__)
+        if (SDL_InitSubSystem(SDL_INIT_HAPTIC))
+        {
+            m_hapticSubsystemInitialized = true;
+            int hapticCount = 0;
+            SDL_HapticID* haptics = SDL_GetHaptics(&hapticCount);
+            for (int index = 0; haptics != nullptr && index < hapticCount; ++index)
+            {
+                const char* name = SDL_GetHapticNameForID(haptics[index]);
+                if (name == nullptr || std::strcmp(name, "VIBRATOR_SERVICE") != 0)
+                    continue;
+                SDL_Haptic* candidate = SDL_OpenHaptic(haptics[index]);
+                if (candidate != nullptr && SDL_InitHapticRumble(candidate))
+                {
+                    m_systemHaptic = candidate;
+                    break;
+                }
+                if (candidate != nullptr)
+                    SDL_CloseHaptic(candidate);
+            }
+            SDL_free(haptics);
+        }
+#endif
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
         if (const char* statePath = std::getenv("MU_VIRTUAL_GAMEPAD_STATE"))
         {
@@ -78,6 +101,19 @@ namespace Core::Input
     {
         if (!m_initialized) return;
         CloseDevice();
+#if defined(__ANDROID__) || defined(__OHOS__)
+        if (m_systemHaptic != nullptr)
+        {
+            SDL_StopHapticRumble(m_systemHaptic);
+            SDL_CloseHaptic(m_systemHaptic);
+            m_systemHaptic = nullptr;
+        }
+        if (m_hapticSubsystemInitialized)
+        {
+            SDL_QuitSubSystem(SDL_INIT_HAPTIC);
+            m_hapticSubsystemInitialized = false;
+        }
+#endif
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
         DetachVirtualTestDevice();
 #endif
@@ -196,11 +232,15 @@ namespace Core::Input
 
     bool SdlGamepadBackend::SupportsRumble() const
     {
-        if (!m_gamepad) return false;
-        return SDL_GetBooleanProperty(
+        const bool gamepadRumble = m_gamepad != nullptr && SDL_GetBooleanProperty(
             SDL_GetGamepadProperties(m_gamepad),
             SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN,
             false);
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return gamepadRumble || m_systemHaptic != nullptr;
+#else
+        return gamepadRumble;
+#endif
     }
 
     void SdlGamepadBackend::Play(
@@ -215,6 +255,13 @@ namespace Core::Input
             RecordVirtualRumble(lowFrequency, highFrequency, durationMs);
 #endif
         }
+#if defined(__ANDROID__) || defined(__OHOS__)
+        if (m_systemHaptic != nullptr)
+        {
+            const float strength = std::max(lowFrequency, highFrequency) / 65535.0f;
+            SDL_PlayHapticRumble(m_systemHaptic, strength, durationMs);
+        }
+#endif
     }
 
     void SdlGamepadBackend::Stop()
@@ -226,6 +273,10 @@ namespace Core::Input
             RecordVirtualRumble(0, 0, 0);
 #endif
         }
+#if defined(__ANDROID__) || defined(__OHOS__)
+        if (m_systemHaptic != nullptr)
+            SDL_StopHapticRumble(m_systemHaptic);
+#endif
     }
 
     bool SdlGamepadBackend::OpenDevice(SDL_JoystickID deviceId)

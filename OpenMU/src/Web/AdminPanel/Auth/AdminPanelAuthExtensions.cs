@@ -116,14 +116,26 @@ public static class AdminPanelAuthExtensions
             })
             .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(
                 ApiKeyAuthenticationDefaults.AuthenticationScheme,
-                configureOptions: null);
+                configureOptions: null)
+            .AddScheme<MobileGmAuthenticationOptions, MobileGmAuthenticationHandler>(
+                MobileGmAuthenticationDefaults.AuthenticationScheme,
+                options => options.PackageKey = Environment.GetEnvironmentVariable(
+                    MobileGmAuthenticationDefaults.PackageKeyEnvironmentVariable) ?? string.Empty);
 
         services.AddSingleton<IAuthorizationHandler, AdminAccessRequirementHandler>();
         services.AddAuthorizationBuilder()
             .SetDefaultPolicy(new AuthorizationPolicyBuilder().AddRequirements(new AdminAccessRequirement()).Build())
             .AddPolicy(AdminPolicies.Viewer, policy => policy.AddRequirements(new AdminAccessRequirement(AdminRoles.Viewer)))
             .AddPolicy(AdminPolicies.Operator, policy => policy.AddRequirements(new AdminAccessRequirement(AdminRoles.Operator)))
-            .AddPolicy(AdminPolicies.Administrator, policy => policy.AddRequirements(new AdminAccessRequirement(AdminRoles.Administrator)));
+            .AddPolicy(AdminPolicies.Administrator, policy => policy.AddRequirements(new AdminAccessRequirement(AdminRoles.Administrator)))
+            .AddPolicy(MobileGmAuthenticationDefaults.Policy, policy =>
+            {
+                policy.AddAuthenticationSchemes(MobileGmAuthenticationDefaults.AuthenticationScheme);
+                policy.RequireAuthenticatedUser();
+                policy.RequireClaim(
+                    MobileGmAuthenticationDefaults.MarkerClaimType,
+                    MobileGmAuthenticationDefaults.MarkerClaimValue);
+            });
         services.AddCascadingAuthenticationState();
         services.AddScoped<AdminAuthenticationStateProvider>();
         services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<AdminAuthenticationStateProvider>());

@@ -12,6 +12,7 @@
 #include "Engine/Object/ZzzCharacter.h"
 #include "Engine/Object/ZzzInterface.h"
 #include "Network/Reconnect/ReconnectManager.h"
+#include "Network/Login/LocalAutoLogin.h"
 #include "Network/Login/LocalLoginCredentials.h"
 #include "UI/Legacy/UIControls.h"
 #include "Scenes/SceneCore.h"
@@ -405,7 +406,9 @@ bool CLoginWin::RequestAutomaticLogin()
 
     m_Username[0] = L'\0';
     m_Password[0] = L'\0';
-    if (config.GetRememberMe() && !config.GetEncryptedUsername().empty())
+    const char* mobileEnabled = std::getenv(Network::Login::MobileLocalAutoLoginEnvironment);
+    const bool isMobileAutomaticLogin = mobileEnabled != nullptr && std::string_view(mobileEnabled) == "1";
+    if (!isMobileAutomaticLogin && config.GetRememberMe() && !config.GetEncryptedUsername().empty())
     {
         // Never switch an existing player's saved account to an empty local account.
         if (!config.GetSavePassword())

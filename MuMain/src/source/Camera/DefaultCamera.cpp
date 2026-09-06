@@ -708,18 +708,24 @@ void DefaultCamera::UpdateCustomCameraDistance()
 
     int iIndex = TERRAIN_INDEX((Hero->PositionX), (Hero->PositionY));
 
+    // Frame-normalized ramp so the camera rise/settle on special-camera terrain
+    // takes the same wall-clock time at any refresh rate (CustomDistance is
+    // float, so the fractional per-frame step accumulates exactly).
+    extern float FPS_ANIMATION_FACTOR;
+    const float rampStep = 10.0f * FPS_ANIMATION_FACTOR;
+
     if ((TerrainWall[iIndex] & TW_CAMERA_UP) == TW_CAMERA_UP)
     {
         if (m_State.CustomDistance <= CUSTOM_CAMERA_DISTANCE1)
         {
-            m_State.CustomDistance += 10;
+            m_State.CustomDistance += rampStep;
         }
     }
     else
     {
         if (m_State.CustomDistance > 0)
         {
-            m_State.CustomDistance -= 10;
+            m_State.CustomDistance -= rampStep;
         }
     }
 }
@@ -772,9 +778,26 @@ void DefaultCamera::UpdateCameraDistance()
     // Disable distance smoothing for first 2 frames after activation to
     // prevent visible interpolation when switching from OrbitalCamera.
     if (m_FramesSinceActivation < 2)
+    {
         m_State.Distance = m_State.DistanceTarget;
+    }
     else
-        m_State.Distance += (m_State.DistanceTarget - m_State.Distance) / 3;
+    {
+        // Time-based exponential ease (frame-rate independent). The old fixed
+        // 1/3-per-frame factor converged in ~0.30s at 25fps but ~0.05s at
+        // 144fps, turning the zoom glide into a snap on high-refresh screens.
+        // Tau reproduces that 1/3 per-frame alpha exactly at the 25fps
+        // reference (exp(-dt/tau) = 2/3) and is independent of fps above it.
+        extern float FPS_ANIMATION_FACTOR;
+        constexpr float ZOOM_DISTANCE_TAU = 0.0986f;  // seconds; matches 1/3 @ 25fps
+        constexpr float ZOOM_SNAP_THRESHOLD = 0.5f;
+        const float dt = FPS_ANIMATION_FACTOR / 25.0f;  // REFERENCE_FPS = 25
+        const float delta = m_State.DistanceTarget - m_State.Distance;
+        if (fabsf(delta) < ZOOM_SNAP_THRESHOLD)
+            m_State.Distance = m_State.DistanceTarget;  // avoid endless micro-ease
+        else
+            m_State.Distance += delta * (1.0f - expf(-dt / ZOOM_DISTANCE_TAU));
+    }
 }
 
 void DefaultCamera::SetCameraFOV()

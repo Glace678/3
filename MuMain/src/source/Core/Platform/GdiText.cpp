@@ -28,6 +28,7 @@
 #include <unistd.h>                    // readlink (executable path)
 #include "Core/Platform/WinNls.h"      // WideCharToMultiByte / CP_UTF8
 #include "Core/Platform/BundledFonts.h" // curated font list shared with Windows
+#include "Core/Platform/PathResolve.h"
 
 namespace
 {
@@ -148,7 +149,15 @@ namespace
     {
         for (const auto& e : kBundledFonts)
             if (family == e.family)
+#if defined(__ANDROID__) || defined(__OHOS__)
+                // On mobile the process image (app_process / the ArkTS runtime)
+                // is not the game binary; the platform entry point changes cwd
+                // to the extracted data directory before WinMain starts, so
+                // resolve bundled fonts from there instead of /proc/self/exe.
+                return MuResolvePath(bold ? e.bold : e.regular);
+#else
                 return ExeDir() + (bold ? e.bold : e.regular);
+#endif
         return {};
     }
 

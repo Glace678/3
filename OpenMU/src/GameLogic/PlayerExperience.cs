@@ -151,34 +151,36 @@ internal sealed class PlayerExperience
     private async ValueTask AddMasterExperienceCoreAsync(int experience, IAttackable? killedObject)
     {
         var player = this._player;
-        if (player.Attributes![Stats.MasterLevel] >= player.GameContext.Configuration.MaximumMasterLevel)
-        {
-            await player.InvokeViewPlugInAsync<IAddExperiencePlugIn>(p => p.AddExperienceAsync(0, killedObject, ExperienceType.MaxMasterLevelReached)).ConfigureAwait(false);
-            return;
-        }
-
         if (killedObject is not null && killedObject.Attributes[Stats.Level] < player.GameContext.Configuration.MinimumMonsterLevelForMasterExperience)
         {
             await player.InvokeViewPlugInAsync<IAddExperiencePlugIn>(p => p.AddExperienceAsync(0, killedObject, ExperienceType.MonsterLevelTooLowForMasterExperience)).ConfigureAwait(false);
             return;
         }
 
-        long exp = experience;
-
-        bool lvlup = false;
-        var expTable = player.GameContext.MasterExperienceTable;
-        if (expTable[(int)player.Attributes[Stats.MasterLevel] + 1] - player.SelectedCharacter!.MasterExperience < exp)
+        long remainingExperience = experience;
+        while (remainingExperience > 0)
         {
-            exp = expTable[(int)player.Attributes[Stats.MasterLevel] + 1] - player.SelectedCharacter.MasterExperience;
-            lvlup = true;
-        }
+            if (player.Attributes![Stats.MasterLevel] >= player.GameContext.Configuration.MaximumMasterLevel)
+            {
+                await player.InvokeViewPlugInAsync<IAddExperiencePlugIn>(p => p.AddExperienceAsync(0, killedObject, ExperienceType.MaxMasterLevelReached)).ConfigureAwait(false);
+                return;
+            }
 
-        player.SelectedCharacter.MasterExperience += exp;
+            var expTable = player.GameContext.MasterExperienceTable;
+            var expForNextLevel = expTable[(int)player.Attributes[Stats.MasterLevel] + 1];
+            var requiredExperience = expForNextLevel - player.SelectedCharacter!.MasterExperience;
+            var gainedExperience = Math.Min(remainingExperience, requiredExperience);
+            var isLevelUp = requiredExperience <= remainingExperience;
 
-        await player.InvokeViewPlugInAsync<IAddExperiencePlugIn>(p => p.AddExperienceAsync((int)exp, killedObject, ExperienceType.Master)).ConfigureAwait(false);
+            player.SelectedCharacter.MasterExperience += gainedExperience;
+            await player.InvokeViewPlugInAsync<IAddExperiencePlugIn>(
+                p => p.AddExperienceAsync((int)gainedExperience, killedObject, ExperienceType.Master)).ConfigureAwait(false);
 
-        if (lvlup)
-        {
+            if (!isLevelUp)
+            {
+                return;
+            }
+
             player.Attributes[Stats.MasterLevel]++;
             player.SelectedCharacter.MasterLevelUpPoints += (int)player.Attributes[Stats.MasterPointsPerLevelUp];
             player.SetReclaimableAttributesToMaximum();
@@ -191,6 +193,14 @@ internal sealed class PlayerExperience
 
             await player.InvokeViewPlugInAsync<IUpdateLevelPlugIn>(p => p.UpdateMasterLevelAsync()).ConfigureAwait(false);
             await player.ForEachWorldObserverAsync<IShowEffectPlugIn>(p => p.ShowEffectAsync(player, IShowEffectPlugIn.EffectType.LevelUp), true).ConfigureAwait(false);
+
+            remainingExperience -= gainedExperience;
+            if (remainingExperience <= 0
+                || player.Attributes[Stats.MasterLevel] >= player.GameContext.Configuration.MaximumMasterLevel
+                || player.GameContext.Configuration.PreventExperienceOverflow)
+            {
+                return;
+            }
         }
     }
 
@@ -210,7 +220,7 @@ internal sealed class PlayerExperience
             bool isLevelUp = false;
             var expTable = player.GameContext.ExperienceTable;
             var expForNextLevel = expTable[(int)player.Attributes[Stats.Level] + 1];
-            if (expForNextLevel - player.SelectedCharacter!.Experience < gainedExperience)
+            if (expForNextLevel - player.SelectedCharacter!.Experience <= gainedExperience)
             {
                 gainedExperience = expForNextLevel - player.SelectedCharacter.Experience;
                 isLevelUp = true;

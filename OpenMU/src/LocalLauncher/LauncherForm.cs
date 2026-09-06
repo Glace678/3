@@ -19,6 +19,14 @@ public sealed class LauncherForm : Form
     private readonly Button _restore = new() { Text = "还原", AutoSize = true };
     private readonly CheckBox _startWithWindows = new() { Text = "随 Windows 登录启动", AutoSize = true };
     private readonly CheckBox _startGameWhenReady = new() { Text = "服务器就绪后自动进入游戏", AutoSize = true };
+    private readonly CheckBox _mobileAccess = new() { Text = "允许同一局域网手机访问", AutoSize = true };
+    private readonly ComboBox _gameplayProfile = new() { DropDownStyle = ComboBoxStyle.DropDownList, Width = 210 };
+    private readonly Label _networkDescription = new()
+    {
+        AutoSize = true,
+        ForeColor = SystemColors.GrayText,
+        Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
+    };
     private readonly NotifyIcon _trayIcon;
     private readonly System.Windows.Forms.Timer _healthTimer = new() { Interval = 5000 };
     private readonly bool _startInBackground;
@@ -35,11 +43,12 @@ public sealed class LauncherForm : Form
         this._startInBackground = startInBackground;
         this.Text = "OpenMU 本地版";
         this.StartPosition = FormStartPosition.CenterScreen;
-        this.MinimumSize = new Size(620, 260);
-        this.Size = new Size(680, 300);
+        this.MinimumSize = new Size(640, 300);
+        this.Size = new Size(720, 340);
 
-        var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4, Padding = new Padding(16) };
+        var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 5, Padding = new Padding(16) };
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 48));
+        root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -53,16 +62,28 @@ public sealed class LauncherForm : Form
         var secondary = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true };
         var logs = new Button { Text = "日志", AutoSize = true };
         var data = new Button { Text = "数据目录", AutoSize = true };
-        secondary.Controls.AddRange(new Control[] { logs, data, this._startWithWindows, this._startGameWhenReady });
+        secondary.Controls.AddRange(new Control[] { logs, data, this._startWithWindows, this._startGameWhenReady, this._mobileAccess });
         root.Controls.Add(secondary, 0, 2);
-        var backgroundDescription = new Label
+        var profile = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true };
+        profile.Controls.Add(new Label { Text = "数值规则", AutoSize = true, Margin = new Padding(3, 7, 6, 0) });
+        this._gameplayProfile.Items.AddRange(new object[]
         {
-            Text = "关闭窗口后仍会在通知区域运行。游戏、后台和数据库仅监听 127.0.0.1。",
-            AutoSize = true,
-            ForeColor = SystemColors.GrayText,
-            Anchor = AnchorStyles.Left | AnchorStyles.Bottom,
+            "手机版平衡（标准）",
+            "手机版平衡（轻松）",
+            "手机版平衡（旅程）",
+            "原本地单机规则",
+        });
+        this._gameplayProfile.SelectedIndex = manager.Settings.GameplayProfile switch
+        {
+            "balance-v1-standard" => 0,
+            "balance-v1-relaxed" => 1,
+            "balance-v1-journey" => 2,
+            _ => 3,
         };
-        root.Controls.Add(backgroundDescription, 0, 3);
+        profile.Controls.Add(this._gameplayProfile);
+        profile.Controls.Add(new Label { Text = "更改后重启服务；已有数据库不会自动转换。", AutoSize = true, ForeColor = SystemColors.GrayText, Margin = new Padding(8, 7, 3, 0) });
+        root.Controls.Add(profile, 0, 3);
+        root.Controls.Add(this._networkDescription, 0, 4);
         this.Controls.Add(root);
 
         this._start.Click += this.OnStartClicked;
@@ -75,8 +96,12 @@ public sealed class LauncherForm : Form
         data.Click += (_, _) => this.RunSynchronous(this._manager.OpenDataDirectory);
         this._startWithWindows.CheckedChanged += this.OnStartWithWindowsChanged;
         this._startGameWhenReady.CheckedChanged += this.OnStartGameWhenReadyChanged;
+        this._mobileAccess.CheckedChanged += this.OnMobileAccessChanged;
+        this._gameplayProfile.SelectedIndexChanged += this.OnGameplayProfileChanged;
         this._startWithWindows.Checked = manager.Settings.StartWithWindows;
         this._startGameWhenReady.Checked = manager.Settings.StartGameWhenReady;
+        this._mobileAccess.Checked = manager.Settings.MobileAccessEnabled;
+        this.UpdateNetworkDescription();
 
         var trayMenu = new ContextMenuStrip();
         trayMenu.Items.Add("显示", null, (_, _) => this.ShowFromTray());
@@ -124,6 +149,43 @@ public sealed class LauncherForm : Form
 
     private void OnHealthTimerTick(object? sender, EventArgs e)
         => _ = this._manager.CheckHealthAsync(CancellationToken.None);
+
+    private void OnMobileAccessChanged(object? sender, EventArgs e)
+    {
+        this._manager.Settings.MobileAccessEnabled = this._mobileAccess.Checked;
+        this._manager.SaveSettings();
+        this.UpdateNetworkDescription();
+    }
+
+    private void OnGameplayProfileChanged(object? sender, EventArgs e)
+    {
+        this._manager.Settings.GameplayProfile = this._gameplayProfile.SelectedIndex switch
+        {
+            0 => "balance-v1-standard",
+            1 => "balance-v1-relaxed",
+            2 => "balance-v1-journey",
+            _ => "solo",
+        };
+        this._manager.SaveSettings();
+    }
+
+    private void UpdateNetworkDescription()
+    {
+        if (!this._manager.Settings.MobileAccessEnabled)
+        {
+            this._networkDescription.Text = "关闭窗口后仍会在通知区域运行。游戏、后台和数据库仅监听 127.0.0.1。";
+            return;
+        }
+
+        try
+        {
+            this._networkDescription.Text = $"手机地址：{this._manager.MobileAccessAddress}。游戏和后台对局域网开放，数据库仍仅监听 127.0.0.1；更改后需重启服务。";
+        }
+        catch (InvalidOperationException error)
+        {
+            this._networkDescription.Text = error.Message;
+        }
+    }
 
     private void OnShown(object? sender, EventArgs e)
     {

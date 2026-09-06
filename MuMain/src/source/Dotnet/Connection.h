@@ -30,6 +30,8 @@
 inline constexpr char MUniqueClientLibraryFileName[] = "MUnique.Client.Library.dll";
 #elif defined(__APPLE__)
 inline constexpr char MUniqueClientLibraryFileName[] = "MUnique.Client.Library.dylib";
+#elif defined(__ANDROID__) || defined(__OHOS__)
+inline constexpr char MUniqueClientLibraryFileName[] = "libMUnique.Client.Library.so";
 #else
 inline constexpr char MUniqueClientLibraryFileName[] = "MUnique.Client.Library.so";
 #endif

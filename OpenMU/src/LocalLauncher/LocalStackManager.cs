@@ -67,6 +67,9 @@ public sealed class LocalStackManager : IDisposable
     /// <summary>Gets the current non-secret settings.</summary>
     public LocalStackSettings Settings { get; }
 
+    /// <summary>Gets the address which the game server advertises to trusted-LAN mobile clients.</summary>
+    public string MobileAccessAddress => OpenMuServerManager.ResolveAdvertisedAddress(this.Settings);
+
     /// <summary>Gets the current stack status.</summary>
     public LocalStackStatus Status { get; private set; }
 
@@ -346,7 +349,11 @@ public sealed class LocalStackManager : IDisposable
                 $"/p{this.Settings.ConnectServerPort.ToString(System.Globalization.CultureInfo.InvariantCulture)}",
             },
             this._paths.GameDirectory,
-            CreateGameEnvironment(configurationFile, this.Settings.AutomaticGameLogin, gameLogin));
+            CreateGameEnvironment(
+                configurationFile,
+                this.Settings.AutomaticGameLogin,
+                gameLogin,
+                this.Settings.GameplayProfile == "solo"));
         await this.SetStatusAsync(LocalStackState.Running, null, cancellationToken).ConfigureAwait(false);
     }
 
@@ -371,10 +378,13 @@ public sealed class LocalStackManager : IDisposable
 
     /// <summary>Enables automatic login only for the locally launched game process.</summary>
     internal static IReadOnlyDictionary<string, string?> CreateGameEnvironment(
-        string configurationFile, bool automaticLogin, LocalGameLogin? gameLogin = null)
+        string configurationFile,
+        bool automaticLogin,
+        LocalGameLogin? gameLogin = null,
+        bool soloBalanceEnabled = true)
         => new Dictionary<string, string?>
         {
-            ["MU_SOLO_BALANCE"] = "1",
+            ["MU_SOLO_BALANCE"] = soloBalanceEnabled ? "1" : null,
             ["MU_CONFIG_FILE"] = configurationFile,
             ["MU_LOCAL_AUTO_LOGIN"] = automaticLogin ? "1" : "0",
             ["MU_LOCAL_GAME_USERNAME"] = automaticLogin ? gameLogin?.Username : null,

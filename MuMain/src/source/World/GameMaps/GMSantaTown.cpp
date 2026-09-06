@@ -200,7 +200,10 @@ bool CGMSantaTown::CreateSnow(PARTICLE* o)
 
     o->Type = BITMAP_LEAF1;
     o->Scale = (float)(rand() % 10 + 5);
-    if (rand_fps_check(10))
+    // One-shot per-spawn trait (flake size for the particle's whole life): keep a
+    // constant 10% at every refresh rate. rand_fps_check would shrink the large-flake
+    // fraction as fps rises; the spawn rate itself is already fps-normalized.
+    if (rand() % 10 == 0)
     {
         o->Type = BITMAP_LEAF2;
         o->Scale = 12.f;

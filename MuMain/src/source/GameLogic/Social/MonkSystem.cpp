@@ -713,8 +713,11 @@ void CMonkSystem::DarksideRendering(CHARACTER* pCha, PART_t* pPart, bool Transla
         int _TargetIndex = GetDarksideTargetIndex(m_nDarksideEffectAttCnt);
 
         m_fOtherAniFrame = (float)(pCha->AttackTime + 1) * 0.1f * 2.0f;
-        m_fDistanceFrame += 1.0f;
-        m_fDistanceNextFrame = m_fDistanceFrame + 1.0f;
+        // Frame-normalized lunge counter so the Darkside dash reaches/strikes the
+        // target on the same wall-clock timing at any refresh rate. NextFrame uses
+        // one identical normalized step so the crossing test still fires exactly once.
+        m_fDistanceFrame += 1.0f * FPS_ANIMATION_FACTOR;
+        m_fDistanceNextFrame = m_fDistanceFrame + 1.0f * FPS_ANIMATION_FACTOR;
         if (m_fOtherAniFrame >= 2)
         {
             m_fOtherAniFrame = 1.9f;
@@ -1478,8 +1481,11 @@ float CDummyUnit::GetAlpha()
 
 void CDummyUnit::CalDummyPosition(vec3_t vOutPos, float& fAni, bool bChange)
 {
-    m_fDisFrame += 0.7f;
-    m_fAniFrame += 0.05f;
+    // Frame-normalized afterimage travel/animation advance so the Darkside dash
+    // lasts the same wall-clock time at any refresh rate (the alpha fade/blur in
+    // this class already scale by FPS_ANIMATION_FACTOR; these two were missed).
+    m_fDisFrame += 0.7f * FPS_ANIMATION_FACTOR;
+    m_fAniFrame += 0.05f * FPS_ANIMATION_FACTOR;
     if (m_fAniFrame >= 2.0f)
     {
         m_fAniFrame = 1.9f;

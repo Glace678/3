@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "PassthroughShader.h"
+#include "ShaderLanguage.h"
 #include "Render/Core/RenderConfig.h"
 #include "Render/Core/BindState.h"
+#include "Render/Core/GLProcAddress.h"
 #include "Render/Core/ImmediateRenderer.h" // GLP-19 -- IR::Flush() on real state change
 #include "Core/Utilities/FrameProfiler.h"
 #include "Core/Utilities/Log/ErrorReport.h"
@@ -58,24 +60,24 @@ static bool LoadGLShaderFunctions()
     static bool loaded = false;
     if (loaded) return true;
 
-    fn_glCreateShader       = (PFNGLCREATESHADERPROC)SDL_GL_GetProcAddress("glCreateShader");
-    fn_glShaderSource        = (PFNGLSHADERSOURCEPROC)SDL_GL_GetProcAddress("glShaderSource");
-    fn_glCompileShader       = (PFNGLCOMPILESHADERPROC)SDL_GL_GetProcAddress("glCompileShader");
-    fn_glGetShaderiv         = (PFNGLGETSHADERIVPROC)SDL_GL_GetProcAddress("glGetShaderiv");
-    fn_glGetShaderInfoLog    = (PFNGLGETSHADERINFOLOGPROC)SDL_GL_GetProcAddress("glGetShaderInfoLog");
-    fn_glCreateProgram       = (PFNGLCREATEPROGRAMPROC)SDL_GL_GetProcAddress("glCreateProgram");
-    fn_glAttachShader        = (PFNGLATTACHSHADERPROC)SDL_GL_GetProcAddress("glAttachShader");
-    fn_glLinkProgram         = (PFNGLLINKPROGRAMPROC)SDL_GL_GetProcAddress("glLinkProgram");
-    fn_glGetProgramiv        = (PFNGLGETPROGRAMIVPROC)SDL_GL_GetProcAddress("glGetProgramiv");
-    fn_glGetProgramInfoLog   = (PFNGLGETPROGRAMINFOLOGPROC)SDL_GL_GetProcAddress("glGetProgramInfoLog");
-    fn_glDeleteShader        = (PFNGLDELETESHADERPROC)SDL_GL_GetProcAddress("glDeleteShader");
-    fn_glDeleteProgram       = (PFNGLDELETEPROGRAMPROC)SDL_GL_GetProcAddress("glDeleteProgram");
-    fn_glGetUniformLocation  = (PFNGLGETUNIFORMLOCATIONPROC)SDL_GL_GetProcAddress("glGetUniformLocation");
-    fn_glGetUniformBlockIndex = (PFNGLGETUNIFORMBLOCKINDEXPROC)SDL_GL_GetProcAddress("glGetUniformBlockIndex");
-    fn_glUniformBlockBinding = (PFNGLUNIFORMBLOCKBINDINGPROC)SDL_GL_GetProcAddress("glUniformBlockBinding");
-    fn_glUniform1i           = (PFNGLUNIFORM1IPROC)SDL_GL_GetProcAddress("glUniform1i");
-    fn_glUniform1f           = (PFNGLUNIFORM1FPROC)SDL_GL_GetProcAddress("glUniform1f");
-    fn_glActiveTexture       = (PFNGLACTIVETEXTUREPROC)SDL_GL_GetProcAddress("glActiveTexture");
+    fn_glCreateShader       = (PFNGLCREATESHADERPROC)MuGL::GetProcAddress("glCreateShader");
+    fn_glShaderSource        = (PFNGLSHADERSOURCEPROC)MuGL::GetProcAddress("glShaderSource");
+    fn_glCompileShader       = (PFNGLCOMPILESHADERPROC)MuGL::GetProcAddress("glCompileShader");
+    fn_glGetShaderiv         = (PFNGLGETSHADERIVPROC)MuGL::GetProcAddress("glGetShaderiv");
+    fn_glGetShaderInfoLog    = (PFNGLGETSHADERINFOLOGPROC)MuGL::GetProcAddress("glGetShaderInfoLog");
+    fn_glCreateProgram       = (PFNGLCREATEPROGRAMPROC)MuGL::GetProcAddress("glCreateProgram");
+    fn_glAttachShader        = (PFNGLATTACHSHADERPROC)MuGL::GetProcAddress("glAttachShader");
+    fn_glLinkProgram         = (PFNGLLINKPROGRAMPROC)MuGL::GetProcAddress("glLinkProgram");
+    fn_glGetProgramiv        = (PFNGLGETPROGRAMIVPROC)MuGL::GetProcAddress("glGetProgramiv");
+    fn_glGetProgramInfoLog   = (PFNGLGETPROGRAMINFOLOGPROC)MuGL::GetProcAddress("glGetProgramInfoLog");
+    fn_glDeleteShader        = (PFNGLDELETESHADERPROC)MuGL::GetProcAddress("glDeleteShader");
+    fn_glDeleteProgram       = (PFNGLDELETEPROGRAMPROC)MuGL::GetProcAddress("glDeleteProgram");
+    fn_glGetUniformLocation  = (PFNGLGETUNIFORMLOCATIONPROC)MuGL::GetProcAddress("glGetUniformLocation");
+    fn_glGetUniformBlockIndex = (PFNGLGETUNIFORMBLOCKINDEXPROC)MuGL::GetNativeProcAddress("glGetUniformBlockIndex");
+    fn_glUniformBlockBinding = (PFNGLUNIFORMBLOCKBINDINGPROC)MuGL::GetNativeProcAddress("glUniformBlockBinding");
+    fn_glUniform1i           = (PFNGLUNIFORM1IPROC)MuGL::GetProcAddress("glUniform1i");
+    fn_glUniform1f           = (PFNGLUNIFORM1FPROC)MuGL::GetProcAddress("glUniform1f");
+    fn_glActiveTexture       = (PFNGLACTIVETEXTUREPROC)MuGL::GetProcAddress("glActiveTexture");
 
     loaded = (fn_glCreateShader != nullptr &&
               fn_glShaderSource != nullptr &&
@@ -93,8 +95,7 @@ static bool LoadGLShaderFunctions()
     return loaded;
 }
 
-static const char* g_szPassthroughVert = R"(
-#version 330 core
+static const char* g_szPassthroughVert = MU_GLSL_SOURCE_PREFIX R"(
 
 layout(std140) uniform GlobalMatrices {
     mat4 u_View;
@@ -118,8 +119,7 @@ void main() {
 }
 )";
 
-static const char* g_szPassthroughFrag = R"(
-#version 330 core
+static const char* g_szPassthroughFrag = MU_GLSL_SOURCE_PREFIX R"(
 
 uniform sampler2D u_Tex;
 uniform int u_UseTexture;

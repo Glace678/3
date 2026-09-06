@@ -729,9 +729,15 @@ void CSPetDarkSpirit::AttackEffect(CHARACTER* c, OBJECT* o)
     case PET_ATTACK:
         if (c->AttackTime >= 0 && c->AttackTime <= 2 && m_PetTarget != NULL)
         {
-            for (int i = 0; i < 10; i++)
+            // This ~2-reference-frame lunge window fires 10 light joints every RENDERED
+            // frame; gate the burst so its density over real time stays constant
+            // (rand_fps_check(1) always passes at <=25fps -> reference behavior unchanged).
+            if (rand_fps_check(1))
             {
-                CreateJoint(BITMAP_LIGHT, o->Position, o->Position, o->Angle, 1, NULL, (Random::RangeFloat(0, 39) + 20.f));
+                for (int i = 0; i < 10; i++)
+                {
+                    CreateJoint(BITMAP_LIGHT, o->Position, o->Position, o->Angle, 1, NULL, (Random::RangeFloat(0, 39) + 20.f));
+                }
             }
 
             if (c->CheckAttackTime(1))

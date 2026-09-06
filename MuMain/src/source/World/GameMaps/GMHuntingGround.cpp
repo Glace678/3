@@ -970,7 +970,10 @@ bool M31HuntingGround::CreateMist(PARTICLE* pParticleObj)
             VectorRotate(Velocity, Matrix, Direction);
             VectorAddScaled(TargetPosition, Direction, TargetPosition, FPS_ANIMATION_FACTOR);
         }
-        if (Hero->Movement || (rand_fps_check(2))) {
+        // Outer spawn gate already normalizes emit rate to wall-clock; the idle
+        // emit decision is a one-shot coin flip and must not re-apply the frame
+        // factor (idle mist otherwise thins out on high-refresh screens).
+        if (Hero->Movement || (rand() % 2 == 0)) {
             TargetPosition[2] = (rand() % 20) + RequestTerrainHeight(TargetPosition[0], TargetPosition[1]);
             CreateParticle(BITMAP_CLOUD, TargetPosition, TargetAngle, Light, 8, 0.4f);
         }

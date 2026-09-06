@@ -4,6 +4,8 @@
 #include "Core/Platform/WinCompat.h"
 #include "Core/Platform/WinIni.h"
 #include <cwchar>
+#include <filesystem>
+#include <SDL3/SDL_stdinc.h>
 
 bool g_CoreProfile = false;
 
@@ -27,10 +29,10 @@ bool g_SortParticleDraws = false;
 
 void InitRenderConfig()
 {
-    wchar_t configPath[MAX_PATH];
-    GetModuleFileNameW(nullptr, configPath, MAX_PATH);
-    wchar_t* lastBackslash = wcsrchr(configPath, L'\\');
-    wchar_t* lastForwardSlash = wcsrchr(configPath, L'/');
+    wchar_t executablePath[MAX_PATH];
+    GetModuleFileNameW(nullptr, executablePath, MAX_PATH);
+    wchar_t* lastBackslash = wcsrchr(executablePath, L'\\');
+    wchar_t* lastForwardSlash = wcsrchr(executablePath, L'/');
     wchar_t* lastSlash = nullptr;
     if (lastBackslash && lastForwardSlash)
         lastSlash = (lastBackslash > lastForwardSlash) ? lastBackslash : lastForwardSlash;
@@ -42,15 +44,27 @@ void InitRenderConfig()
         *(lastSlash + 1) = L'\0';
     }
 
-    wcscat_s(configPath, MAX_PATH, L"config.ini");
+    std::filesystem::path configPath = executablePath;
+    configPath += L"config.ini";
+    if (const char* overridePath = SDL_getenv("MU_CONFIG_FILE"))
+    {
+        const auto candidate = std::filesystem::u8path(overridePath);
+        if (candidate.is_absolute())
+            configPath = candidate;
+    }
+    const std::wstring configPathWide = configPath.wstring();
 
-    int coreProfile = GetPrivateProfileIntW(CfgSections::CfgSectionRender, CfgKeys::CfgKeyCoreProfile, CfgDefaults::CfgDefaultCoreProfile ? 1 : 0, configPath);
+    int coreProfile = GetPrivateProfileIntW(CfgSections::CfgSectionRender, CfgKeys::CfgKeyCoreProfile, CfgDefaults::CfgDefaultCoreProfile ? 1 : 0, configPathWide.c_str());
     g_CoreProfile = (coreProfile != 0);
+#if defined(__ANDROID__) || defined(__OHOS__)
+    // Mobile GPUs expose OpenGL ES through gl4es, never a desktop core profile.
+    g_CoreProfile = false;
+#endif
 
     // GLP-08: "major.minor" (e.g. "4.3"), or empty/unparseable = no cap.
     wchar_t maxGLVersion[16] = {};
     GetPrivateProfileStringW(CfgSections::CfgSectionRender, CfgKeys::CfgKeyMaxGLVersion,
-        CfgDefaults::CfgDefaultMaxGLVersion, maxGLVersion, (DWORD)(sizeof(maxGLVersion) / sizeof(maxGLVersion[0])), configPath);
+        CfgDefaults::CfgDefaultMaxGLVersion, maxGLVersion, (DWORD)(sizeof(maxGLVersion) / sizeof(maxGLVersion[0])), configPathWide.c_str());
     int maxMajor = 0, maxMinor = 0;
     if (swscanf(maxGLVersion, L"%d.%d", &maxMajor, &maxMinor) == 2 && maxMajor > 0)
     {
@@ -59,7 +73,7 @@ void InitRenderConfig()
     }
 
     int sortParticleDraws = GetPrivateProfileIntW(CfgSections::CfgSectionRender, CfgKeys::CfgKeySortParticleDraws,
-        CfgDefaults::CfgDefaultSortParticleDraws ? 1 : 0, configPath);
+        CfgDefaults::CfgDefaultSortParticleDraws ? 1 : 0, configPathWide.c_str());
     g_SortParticleDraws = (sortParticleDraws != 0);
 }
 

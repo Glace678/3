@@ -695,6 +695,7 @@ protected:
     BOOL m_bNewMailAlert;
     int m_iBlinkTemp;
     int m_iLetterBlink;
+    float m_fBlinkAccum;   // reference-frame accumulator driving m_iBlinkTemp (fps-independent blink)
     BOOL m_bHotKey;
     std::deque<wchar_t*> m_RequestChatWindowList;
     std::deque<wchar_t*>::iterator m_RequestChatWindowListIter;

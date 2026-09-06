@@ -776,9 +776,12 @@ void CCameraMove::UpdateTourWayPoint()
                 m_fTargetTourCameraAngle = CreateAngle(0, 0, tourDir.x, -tourDir.y);
             }
 
+            // Scale the heading ease by the same per-frame time factor as the
+            // position advance (speedFactor) so the login flythrough pans around
+            // waypoint corners in sync with its travel at any refresh rate.
             const float angleDelta = SignedAngleDelta(m_fTourCameraAngle, m_fTargetTourCameraAngle);
-            float rotationStep = std::abs(angleDelta) / 30.0f;
-            rotationStep = Clamp(rotationStep, 0.0f, kTourMaxRotateSpeed);
+            float rotationStep = std::abs(angleDelta) / 30.0f * speedFactor;
+            rotationStep = Clamp(rotationStep, 0.0f, kTourMaxRotateSpeed * speedFactor);
             if (std::abs(angleDelta) <= rotationStep)
             {
                 m_fTourCameraAngle = NormalizeAngleDegrees(m_fTargetTourCameraAngle);

@@ -6,12 +6,14 @@ mu_add_test(
         GamepadMapperTests.cpp
         HapticsTests.cpp
         LocalAutoLoginTests.cpp
+        MobileGestureMapperTests.cpp
         SdlGamepadBackendTests.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Time/FrameClock.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/FocusNavigator.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/GamepadMapper.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/GamepadBindings.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/GamepadService.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Core/Input/MobileGestureMapper.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Input/SdlGamepadBackend.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Haptics/Haptics.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Network/Login/LocalAutoLogin.cpp

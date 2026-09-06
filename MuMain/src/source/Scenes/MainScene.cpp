@@ -196,7 +196,10 @@ static void InitializeMainScene()
  */
 static void InitializeSceneFrame()
 {
-    EarthQuake *= 0.2f;
+    // Frame-rate-independent shake envelope: decay the same fraction per
+    // *reference* frame (~25/s) so the shake lasts a constant wall-clock time
+    // instead of collapsing to a single hitch on high-refresh displays.
+    EarthQuake *= powf(0.2f, FPS_ANIMATION_FACTOR);
     InitTerrainLight();
 
     CheckInventory = NULL;

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MUnique.OpenMU.DataModel.Entities;
+using MUnique.OpenMU.Web.AdminPanel.API;
 using MUnique.OpenMU.Web.AdminPanel.Auth;
 using MUnique.OpenMU.Web.AdminPanel.Components;
 using MUnique.OpenMU.Web.AdminPanel.Services;
@@ -78,6 +79,7 @@ public class Startup
         services.AddScoped<IChangeNotificationService, ChangeNotificationService>();
         services.AddScoped<AdminUserManagementService>();
         services.AddAdminPanelAuth(this.Configuration);
+        services.AddSingleton<MobileGmService>();
     }
 
     /// <summary>
@@ -121,6 +123,7 @@ public class Startup
                 .AddInteractiveServerRenderMode();
             endpoints.MapControllers().RequireAuthorization();
             endpoints.MapAdminPanelAuthEndpoints();
+            endpoints.MapMobileGmEndpoints();
         });
     }
 }

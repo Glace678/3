@@ -2,6 +2,21 @@ cmake_minimum_required(VERSION 3.25)
 
 project(MuMain)
 
+# The HarmonyOS / OpenHarmony NDK toolchain sets CMAKE_SYSTEM_NAME=OHOS (and
+# CMAKE_OHOS_ARCH_ABI). Normalize it into an OHOS variable so the rest of the
+# build can mirror the Android mobile path (shared SDL, GLES via gl4es, a
+# libmain.so that the platform shell loads).
+if(CMAKE_SYSTEM_NAME STREQUAL "OHOS" OR CMAKE_SYSTEM_NAME STREQUAL "OpenHarmony")
+  set(OHOS ON)
+endif()
+# MU_MOBILE covers every touch/mobile target that shares the SDL shell, the
+# MobileGestureMapper input path and the OpenGL ES renderer.
+if(ANDROID OR OHOS)
+  set(MU_MOBILE ON)
+else()
+  set(MU_MOBILE OFF)
+endif()
+
 # Repository root (parent of this src/ directory). Defined here so all
 # sibling-directory references (cmake/, ClientLibrary/, etc.) have a
 # single, stable anchor instead of scattered "../" navigations.
@@ -18,13 +33,34 @@ mu_ensure_submodule("ThirdParty/SDL_mixer"
   INDICATOR "CMakeLists.txt"
   URL "https://github.com/libsdl-org/SDL_mixer.git")
 
-# SDL3 — static link, no tests, no install
-set(SDL_SHARED OFF CACHE BOOL "" FORCE)
-set(SDL_STATIC ON CACHE BOOL "" FORCE)
+# The platform shell loads libSDL3.so before libmain.so on Android and HarmonyOS.
+# Desktop builds keep the existing static-link model.
+if(MU_MOBILE)
+  set(SDL_SHARED ON CACHE BOOL "" FORCE)
+  set(SDL_STATIC OFF CACHE BOOL "" FORCE)
+else()
+  set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+  set(SDL_STATIC ON CACHE BOOL "" FORCE)
+endif()
 set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
 set(SDL_TESTS OFF CACHE BOOL "" FORCE)
 set(SDL_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(ThirdParty/SDL EXCLUDE_FROM_ALL)
+
+if(MU_MOBILE)
+  # CMake shortens the NDK compiler path on Windows. The resulting 8.3 name
+  # (CLANG_~1.EXE) no longer tells clang that it is acting as clang++, so its
+  # link step omits libc++ even though C++ sources compile normally. The same
+  # happens with the HarmonyOS NDK under a Windows-hosted DevEco, so link the
+  # shared C++ runtime into libSDL3.so on both mobile targets.
+  if(ANDROID OR OHOS)
+    target_link_libraries(SDL3-shared PRIVATE c++_shared)
+  endif()
+  # Android 15+ devices may use 16 KiB pages. Keep every shared object built
+  # by this project loadable there even when the toolchain cache option was
+  # omitted by a caller.
+  target_link_options(SDL3-shared PRIVATE "-Wl,-z,max-page-size=16384")
+endif()
 
 # SDL3_mixer — static link, MP3 + Ogg Vorbis only (matches our music assets)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
@@ -190,9 +226,80 @@ if(MSVC)
     APPEND PROPERTY COMPILE_OPTIONS /utf-8)
 endif()
 
-# The in-game shop downloader uses libcurl off Windows (issue #462); on Windows
-# it uses the OS WinINet/urlmon stack and needs no extra dependency here.
-if(NOT WIN32)
+# The Android NDK does not ship libcurl. APK builds may inject an arm64-v8a
+# prebuilt; leaving both values empty keeps configuration usable while making
+# the missing compile dependency explicit in the warning below.
+if(ANDROID)
+  set(MU_ANDROID_CURL_INCLUDE_DIR "" CACHE PATH
+      "Directory containing curl/curl.h for Android")
+  set(MU_ANDROID_CURL_LIBRARY "" CACHE FILEPATH
+      "Path to an Android arm64-v8a libcurl shared or static library")
+  if(MU_ANDROID_CURL_INCLUDE_DIR AND MU_ANDROID_CURL_LIBRARY)
+    if(NOT EXISTS "${MU_ANDROID_CURL_INCLUDE_DIR}/curl/curl.h")
+      message(FATAL_ERROR
+        "MU_ANDROID_CURL_INCLUDE_DIR does not contain curl/curl.h: "
+        "${MU_ANDROID_CURL_INCLUDE_DIR}")
+    endif()
+    if(NOT EXISTS "${MU_ANDROID_CURL_LIBRARY}")
+      message(FATAL_ERROR
+        "MU_ANDROID_CURL_LIBRARY does not exist: ${MU_ANDROID_CURL_LIBRARY}")
+    endif()
+    add_library(mu_android_curl UNKNOWN IMPORTED)
+    set_target_properties(mu_android_curl PROPERTIES
+      IMPORTED_LOCATION "${MU_ANDROID_CURL_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MU_ANDROID_CURL_INCLUDE_DIR}")
+    add_library(CURL::libcurl ALIAS mu_android_curl)
+  elseif(MU_ANDROID_CURL_INCLUDE_DIR OR MU_ANDROID_CURL_LIBRARY)
+    message(FATAL_ERROR
+      "Set both MU_ANDROID_CURL_INCLUDE_DIR and MU_ANDROID_CURL_LIBRARY")
+  else()
+    add_library(mu_android_curl_missing INTERFACE)
+    add_library(CURL::libcurl ALIAS mu_android_curl_missing)
+    message(WARNING
+      "Android libcurl is not configured. CMake generation can continue, but "
+      "MuClient compilation requires MU_ANDROID_CURL_INCLUDE_DIR and "
+      "MU_ANDROID_CURL_LIBRARY.")
+  endif()
+  target_link_libraries(MuClient PUBLIC CURL::libcurl)
+elseif(OHOS)
+  # HarmonyOS / OpenHarmony. The OHOS NDK ships no libcurl and no FindCURL
+  # package config, so find_package(CURL) here would abort configure. Mirror
+  # the Android path: an OHOS-built libcurl may be injected via these cache
+  # variables; otherwise generation proceeds with a warning. The only consumer
+  # is the in-game shop catalog/FTP downloader (CurlFileDownloader.cpp, which
+  # replaces the WinINet stack off Windows), exactly as on Android.
+  set(MU_OHOS_CURL_INCLUDE_DIR "" CACHE PATH
+      "Directory containing curl/curl.h for OpenHarmony")
+  set(MU_OHOS_CURL_LIBRARY "" CACHE FILEPATH
+      "Path to an OpenHarmony arm64 libcurl shared or static library")
+  if(MU_OHOS_CURL_INCLUDE_DIR AND MU_OHOS_CURL_LIBRARY)
+    if(NOT EXISTS "${MU_OHOS_CURL_INCLUDE_DIR}/curl/curl.h")
+      message(FATAL_ERROR
+        "MU_OHOS_CURL_INCLUDE_DIR does not contain curl/curl.h: "
+        "${MU_OHOS_CURL_INCLUDE_DIR}")
+    endif()
+    if(NOT EXISTS "${MU_OHOS_CURL_LIBRARY}")
+      message(FATAL_ERROR
+        "MU_OHOS_CURL_LIBRARY does not exist: ${MU_OHOS_CURL_LIBRARY}")
+    endif()
+    add_library(mu_ohos_curl UNKNOWN IMPORTED)
+    set_target_properties(mu_ohos_curl PROPERTIES
+      IMPORTED_LOCATION "${MU_OHOS_CURL_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MU_OHOS_CURL_INCLUDE_DIR}")
+    add_library(CURL::libcurl ALIAS mu_ohos_curl)
+  elseif(MU_OHOS_CURL_INCLUDE_DIR OR MU_OHOS_CURL_LIBRARY)
+    message(FATAL_ERROR
+      "Set both MU_OHOS_CURL_INCLUDE_DIR and MU_OHOS_CURL_LIBRARY")
+  else()
+    add_library(mu_ohos_curl_missing INTERFACE)
+    add_library(CURL::libcurl ALIAS mu_ohos_curl_missing)
+    message(WARNING
+      "HarmonyOS libcurl is not configured. CMake generation can continue, but "
+      "the in-game shop catalog/FTP downloader (CurlFileDownloader) needs "
+      "MU_OHOS_CURL_INCLUDE_DIR and MU_OHOS_CURL_LIBRARY to link and run.")
+  endif()
+  target_link_libraries(MuClient PUBLIC CURL::libcurl)
+elseif(NOT WIN32)
   find_package(CURL REQUIRED)
   target_link_libraries(MuClient PUBLIC CURL::libcurl)
 endif()
@@ -233,10 +340,16 @@ elseif (APPLE)
     "source/App/Platform/macOS/main.mm"
     "source/App/Platform/Windows/Winmain.cpp")
 elseif (ANDROID)
-  message(FATAL_ERROR "Android is not a supported build target yet: it needs "
-    "an OpenGL ES renderer port, and its entry point is android_main via "
-    "native_app_glue built as a shared library, not an executable. When that "
-    "work starts, add source/App/Platform/Android/ and replace this branch.")
+  set(MU_APP_ENTRY
+    "source/App/Platform/Android/main.cpp"
+    "source/App/Platform/Windows/Winmain.cpp")
+elseif (OHOS)
+  # HarmonyOS / OpenHarmony. The SDL OpenHarmony backend loads libmain.so like
+  # Android; touch, gestures, GLES-via-gl4es and auto-login are shared behind
+  # `#if defined(__ANDROID__) || defined(__OHOS__)`.
+  set(MU_APP_ENTRY
+    "source/App/Platform/HarmonyOS/main.cpp"
+    "source/App/Platform/Windows/Winmain.cpp")
 elseif (UNIX)
   # Linux entry (main.cpp) plus the shared bootstrap/game-loop from Winmain.cpp,
   # which now compiles off Windows (issue #462). main() calls into it.
@@ -249,9 +362,21 @@ else()
     "and a branch above.")
 endif()
 
-add_executable(Main
-  "${CMAKE_CURRENT_SOURCE_DIR}/${MU_APP_ENTRY}"
-)
+if(ANDROID OR OHOS)
+  add_library(Main SHARED
+    "${CMAKE_CURRENT_SOURCE_DIR}/${MU_APP_ENTRY}"
+  )
+  set_target_properties(Main PROPERTIES OUTPUT_NAME main)
+  target_link_options(Main PRIVATE "-Wl,-z,max-page-size=16384")
+  if(OHOS)
+    target_compile_definitions(MuClient PUBLIC __OHOS__=1)
+    target_compile_definitions(Main PUBLIC __OHOS__=1)
+  endif()
+else()
+  add_executable(Main
+    "${CMAKE_CURRENT_SOURCE_DIR}/${MU_APP_ENTRY}"
+  )
+endif()
 target_compile_features(Main PUBLIC cxx_std_20)
 target_link_libraries(Main PRIVATE MuClient::MuClient)
 
@@ -381,7 +506,161 @@ endif()
 # Skeleton Linux-native linkage. This intentionally depends only on
 # ubiquitous system libraries so we can focus on getting the project to
 # compile; more platform-specific adjustments will follow as we iterate.
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+if(ANDROID)
+  set(MU_GL4ES_ROOT "" CACHE PATH
+      "Path to a gl4es source checkout containing CMakeLists.txt and include/GL")
+  set(MU_ANDROID_GL4ES_INCLUDE_DIR "" CACHE PATH
+      "Directory containing the gl4es GL compatibility headers")
+  set(MU_ANDROID_GL4ES_LIBRARY "" CACHE FILEPATH
+      "Path to an Android arm64-v8a libGL.so built by gl4es")
+  set(MU_ANDROID_TURBOJPEG_LIBRARY "" CACHE FILEPATH
+      "Path to an Android arm64-v8a turbojpeg library")
+
+  target_link_libraries(MuClient PUBLIC
+    android
+    log
+    EGL
+    c++_shared
+  )
+
+  if(MU_GL4ES_ROOT)
+    if(MU_ANDROID_GL4ES_INCLUDE_DIR OR MU_ANDROID_GL4ES_LIBRARY)
+      message(FATAL_ERROR
+        "MU_GL4ES_ROOT cannot be combined with MU_ANDROID_GL4ES_INCLUDE_DIR "
+        "or MU_ANDROID_GL4ES_LIBRARY")
+    endif()
+    if(NOT EXISTS "${MU_GL4ES_ROOT}/CMakeLists.txt"
+        OR NOT EXISTS "${MU_GL4ES_ROOT}/include/GL/gl.h"
+        OR NOT EXISTS "${MU_GL4ES_ROOT}/include/GL/glu.h")
+      message(FATAL_ERROR
+        "MU_GL4ES_ROOT is not a gl4es source checkout with GL/GLU headers: "
+        "${MU_GL4ES_ROOT}")
+    endif()
+
+    set(STATICLIB OFF CACHE BOOL "" FORCE)
+    set(NOX11 ON CACHE BOOL "" FORCE)
+    set(NO_GBM ON CACHE BOOL "" FORCE)
+    set(USE_ANDROID_LOG ON CACHE BOOL "" FORCE)
+    add_subdirectory("${MU_GL4ES_ROOT}"
+      "${CMAKE_CURRENT_BINARY_DIR}/ThirdParty/gl4es" EXCLUDE_FROM_ALL)
+    if(NOT TARGET GL)
+      message(FATAL_ERROR "gl4es did not define its expected GL target")
+    endif()
+    # gl4es defaults to libGL.so.1 on Unix. Android packages native libraries
+    # by their .so names, so expose libGL.so as an ordinary CMake dependency.
+    set_target_properties(GL PROPERTIES
+      OUTPUT_NAME GL
+      SUFFIX ".so"
+      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ThirdParty/gl4es")
+    target_link_options(GL PRIVATE "-Wl,-z,max-page-size=16384")
+    target_include_directories(MuClient BEFORE PUBLIC
+      "${MU_GL4ES_ROOT}/include")
+    target_link_libraries(MuClient PUBLIC GL)
+  elseif(MU_ANDROID_GL4ES_INCLUDE_DIR AND MU_ANDROID_GL4ES_LIBRARY)
+    if(NOT EXISTS "${MU_ANDROID_GL4ES_INCLUDE_DIR}/GL/gl.h")
+      message(FATAL_ERROR
+        "MU_ANDROID_GL4ES_INCLUDE_DIR does not contain GL/gl.h: "
+        "${MU_ANDROID_GL4ES_INCLUDE_DIR}")
+    endif()
+    if(NOT EXISTS "${MU_ANDROID_GL4ES_LIBRARY}")
+      message(FATAL_ERROR
+        "MU_ANDROID_GL4ES_LIBRARY does not exist: ${MU_ANDROID_GL4ES_LIBRARY}")
+    endif()
+    add_library(mu_android_gl4es SHARED IMPORTED)
+    set_target_properties(mu_android_gl4es PROPERTIES
+      IMPORTED_LOCATION "${MU_ANDROID_GL4ES_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${MU_ANDROID_GL4ES_INCLUDE_DIR}")
+    target_link_libraries(MuClient PUBLIC mu_android_gl4es)
+  elseif(MU_ANDROID_GL4ES_INCLUDE_DIR OR MU_ANDROID_GL4ES_LIBRARY)
+    message(FATAL_ERROR
+      "Set both MU_ANDROID_GL4ES_INCLUDE_DIR and MU_ANDROID_GL4ES_LIBRARY")
+  else()
+    target_link_libraries(MuClient PUBLIC GLESv3)
+    message(WARNING
+      "gl4es is not configured. CMake generation can continue, but MuClient "
+      "still includes desktop GL/GLEW headers and requires "
+      "MU_GL4ES_ROOT or MU_ANDROID_GL4ES_INCLUDE_DIR plus "
+      "MU_ANDROID_GL4ES_LIBRARY to compile.")
+  endif()
+
+  if(MU_ANDROID_TURBOJPEG_LIBRARY)
+    if(NOT EXISTS "${MU_ANDROID_TURBOJPEG_LIBRARY}")
+      message(FATAL_ERROR
+        "MU_ANDROID_TURBOJPEG_LIBRARY does not exist: "
+        "${MU_ANDROID_TURBOJPEG_LIBRARY}")
+    endif()
+    target_link_libraries(MuClient PUBLIC "${MU_ANDROID_TURBOJPEG_LIBRARY}")
+  else()
+    message(WARNING
+      "Android turbojpeg is not configured. Final libmain.so linkage requires "
+      "MU_ANDROID_TURBOJPEG_LIBRARY.")
+  endif()
+elseif(OHOS)
+  # HarmonyOS / OpenHarmony. Like Android, the engine uses fixed-function
+  # desktop OpenGL and needs gl4es translating to OpenGL ES over EGL. Provide
+  # a gl4es source checkout built for OHOS; otherwise fall back to EGL/GLES so
+  # CMake generation still completes (the final link then needs gl4es).
+  set(MU_OHOS_GL4ES_ROOT "" CACHE PATH
+      "Path to a gl4es source checkout built for OpenHarmony (contains include/GL)")
+  set(MU_OHOS_TURBOJPEG_LIBRARY "" CACHE FILEPATH
+      "Path to an OpenHarmony arm64 turbojpeg library")
+
+  # EGL/GLESv3 plus the OHOS logging and C++ runtime. hilog is the OHOS
+  # equivalent of Android's liblog.
+  find_library(OHOS_EGL_LIBRARY EGL)
+  find_library(OHOS_GLES_LIBRARY GLESv3)
+  find_library(OHOS_HILOG_LIBRARY hilog_ndk.z)
+  target_link_libraries(MuClient PUBLIC
+    ${OHOS_EGL_LIBRARY}
+    ${OHOS_GLES_LIBRARY}
+    ${OHOS_HILOG_LIBRARY}
+    c++_shared
+  )
+
+  if(MU_OHOS_GL4ES_ROOT)
+    if(NOT EXISTS "${MU_OHOS_GL4ES_ROOT}/CMakeLists.txt"
+        OR NOT EXISTS "${MU_OHOS_GL4ES_ROOT}/include/GL/gl.h")
+      message(FATAL_ERROR
+        "MU_OHOS_GL4ES_ROOT is not a gl4es source checkout with GL headers: "
+        "${MU_OHOS_GL4ES_ROOT}")
+    endif()
+    set(STATICLIB OFF CACHE BOOL "" FORCE)
+    set(NOX11 ON CACHE BOOL "" FORCE)
+    set(NO_GBM ON CACHE BOOL "" FORCE)
+    set(USE_OHOS_LOG ON CACHE BOOL "" FORCE)
+    add_subdirectory("${MU_OHOS_GL4ES_ROOT}"
+      "${CMAKE_CURRENT_BINARY_DIR}/ThirdParty/gl4es" EXCLUDE_FROM_ALL)
+    if(NOT TARGET GL)
+      message(FATAL_ERROR "gl4es did not define its expected GL target")
+    endif()
+    set_target_properties(GL PROPERTIES
+      OUTPUT_NAME GL
+      SUFFIX ".so"
+      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ThirdParty/gl4es")
+    target_link_options(GL PRIVATE "-Wl,-z,max-page-size=16384")
+    target_include_directories(MuClient BEFORE PUBLIC
+      "${MU_OHOS_GL4ES_ROOT}/include")
+    target_link_libraries(MuClient PUBLIC GL)
+  else()
+    target_link_libraries(MuClient PUBLIC GLESv3)
+    message(WARNING
+      "gl4es is not configured for HarmonyOS. CMake generation can continue, "
+      "but MuClient includes desktop GL headers and requires MU_OHOS_GL4ES_ROOT "
+      "(an OHOS gl4es build) to link libmain.so.")
+  endif()
+
+  if(MU_OHOS_TURBOJPEG_LIBRARY)
+    if(NOT EXISTS "${MU_OHOS_TURBOJPEG_LIBRARY}")
+      message(FATAL_ERROR
+        "MU_OHOS_TURBOJPEG_LIBRARY does not exist: ${MU_OHOS_TURBOJPEG_LIBRARY}")
+    endif()
+    target_link_libraries(MuClient PUBLIC "${MU_OHOS_TURBOJPEG_LIBRARY}")
+  else()
+    message(WARNING
+      "HarmonyOS turbojpeg is not configured. Final libmain.so linkage requires "
+      "MU_OHOS_TURBOJPEG_LIBRARY.")
+  endif()
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
   # The engine uses fixed-function desktop OpenGL via GLEW; link the system GL
   # and GLEW so the gl*/glew* symbols resolve in the Linux executable.
   find_package(OpenGL REQUIRED)
@@ -617,6 +896,42 @@ endif()
 # .NET Client Library and tools (platform-agnostic, requires dotnet SDK)
 # DOTNET_EXECUTABLE, mu_native_path() and MU_NUGET_CACHE_DIR are already
 # resolved above (shared with the wire-size codegen block).
+set(MU_CLIENT_LIBRARY_PREBUILT "" CACHE FILEPATH
+    "Prebuilt target-native MUnique.Client.Library shared library")
+mu_resolve_client_library_platform(
+  SYSTEM_NAME "${CMAKE_SYSTEM_NAME}"
+  POINTER_SIZE "${CMAKE_SIZEOF_VOID_P}"
+  SYSTEM_PROCESSOR "${CMAKE_SYSTEM_PROCESSOR}"
+  OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}"
+  OUT_LIBRARY_NAME DOTNET_LIB_NAME
+  OUT_RID DOTNET_RID
+  OUT_PLATFORM DOTNET_PLATFORM
+  OUT_EXTRA_ARGS DOTNET_EXTRA_ARGS)
+message(STATUS ".NET Client Library target: ${DOTNET_RID} (${DOTNET_LIB_NAME})")
+
+set(DOTNET_DLL_PATH "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${DOTNET_LIB_NAME}")
+set(MU_CLIENT_LIBRARY_AVAILABLE FALSE)
+if(MU_CLIENT_LIBRARY_PREBUILT)
+  get_filename_component(MU_CLIENT_LIBRARY_PREBUILT
+    "${MU_CLIENT_LIBRARY_PREBUILT}" ABSOLUTE BASE_DIR "${CMAKE_SOURCE_DIR}")
+  if(NOT EXISTS "${MU_CLIENT_LIBRARY_PREBUILT}")
+    message(FATAL_ERROR
+      "MU_CLIENT_LIBRARY_PREBUILT does not exist: ${MU_CLIENT_LIBRARY_PREBUILT}")
+  endif()
+  add_custom_command(
+    OUTPUT "${DOTNET_DLL_PATH}"
+    COMMAND "${CMAKE_COMMAND}" -E make_directory
+            "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>"
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${MU_CLIENT_LIBRARY_PREBUILT}" "${DOTNET_DLL_PATH}"
+    DEPENDS "${MU_CLIENT_LIBRARY_PREBUILT}"
+    COMMENT "Staging prebuilt ${DOTNET_LIB_NAME}"
+    VERBATIM)
+  set(MU_CLIENT_LIBRARY_AVAILABLE TRUE)
+  message(STATUS
+    "Using prebuilt .NET Client Library: ${MU_CLIENT_LIBRARY_PREBUILT}")
+endif()
+
 if (DOTNET_EXECUTABLE)
   # Native AOT can't cross-compile across OS boundaries: a Linux dotnet
   # targeting win-x86/win-x64 will fail at publish time. Build-time C#
@@ -624,7 +939,24 @@ if (DOTNET_EXECUTABLE)
   # and only need a working dotnet on the host - so gate the ClientLibrary
   # step separately rather than clearing DOTNET_EXECUTABLE altogether.
   set(DOTNET_CAN_BUILD_CLIENT_LIBRARY TRUE)
-  if (NOT DOTNET_EXECUTABLE MATCHES "\\.exe$" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if(MU_CLIENT_LIBRARY_PREBUILT)
+    set(DOTNET_CAN_BUILD_CLIENT_LIBRARY FALSE)
+  elseif(OHOS)
+    # The OpenHarmony Native AOT library needs the OHOS NDK sysroot and is built
+    # by nativeaot-ohos/build-clientlibrary-ohos.sh on Linux, not by a plain
+    # `dotnet publish` from DevEco's CMake. It is packaged as a prebuilt.
+    message(WARNING "The OpenHarmony Native AOT client library is built with "
+      "nativeaot-ohos/build-clientlibrary-ohos.sh (Linux + OHOS NDK), not from "
+      "this build. Drop the resulting libMUnique.Client.Library.so into the "
+      "HarmonyOS project's entry/src/main/cpp/prebuilt/<abi>/ folder, or set "
+      "MU_CLIENT_LIBRARY_PREBUILT to it.")
+    set(DOTNET_CAN_BUILD_CLIENT_LIBRARY FALSE)
+  elseif(ANDROID AND NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    message(WARNING "The Android Native AOT client library must be built on Linux. "
+      "libMUnique.Client.Library.so will NOT be built on ${CMAKE_HOST_SYSTEM_NAME}; "
+      "set MU_CLIENT_LIBRARY_PREBUILT to a linux-bionic-arm64 build.")
+    set(DOTNET_CAN_BUILD_CLIENT_LIBRARY FALSE)
+  elseif (NOT DOTNET_EXECUTABLE MATCHES "\\.exe$" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message(WARNING "Found Linux dotnet but target is Windows. "
       "Cross-OS Native AOT is not supported. MUnique.Client.Library.dll will NOT be built. "
       "Install the Windows .NET SDK or use WSL interop (dotnet.exe) to enable.")
@@ -639,19 +971,8 @@ endif()
 if (DOTNET_EXECUTABLE)
   message(STATUS "Found .NET SDK: ${DOTNET_EXECUTABLE}")
 
-  # 1. Resolve the platform-native library name and Native AOT target. macOS
-  # architectures are intentionally packaged separately because Native AOT
-  # does not produce a universal dylib in one publish operation.
-  mu_resolve_client_library_platform(
-    SYSTEM_NAME "${CMAKE_SYSTEM_NAME}"
-    POINTER_SIZE "${CMAKE_SIZEOF_VOID_P}"
-    SYSTEM_PROCESSOR "${CMAKE_SYSTEM_PROCESSOR}"
-    OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}"
-    OUT_LIBRARY_NAME DOTNET_LIB_NAME
-    OUT_RID DOTNET_RID
-    OUT_PLATFORM DOTNET_PLATFORM
-    OUT_EXTRA_ARGS DOTNET_EXTRA_ARGS)
-  message(STATUS ".NET Client Library target: ${DOTNET_RID} (${DOTNET_LIB_NAME})")
+  # 1. The platform-native name and Native AOT target were resolved above so
+  # the prebuilt-library path also works when the host has no .NET SDK.
   # DXP: $<CONFIG>-suffixed, not shared between Debug/Release. It used to be one shared path
   # with -c $<CONFIG> in the publish command below -- same bug class as ResxGen's fix just above
   # (Ninja Multi-Config generates a separate rule per config for whatever command produces a given
@@ -664,7 +985,6 @@ if (DOTNET_EXECUTABLE)
   # re-triggering ClientLibrary's own XSLT-based PacketFunctions_ClientToServer.cpp regeneration
   # step in parallel with the main C++ build's compile of that same (checked-in source) file,
   # racing on Windows' exclusive file lock.
-  set(DOTNET_DLL_PATH "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${DOTNET_LIB_NAME}")
   set(DOTNET_PROJ "${CMAKE_CURRENT_SOURCE_DIR}/../ClientLibrary/MUnique.Client.Library.csproj")
 
   # Create temp directories for Native AOT build.
@@ -702,30 +1022,7 @@ if (DOTNET_EXECUTABLE)
             COMMENT "Checking for .NET Client Library updates..."
             VERBATIM
     )
-
-    # 4. Create a target for the platform-native library and link it to Main
-    add_custom_target(ClientLibrary DEPENDS "${DOTNET_DLL_PATH}")
-    add_dependencies(Main ClientLibrary)
-    # MuClient too, not just Main: MUnique.Client.Library.csproj's PreBuild target regenerates
-    # ..\src\source\Dotnet\PacketFunctions_*.cpp/.h (checked-in C++ sources MuClient compiles) as
-    # a side effect of `dotnet publish`. Without this, Ninja has no edge between "ClientLibrary
-    # publish" and "compile PacketFunctions_ClientToServer.cpp" -- both are prerequisites of Main
-    # but siblings to each other, so they can run concurrently and race on Windows' exclusive file
-    # lock (confirmed 2026-08-03, MSB3703 IOException). Main-only ordering wasn't enough: MuClient's
-    # objects compile before Main links, not after ClientLibrary finishes.
-    add_dependencies(MuClient ClientLibrary)
-    set_target_properties(ClientLibrary PROPERTIES EXCLUDE_FROM_ALL TRUE)
-
-    # Copy ClientLibrary DLL to the executable's output directory
-    add_custom_command(TARGET Main POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E echo "=== DEBUG: Copying ClientLibrary DLL from: ${DOTNET_DLL_PATH}"
-      COMMAND ${CMAKE_COMMAND} -E echo "=== DEBUG: Copying ClientLibrary DLL to: $<TARGET_FILE_DIR:Main>"
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${DOTNET_DLL_PATH}"
-        $<TARGET_FILE_DIR:Main>
-      COMMAND ${CMAKE_COMMAND} -E echo "=== DEBUG: ClientLibrary DLL copy complete"
-      COMMENT "Copying ClientLibrary DLL to build directory"
-    )
+    set(MU_CLIENT_LIBRARY_AVAILABLE TRUE)
   endif()
 
   # ConstantsReplacer build target
@@ -809,8 +1106,28 @@ if (DOTNET_EXECUTABLE)
     target_include_directories(MuClient PUBLIC "${CMAKE_BINARY_DIR}/Generated")
   endif()
 else()
-  message(WARNING ".NET SDK not found. The managed client library will NOT be built. "
-    "The game will run but cannot connect to the server. Install .NET SDK 10.0+ to enable.")
+  if(NOT MU_CLIENT_LIBRARY_PREBUILT)
+    message(WARNING ".NET SDK not found. The managed client library will NOT be built. "
+      "The game will run but cannot connect to the server. Install .NET SDK 10.0+ "
+      "or set MU_CLIENT_LIBRARY_PREBUILT to enable.")
+  endif()
+endif()
+
+if(MU_CLIENT_LIBRARY_AVAILABLE)
+  # The game resolves the Native AOT exports with LoadLibrary/dlopen at runtime,
+  # so stage the generated or supplied library beside the platform target.
+  add_custom_target(ClientLibrary DEPENDS "${DOTNET_DLL_PATH}")
+  add_dependencies(Main ClientLibrary)
+  # Native publishing can regenerate checked-in packet bindings as a side
+  # effect. Keep it ordered before any MuClient translation unit compiles.
+  add_dependencies(MuClient ClientLibrary)
+  set_target_properties(ClientLibrary PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
+  add_custom_command(TARGET Main POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+      "${DOTNET_DLL_PATH}" "$<TARGET_FILE_DIR:Main>/${DOTNET_LIB_NAME}"
+    COMMENT "Staging ${DOTNET_LIB_NAME} beside the native client"
+    VERBATIM)
 endif()
 
 # DXP-10 step 4: state-wrapper monopoly guard. Fails the build if a raw gl*()

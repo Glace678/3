@@ -263,6 +263,32 @@ public class ExperienceRateSplitTest
         Assert.That((int)player.Attributes![Stats.Level], Is.EqualTo(2));
     }
 
+    /// <summary>Verifies that reaching an exact normal-experience threshold levels up immediately.</summary>
+    [Test]
+    public async ValueTask ExactNormalExperienceThresholdLevelsUpAsync()
+    {
+        var context = this.CreateGameServerContext(1, 1, maximumLevel: 3, maximumMasterLevel: 200);
+        var player = await this.CreatePlayerAsync(context, level: 1, totalLevel: 1, isMasterClass: false).ConfigureAwait(false);
+
+        await player.AddExperienceAsync((int)context.ExperienceTable[2], null).ConfigureAwait(false);
+
+        Assert.That((int)player.Attributes![Stats.Level], Is.EqualTo(2));
+        Assert.That(player.SelectedCharacter!.Experience, Is.EqualTo(context.ExperienceTable[2]));
+    }
+
+    /// <summary>Verifies that one master-experience grant can cross several exact thresholds.</summary>
+    [Test]
+    public async ValueTask MasterExperienceCanCrossMultipleLevelsAsync()
+    {
+        var context = this.CreateGameServerContext(1, 1, maximumLevel: 400, maximumMasterLevel: 3);
+        var player = await this.CreatePlayerAsync(context, level: 400, totalLevel: 400, isMasterClass: true).ConfigureAwait(false);
+
+        await player.AddMasterExperienceAsync((int)context.MasterExperienceTable[2], null).ConfigureAwait(false);
+
+        Assert.That((int)player.Attributes![Stats.MasterLevel], Is.EqualTo(2));
+        Assert.That(player.SelectedCharacter!.MasterExperience, Is.EqualTo(context.MasterExperienceTable[2]));
+    }
+
     private static Mock<IAttackable> CreateKilledObject(float level)
     {
         var attributes = new Mock<IAttributeSystem>();

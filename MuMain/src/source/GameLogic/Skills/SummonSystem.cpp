@@ -134,9 +134,12 @@ void CSummonSystem::CreateSummonObject(int iSkill, CHARACTER* pCharacter, OBJECT
     {
         vec3_t vPos;
         VectorCopy(pObject->Position, vPos);
-        if (rand_fps_check(2)) vPos[0] += rand() % 300 + 150;
+        // One-shot spawn-direction sign pick per cast -- use a plain coin flip,
+        // not the per-frame rand_fps_check() rate normalizer (which biased the
+        // offset to the negative quadrant on high-refresh screens).
+        if (rand() % 2 == 0) vPos[0] += rand() % 300 + 150;
         else vPos[0] -= rand() % 250 + 150;
-        if (rand_fps_check(2)) vPos[1] += rand() % 300 + 150;
+        if (rand() % 2 == 0) vPos[1] += rand() % 300 + 150;
         else vPos[1] -= rand() % 250 + 150;
 
         vec3_t vTargetPos;

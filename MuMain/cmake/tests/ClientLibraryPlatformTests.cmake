@@ -40,6 +40,25 @@ resolve_platform("Linux" 8 "x86_64" "")
 assert_equal("${ACTUAL_LIBRARY}" "MUnique.Client.Library.so" "Linux library name")
 assert_equal("${ACTUAL_RID}" "linux-x64" "Linux RID")
 
+resolve_platform("Android" 8 "aarch64" "")
+assert_equal("${ACTUAL_LIBRARY}" "libMUnique.Client.Library.so" "Android library name")
+assert_equal("${ACTUAL_RID}" "linux-bionic-arm64" "Android arm64 RID")
+assert_equal("${ACTUAL_PLATFORM}" "arm64" "Android arm64 platform")
+assert_equal("${ACTUAL_EXTRA_ARGS}" "-p:ci=true;-p:NativeLib=Shared" "Android build arguments")
+
+# OpenHarmony: phones/tablets are arm64, HarmonyOS PCs can be x86_64. Both use
+# the lib*.so soname that Connection.h dlopens under __OHOS__.
+resolve_platform("OHOS" 8 "aarch64" "")
+assert_equal("${ACTUAL_LIBRARY}" "libMUnique.Client.Library.so" "HarmonyOS arm64 library name")
+assert_equal("${ACTUAL_RID}" "linux-ohos-arm64" "HarmonyOS arm64 RID")
+assert_equal("${ACTUAL_PLATFORM}" "arm64" "HarmonyOS arm64 platform")
+assert_equal("${ACTUAL_EXTRA_ARGS}" "-p:ci=true;-p:NativeLib=Shared" "HarmonyOS build arguments")
+
+resolve_platform("OpenHarmony" 8 "x86_64" "")
+assert_equal("${ACTUAL_LIBRARY}" "libMUnique.Client.Library.so" "HarmonyOS x64 library name")
+assert_equal("${ACTUAL_RID}" "linux-ohos-x64" "HarmonyOS x64 RID")
+assert_equal("${ACTUAL_PLATFORM}" "x64" "HarmonyOS x64 platform")
+
 resolve_platform("Windows" 8 "AMD64" "")
 assert_equal("${ACTUAL_LIBRARY}" "MUnique.Client.Library.dll" "Windows library name")
 assert_equal("${ACTUAL_RID}" "win-x64" "Windows x64 RID")

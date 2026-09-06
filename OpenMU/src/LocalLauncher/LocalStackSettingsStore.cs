@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.LocalLauncher;
 
+using System.Net;
 using System.Text.Json;
 
 /// <summary>
@@ -47,6 +48,11 @@ public sealed class LocalStackSettingsStore
 
     private static void Validate(LocalStackSettings settings)
     {
+        if (settings.GameplayProfile is not ("solo" or "balance-v1-standard" or "balance-v1-relaxed" or "balance-v1-journey"))
+        {
+            throw new InvalidDataException("Unsupported gameplay profile.");
+        }
+
         if (settings.SoloBalanceVersion is < 0 or > 1 || settings.SoloCashShopVersion is < 0 or > 1)
         {
             throw new InvalidDataException("Unsupported solo profile or shop migration version.");
@@ -69,6 +75,20 @@ public sealed class LocalStackSettingsStore
         if (settings.ConnectServerPort != 44406)
         {
             throw new InvalidDataException("随包提供的 2.04d 客户端要求 ConnectServerPort 保持为 44406。");
+        }
+
+        if (!string.IsNullOrWhiteSpace(settings.MobileAdvertisedAddress)
+            && (!IPAddress.TryParse(settings.MobileAdvertisedAddress, out var mobileAddress)
+                || mobileAddress.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork
+                || IPAddress.IsLoopback(mobileAddress)
+                || mobileAddress.Equals(IPAddress.Any)))
+        {
+            throw new InvalidDataException("手机访问地址必须是非回环 IPv4 地址，或留空以自动检测。");
+        }
+
+        if (settings.MobileAccessEnabled && !LocalGameLogin.IsValidMobilePackageKey(settings.MobilePackageKey))
+        {
+            throw new InvalidDataException("启用手机访问时，MobilePackageKey 必须是 43 位 base64url 密钥。");
         }
 
         if (fixedServerPorts.Contains(settings.DatabasePort) || fixedServerPorts.Contains(settings.AdminPanelPort))

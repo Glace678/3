@@ -1,4 +1,4 @@
-#include "Core/Input/GamepadService.h"
+﻿#include "Core/Input/GamepadService.h"
 
 #include <algorithm>
 
@@ -140,7 +140,11 @@ namespace Core::Input
 
     bool GamepadService::PublishHaptic(Core::Haptics::HapticEvent event, double nowMs)
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return m_focused && m_haptics.Publish(event, nowMs);
+#else
         return m_gamepadEnabled && m_focused && m_haptics.Publish(event, nowMs);
+#endif
     }
 
     void GamepadService::SetGamepadSettings(const GamepadSettings& settings)

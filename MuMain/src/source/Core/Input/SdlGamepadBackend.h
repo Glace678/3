@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Core/Haptics/Haptics.h"
 #include "Core/Input/GamepadTypes.h"
@@ -61,6 +61,10 @@ namespace Core::Input
 #endif
 
         SDL_Gamepad* m_gamepad = nullptr;
+#if defined(__ANDROID__) || defined(__OHOS__)
+        SDL_Haptic* m_systemHaptic = nullptr;
+        bool m_hapticSubsystemInitialized = false;
+#endif
         SDL_JoystickID m_activeDeviceId = 0;
         std::uint64_t m_sequence = 0;
         bool m_initialized = false;

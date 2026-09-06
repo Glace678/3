@@ -5,10 +5,13 @@
 namespace MUnique.OpenMU.LocalLauncher;
 
 /// <summary>
-/// Defines non-secret settings of the local OpenMU stack.
+/// Defines runtime settings of the local OpenMU stack.
 /// </summary>
 public sealed class LocalStackSettings
 {
+    /// <summary>Gets or sets the gameplay rules selected for the server process.</summary>
+    public string GameplayProfile { get; set; } = "solo";
+
     /// <summary>Gets or sets the last solo profile successfully started after a pre-conversion backup.</summary>
     public int SoloBalanceVersion { get; set; }
 
@@ -23,6 +26,15 @@ public sealed class LocalStackSettings
 
     /// <summary>Gets or sets the game connect server loopback port used for readiness checks.</summary>
     public int ConnectServerPort { get; set; } = 44406;
+
+    /// <summary>Gets or sets a value indicating whether game and admin endpoints accept trusted-LAN clients.</summary>
+    public bool MobileAccessEnabled { get; set; }
+
+    /// <summary>Gets or sets an optional IPv4 address advertised to mobile clients; empty selects the best LAN address.</summary>
+    public string MobileAdvertisedAddress { get; set; } = string.Empty;
+
+    /// <summary>Gets or sets the package-specific credential shared with the mobile applications.</summary>
+    public string MobilePackageKey { get; set; } = string.Empty;
 
     /// <summary>Gets or sets a value indicating whether the launcher should start the game after the server is ready.</summary>
     public bool StartGameWhenReady { get; set; } = true;

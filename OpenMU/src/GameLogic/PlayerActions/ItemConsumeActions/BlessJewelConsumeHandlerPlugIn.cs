@@ -35,15 +35,36 @@ public class BlessJewelConsumeHandlerPlugIn : UpgradeItemLevelJewelConsumeHandle
     }
 
     /// <inheritdoc/>
+    protected override bool ModifyItem(Player player, Item item)
+    {
+        if (this.TryRepairItem(item))
+        {
+            return true;
+        }
+
+        return base.ModifyItem(player, item);
+    }
+
+    /// <inheritdoc/>
     protected override bool ModifyItem(Item item, IContext persistenceContext)
     {
-        if (this.Configuration?.RepairTargetItems.Contains(item.Definition!) is true
-            && item.Durability < item.GetMaximumDurabilityOfOnePiece())
+        if (this.TryRepairItem(item))
         {
-            item.Durability = item.GetMaximumDurabilityOfOnePiece();
             return true;
         }
 
         return base.ModifyItem(item, persistenceContext);
+    }
+
+    private bool TryRepairItem(Item item)
+    {
+        if (this.Configuration?.RepairTargetItems.Contains(item.Definition!) is not true
+            || item.Durability >= item.GetMaximumDurabilityOfOnePiece())
+        {
+            return false;
+        }
+
+        item.Durability = item.GetMaximumDurabilityOfOnePiece();
+        return true;
     }
 }

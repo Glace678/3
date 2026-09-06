@@ -39,7 +39,7 @@ struct Blur
 {
     bool Live = false;
     int Type = 0;
-    int LifeTime = 0;
+    float LifeTime = 0.f;   // aged in reference frames (fps-independent trail duration)
     CHARACTER* Owner = nullptr;
     int Number = 0;
     vec3_t Light{};
@@ -52,7 +52,7 @@ struct ObjectBlur
 {
     bool Live = false;
     int Type = 0;
-    int LifeTime = 0;
+    float LifeTime = 0.f;   // aged in reference frames (fps-independent trail duration)
     OBJECT* Owner = nullptr;
     int Number = 0;
     vec3_t Light{};
@@ -151,18 +151,30 @@ void MoveBlurs()
             continue;
         }
 
-        blur.LifeTime--;
-        blur.Number = std::max<int>(blur.Number - 1, 0);
-
-        for (int i = blur.Number - 1; i >= 0; --i)
-        {
-            VectorCopy(blur.P1[i], blur.P1[i + 1]);
-            VectorCopy(blur.P2[i], blur.P2[i + 1]);
-        }
-
-        if (blur.LifeTime <= 0)
+        // Age the trail on the 25fps reference clock and shed a tail segment at a
+        // constant ~25/sec (rand_fps_check(1) passes every frame at factor=1, ~25/sec
+        // at high refresh) so motion trails linger a constant wall-clock time instead
+        // of snapping out on high-fps displays.
+        blur.LifeTime -= FPS_ANIMATION_FACTOR;
+        if (rand_fps_check(1))
         {
             blur.Number = std::max<int>(blur.Number - 1, 0);
+
+            for (int i = blur.Number - 1; i >= 0; --i)
+            {
+                VectorCopy(blur.P1[i], blur.P1[i + 1]);
+                VectorCopy(blur.P2[i], blur.P2[i + 1]);
+            }
+        }
+
+        if (blur.LifeTime <= 0.f)
+        {
+            // Independent post-expiry drain: matches the reference's extra drop per
+            // frame (2 segments/frame once expired) at any refresh rate.
+            if (rand_fps_check(1))
+            {
+                blur.Number = std::max<int>(blur.Number - 1, 0);
+            }
             if (blur.Number <= 0)
             {
                 blur.Live = false;
@@ -321,20 +333,27 @@ void MoveObjectBlurs()
             continue;
         }
 
-        blur.LifeTime--;
-        blur.Number = std::max<int>(blur.Number - 1, 0);
+        // Reference-frame lifetime; shed a tail segment at a constant ~25/sec so the
+        // object motion-trail duration is fps-independent (rand_fps_check(1) passes
+        // every frame at factor=1 -> reference behavior unchanged).
+        blur.LifeTime -= FPS_ANIMATION_FACTOR;
 
-        if (blur.LifeTime <= 0)
+        if (blur.LifeTime <= 0.f)
         {
             blur.Number = 0;
             blur.Live = false;
             continue;
         }
 
-        for (int i = blur.Number - 1; i >= 0; --i)
+        if (rand_fps_check(1))
         {
-            VectorCopy(blur.P1[i], blur.P1[i + 1]);
-            VectorCopy(blur.P2[i], blur.P2[i + 1]);
+            blur.Number = std::max<int>(blur.Number - 1, 0);
+
+            for (int i = blur.Number - 1; i >= 0; --i)
+            {
+                VectorCopy(blur.P1[i], blur.P1[i + 1]);
+                VectorCopy(blur.P2[i], blur.P2[i + 1]);
+            }
         }
     }
 }

@@ -5349,6 +5349,7 @@ void CUIFriendMenu::Init()
     m_bNewMailAlert = FALSE;
     m_iBlinkTemp = 0;
     m_iLetterBlink = 0;
+    m_fBlinkAccum = 0.f;
     m_bHotKey = FALSE;
 }
 
@@ -5444,11 +5445,20 @@ int CUIFriendMenu::GetBlinkTemp()
 
 void CUIFriendMenu::IncreaseBlinkTemp()
 {
-    m_iBlinkTemp++;
-
-    if (m_iBlinkTemp > 23)
+    // Tick the blink phase on the 25fps reference clock instead of raw rendered
+    // frames, so the chat/mail envelope blink cycle and new-mail auto-dismiss keep
+    // a constant wall-clock period at 30/60/144Hz.
+    extern float FPS_ANIMATION_FACTOR;
+    m_fBlinkAccum += FPS_ANIMATION_FACTOR;
+    while (m_fBlinkAccum >= 1.0f)
     {
-        m_iBlinkTemp = 0;
+        m_fBlinkAccum -= 1.0f;
+        ++m_iBlinkTemp;
+
+        if (m_iBlinkTemp > 23)
+        {
+            m_iBlinkTemp = 0;
+        }
     }
 }
 
@@ -5531,7 +5541,7 @@ void CUIFriendMenu::RenderFriendButton()
                 0.f, 0.f, 15.f / 16.f, 9.f / 16.f);
         }
     }
-    ++m_iBlinkTemp;
+    IncreaseBlinkTemp();
 }
 
 void CUIFriendMenu::RenderSub()

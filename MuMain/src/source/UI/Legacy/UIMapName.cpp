@@ -171,7 +171,7 @@ void CUIMapName::Update()
     switch (m_eState)
     {
     case FADEIN:
-        m_fAlpha += UIMN_ALPHA_VARIATION;
+        m_fAlpha += UIMN_ALPHA_VARIATION * FPS_ANIMATION_FACTOR;
         if (1.0f <= m_fAlpha)
         {
             m_eState = SHOW;
@@ -189,7 +189,7 @@ void CUIMapName::Update()
         break;
 
     case FADEOUT:
-        m_fAlpha -= UIMN_ALPHA_VARIATION;
+        m_fAlpha -= UIMN_ALPHA_VARIATION * FPS_ANIMATION_FACTOR;
         if (0.0f >= m_fAlpha)
         {
             m_eState = HIDE;

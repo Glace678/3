@@ -59,12 +59,15 @@ namespace CfgKeys
     inline constexpr wchar_t CfgKeyFrameRateLimitMilliHz[] = L"FrameRateLimitMilliHz";
     inline constexpr wchar_t CfgKeyBackgroundFrameRate[] = L"BackgroundFrameRate";
     inline constexpr wchar_t CfgKeyVSync[] = L"VSync";
+    inline constexpr wchar_t CfgKeyRenderLevel[] = L"RenderLevel";
+    inline constexpr wchar_t CfgKeyRenderAllEffects[] = L"RenderAllEffects";
 
     inline constexpr wchar_t CfgKeyGamepadEnabled[] = L"GamepadEnabled";
     inline constexpr wchar_t CfgKeyStickDeadZonePercent[] = L"StickDeadZonePercent";
     inline constexpr wchar_t CfgKeyTriggerDeadZonePercent[] = L"TriggerDeadZonePercent";
     inline constexpr wchar_t CfgKeyPointerSpeed[] = L"PointerSpeed";
     inline constexpr wchar_t CfgKeyInvertPointerY[] = L"InvertPointerY";
+    inline constexpr wchar_t CfgKeyHandedness[] = L"Handedness";
 
     inline constexpr wchar_t CfgKeyHapticsEnabled[] = L"Enabled";
     inline constexpr wchar_t CfgKeyHapticsIntensity[] = L"Intensity";
@@ -118,12 +121,15 @@ namespace CfgDefaults
     inline constexpr int CfgDefaultFrameRateLimitMilliHz = 60000;
     inline constexpr int CfgDefaultBackgroundFrameRate = 30;
     inline constexpr bool CfgDefaultVSync = false;
+    inline constexpr int CfgDefaultRenderLevel = 4;
+    inline constexpr bool CfgDefaultRenderAllEffects = true;
 
     inline constexpr bool CfgDefaultGamepadEnabled = true;
     inline constexpr int CfgDefaultStickDeadZonePercent = 18;
     inline constexpr int CfgDefaultTriggerDeadZonePercent = 8;
     inline constexpr int CfgDefaultPointerSpeed = 520;
     inline constexpr bool CfgDefaultInvertPointerY = false;
+    inline constexpr wchar_t CfgDefaultHandedness[] = L"right";
 
     inline constexpr bool CfgDefaultHapticsEnabled = true;
     inline constexpr int CfgDefaultHapticsIntensity = 70;

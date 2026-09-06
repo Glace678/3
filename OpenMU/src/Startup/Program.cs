@@ -8,6 +8,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading;
 using Microsoft.AspNetCore.Builder;
@@ -34,8 +35,8 @@ using MUnique.OpenMU.Persistence.Initialization.Version075;
 using MUnique.OpenMU.Persistence.InMemory;
 using MUnique.OpenMU.PlugIns;
 using MUnique.OpenMU.Web.AdminPanel;
-using MUnique.OpenMU.Web.AdminPanel.Services;
 using MUnique.OpenMU.Web.AdminPanel.API;
+using MUnique.OpenMU.Web.AdminPanel.Services;
 using MUnique.OpenMU.Web.Map.Map;
 using MUnique.OpenMU.Web.Shared;
 using Nito.AsyncEx.Synchronous;
@@ -477,6 +478,12 @@ internal sealed class Program : IDisposable
     private async Task<IMigratableDatabaseContextProvider> DeterminePersistenceContextProviderAsync(string[] args, ILoggerFactory loggerFactory, IConfigurationChangeListener changeListener, IConfigurationChangePublisher changePublisher)
     {
         var version = this.GetVersionParameter(args);
+        var balanceV1Profile = BalanceV1.GetRequestedProfile(args);
+        var soloRequested = args.Any(argument => argument.Equals("-solo", StringComparison.OrdinalIgnoreCase));
+        if (soloRequested && balanceV1Profile is not null)
+        {
+            throw new ArgumentException("The -solo and -balance-v1 profiles are mutually exclusive.", nameof(args));
+        }
 
         IMigratableDatabaseContextProvider contextProvider;
         if (args.Contains("-demo"))
@@ -491,7 +498,7 @@ internal sealed class Program : IDisposable
             contextProvider = await this.PrepareRepositoryProviderAsync(args.Contains("-reinit"), version, args, loggerFactory, changeListener).ConfigureAwait(false);
         }
 
-        if (args.Contains("-solo"))
+        if (soloRequested)
         {
             if (!string.Equals(version, "season6", StringComparison.OrdinalIgnoreCase))
             {
@@ -499,8 +506,25 @@ internal sealed class Program : IDisposable
             }
 
             await this.ApplySoloBalanceAsync(contextProvider).ConfigureAwait(false);
+        }
+        else if (balanceV1Profile is { } profile)
+        {
+            if (!string.Equals(version, "season6", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException("The balance-v1 profile requires -version:season6.", nameof(args));
+            }
+
+            var mayInstall = args.Any(argument => argument.Equals("-demo", StringComparison.OrdinalIgnoreCase)
+                                                  || argument.Equals("-reinit", StringComparison.OrdinalIgnoreCase));
+            await this.ApplyBalanceV1Async(contextProvider, profile, mayInstall).ConfigureAwait(false);
+        }
+
+        if (soloRequested || balanceV1Profile is not null)
+        {
             await InitializeLocalGameAccountAsync(contextProvider).ConfigureAwait(false);
         }
+
+        await ValidateInstalledBalanceProfilesAsync(contextProvider).ConfigureAwait(false);
 
         await this.ReadSystemConfigurationAsync(contextProvider).ConfigureAwait(false);
 
@@ -516,11 +540,20 @@ internal sealed class Program : IDisposable
             return;
         }
 
+        var bindAddress = Environment.GetEnvironmentVariable("OPENMU_BIND_ADDRESS");
+        var controlPipe = Environment.GetEnvironmentVariable("OPENMU_CONTROL_PIPE");
+        var mobilePackageKey = Environment.GetEnvironmentVariable("OPENMU_MOBILE_PACKAGE_KEY");
+        var mobileMode = !string.IsNullOrEmpty(mobilePackageKey);
+        var validEnvironment = mobileMode
+            ? IsValidMobilePackageKey(mobilePackageKey) && IsWildcardAddress(bindAddress)
+            : string.Equals(bindAddress, "127.0.0.1", StringComparison.Ordinal);
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)
-            || Environment.GetEnvironmentVariable("OPENMU_BIND_ADDRESS") != "127.0.0.1"
-            || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("OPENMU_CONTROL_PIPE")))
+            || string.IsNullOrWhiteSpace(controlPipe)
+            || !validEnvironment)
         {
-            throw new InvalidOperationException("Automatic game account setup requires the local loopback launcher.");
+            throw new InvalidOperationException(
+                "Automatic game account setup requires the local launcher security boundary; "
+                + "mobile mode additionally requires a valid package key and wildcard binding.");
         }
 
         using var readContext = provider.CreateNewConfigurationContext();
@@ -529,11 +562,26 @@ internal sealed class Program : IDisposable
         await SoloAccountInitializer.EnsureAsync(context, username, password).ConfigureAwait(false);
     }
 
+    private static bool IsValidMobilePackageKey(string? packageKey) =>
+        packageKey is { Length: 43 }
+        && packageKey.All(character => char.IsAsciiLetterOrDigit(character) || character is '-' or '_');
+
+    private static bool IsWildcardAddress(string? address) =>
+        IPAddress.TryParse(address, out var parsedAddress)
+        && (parsedAddress.Equals(IPAddress.Any) || parsedAddress.Equals(IPAddress.IPv6Any));
+
     private async Task ApplySoloBalanceAsync(IPersistenceContextProvider provider)
     {
         using var readContext = provider.CreateNewConfigurationContext();
         foreach (var configuration in await readContext.GetAsync<GameConfiguration>().ConfigureAwait(false))
         {
+            BalanceV1.ValidateProfileMarkers(configuration);
+            if (BalanceV1.IsEnabled(configuration))
+            {
+                throw new InvalidOperationException(
+                    "Cannot install the Solo profile because this configuration already uses balance-v1.");
+            }
+
             if (SoloBalance.IsEnabled(configuration))
             {
                 continue;
@@ -545,6 +593,60 @@ internal sealed class Program : IDisposable
             new SoloBalanceInitializer(context, configuration).Initialize();
             await context.SaveChangesAsync().ConfigureAwait(false);
             this._logger.Information("Solo balance v1 installed; existing character progress was preserved.");
+        }
+    }
+
+    private async Task ApplyBalanceV1Async(
+        IPersistenceContextProvider provider,
+        BalanceV1.ExperienceProfile profile,
+        bool mayInstall)
+    {
+        using var readContext = provider.CreateNewConfigurationContext();
+        var configurations = await readContext.GetAsync<GameConfiguration>().ConfigureAwait(false);
+        foreach (var configuration in configurations)
+        {
+            BalanceV1.ValidateProfileMarkers(configuration);
+            if (SoloBalance.IsEnabled(configuration))
+            {
+                throw new InvalidOperationException(
+                    "Cannot install balance-v1 because this configuration already uses the mutually exclusive Solo profile.");
+            }
+
+            if (BalanceV1.IsEnabled(configuration))
+            {
+                _ = BalanceV1Initializer.ValidateCoreConfiguration(configuration, profile);
+            }
+            else if (!mayInstall)
+            {
+                throw new InvalidOperationException(
+                    "Installing balance-v1 into an existing configuration is blocked. "
+                    + "Create an isolated configuration explicitly with -reinit or use -demo.");
+            }
+        }
+
+        foreach (var configuration in configurations.Where(configuration => !BalanceV1.IsEnabled(configuration)))
+        {
+            using var context = provider.CreateNewContext(configuration);
+            using var suspension = context.SuspendChangeNotifications();
+            context.Attach(configuration);
+            new BalanceV1Initializer(context, configuration, profile).Initialize();
+            await context.SaveChangesAsync().ConfigureAwait(false);
+            this._logger.Information(
+                "balance-v1 installed with the {Profile} experience profile; existing character data was not migrated.",
+                BalanceV1.GetProfileId(profile));
+        }
+    }
+
+    private static async Task ValidateInstalledBalanceProfilesAsync(IPersistenceContextProvider provider)
+    {
+        using var readContext = provider.CreateNewConfigurationContext();
+        foreach (var configuration in await readContext.GetAsync<GameConfiguration>().ConfigureAwait(false))
+        {
+            BalanceV1.ValidateProfileMarkers(configuration);
+            if (BalanceV1.IsEnabled(configuration))
+            {
+                _ = BalanceV1Initializer.ValidateCoreConfiguration(configuration);
+            }
         }
     }
 

@@ -107,6 +107,10 @@ void GameConfig::Load()
         ReadInt(CfgSectionRender, CfgKeyBackgroundFrameRate, CfgDefaultBackgroundFrameRate), 1, 240);
     m_frameTimingSettings.verticalSync = ReadBool(
         CfgSectionRender, CfgKeyVSync, CfgDefaultVSync);
+    m_renderLevel = std::clamp(
+        ReadInt(CfgSectionRender, CfgKeyRenderLevel, CfgDefaultRenderLevel), 0, 4);
+    m_renderAllEffects = ReadBool(
+        CfgSectionRender, CfgKeyRenderAllEffects, CfgDefaultRenderAllEffects);
 
     // Migrate the historical Graphics/FPSLimit key without discarding the
     // user's value. The source key is removed only after the new keys exist.
@@ -133,6 +137,8 @@ void GameConfig::Load()
         ReadInt(CfgSectionInput, CfgKeyPointerSpeed, CfgDefaultPointerSpeed), 100, 2000));
     m_gamepadSettings.invertPointerY = ReadBool(
         CfgSectionInput, CfgKeyInvertPointerY, CfgDefaultInvertPointerY);
+    m_mobileLeftHanded = ReadString(
+        CfgSectionInput, CfgKeyHandedness, CfgDefaultHandedness) == L"left";
     const Core::Input::GamepadBindings defaultBindings = Core::Input::DefaultGamepadBindings();
     for (std::size_t i = 0; i < m_gamepadSettings.bindings.size(); ++i)
     {
@@ -210,6 +216,8 @@ void GameConfig::Save()
     WriteInt(CfgSectionRender, CfgKeyBackgroundFrameRate,
         static_cast<int>(m_frameTimingSettings.backgroundFrameRate));
     WriteBool(CfgSectionRender, CfgKeyVSync, m_frameTimingSettings.verticalSync);
+    WriteInt(CfgSectionRender, CfgKeyRenderLevel, m_renderLevel);
+    WriteBool(CfgSectionRender, CfgKeyRenderAllEffects, m_renderAllEffects);
 
     WriteBool(CfgSectionInput, CfgKeyGamepadEnabled, m_gamepadSettings.enabled);
     WriteInt(CfgSectionInput, CfgKeyStickDeadZonePercent,
@@ -218,6 +226,7 @@ void GameConfig::Save()
         static_cast<int>(m_gamepadSettings.triggerDeadZone * 100.0f + 0.5f));
     WriteInt(CfgSectionInput, CfgKeyPointerSpeed, static_cast<int>(m_gamepadSettings.pointerSpeed));
     WriteBool(CfgSectionInput, CfgKeyInvertPointerY, m_gamepadSettings.invertPointerY);
+    WriteString(CfgSectionInput, CfgKeyHandedness, m_mobileLeftHanded ? L"left" : L"right");
     for (std::size_t i = 0; i < m_gamepadSettings.bindings.size(); ++i)
     {
         WriteString(
@@ -304,6 +313,12 @@ void GameConfig::SetWindowMode(bool windowed)
 void GameConfig::SetFrameTimingSettings(const Core::Time::FrameTimingSettings& settings)
 {
     m_frameTimingSettings = settings;
+}
+
+void GameConfig::SetRenderQuality(int renderLevel, bool renderAllEffects)
+{
+    m_renderLevel = std::clamp(renderLevel, 0, 4);
+    m_renderAllEffects = renderAllEffects;
 }
 
 int64_t GameConfig::ScaleSoloPrice(int64_t price) const

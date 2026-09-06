@@ -128,6 +128,8 @@ namespace SEASON3B
         int m_iLanguageIndex;
         int m_iFontIndex;
         int m_iFrameRateIndex;
+        int m_iFrameRateFps;       // mobile frame-rate slider: selected FPS (min..m_iFrameRateMaxFps)
+        int m_iFrameRateMaxFps;    // mobile frame-rate slider: detected device ceiling
         bool m_bVSync;
         bool m_bGamepadEnabled;
         int m_iStickDeadZonePercent;
@@ -180,6 +182,13 @@ namespace SEASON3B
         void ApplyFrameRate();
         int FindCurrentFrameRateIndex();
         void InitFrameRateCombo();
+
+        // Mobile (Android / HarmonyOS) frame-rate slider: 30 FPS .. device max.
+        int DetectMaximumFrameRate() const;
+        void InitFrameRateSlider();
+        bool HandleFrameRateSlider();
+        void ApplyFrameRateSlider();
+        void RenderFrameRateSlider();
 
         void InitGamepadMappingCombos();
         void ApplyGamepadActionSelection();

@@ -29,8 +29,13 @@ public:
     const Core::Time::FrameTimingSettings& GetFrameTimingSettings() const { return m_frameTimingSettings; }
     void SetFrameTimingSettings(const Core::Time::FrameTimingSettings& settings);
 
+    int GetRenderLevel() const { return m_renderLevel; }
+    bool GetRenderAllEffects() const { return m_renderAllEffects; }
+    void SetRenderQuality(int renderLevel, bool renderAllEffects);
+
     const Core::Input::GamepadSettings& GetGamepadSettings() const { return m_gamepadSettings; }
     void SetGamepadSettings(const Core::Input::GamepadSettings& settings);
+    bool GetMobileLeftHanded() const { return m_mobileLeftHanded; }
 
     const Core::Haptics::HapticSettings& GetHapticSettings() const { return m_hapticSettings; }
     void SetHapticSettings(const Core::Haptics::HapticSettings& settings);
@@ -115,7 +120,10 @@ private:
     bool m_soloBalanceEnabled = false;
 
     Core::Time::FrameTimingSettings m_frameTimingSettings;
+    int m_renderLevel = 4;
+    bool m_renderAllEffects = true;
     Core::Input::GamepadSettings m_gamepadSettings;
+    bool m_mobileLeftHanded = false;
     Core::Haptics::HapticSettings m_hapticSettings;
 
     int  m_soundVolume;

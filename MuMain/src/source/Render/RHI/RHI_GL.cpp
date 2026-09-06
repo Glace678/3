@@ -10,6 +10,7 @@
 #include "Render/RHI/RHI.h"
 #include "Render/Textures/ZzzOpenglUtil.h"  // PlatformSwapBuffers()
 #include "Render/Core/BindState.h"
+#include "Render/Core/GLProcAddress.h"
 #include "Render/Core/ImmediateRenderer.h" // GLP-19 -- IR::Flush() before texture content changes          // BindVAO() / InvalidateVAOCache()
 #include "Core/Utilities/FrameProfiler.h"
 #include "Core/Utilities/Log/ErrorReport.h"
@@ -237,27 +238,53 @@ namespace {
     PFNGLBUFFERDATAPROC     fn_glBufferData     = nullptr;
     PFNGLBUFFERSUBDATAPROC  fn_glBufferSubData  = nullptr;
     PFNGLDELETEBUFFERSPROC  fn_glDeleteBuffers  = nullptr;
-    PFNGLBINDBUFFERBASEPROC fn_glBindBufferBase = nullptr;
     PFNGLMAPBUFFERRANGEPROC fn_glMapBufferRange = nullptr;
     PFNGLUNMAPBUFFERPROC    fn_glUnmapBuffer    = nullptr;
+
+    // Uniform buffers are deliberately native GLES objects on Android. gl4es
+    // uses virtual names for its vertex/index buffers and cannot translate
+    // those names for GLES 3 UBO binding points.
+    PFNGLGENBUFFERSPROC     fn_glesGenBuffers     = nullptr;
+    PFNGLBINDBUFFERPROC     fn_glesBindBuffer     = nullptr;
+    PFNGLBUFFERDATAPROC     fn_glesBufferData     = nullptr;
+    PFNGLBUFFERSUBDATAPROC  fn_glesBufferSubData  = nullptr;
+    PFNGLDELETEBUFFERSPROC  fn_glesDeleteBuffers  = nullptr;
+    PFNGLBINDBUFFERBASEPROC fn_glesBindBufferBase = nullptr;
+    PFNGLMAPBUFFERRANGEPROC fn_glesMapBufferRange = nullptr;
+    PFNGLUNMAPBUFFERPROC    fn_glesUnmapBuffer    = nullptr;
 
     bool LoadBufferGLFunctions()
     {
         static bool loaded = false;
         if (loaded) return true;
-        fn_glGenBuffers     = (PFNGLGENBUFFERSPROC)SDL_GL_GetProcAddress("glGenBuffers");
-        fn_glBindBuffer     = (PFNGLBINDBUFFERPROC)SDL_GL_GetProcAddress("glBindBuffer");
-        fn_glBufferData     = (PFNGLBUFFERDATAPROC)SDL_GL_GetProcAddress("glBufferData");
-        fn_glBufferSubData  = (PFNGLBUFFERSUBDATAPROC)SDL_GL_GetProcAddress("glBufferSubData");
-        fn_glDeleteBuffers  = (PFNGLDELETEBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteBuffers");
-        fn_glBindBufferBase = (PFNGLBINDBUFFERBASEPROC)SDL_GL_GetProcAddress("glBindBufferBase");
+        fn_glGenBuffers     = (PFNGLGENBUFFERSPROC)MuGL::GetProcAddress("glGenBuffers");
+        fn_glBindBuffer     = (PFNGLBINDBUFFERPROC)MuGL::GetProcAddress("glBindBuffer");
+        fn_glBufferData     = (PFNGLBUFFERDATAPROC)MuGL::GetProcAddress("glBufferData");
+        fn_glBufferSubData  = (PFNGLBUFFERSUBDATAPROC)MuGL::GetProcAddress("glBufferSubData");
+        fn_glDeleteBuffers  = (PFNGLDELETEBUFFERSPROC)MuGL::GetProcAddress("glDeleteBuffers");
         // Core since GL 3.0, so guaranteed present given GLP-08's GL >= 3.3 floor. Not part of
         // the `loaded` predicate: AppendBuffer falls back to glBufferSubData if they are null.
-        fn_glMapBufferRange = (PFNGLMAPBUFFERRANGEPROC)SDL_GL_GetProcAddress("glMapBufferRange");
-        fn_glUnmapBuffer    = (PFNGLUNMAPBUFFERPROC)SDL_GL_GetProcAddress("glUnmapBuffer");
+        fn_glMapBufferRange = (PFNGLMAPBUFFERRANGEPROC)MuGL::GetProcAddress("glMapBufferRange");
+        fn_glUnmapBuffer    = (PFNGLUNMAPBUFFERPROC)MuGL::GetProcAddress("glUnmapBuffer");
         loaded = (fn_glGenBuffers != nullptr && fn_glBindBuffer != nullptr &&
                   fn_glBufferData != nullptr && fn_glBufferSubData != nullptr &&
-                  fn_glDeleteBuffers != nullptr && fn_glBindBufferBase != nullptr);
+                  fn_glDeleteBuffers != nullptr);
+        return loaded;
+    }
+
+    bool LoadUniformBufferGLFunctions()
+    {
+        static bool loaded = false;
+        if (loaded) return true;
+        fn_glesGenBuffers     = (PFNGLGENBUFFERSPROC)MuGL::GetNativeProcAddress("glGenBuffers");
+        fn_glesBindBuffer     = (PFNGLBINDBUFFERPROC)MuGL::GetNativeProcAddress("glBindBuffer");
+        fn_glesBufferData     = (PFNGLBUFFERDATAPROC)MuGL::GetNativeProcAddress("glBufferData");
+        fn_glesBufferSubData  = (PFNGLBUFFERSUBDATAPROC)MuGL::GetNativeProcAddress("glBufferSubData");
+        fn_glesDeleteBuffers  = (PFNGLDELETEBUFFERSPROC)MuGL::GetNativeProcAddress("glDeleteBuffers");
+        fn_glesBindBufferBase = (PFNGLBINDBUFFERBASEPROC)MuGL::GetNativeProcAddress("glBindBufferBase");
+        loaded = (fn_glesGenBuffers != nullptr && fn_glesBindBuffer != nullptr &&
+                  fn_glesBufferData != nullptr && fn_glesBufferSubData != nullptr &&
+                  fn_glesDeleteBuffers != nullptr && fn_glesBindBufferBase != nullptr);
         return loaded;
     }
 
@@ -454,11 +481,11 @@ typedef void      (APIENTRY* PFNGLBUFFERSTORAGEPROC)(GLenum target, GLsizeiptr s
 typedef void      (APIENTRY* PFNGLBINDBUFFERRANGEPROC)(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
 
 namespace {
-    PFNGLFENCESYNCPROC       fn_glFenceSync       = nullptr;
-    PFNGLCLIENTWAITSYNCPROC  fn_glClientWaitSync  = nullptr;
-    PFNGLDELETESYNCPROC      fn_glDeleteSync      = nullptr;
-    PFNGLBUFFERSTORAGEPROC   fn_glBufferStorage   = nullptr;
-    PFNGLBINDBUFFERRANGEPROC fn_glBindBufferRange = nullptr;
+    PFNGLFENCESYNCPROC       fn_glesFenceSync       = nullptr;
+    PFNGLCLIENTWAITSYNCPROC  fn_glesClientWaitSync  = nullptr;
+    PFNGLDELETESYNCPROC      fn_glesDeleteSync      = nullptr;
+    PFNGLBUFFERSTORAGEPROC   fn_glesBufferStorage   = nullptr;
+    PFNGLBINDBUFFERRANGEPROC fn_glesBindBufferRange = nullptr;
 
     // Sync objects + glMapBufferRange/glBindBufferRange are core since GL 3.0/3.2, always
     // present given GLP-08's GL >= 3.3 floor -- loaded once, like every other entry-point group
@@ -467,15 +494,15 @@ namespace {
     {
         static bool loaded = false;
         if (loaded) return true;
-        fn_glFenceSync       = (PFNGLFENCESYNCPROC)SDL_GL_GetProcAddress("glFenceSync");
-        fn_glClientWaitSync  = (PFNGLCLIENTWAITSYNCPROC)SDL_GL_GetProcAddress("glClientWaitSync");
-        fn_glDeleteSync      = (PFNGLDELETESYNCPROC)SDL_GL_GetProcAddress("glDeleteSync");
-        fn_glMapBufferRange  = (PFNGLMAPBUFFERRANGEPROC)SDL_GL_GetProcAddress("glMapBufferRange");
-        fn_glUnmapBuffer     = (PFNGLUNMAPBUFFERPROC)SDL_GL_GetProcAddress("glUnmapBuffer");
-        fn_glBindBufferRange = (PFNGLBINDBUFFERRANGEPROC)SDL_GL_GetProcAddress("glBindBufferRange");
-        loaded = (fn_glFenceSync != nullptr && fn_glClientWaitSync != nullptr &&
-                  fn_glDeleteSync != nullptr && fn_glMapBufferRange != nullptr &&
-                  fn_glUnmapBuffer != nullptr && fn_glBindBufferRange != nullptr);
+        fn_glesFenceSync       = (PFNGLFENCESYNCPROC)MuGL::GetNativeProcAddress("glFenceSync");
+        fn_glesClientWaitSync  = (PFNGLCLIENTWAITSYNCPROC)MuGL::GetNativeProcAddress("glClientWaitSync");
+        fn_glesDeleteSync      = (PFNGLDELETESYNCPROC)MuGL::GetNativeProcAddress("glDeleteSync");
+        fn_glesMapBufferRange  = (PFNGLMAPBUFFERRANGEPROC)MuGL::GetNativeProcAddress("glMapBufferRange");
+        fn_glesUnmapBuffer     = (PFNGLUNMAPBUFFERPROC)MuGL::GetNativeProcAddress("glUnmapBuffer");
+        fn_glesBindBufferRange = (PFNGLBINDBUFFERRANGEPROC)MuGL::GetNativeProcAddress("glBindBufferRange");
+        loaded = (fn_glesFenceSync != nullptr && fn_glesClientWaitSync != nullptr &&
+                  fn_glesDeleteSync != nullptr && fn_glesMapBufferRange != nullptr &&
+                  fn_glesUnmapBuffer != nullptr && fn_glesBindBufferRange != nullptr);
         return loaded;
     }
 
@@ -486,8 +513,8 @@ namespace {
     {
         static bool loaded = false;
         if (loaded) return true;
-        fn_glBufferStorage = (PFNGLBUFFERSTORAGEPROC)SDL_GL_GetProcAddress("glBufferStorage");
-        loaded = (fn_glBufferStorage != nullptr);
+        fn_glesBufferStorage = (PFNGLBUFFERSTORAGEPROC)MuGL::GetNativeProcAddress("glBufferStorage");
+        loaded = (fn_glesBufferStorage != nullptr);
         return loaded;
     }
 
@@ -561,7 +588,7 @@ namespace {
     {
         if (ring.fence[segment] != nullptr)
         {
-            fn_glDeleteSync(ring.fence[segment]);
+            fn_glesDeleteSync(ring.fence[segment]);
             ring.fence[segment] = nullptr;
         }
     }
@@ -573,10 +600,10 @@ namespace {
     {
         GLsync fence = ring.fence[segment];
         if (fence == nullptr) return;
-        GLenum result = fn_glClientWaitSync(fence, 0, 0);
+        GLenum result = fn_glesClientWaitSync(fence, 0, 0);
         if (result == GL_TIMEOUT_EXPIRED)
         {
-            fn_glClientWaitSync(fence, GL_SYNC_FLUSH_COMMANDS_BIT, 1000000000ULL /* 1s */);
+            fn_glesClientWaitSync(fence, GL_SYNC_FLUSH_COMMANDS_BIT, 1000000000ULL /* 1s */);
         }
         DeleteRingFence(ring, segment);
     }
@@ -586,14 +613,14 @@ namespace {
         if (ring.bufferId == 0) return;
         if (ring.mappedPtr != nullptr)
         {
-            fn_glBindBuffer(GL_UNIFORM_BUFFER, ring.bufferId);
-            fn_glUnmapBuffer(GL_UNIFORM_BUFFER);
-            fn_glBindBuffer(GL_UNIFORM_BUFFER, 0);
+            fn_glesBindBuffer(GL_UNIFORM_BUFFER, ring.bufferId);
+            fn_glesUnmapBuffer(GL_UNIFORM_BUFFER);
+            fn_glesBindBuffer(GL_UNIFORM_BUFFER, 0);
             ring.mappedPtr = nullptr;
         }
         for (int s = 0; s < kUboRingSegments; s++) DeleteRingFence(ring, s);
         GLuint id = ring.bufferId;
-        fn_glDeleteBuffers(1, &id);
+        fn_glesDeleteBuffers(1, &id);
         ring.bufferId = 0;
     }
 
@@ -610,14 +637,14 @@ namespace {
         const GLsizeiptr totalSize = newSegmentSize * kUboRingSegments;
 
         GLuint id = 0;
-        fn_glGenBuffers(1, &id);
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, id);
+        fn_glesGenBuffers(1, &id);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, id);
 
         if (g_Caps.bufferStorage && LoadBufferStorageFunction())
         {
             const GLbitfield storageFlags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
-            fn_glBufferStorage(GL_UNIFORM_BUFFER, totalSize, nullptr, storageFlags);
-            ring.mappedPtr = fn_glMapBufferRange(GL_UNIFORM_BUFFER, 0, totalSize, storageFlags);
+            fn_glesBufferStorage(GL_UNIFORM_BUFFER, totalSize, nullptr, storageFlags);
+            ring.mappedPtr = fn_glesMapBufferRange(GL_UNIFORM_BUFFER, 0, totalSize, storageFlags);
             ring.persistent = (ring.mappedPtr != nullptr);
         }
 
@@ -627,11 +654,11 @@ namespace {
             // ordinary mutable storage, mapped per update in UpdateUniformBlock with
             // UNSYNCHRONIZED|INVALIDATE_RANGE instead of held persistently mapped. Still no
             // per-update allocation -- the buffer itself is sized once, here.
-            fn_glBufferData(GL_UNIFORM_BUFFER, totalSize, nullptr, GL_DYNAMIC_DRAW);
+            fn_glesBufferData(GL_UNIFORM_BUFFER, totalSize, nullptr, GL_DYNAMIC_DRAW);
             ring.mappedPtr = nullptr;
         }
 
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, 0);
 
         ring.bufferId = id;
         ring.writeOffset = 0;
@@ -692,7 +719,7 @@ namespace {
             if (ring.bufferId == 0) continue;
 
             DeleteRingFence(ring, ring.currentSegment);
-            ring.fence[ring.currentSegment] = fn_glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+            ring.fence[ring.currentSegment] = fn_glesFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 
             ring.currentSegment = (ring.currentSegment + 1) % kUboRingSegments;
             WaitRingSegment(ring, ring.currentSegment);
@@ -715,35 +742,35 @@ namespace {
     BufferHandle LegacyCreateUniformBlock(size_t sizeBytes, int bindingSlot)
     {
         GLuint id = 0;
-        fn_glGenBuffers(1, &id);
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, id);
-        fn_glBufferData(GL_UNIFORM_BUFFER, (GLsizeiptr)sizeBytes, nullptr, GL_DYNAMIC_DRAW);
-        fn_glBindBufferBase(GL_UNIFORM_BUFFER, (GLuint)bindingSlot, id);
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        fn_glesGenBuffers(1, &id);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, id);
+        fn_glesBufferData(GL_UNIFORM_BUFFER, (GLsizeiptr)sizeBytes, nullptr, GL_DYNAMIC_DRAW);
+        fn_glesBindBufferBase(GL_UNIFORM_BUFFER, (GLuint)bindingSlot, id);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, 0);
         return BufferHandle{ id };
     }
 
     void LegacyUpdateUniformBlock(BufferHandle handle, const void* data, size_t sizeBytes)
     {
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, handle.id);
-        fn_glBufferData(GL_UNIFORM_BUFFER, (GLsizeiptr)sizeBytes, nullptr, GL_DYNAMIC_DRAW);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, handle.id);
+        fn_glesBufferData(GL_UNIFORM_BUFFER, (GLsizeiptr)sizeBytes, nullptr, GL_DYNAMIC_DRAW);
         FrameProfiler::CountGLCall(FrameProfiler::Counter::BufferUpdates);
         FrameProfiler::TagBufferOrphan();
-        fn_glBufferSubData(GL_UNIFORM_BUFFER, 0, (GLsizeiptr)sizeBytes, data);
+        fn_glesBufferSubData(GL_UNIFORM_BUFFER, 0, (GLsizeiptr)sizeBytes, data);
         FrameProfiler::CountGLCall(FrameProfiler::Counter::BufferUpdates);
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
     void LegacyDestroyUniformBlock(BufferHandle handle)
     {
         GLuint id = handle.id;
-        fn_glDeleteBuffers(1, &id);
+        fn_glesDeleteBuffers(1, &id);
     }
 }
 
 BufferHandle CreateUniformBlock(size_t sizeBytes, int bindingSlot)
 {
-    if (!LoadBufferGLFunctions()) return {};
+    if (!LoadUniformBufferGLFunctions()) return {};
 
     if (!UboRingAvailable())
     {
@@ -768,7 +795,7 @@ void UpdateUniformBlock(BufferHandle handle, const void* data, size_t sizeBytes)
     // BoneUBO::Create, BMDMeshShader::CreateGL all do), so this is not a behavior change for any
     // caller in the tree today. A future caller that creates a block and never updates it would
     // have no binding -- keep that in mind before adding one.
-    if (!handle.IsValid() || !LoadBufferGLFunctions()) return;
+    if (!handle.IsValid() || !LoadUniformBufferGLFunctions()) return;
 
     if (!UboRingAvailable())
     {
@@ -805,19 +832,19 @@ void UpdateUniformBlock(BufferHandle handle, const void* data, size_t sizeBytes)
     }
     else
     {
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, ring.bufferId);
-        void* dst = fn_glMapBufferRange(GL_UNIFORM_BUFFER, writeOffset, (GLsizeiptr)sizeBytes,
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, ring.bufferId);
+        void* dst = fn_glesMapBufferRange(GL_UNIFORM_BUFFER, writeOffset, (GLsizeiptr)sizeBytes,
             GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
         if (dst != nullptr)
         {
             memcpy(dst, data, sizeBytes);
-            fn_glUnmapBuffer(GL_UNIFORM_BUFFER);
+            fn_glesUnmapBuffer(GL_UNIFORM_BUFFER);
         }
-        fn_glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        fn_glesBindBuffer(GL_UNIFORM_BUFFER, 0);
         FrameProfiler::CountGLCall(FrameProfiler::Counter::BufferUpdates);
     }
 
-    fn_glBindBufferRange(GL_UNIFORM_BUFFER, (GLuint)bindingSlot, ring.bufferId, writeOffset, (GLsizeiptr)sizeBytes);
+    fn_glesBindBufferRange(GL_UNIFORM_BUFFER, (GLuint)bindingSlot, ring.bufferId, writeOffset, (GLsizeiptr)sizeBytes);
     FrameProfiler::CountGLCall(FrameProfiler::Counter::BufferUpdates);
 
     ring.writeOffset += alignedSize;
@@ -835,7 +862,7 @@ void DestroyUniformBlock(BufferHandle handle)
     // Frees a SLOT RESERVATION, not the shared ring -- the ring itself is only torn down at
     // RHI_GL_Impl::Shutdown(). The four current callers only reach this from their own
     // destructors at process teardown, by which point Shutdown() runs next anyway.
-    if (!handle.IsValid() || !LoadBufferGLFunctions()) return;
+    if (!handle.IsValid() || !LoadUniformBufferGLFunctions()) return;
 
     if (!UboRingAvailable())
     {
@@ -934,10 +961,10 @@ namespace {
     {
         static bool loaded = false;
         if (loaded) return true;
-        fn_glGenVertexArrays         = (PFNGLGENVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glGenVertexArrays");
-        fn_glDeleteVertexArrays      = (PFNGLDELETEVERTEXARRAYSPROC)SDL_GL_GetProcAddress("glDeleteVertexArrays");
-        fn_glVertexAttribPointer     = (PFNGLVERTEXATTRIBPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribPointer");
-        fn_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glEnableVertexAttribArray");
+        fn_glGenVertexArrays         = (PFNGLGENVERTEXARRAYSPROC)MuGL::GetProcAddress("glGenVertexArrays");
+        fn_glDeleteVertexArrays      = (PFNGLDELETEVERTEXARRAYSPROC)MuGL::GetProcAddress("glDeleteVertexArrays");
+        fn_glVertexAttribPointer     = (PFNGLVERTEXATTRIBPOINTERPROC)MuGL::GetProcAddress("glVertexAttribPointer");
+        fn_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)MuGL::GetProcAddress("glEnableVertexAttribArray");
         loaded = (fn_glGenVertexArrays != nullptr && fn_glDeleteVertexArrays != nullptr &&
                   fn_glVertexAttribPointer != nullptr && fn_glEnableVertexAttribArray != nullptr);
         return loaded;

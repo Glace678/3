@@ -2497,15 +2497,21 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             PlaySpeed = 0.f;
         if (c->Change && o->CurrentAction >= MONSTER01_ATTACK1 && o->CurrentAction <= MONSTER01_ATTACK2)
             PlaySpeed *= 1.5f;
+        // PlaySpeed is the per-reference-frame rate; BMD::PlayAnimation already
+        // multiplies it by FPS_ANIMATION_FACTOR (ZzzBMD.cpp), so these dramatic
+        // slow-down / speed-up modifiers must be plain constants. Wrapping them in
+        // pow(base, FPS_ANIMATION_FACTOR) applied the frame factor twice, which
+        // cancelled most of the effect at high refresh rates (slow-motion skills
+        // played near-normal speed, 2x/4x actions barely sped up).
         if (o->CurrentAction == PLAYER_SKILL_VITALITY && o->AnimationFrame > 6.f)
         {
-            PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= 0.5f;
         }
         else if ((o->CurrentAction == PLAYER_ATTACK_TELEPORT || o->CurrentAction == PLAYER_ATTACK_RIDE_TELEPORT
             || o->CurrentAction == PLAYER_FENRIR_ATTACK_DARKLORD_TELEPORT
             ) && o->AnimationFrame > 5.5f)
         {
-            PlaySpeed *= pow(1.0f / (10.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= 0.1f;
         }
         else if (gCharacterManager.GetBaseClass(c->Class) == CLASS_DARK_LORD &&
             (o->CurrentAction == PLAYER_SKILL_FLASH || o->CurrentAction == PLAYER_ATTACK_RIDE_ATTACK_FLASH
@@ -2515,16 +2521,16 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
         {
             if (g_pPartyManager->IsPartyMemberChar(c) == false)
             {
-                PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= 0.5f;
             }
             else
             {
-                PlaySpeed *= pow(1.0f / (8.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= 0.125f;
             }
         }
         if (o->CurrentAction == PLAYER_SKILL_HELL_BEGIN)
         {
-            PlaySpeed *= powf(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= 0.5f;
         }
         if (o->Type != MODEL_PLAYER)
         {
@@ -2532,7 +2538,7 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             {
             case MODEL_ILLUSION_OF_KUNDUN:
                 if (o->CurrentAction == MONSTER01_DIE && o->AnimationFrame > 6)
-                    PlaySpeed *= pow(4.0f, FPS_ANIMATION_FACTOR);
+                    PlaySpeed *= 4.0f;
                 break;
             case MODEL_FACE:
             case MODEL_FACE + 1:
@@ -2541,14 +2547,14 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             case MODEL_FACE + 4:
             case MODEL_FACE + 5:
             case MODEL_FACE + 6:
-                PlaySpeed *= powf(2.0f, FPS_ANIMATION_FACTOR);
+                PlaySpeed *= 2.0f;
                 break;
             }
         }
         if (o->Type == MODEL_EROHIM)
         {
             if (o->CurrentAction == MONSTER01_DIE)
-                PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= 0.5f;
         }
     }
 
@@ -3127,10 +3133,15 @@ void FallingCharacter(CHARACTER* c, OBJECT* o)
     AngleMatrix(o->m_vDownAngle, Matrix);
     VectorRotate(p, Matrix, Position);
 
-    o->Direction[1] += o->Direction[0];
-    o->Gravity += o->Velocity;
-    o->Velocity -= o->Direction[2];
-    o->Angle[0] -= 5.f;
+    // Frame-normalized integration so Blood/Chaos Castle death knockback, fall
+    // and spin take the same wall-clock time at any refresh rate -- mirrors
+    // FallingMonster() above (raw per-frame constants made corpses spin ~6x
+    // faster and plummet through the floor at 144fps).
+    const float frameScale = FPS_ANIMATION_FACTOR;
+    o->Direction[1] += Core::Time::ScaleLinearStep(o->Direction[0], frameScale);
+    o->Gravity += Core::Time::ScaleLinearStep(o->Velocity, frameScale);
+    o->Velocity -= Core::Time::ScaleLinearStep(o->Direction[2], frameScale);
+    o->Angle[0] -= Core::Time::ScaleLinearStep(5.0f, frameScale);
 
     o->Position[0] = o->m_vDeadPosition[0] + Position[0];
     o->Position[1] = o->m_vDeadPosition[1] + Position[1];
@@ -3242,7 +3253,10 @@ void DeadCharacter(CHARACTER* c, OBJECT* o, BMD* b)
         }
 
         if (o->Alpha >= 0.01f)
-            o->Position[2] -= 0.4f;
+            // Corpse sink during the death fade; scale by the frame factor so it
+            // sinks the designed ~20 units over the 2s fade at any refresh rate
+            // (unscaled it sank ~5x deeper at 144fps, through the floor).
+            o->Position[2] -= 0.4f * FPS_ANIMATION_FACTOR;
         else if (c != Hero)
         {
             o->Live = false;
@@ -4015,7 +4029,10 @@ void CreateWeaponBlur(CHARACTER* c, OBJECT* o, BMD* b)
 
                     if (o->Type == MODEL_AEGIS && i % 2)
                     {
-                        CreateParticle(BITMAP_FIRE + 3, p2, o->Angle, Light, 12);
+                        // Ambient per-frame flame emitter during a swing: fps-gate it so
+                        // the fire-trail density stays constant over real time (raw
+                        // CreateParticle here piled up ~2.4x/6x more flames at 60/144fps).
+                        CreateParticleFpsChecked(BITMAP_FIRE + 3, p2, o->Angle, Light, 12);
                     }
 
                     if (c->Weapon[0].Type != -1 || c->Weapon[1].Type != -1)
@@ -5630,8 +5647,12 @@ void MoveCharacterVisual(CHARACTER* c, OBJECT* o)
                     if (o->HeadTargetAngle[i] < 0) o->HeadTargetAngle[i] += 360.f;
             }
 
+            // Frame-normalized idle head-turn blend so the look-around eases at
+            // the same wall-clock rate at any fps (a fixed 0.2/frame snapped heads
+            // instantly to each new target on high-refresh screens).
+            const float headBlend = Core::Time::ScaleBlendCoefficient(0.2f, FPS_ANIMATION_FACTOR);
             for (int j = 0; j < 2; j++)
-                o->HeadAngle[j] = TurnAngle2(o->HeadAngle[j], o->HeadTargetAngle[j], FarAngle(o->HeadAngle[j], o->HeadTargetAngle[j]) * 0.2f);
+                o->HeadAngle[j] = TurnAngle2(o->HeadAngle[j], o->HeadTargetAngle[j], FarAngle(o->HeadAngle[j], o->HeadTargetAngle[j]) * headBlend);
         }
 
         vec3_t p, Position;
@@ -5770,13 +5791,18 @@ void MoveCharacterVisual(CHARACTER* c, OBJECT* o)
             break;
         case MODEL_QUEEN_RAINER:
         {
+            // Ambient electric aura: this runs EVERY rendered frame. Gate each bolt
+            // segment with CreateJointFpsChecked (rand_fps_check(1)) so the alive-bolt
+            // count (~14 cohorts) stays constant over real time; otherwise the aura
+            // spawns 14 joints/frame and saturates the whole MAX_JOINTS pool on
+            // high-refresh screens (joint starvation + over-bright lightning storm).
             vec3_t pos1, pos2;
 
             for (int i = 2; i < 5; ++i)
             {
                 b->TransformPosition(o->BoneTransform[i], p, pos1, true);
                 b->TransformPosition(o->BoneTransform[i + 1], p, pos2, true);
-                CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+                CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
             }
 
             for (int i = 9; i < 11; ++i)
@@ -5786,37 +5812,37 @@ void MoveCharacterVisual(CHARACTER* c, OBJECT* o)
                 else
                     b->TransformPosition(o->BoneTransform[i], p, pos1, true);
                 b->TransformPosition(o->BoneTransform[i + 1], p, pos2, true);
-                CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+                CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
             }
 
             b->TransformPosition(o->BoneTransform[2], p, pos1, true);
             b->TransformPosition(o->BoneTransform[18], p, pos2, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[22], p, pos1, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[23], p, pos2, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[24], p, pos1, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[25], p, pos2, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[18], p, pos1, true);
             b->TransformPosition(o->BoneTransform[31], p, pos2, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[32], p, pos1, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[33], p, pos2, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos1, pos2, o->Angle, 7, NULL, 14.f);
 
             b->TransformPosition(o->BoneTransform[34], p, pos1, true);
-            CreateJoint(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
+            CreateJointFpsChecked(BITMAP_JOINT_THUNDER, pos2, pos1, o->Angle, 7, NULL, 14.f);
         }
         break;
         case MODEL_CRUST:
@@ -5828,7 +5854,9 @@ void MoveCharacterVisual(CHARACTER* c, OBJECT* o)
         case MODEL_DRAKAN:
             break;
         case MODEL_CURSED_KING:
-            if (0 == ((int)rand() % 5))
+            // Frame-normalized drip rate: rand_fps_check keeps ~5 drips/sec at any
+            // refresh rate (a flat rand()%5 produced ~6x the blood density at 144fps).
+            if (rand_fps_check(5))
             {
                 Position[0] = o->Position[0] + ((rand() % 21) - 10) * ((float)TERRAIN_SIZE / 70);
                 Position[1] = o->Position[1] + ((rand() % 21) - 10) * ((float)TERRAIN_SIZE / 70);
@@ -9313,7 +9341,9 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
         if (g_isCharacterBuff((&c->Object), eBuff_Doppelganger_Ascension))
         {
-            o->Position[2] += 2.0f;
+            // Frame-normalized hover rise so an idle ascended monster floats up at
+            // the same rate at any refresh rate (unscaled it rose ~6x faster at 144fps).
+            o->Position[2] += 2.0f * FPS_ANIMATION_FACTOR;
         }
     }
 
@@ -10985,7 +11015,9 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
                     c->ExtendStateTime = 0;
                 }
-                c->ExtendStateTime++;
+                // Reference-frame timer (threshold 100 = 4.0s at 25fps); accumulate
+                // the frame factor so the idle sparkle cadence is fps-independent.
+                c->ExtendStateTime += FPS_ANIMATION_FACTOR;
             }
 
             if (fullset && g_pOption->GetRenderLevel() >= 2)

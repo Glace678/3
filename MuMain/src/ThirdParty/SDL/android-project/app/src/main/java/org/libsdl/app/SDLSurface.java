@@ -237,19 +237,21 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
 
     private float getNormalizedX(float x)
     {
-        if (mWidth <= 1) {
+        int viewWidth = getWidth();
+        if (viewWidth <= 1) {
             return 0.5f;
         } else {
-            return (x / (mWidth - 1));
+            return (x / (viewWidth - 1));
         }
     }
 
     private float getNormalizedY(float y)
     {
-        if (mHeight <= 1) {
+        int viewHeight = getHeight();
+        if (viewHeight <= 1) {
             return 0.5f;
         } else {
-            return (y / (mHeight - 1));
+            return (y / (viewHeight - 1));
         }
     }
 

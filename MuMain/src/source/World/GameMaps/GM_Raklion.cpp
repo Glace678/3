@@ -2206,7 +2206,9 @@ bool CGM_Raklion::CreateSnow(PARTICLE* o)
 
     o->Type = BITMAP_LEAF1;
     o->Scale = (float)(rand() % 10 + 3);
-    if (rand_fps_check(10))
+    // One-shot per-spawn trait: constant 10% large-flake chance at every refresh
+    // rate (rand_fps_check would make big flakes vanish as fps rises).
+    if (rand() % 10 == 0)
     {
         o->Scale = (float)(rand() % 3 + 10);
     }

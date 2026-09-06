@@ -2092,7 +2092,9 @@ bool M34CryWolf1st::CreateMist(PARTICLE* pParticleObj)
             VectorRotate(Velocity, Matrix, Direction);
             VectorAddScaled(TargetPosition, Direction, TargetPosition, FPS_ANIMATION_FACTOR);
         }
-        if (Hero->Movement || (rand_fps_check(2)))
+        // Outer spawn gate already normalizes emit rate; the idle coin flip must
+        // stay a constant 1/2 instead of re-applying the frame factor.
+        if (Hero->Movement || (rand() % 2 == 0))
         {
             CreateParticle(BITMAP_CLOUD, TargetPosition, TargetAngle, Light, 8, 0.4f);
         }

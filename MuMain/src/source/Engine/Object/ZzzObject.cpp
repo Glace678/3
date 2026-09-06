@@ -3733,7 +3733,8 @@ void MoveObject(OBJECT* o)
         switch (o->Type)
         {
         case 8:
-            fSpeed *= pow(4.0f, FPS_ANIMATION_FACTOR);
+            // Constant 4x rate; PlayAnimation applies the frame factor itself.
+            fSpeed *= 4.0f;
             break;
         }
     }
@@ -4354,7 +4355,9 @@ void MoveObjectSetting(int& objCount)
     {
         objCount = MoveHeavenThunder();
 
-        if (0 == (rand() % 10))
+        // Sky-flash strobe: normalize to ~2.5 flashes/sec at the 25fps reference
+        // (raw rand()%10 per rendered frame would strobe faster on high-refresh screens).
+        if (rand_fps_check(10))
         {
             vec3_t Position;
             Vector(Hero->Object.Position[0] + (float)(rand() % 5000 - 2500),

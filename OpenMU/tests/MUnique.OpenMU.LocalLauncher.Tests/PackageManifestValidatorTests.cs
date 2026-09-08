@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.LocalLauncher.Tests;
 
+using System.Security.Cryptography;
 using System.Text.Json;
 
 /// <summary>
@@ -60,5 +61,34 @@ public class PackageManifestValidatorTests
 
         Assert.ThrowsAsync<InvalidDataException>(async () =>
             await new PackageManifestValidator().ValidateAsync(new LocalPaths(this._directory), CancellationToken.None));
+    }
+
+    /// <summary>Verifies legacy manifests cannot reject player-written game settings.</summary>
+    [Test]
+    public void MutableGameConfigurationIsNotContentValidated()
+    {
+        var gameDirectory = Path.Combine(this._directory, "App", "Game");
+        Directory.CreateDirectory(gameDirectory);
+        File.WriteAllText(Path.Combine(gameDirectory, "config.ini"), "[Window]\nWindowed=1\n");
+        var manifest = new
+        {
+            formatVersion = 1,
+            version = "0.9.10-local.1",
+            files = new[]
+            {
+                new
+                {
+                    path = "App/Game/config.ini",
+                    size = 0,
+                    sha256 = Convert.ToHexString(SHA256.HashData(Array.Empty<byte>())),
+                },
+            },
+        };
+        File.WriteAllBytes(Path.Combine(this._directory, "manifest.json"), JsonSerializer.SerializeToUtf8Bytes(manifest));
+
+        var exception = Assert.ThrowsAsync<InvalidDataException>(async () =>
+            await new PackageManifestValidator().ValidateAsync(new LocalPaths(this._directory), CancellationToken.None));
+
+        Assert.That(exception!.Message, Does.StartWith("便携程序包清单未包含必需文件"));
     }
 }

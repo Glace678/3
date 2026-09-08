@@ -7,6 +7,7 @@ $destination = Join-Path $testRoot 'package\App\Game'
 $junction = Join-Path $testRoot 'publish-link'
 $junctionTarget = Join-Path $testRoot 'publish-target'
 $ordinaryPublish = Join-Path $testRoot 'ordinary-publish'
+$manifestPackage = Join-Path $testRoot 'manifest-package'
 
 try {
     New-Item -ItemType Directory -Path $source -Force | Out-Null
@@ -42,6 +43,23 @@ Locale=zh-CN
     Assert-GameConfigTemplate -TemplatePath (Join-Path $destination 'config.ini')
     if (Test-Path -LiteralPath (Join-Path $destination 'MuClient.lib')) {
         throw 'Packaged game payload contains a linker library.'
+    }
+
+    New-Item -ItemType Directory -Path (Join-Path $manifestPackage 'App\Game') -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $destination 'config.ini') -Destination (Join-Path $manifestPackage 'App\Game\config.ini')
+    Copy-Item -LiteralPath (Join-Path $source 'config.ini.template') -Destination (Join-Path $manifestPackage 'App\Game\config.ini.template')
+    & (Join-Path $PSScriptRoot 'New-PackageManifest.ps1') `
+        -PackageRoot $manifestPackage `
+        -Version '0.9.10-local.1' `
+        -PostgreSqlVersion '17.11-1' `
+        -PostgreSqlArchiveSha256 ('0' * 64) `
+        -PostgreSqlSourceUrl 'https://get.enterprisedb.com/postgresql/test.zip' | Out-Null
+    $manifestFiles = @((Get-Content -LiteralPath (Join-Path $manifestPackage 'manifest.json') -Raw | ConvertFrom-Json).files.path)
+    if ($manifestFiles -contains 'App/Game/config.ini') {
+        throw 'The mutable packaged config.ini was added to the integrity manifest.'
+    }
+    if ($manifestFiles -notcontains 'App/Game/config.ini.template') {
+        throw 'The verified config.ini.template is missing from the integrity manifest.'
     }
 
     Set-Content -LiteralPath (Join-Path $source 'config.ini.template') -Encoding utf8NoBOM -Value @'

@@ -29,6 +29,9 @@ public sealed class LocalPaths
     /// <summary>Gets the game application directory.</summary>
     public string GameDirectory => Path.Combine(this.RootDirectory, "App", "Game");
 
+    /// <summary>Gets the verified default game configuration template.</summary>
+    public string GameConfigurationTemplateFile => Path.Combine(this.GameDirectory, "config.ini.template");
+
     /// <summary>Gets the server application directory.</summary>
     public string ServerDirectory => Path.Combine(this.RootDirectory, "App", "Server");
 

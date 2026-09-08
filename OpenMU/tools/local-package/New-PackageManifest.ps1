@@ -21,6 +21,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath($PackageRoot)
 $manifestPath = Join-Path $root 'manifest.json'
+$excludedFiles = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+[void]$excludedFiles.Add([IO.Path]::GetFullPath((Join-Path $root 'App\Game\config.ini')))
 $excludedRoots = @(
     [IO.Path]::GetFullPath((Join-Path $root 'Data\PostgreSQL')),
     [IO.Path]::GetFullPath((Join-Path $root 'Data\Keys')),
@@ -30,7 +32,9 @@ $excludedRoots = @(
 
 $files = Get-ChildItem -LiteralPath $root -File -Recurse | Where-Object {
     $fullName = $_.FullName
-    $fullName -ne $manifestPath -and -not ($excludedRoots | Where-Object { $fullName.StartsWith($_ + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) })
+    $fullName -ne $manifestPath -and
+    -not $excludedFiles.Contains($fullName) -and
+    -not ($excludedRoots | Where-Object { $fullName.StartsWith($_ + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) })
 } | Sort-Object FullName | ForEach-Object {
     [ordered]@{
         path = [IO.Path]::GetRelativePath($root, $_.FullName).Replace('\', '/')

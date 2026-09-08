@@ -97,7 +97,10 @@ official download URL, and verified SHA-256 live in `postgresql-runtime.json`.
 The release operator may independently verify and override the expected value
 with `-PostgreSqlSha256`; the download script rejects a missing, malformed, or
 mismatched hash. The completed package manifest records the version, source URL,
-and resolved archive hash together with per-file hashes.
+and resolved archive hash together with per-file hashes. The compatibility
+`App/Game/config.ini` seed is excluded because it may be changed by a direct
+client launch; the launcher initializes player settings from the verified
+`App/Game/config.ini.template` instead.
 
 Example after the hash has been independently verified:
 

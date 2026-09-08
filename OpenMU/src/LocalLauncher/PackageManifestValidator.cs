@@ -12,6 +12,7 @@ using System.Text.Json;
 /// </summary>
 public sealed class PackageManifestValidator
 {
+    private const string MutableGameConfigurationPath = "App/Game/config.ini";
     private static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNameCaseInsensitive = true };
     private static readonly string[] RequiredFiles =
     {
@@ -19,6 +20,7 @@ public sealed class PackageManifestValidator
         "README-简体中文.txt",
         "App/Server/MUnique.OpenMU.Startup.exe",
         "App/Game/Main.exe",
+        "App/Game/config.ini.template",
         "Runtime/PostgreSQL/bin/initdb.exe",
         "Runtime/PostgreSQL/bin/pg_ctl.exe",
         "Runtime/PostgreSQL/bin/pg_isready.exe",
@@ -40,6 +42,7 @@ public sealed class PackageManifestValidator
         "App/GMHost/OpenMU-GM",
         "App/Server/MUnique.OpenMU.Startup",
         "App/Game/Main",
+        "App/Game/config.ini.template",
         "Runtime/PostgreSQL/bin/initdb",
         "Runtime/PostgreSQL/bin/pg_ctl",
         "Runtime/PostgreSQL/bin/pg_isready",
@@ -52,7 +55,7 @@ public sealed class PackageManifestValidator
     };
 
     /// <summary>
-    /// Validates all manifest entries, including size and SHA-256.
+    /// Validates all immutable manifest entries, including size and SHA-256.
     /// </summary>
     /// <param name="paths">The package paths.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -93,6 +96,11 @@ public sealed class PackageManifestValidator
                 throw new InvalidDataException($"清单项“{entry.Path}”的大小或 SHA-256 值无效。");
             }
 
+            if (IsMutablePackageFile(normalizedPath))
+            {
+                continue;
+            }
+
             var fullPath = ResolveManifestPath(paths.RootDirectory, entry.Path);
             if (!File.Exists(fullPath))
             {
@@ -122,6 +130,11 @@ public sealed class PackageManifestValidator
             throw new InvalidDataException($"便携程序包清单未包含必需文件“{missingRequiredFile}”。");
         }
     }
+
+    private static bool IsMutablePackageFile(string normalizedPath)
+        => normalizedPath.Equals(
+            MutableGameConfigurationPath,
+            OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
     private static string ResolveManifestPath(string rootDirectory, string relativePath)
     {

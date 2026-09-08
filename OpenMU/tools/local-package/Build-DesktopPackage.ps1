@@ -91,6 +91,7 @@ foreach ($file in @('Main', $networkLibrary, $rimeLibrary)) {
     Copy-Item -LiteralPath (Join-Path $game $file) -Destination (Join-Path $output "App/Game/$file")
 }
 Copy-Item -LiteralPath $template -Destination (Join-Path $output 'App/Game/config.ini') -Force
+Copy-Item -LiteralPath $template -Destination (Join-Path $output 'App/Game/config.ini.template') -Force
 Invoke-Checked 'cp' @('-a', "$postgres/.", (Join-Path $output 'Runtime/PostgreSQL'))
 foreach ($entry in @(
     @('GameLauncher/MUnique.OpenMU.GameLauncher.csproj', 'App/GameHost'),
@@ -154,8 +155,11 @@ exec "$ROOT/App/HOST/OpenMU-NAME" --root "$ROOT" "$@"
 
 & (Join-Path $PSScriptRoot 'Bundle-UnixDependencies.ps1') -PackageDirectory $output
 
-# Run the same validator used at launch, including every native binary and asset.
-$entries = @(Get-ChildItem -LiteralPath $output -File -Recurse | Sort-Object FullName | ForEach-Object {
+# Run the same validator used at launch over the immutable native binaries and assets.
+$mutableGameConfiguration = [IO.Path]::GetFullPath((Join-Path $output 'App/Game/config.ini'))
+$entries = @(Get-ChildItem -LiteralPath $output -File -Recurse |
+    Where-Object { $_.FullName -ne $mutableGameConfiguration } |
+    Sort-Object FullName | ForEach-Object {
     [ordered]@{
         path = [IO.Path]::GetRelativePath($output, $_.FullName).Replace('\', '/')
         size = $_.Length

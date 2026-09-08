@@ -248,7 +248,9 @@ public class LocalStackSettingsStoreTests
         var paths = new LocalPaths(this._directory);
         paths.EnsureDataDirectories();
         Directory.CreateDirectory(paths.GameDirectory);
-        var template = Path.Combine(paths.GameDirectory, "config.ini");
+        var compatibilityConfiguration = Path.Combine(paths.GameDirectory, "config.ini");
+        File.WriteAllText(compatibilityConfiguration, "[Window]\nWindowed=1\n");
+        var template = paths.GameConfigurationTemplateFile;
         const string defaults = "[Window]\nWindowed=0\n";
         File.WriteAllText(template, defaults);
         var configuration = LocalStackManager.PrepareGameConfiguration(paths);
@@ -259,6 +261,7 @@ public class LocalStackSettingsStoreTests
         Assert.That(LocalStackManager.PrepareGameConfiguration(paths), Is.EqualTo(configuration));
         Assert.That(File.ReadAllText(configuration), Does.Contain("Windowed=1"));
         Assert.That(File.ReadAllText(template), Is.EqualTo(defaults));
+        Assert.That(File.ReadAllText(compatibilityConfiguration), Does.Contain("Windowed=1"));
         if (!OperatingSystem.IsWindows())
         {
             Assert.That(File.GetUnixFileMode(configuration), Is.EqualTo(UnixFileMode.UserRead | UnixFileMode.UserWrite));

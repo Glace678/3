@@ -448,7 +448,7 @@ public sealed class LocalStackManager : IDisposable
         var configurationFile = Path.Combine(paths.KeysDirectory, "game-config.ini");
         if (!File.Exists(configurationFile))
         {
-            File.Copy(Path.Combine(paths.GameDirectory, "config.ini"), configurationFile, overwrite: false);
+            File.Copy(paths.GameConfigurationTemplateFile, configurationFile, overwrite: false);
             if (!OperatingSystem.IsWindows())
             {
                 File.SetUnixFileMode(configurationFile, UnixFileMode.UserRead | UnixFileMode.UserWrite);

@@ -124,6 +124,7 @@ public class Startup
             endpoints.MapControllers().RequireAuthorization();
             endpoints.MapAdminPanelAuthEndpoints();
             endpoints.MapMobileGmEndpoints();
+            endpoints.MapPublicRegistrationEndpoints();
         });
     }
 }

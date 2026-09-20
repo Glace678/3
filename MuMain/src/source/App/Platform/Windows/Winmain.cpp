@@ -16,6 +16,7 @@
 #endif
 #include <clocale>
 #include "Core/Platform/WinIni.h"  // private-profile (.ini) API
+#include "Core/Platform/NativeModal.h"
 #include "Data/GameConfig/GameConfig.h"
 #include "UI/Legacy/UIWindows.h"
 #include "UI/Legacy/UIManager.h"
@@ -27,6 +28,7 @@
 #include "Scenes/SceneManager.h"
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/IncomingPacketQueue.h"
+#include "Network/Login/LocalLoginCredentials.h"
 #include "Core/Time/FrameTimerScheduler.h"
 #include <SDL3/SDL.h>
 #include "Render/Models/ZzzBMD.h"
@@ -759,6 +761,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     break;
     case WM_SETCURSOR:
+        if (Core::Platform::IsNativeModalActive())
+        {
+            // A same-thread native dialog (e.g. the restart confirmation) is up:
+            // keep the real arrow visible even while the pointer crosses the
+            // game window behind it, instead of hiding it again.
+            ::SetCursor(::LoadCursorW(nullptr, IDC_ARROW));
+            return TRUE;
+        }
 #ifdef _EDITOR
         // When hovering UI (including Open Editor button), let Windows show cursor
         // Otherwise hide Windows cursor for game cursor
@@ -1387,6 +1397,30 @@ namespace
 
         g_controllerInputWasAvailable = true;
         g_controllerKeyboardWasCapturing = false;
+
+        // While the options window is capturing a physical control for
+        // remapping, every button/stick belongs to the capture -- pressing
+        // Start/B/D-pad must not also close the window or move focus.
+        if (gamepad.IsCapturingControl())
+        {
+            (void)focusRepeater.Update(frame, nowMs, false);
+            Core::Input::ClearVirtualKeys();
+            CancelVirtualMouseButton(
+                g_virtualLeftButtonDown,
+                g_virtualLeftButtonOwnsState,
+                (physicalButtons & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)) != 0,
+                MouseLButton,
+                MouseLButtonPush,
+                MouseLButtonPop);
+            CancelVirtualMouseButton(
+                g_virtualRightButtonDown,
+                g_virtualRightButtonOwnsState,
+                (physicalButtons & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT)) != 0,
+                MouseRButton,
+                MouseRButtonPush,
+                MouseRButtonPop);
+            return;
+        }
 
         const bool uiContext = context != Core::Input::InputContext::World;
         const auto& move = Action(frame, Core::Input::InputAction::Move);
@@ -2366,12 +2400,25 @@ namespace
 
     HFONT CreateUIFont(int size, int weight)
     {
-        // UI font family from config ([UI] Font). Simplified Chinese uses the
-        // bundled CJK face when the player leaves this at "Default"; other
-        // locales retain the historical Tahoma default.
+        // UI font family from config ([UI] Font). When the player leaves this at
+        // "Default", the face follows the active UI/data language: CJK scripts
+        // need a font that carries their own glyph variants. Tahoma has no CJK
+        // coverage, and on systems without a Tahoma font-link entry GDI falls
+        // back to the system-locale CJK face (YaHei on zh-CN Windows), which
+        // renders Japanese kanji as simplified-Chinese forms (e.g. 巻->卷,
+        // indistinguishable from garbled text to a Japanese reader).
         std::wstring sel = GameConfig::GetInstance().GetFontSelection();
-        if (sel.empty() && GameConfig::GetInstance().GetUILocale() == L"zh-CN")
-            sel = L"Noto Sans CJK SC";
+        if (sel.empty())
+        {
+            const std::wstring uiLocale = GameConfig::GetInstance().GetUILocale();
+            const std::wstring dataLang = GameConfig::GetInstance().GetLanguageSelection();
+            if (uiLocale == L"ja" || dataLang == L"Jpn")
+                sel = L"Yu Gothic";
+            else if (uiLocale == L"zh-TW" || dataLang == L"Cht")
+                sel = L"Microsoft JhengHei";
+            else if (uiLocale == L"zh-CN" || dataLang == L"Chs")
+                sel = L"Noto Sans CJK SC";
+        }
         const wchar_t* face = sel.empty() ? L"Tahoma" : sel.c_str();
         return CreateFont(size, 0, 0, 0, weight, 0, 0, 0, DEFAULT_CHARSET,
                           OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_NATURAL_QUALITY,
@@ -2440,12 +2487,53 @@ DWORD GetDesktopBitsPerPel()
     return 32;
 }
 
+void UpdateCursorClip();
+
+namespace Core::Platform
+{
+#ifdef _WIN32
+    static bool g_nativeModalActive = false;
+
+    void BeginNativeModal()
+    {
+        g_nativeModalActive = true;
+
+        // The game window's WM_SETCURSOR handler drives the per-thread Win32
+        // cursor display counter negative on every mouse move (the game draws
+        // its own cursor sprite). A same-thread MessageBox inherits that
+        // counter, so its pointer stays invisible. Bring it back to zero and
+        // put a real arrow up for the duration of the dialog.
+        ClipCursor(nullptr);
+        while (::ShowCursor(TRUE) < 0)
+        {
+        }
+        ::SetCursor(::LoadCursorW(nullptr, IDC_ARROW));
+    }
+
+    void EndNativeModal()
+    {
+        g_nativeModalActive = false;
+
+        // Restore the hidden system cursor; WM_SETCURSOR keeps balancing it
+        // down while the pointer is over the game window.
+        ::ShowCursor(FALSE);
+        ::SetCursor(::LoadCursorW(nullptr, IDC_ARROW));
+        UpdateCursorClip();
+    }
+
+    bool IsNativeModalActive()
+    {
+        return g_nativeModalActive;
+    }
+#endif // _WIN32
+}
+
 void UpdateCursorClip()
 {
     // Confine cursor in fullscreen + active only. In windowed mode the user
     // must be able to move the cursor to other windows; when deactivated we
     // must also release so Windows can focus other apps.
-    if (!g_hWnd || g_bUseWindowMode || !g_bWndActive)
+    if (Core::Platform::IsNativeModalActive() || !g_hWnd || g_bUseWindowMode || !g_bWndActive)
     {
         ClipCursor(nullptr);
         return;
@@ -2577,6 +2665,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLin
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nCmdShow)
 #endif
 {
+    // Pick up the local single-player launch profile (config path, auto-login,
+    // solo balance) before any GameConfig access or environment check, so that
+    // clients started directly or by an older bundled launcher behave the same
+    // as clients started through play.ps1.
+    Network::Login::ApplyLaunchProfile();
+
     wchar_t lpszExeVersion[256] = L"unknown";
 
     wchar_t* lpszCommandLine = GetCommandLine();
@@ -2675,6 +2769,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     std::wstring langSelection = GameConfig::GetInstance().GetLanguageSelection();
     wcsncpy_s(g_aszMLSelection, langSelection.c_str(), MAX_LANGUAGE_NAME_LENGTH - 1);
     g_strSelectedML = g_aszMLSelection;
+    g_ErrorReport.Write(L"> Data language: %ls (UI locale: %ls).\r\n",
+        g_strSelectedML.c_str(), GameConfig::GetInstance().GetUILocale().c_str());
 
     if (m_RememberMe)
     {

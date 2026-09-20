@@ -20,4 +20,12 @@ namespace Network::Login
         std::wstring m_username;
         std::wstring m_password;
     };
+
+    // Older bundled desktop launchers (and a direct double-click on Main.exe)
+    // start the client without the MU_* launch environment. The installer writes
+    // a "local-client.env" sidecar next to the per-installation config; this loads
+    // it before GameConfig is constructed so every launch path gets the same
+    // config path, solo profile and auto-login. Variables already present in the
+    // real environment always win. Must run once, as early as possible in WinMain.
+    void ApplyLaunchProfile();
 }

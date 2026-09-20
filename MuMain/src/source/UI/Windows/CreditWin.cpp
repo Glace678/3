@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdio>
 #include <cwchar>
 #include <memory>
@@ -130,13 +131,16 @@ void CCreditWin::Create()
 	m_btnClose.Create(54, 30, BITMAP_BUTTON + 2, 3, 2, 1);
 	CWin::RegisterButton(&m_btnClose);
 
-	int nFontSize = 10;
-	switch (rInput.GetScreenWidth())
-	{
-	case 800:	nFontSize = 14;	break;
-	case 1024:	nFontSize = 18;	break;
-	case 1280:	nFontSize = 24;	break;
-	}
+	// Staff names must scale with the game window. The old lookup only knew
+	// three exact desktop widths (14/18/24 px) and fell back to a 10px font at
+	// every other resolution, which made the credits unreadable in scaled
+	// windows. 14px at the 800px reference width, scaled continuously (the old
+	// 1024 step rounds to 18 and the 1280 step to 23).
+	int nFontSize = std::lround(14.0f * g_fScreenRate_x);
+	if (nFontSize < 14)
+		nFontSize = 14;
+	else if (nFontSize > 64)
+		nFontSize = 64;
 	HFONT fontHandle = CreateFont(nFontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, I18N::Game::Gulim[0] ? I18N::Game::Gulim : NULL);
 	m_font.reset(fontHandle);
 

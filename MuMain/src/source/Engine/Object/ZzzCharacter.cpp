@@ -10514,12 +10514,22 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     else {
         for (int i = 0; i < 2; i++) {
             if (c->Weapon[i].Type == MODEL_PHOENIX_SOUL_STAR) {
-                if (c->Weapon[i].AnimationFrame != 0.f);
-                PlayBuffer(SOUND_EMPIREGUARDIAN_DEFENDER_ATTACK02);
-                c->Weapon[i].CurrentAction = 0;
-                c->Weapon[i].AnimationFrame = 0;
-                c->Weapon[i].PriorAnimationFrame = 0;
-                c->Weapon[i].PlaySpeed = 0;
+                // The trailing ';' on the condition made this block run every
+                // frame: the sound played continuously and the animation was
+                // pinned at 0. Gated the same way as the MODEL_PHOENIX_SOUL_STAR
+                // branch above -- the clamp in the else is what lets the frame
+                // leave the < 2.f window instead of being reset back into it.
+                if (c->Weapon[i].AnimationFrame < 2.f) {
+                    PlayBuffer(SOUND_EMPIREGUARDIAN_DEFENDER_ATTACK02);
+                    c->Weapon[i].CurrentAction = 0;
+                    c->Weapon[i].AnimationFrame = 0;
+                    c->Weapon[i].PriorAnimationFrame = 0;
+                    c->Weapon[i].PlaySpeed = 0;
+                }
+                else
+                {
+                    c->Weapon[i].AnimationFrame = 2.f;
+                }
             }
         }
     }

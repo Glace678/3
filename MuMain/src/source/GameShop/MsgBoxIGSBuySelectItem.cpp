@@ -326,8 +326,10 @@ void CMsgBoxIGSBuySelectItem::AddData(int iPackageSeq, int iDisplaySeq, int iPri
     int iValue;
     wchar_t szText[MAX_TEXT_LENGTH] = { '\0', };
 
-    IGS_SelectBuyItem Item;
-    memset(&Item, 0, sizeof(IGS_SelectBuyItem));
+    // CRadioButton has a user-written ctor that initialises all of its own
+    // members, so value-initialisation zeroes the scalars here without
+    // memset'ing over a non-trivially-copyable member.
+    IGS_SelectBuyItem Item = {};
 
     Item.m_bIsSelected = FALSE;
     Item.m_iPackageSeq = iPackageSeq;

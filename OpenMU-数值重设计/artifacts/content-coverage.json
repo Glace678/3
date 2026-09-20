@@ -1,0 +1,11 @@
+{
+  "originalMonsters": 468,
+  "originalMaps": 73,
+  "originalSkills": 284,
+  "originalItems": 677,
+  "mappedMonsterVariants": 208,
+  "protectedOrUnmappedSpawns": 3444,
+  "explicitSkillOverrides": 17,
+  "skillsNeedingMapping": 267,
+  "errors": []
+}

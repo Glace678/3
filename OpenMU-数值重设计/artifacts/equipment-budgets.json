@@ -1,0 +1,620 @@
+[
+  {
+    "classId": "DK",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.7792199999999999,
+        "chest": 1.2987,
+        "pants": 0.9523799999999999,
+        "gloves": 0.64935,
+        "boots": 0.64935
+      }
+    }
+  },
+  {
+    "classId": "DK",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 6.8796,
+        "chest": 11.466,
+        "pants": 8.4084,
+        "gloves": 5.733,
+        "boots": 5.733
+      }
+    }
+  },
+  {
+    "classId": "DK",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 14.6016,
+        "chest": 24.336000000000002,
+        "pants": 17.846400000000003,
+        "gloves": 12.168000000000001,
+        "boots": 12.168000000000001
+      }
+    }
+  },
+  {
+    "classId": "DK",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 23.868,
+        "chest": 39.779999999999994,
+        "pants": 29.172,
+        "gloves": 19.889999999999997,
+        "boots": 19.889999999999997
+      }
+    }
+  },
+  {
+    "classId": "DK",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 31.59,
+        "chest": 52.65,
+        "pants": 38.61,
+        "gloves": 26.325,
+        "boots": 26.325
+      }
+    }
+  },
+  {
+    "classId": "DK",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 36.9954,
+        "chest": 61.659,
+        "pants": 45.2166,
+        "gloves": 30.8295,
+        "boots": 30.8295
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.7792199999999999,
+        "chest": 1.2987,
+        "pants": 0.9523799999999999,
+        "gloves": 0.64935,
+        "boots": 0.64935
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 6.8796,
+        "chest": 11.466,
+        "pants": 8.4084,
+        "gloves": 5.733,
+        "boots": 5.733
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 14.6016,
+        "chest": 24.336000000000002,
+        "pants": 17.846400000000003,
+        "gloves": 12.168000000000001,
+        "boots": 12.168000000000001
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 23.868,
+        "chest": 39.779999999999994,
+        "pants": 29.172,
+        "gloves": 19.889999999999997,
+        "boots": 19.889999999999997
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 31.59,
+        "chest": 52.65,
+        "pants": 38.61,
+        "gloves": 26.325,
+        "boots": 26.325
+      }
+    }
+  },
+  {
+    "classId": "DW",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 36.9954,
+        "chest": 61.659,
+        "pants": 45.2166,
+        "gloves": 30.8295,
+        "boots": 30.8295
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.7792199999999999,
+        "chest": 1.2987,
+        "pants": 0.9523799999999999,
+        "gloves": 0.64935,
+        "boots": 0.64935
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 6.8796,
+        "chest": 11.466,
+        "pants": 8.4084,
+        "gloves": 5.733,
+        "boots": 5.733
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 14.6016,
+        "chest": 24.336000000000002,
+        "pants": 17.846400000000003,
+        "gloves": 12.168000000000001,
+        "boots": 12.168000000000001
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 23.868,
+        "chest": 39.779999999999994,
+        "pants": 29.172,
+        "gloves": 19.889999999999997,
+        "boots": 19.889999999999997
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 31.59,
+        "chest": 52.65,
+        "pants": 38.61,
+        "gloves": 26.325,
+        "boots": 26.325
+      }
+    }
+  },
+  {
+    "classId": "FE",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 36.9954,
+        "chest": 61.659,
+        "pants": 45.2166,
+        "gloves": 30.8295,
+        "boots": 30.8295
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "chest": 1.5837804878048778,
+        "pants": 1.1614390243902437,
+        "gloves": 0.7918902439024389,
+        "boots": 0.7918902439024389
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "chest": 13.98292682926829,
+        "pants": 10.254146341463414,
+        "gloves": 6.991463414634145,
+        "boots": 6.991463414634145
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "chest": 29.678048780487806,
+        "pants": 21.763902439024392,
+        "gloves": 14.839024390243903,
+        "boots": 14.839024390243903
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "chest": 48.51219512195121,
+        "pants": 35.575609756097556,
+        "gloves": 24.256097560975604,
+        "boots": 24.256097560975604
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "chest": 64.20731707317073,
+        "pants": 47.08536585365853,
+        "gloves": 32.103658536585364,
+        "boots": 32.103658536585364
+      }
+    }
+  },
+  {
+    "classId": "MG",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "chest": 75.19390243902438,
+        "pants": 55.14219512195122,
+        "gloves": 37.59695121951219,
+        "boots": 37.59695121951219
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.7792199999999999,
+        "chest": 1.2987,
+        "pants": 0.9523799999999999,
+        "gloves": 0.64935,
+        "boots": 0.64935
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 6.8796,
+        "chest": 11.466,
+        "pants": 8.4084,
+        "gloves": 5.733,
+        "boots": 5.733
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 14.6016,
+        "chest": 24.336000000000002,
+        "pants": 17.846400000000003,
+        "gloves": 12.168000000000001,
+        "boots": 12.168000000000001
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 23.868,
+        "chest": 39.779999999999994,
+        "pants": 29.172,
+        "gloves": 19.889999999999997,
+        "boots": 19.889999999999997
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 31.59,
+        "chest": 52.65,
+        "pants": 38.61,
+        "gloves": 26.325,
+        "boots": 26.325
+      }
+    }
+  },
+  {
+    "classId": "DL",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 36.9954,
+        "chest": 61.659,
+        "pants": 45.2166,
+        "gloves": 30.8295,
+        "boots": 30.8295
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.7792199999999999,
+        "chest": 1.2987,
+        "pants": 0.9523799999999999,
+        "gloves": 0.64935,
+        "boots": 0.64935
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 6.8796,
+        "chest": 11.466,
+        "pants": 8.4084,
+        "gloves": 5.733,
+        "boots": 5.733
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 14.6016,
+        "chest": 24.336000000000002,
+        "pants": 17.846400000000003,
+        "gloves": 12.168000000000001,
+        "boots": 12.168000000000001
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 23.868,
+        "chest": 39.779999999999994,
+        "pants": 29.172,
+        "gloves": 19.889999999999997,
+        "boots": 19.889999999999997
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 31.59,
+        "chest": 52.65,
+        "pants": 38.61,
+        "gloves": 26.325,
+        "boots": 26.325
+      }
+    }
+  },
+  {
+    "classId": "SU",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 36.9954,
+        "chest": 61.659,
+        "pants": 45.2166,
+        "gloves": 30.8295,
+        "boots": 30.8295
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 1,
+    "budget": {
+      "weaponPower": 10.655999999999999,
+      "totalArmor": 4.329,
+      "armorBySlot": {
+        "helm": 0.9167294117647058,
+        "chest": 1.5278823529411765,
+        "pants": 1.1204470588235294,
+        "boots": 0.7639411764705882
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 80,
+    "budget": {
+      "weaponPower": 94.08,
+      "totalArmor": 38.22,
+      "armorBySlot": {
+        "helm": 8.09364705882353,
+        "chest": 13.489411764705881,
+        "pants": 9.892235294117647,
+        "boots": 6.744705882352941
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 180,
+    "budget": {
+      "weaponPower": 199.68,
+      "totalArmor": 81.12,
+      "armorBySlot": {
+        "helm": 17.17835294117647,
+        "chest": 28.63058823529412,
+        "pants": 20.995764705882358,
+        "boots": 14.31529411764706
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 300,
+    "budget": {
+      "weaponPower": 326.40000000000003,
+      "totalArmor": 132.6,
+      "armorBySlot": {
+        "helm": 28.08,
+        "chest": 46.8,
+        "pants": 34.32,
+        "boots": 23.4
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 400,
+    "budget": {
+      "weaponPower": 432,
+      "totalArmor": 175.5,
+      "armorBySlot": {
+        "helm": 37.16470588235294,
+        "chest": 61.94117647058823,
+        "pants": 45.423529411764704,
+        "boots": 30.970588235294116
+      }
+    }
+  },
+  {
+    "classId": "RF",
+    "rank": 470,
+    "budget": {
+      "weaponPower": 505.92,
+      "totalArmor": 205.53,
+      "armorBySlot": {
+        "helm": 43.523999999999994,
+        "chest": 72.54,
+        "pants": 53.196,
+        "boots": 36.27
+      }
+    }
+  }
+]

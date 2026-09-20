@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Core/Text/TextLineWrap.h"
 #include "UI/Chat/Chat.h"
+#include <cmath>
 #include "Character/CharacterManager.h" // gCharacterManager
 #include "Camera/CameraProjection.h" // CameraProjection
 
@@ -73,8 +74,19 @@ typedef struct
 
 CHAT Chat[MAX_CHAT];
 
+int MeasureChatLineHeight()
+{
+    SIZE regular{}, bold{};
+    g_pRenderText->SetFont(g_hFontBold);
+    GetTextExtentPoint32(g_pRenderText->GetFontDC(), L"Ag", 2, &bold);
+    g_pRenderText->SetFont(g_hFont);
+    GetTextExtentPoint32(g_pRenderText->GetFontDC(), L"Ag", 2, &regular);
+    return static_cast<int>(std::ceil(std::max(regular.cy, bold.cy) / g_fScreenRate_y));
+}
+
 void SetBooleanPosition(CHAT* c)
 {
+    const int lineHeight = MeasureChatLineHeight();
     BOOL bResult[5];
     SIZE Size[5];
     memset(&Size[0], 0, sizeof(SIZE) * 5);
@@ -104,7 +116,9 @@ void SetBooleanPosition(CHAT* c)
         c->Width = std::max<int>(std::max<int>(Size[0].cx, Size[1].cx), std::max<int>(Size[3].cx, Size[4].cx));
     else
         c->Width = std::max<int>(std::max<int>(Size[0].cx, Size[3].cx), Size[4].cx);
-    c->Height = FontHeight * (bResult[0] + bResult[1] + bResult[2] + bResult[3] + bResult[4]);
+    const int chatLines = c->LifeTime[1] > 0 ? 2 : (c->LifeTime[0] > 0 ? 1 : 0);
+    const int nameLines = (c->IDLifeTime > 0 ? 1 : 0) + (c->Union[0] ? 1 : 0) + (c->Guild[0] ? 1 : 0);
+    c->Height = lineHeight * (chatLines + nameLines);
 
     if (lstrlen(c->szShopTitle) > 0)
     {
@@ -115,12 +129,11 @@ void SetBooleanPosition(CHAT* c)
         {
             if (c->Width < sizeT[0].cx + sizeT[1].cx)
                 c->Width = sizeT[0].cx + sizeT[1].cx;
-            c->Height += std::max<int>(sizeT[0].cy, sizeT[1].cy);
+            c->Height += lineHeight;
         }
         g_pRenderText->SetFont(g_hFont);
     }
-    c->Width /= g_fScreenRate_x;
-    c->Height /= g_fScreenRate_y;
+    c->Width = static_cast<int>(std::ceil(c->Width / g_fScreenRate_x));
 }
 
 void SetPlayerColor(BYTE PK)
@@ -183,11 +196,9 @@ void RenderBoolean(int x, int y, CHAT* c)
     EnableAlphaTest();
     glColor3f(1.f, 1.f, 1.f);
 
-    if (FontHeight > 32) FontHeight = 32;
-
     POINT RenderPos = { x, y };
     SIZE RenderBoxSize = { c->Width, c->Height };
-    int iLineHeight = FontHeight / g_fScreenRate_y;
+    const int iLineHeight = MeasureChatLineHeight();
 
     if (IsShopInViewport(c->Owner))
     {

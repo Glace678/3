@@ -35,6 +35,9 @@ protected:
     CSprite		m_aBtnDeco[2];
     CSprite		m_aArrowDeco[2];
     CWinEx		m_winDescription;
+#if defined(_WIN32)
+    CButton		m_aBtnRegister;
+#endif
 
     int			m_icntServerGroup;
     int			m_icntLeftServerGroup;

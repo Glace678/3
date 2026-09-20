@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0-candidate",
+  "designSha256": "123D8936B06181CA03094DA2C041B93F8DA78ED87D572DCC54EB512A8D0794D4",
+  "passed": 30224,
+  "failures": [],
+  "realGameIntegrationTested": false
+}

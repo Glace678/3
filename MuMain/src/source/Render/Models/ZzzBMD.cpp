@@ -1189,7 +1189,9 @@ void BMD::ReleaseLightMaps()
         Bitmap_t* lmp = &LightMaps[i];
         if (lmp->Buffer != nullptr)
         {
-            delete lmp->Buffer;
+            // Allocated with new unsigned char[BufferBytes] in CreateLightMapSurface;
+            // a scalar delete here was a type mismatch and undefined behavior.
+            delete[] lmp->Buffer;
             lmp->Buffer = nullptr;
         }
     }

@@ -1,5 +1,9 @@
 {
   "Game": {
+    "EventEntranceOpenedNotice": "%ls入口已开放，将于 %ls 分钟后关闭。",
+    "EventEntranceClosedNotice": "%ls入口已关闭。",
+    "HappyHourStartedNotice": "欢乐时光活动已开始！",
+    "HappyHourEndedNotice": "欢乐时光活动已结束！",
     "LoginRememberUsername": "记住用户名",
     "LoginRememberPassword": "记住密码",
     "LoginTrustWarning": "仅在受信任的电脑上保存密码。",

@@ -1,0 +1,53 @@
+{
+  "Kind": "isolated-candidate-verification",
+  "CompletedUtc": "2026-09-05T15:12:32.3019770Z",
+  "DotnetVersion": "10.0.200-preview.0.26103.119",
+  "DesignSha256": "123D8936B06181CA03094DA2C041B93F8DA78ED87D572DCC54EB512A8D0794D4",
+  "ContentPoliciesSha256": "65C24B0151298CE350C5DF3C5801B634E537E670457B233FCCF12019CD262D4F",
+  "LiveProfileInstalled": false,
+  "DatabaseOpened": false,
+  "SourceChecks": [
+    {
+      "File": "src\\GameLogic\\ItemPriceCalculator.cs",
+      "Sha256Before": "391B41F4D8BE49E2D52E413DEEA1521991DC0A27DCDF5079D12E133E1B54D1E2",
+      "Sha256After": "391B41F4D8BE49E2D52E413DEEA1521991DC0A27DCDF5079D12E133E1B54D1E2",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\GameLogic\\PlayerExperience.cs",
+      "Sha256Before": "D340AF375EDE16D3B5E428D41CE91E2D74A54F22A5222356F713AD827D4C0483",
+      "Sha256After": "D340AF375EDE16D3B5E428D41CE91E2D74A54F22A5222356F713AD827D4C0483",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\GameLogic\\DefaultDropGenerator.cs",
+      "Sha256Before": "0475910AEE95B293BE3A38D6DFCA70FCB7DDC89CC88115C419EBED92AB1B4933",
+      "Sha256After": "0475910AEE95B293BE3A38D6DFCA70FCB7DDC89CC88115C419EBED92AB1B4933",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\GameLogic\\SoloBalance.cs",
+      "Sha256Before": "C056CD833ECEBF91ED93B9E9EC260989BF8A367F29427C76173CE6434C6183F6",
+      "Sha256After": "C056CD833ECEBF91ED93B9E9EC260989BF8A367F29427C76173CE6434C6183F6",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\Persistence\\Initialization\\VersionSeasonSix\\GameConfigurationInitializer.cs",
+      "Sha256Before": "2C00F021CE659DC4421CFBD9FA330CAB31E5F8A92F37373793300D7E02D50CA4",
+      "Sha256After": "2C00F021CE659DC4421CFBD9FA330CAB31E5F8A92F37373793300D7E02D50CA4",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\Persistence\\Initialization\\SoloBalanceInitializer.cs",
+      "Sha256Before": "0F4FE1ED65657B346FA23161596A2C1E39644FF860F237BE974BE319B9267984",
+      "Sha256After": "0F4FE1ED65657B346FA23161596A2C1E39644FF860F237BE974BE319B9267984",
+      "Unchanged": true
+    },
+    {
+      "File": "src\\GameLogic\\AttackableExtensions.cs",
+      "Sha256Before": "E0DC37B819CAB4C38E1A594F74FD4CCACE37375CF03171C39A2A43314ECCD708",
+      "Sha256After": "E0DC37B819CAB4C38E1A594F74FD4CCACE37375CF03171C39A2A43314ECCD708",
+      "Unchanged": true
+    }
+  ]
+}

@@ -318,11 +318,13 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderSubjectTexts()
     mu_swprintf(strServerName, apszGlobalText[g_ServerListManager->GetNonPVPInfo()],
         g_ServerListManager->GetSelectServerName(), g_ServerListManager->GetSelectServerIndex());
 
-    float fAlpha = sinf(WorldTime * 0.001f) + 1.f;
-    g_pRenderText->SetTextColor(255, 255, 255, 127 * (2.f - fAlpha));
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, strClassName, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetTextColor(255, 255, 255, 127 * fAlpha);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, strServerName, 190, 0, RT3_SORT_CENTER);
+    // Alternate the shared row without drawing two translucent labels on top
+    // of one another. Long localized server names must fit inside the header.
+    constexpr float titleCycleRate = 0.001f;
+    constexpr int titleRowHeight = 12;
+    const wchar_t* title = sinf(WorldTime * titleCycleRate) >= 0.f ? strServerName : strClassName;
+    g_pRenderText->SetTextColor(255, 255, 255, 255);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, title, 190, titleRowHeight, RT3_SORT_CENTER_FIT);
 }
 
 void SEASON3B::CNewUICharacterInfoWindow::RenderTableTexts()

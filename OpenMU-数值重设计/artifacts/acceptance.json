@@ -1,0 +1,11 @@
+{
+  "acceptedAsIndependentCandidate": true,
+  "deployableToExistingServer": false,
+  "expectedBestClassNormalSpread": 1.1694090556362076,
+  "expectedBestClassMasterSpread": 1.1728149707332105,
+  "allBuildNormalSpread": 1.3084903961629202,
+  "allBuildMasterSpread": 1.4038826695590507,
+  "tuningFailures": [],
+  "bossFailures": [],
+  "coverageErrors": []
+}

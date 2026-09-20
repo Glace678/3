@@ -17,6 +17,10 @@
 
 #include "UI/NewUI/NewUISystem.h"
 #include "Network/Server/ServerListManager.h"
+#include "Network/Login/LocalAutoLogin.h"
+#if defined(_WIN32)
+#include "Audio/DSPlaySound.h"
+#endif
 
 #define	SSW_GAP_WIDTH	28
 #define	SSW_GAP_HEIGHT	5
@@ -84,6 +88,20 @@ void CServerSelWin::Create()
     m_winDescription.Create(aiiDescBg, 1, 10);
     m_winDescription.SetLine(10);
 
+#if defined(_WIN32)
+    // Entry point for self-service account registration. Desktop client only:
+    // mobile builds auto-login and compile the POST path as a stub.
+    {
+        static const DWORD registerBtnColors[3] =
+        {
+            CLRDW_BR_GRAY, CLRDW_BR_GRAY, CLRDW_WHITE
+        };
+        m_aBtnRegister.Create(86, 26, BITMAP_LOG_IN + 1, 3, 2, 1);
+        m_aBtnRegister.SetText(L"\u6CE8\u518C\u8D26\u53F7", const_cast<DWORD*>(registerBtnColors));
+        CWin::RegisterButton(&m_aBtnRegister);
+    }
+#endif
+
     CWin::SetSize((SERVER_GROUP_BTN_WIDTH + SSW_GAP_WIDTH) * 2 + SERVER_BTN_WIDTH, SERVER_BTN_HEIGHT * SSW_SERVER_MAX + SSW_GAP_HEIGHT * 2 + SERVER_GROUP_BTN_HEIGHT + m_winDescription.GetHeight());
 }
 
@@ -141,6 +159,11 @@ void CServerSelWin::SetPosition(int nXCoord, int nYCoord)
     m_aBtnDeco[1].SetPosition(m_aServerGroupBtn[SSW_LEFT_SERVER_G_MAX + 1].GetXPos() + SERVER_GROUP_BTN_WIDTH, m_aServerGroupBtn[SSW_LEFT_SERVER_G_MAX + 1].GetYPos());
 
     int a = m_aServerGroupBtn[1].GetXPos();
+
+#if defined(_WIN32)
+    // Empty top-left corner of the window frame.
+    m_aBtnRegister.SetPosition(nXCoord + 16, nYCoord + 12);
+#endif
 }
 
 void CServerSelWin::SetServerBtnPosition()
@@ -288,6 +311,9 @@ void CServerSelWin::UpdateDisplay()
 void CServerSelWin::Show(bool bShow)
 {
     CWin::Show(bShow);
+#if defined(_WIN32)
+    m_aBtnRegister.Show(bShow);
+#endif
 }
 
 void CServerSelWin::ShowServerGBtns()
@@ -403,6 +429,15 @@ void CServerSelWin::UpdateWhileActive(double dDeltaTick)
 {
     int i;
 
+#if defined(_WIN32)
+    if (m_aBtnRegister.IsClick())
+    {
+        PlayBuffer(SOUND_CLICK01);
+        CUIMng::Instance().m_RegisterWin.Open(0 /*FromServerSelect*/);
+        return;
+    }
+#endif
+
     for (i = 0; i < SSW_SERVER_G_MAX; i++)
     {
         if (m_aServerGroupBtn[i].IsClick())
@@ -436,6 +471,10 @@ void CServerSelWin::UpdateWhileActive(double dDeltaTick)
             {
                 CUIMng::Instance().HideWin(this);
 
+                // Drive the local auto-login state machine on the manual path too,
+                // otherwise it stays in SelectingServer and the account/password
+                // window appears after choosing the (localhost) server.
+                Network::Login::LocalAutoLogin::Instance().ServerSelected();
                 SocketClient->ToConnectServer()->SendConnectionInfoRequest(static_cast<uint16_t>(pServerInfo->m_iConnectIndex));
                 g_pSystemLogBox->AddText(I18N::Game::ConnectingToTheServer, SEASON3B::TYPE_SYSTEM_MESSAGE);
                 g_pSystemLogBox->AddText(I18N::Game::PleaseWait, SEASON3B::TYPE_SYSTEM_MESSAGE);

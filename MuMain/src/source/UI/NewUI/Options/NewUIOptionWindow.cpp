@@ -10,8 +10,12 @@
 #include "Data/GameConfig/GameConfig.h"
 #include "Audio/AudioPlayer.h"
 #include "App/Platform/Windows/Winmain.h"
+#include "Core/Platform/NativeModal.h"
 #include "Core/Input/FocusNavigator.h"
 #include "Core/Input/GamepadService.h"
+#include "Render/Core/ImmediateRenderer.h"
+#include "Render/Shaders/PassthroughShader.h"
+#include "Render/Textures/ZzzOpenglUtil.h"
 #include "Scenes/SceneManager.h"
 #include <algorithm>
 #include <array>
@@ -62,21 +66,24 @@ static int FindListedResolutionIndex(int width, int height)
 // language. The set mirrors what ResxGen emits and what I18N::GetAvailableLocales()
 // returns at runtime; held here as wide strings so the CNewUIComboBox can show
 // them without per-frame UTF-8 -> wide conversions.
-static const struct { const char* code; const wchar_t* label; } s_Languages[] = {
-    { "en",    L"English" },
+// dataDir names the Data\Local\<dir> folder whose BMD game data (NPC names,
+// quests, items, skills, ...) is loaded for the locale at process startup.
+// Switching it only takes effect after a restart, which ApplyLanguage() offers.
+static const struct { const char* code; const wchar_t* label; const wchar_t* dataDir; } s_Languages[] = {
+    { "en",    L"English", L"Eng" },
     // Non-ASCII characters use universal-character-name escapes so MSVC reads
     // the wide-string literals correctly regardless of source charset.
-    { "de",    L"Deutsch" },
-    { "es",    L"Espa\u00f1ol" },                                                  // Español
-    { "id",    L"Bahasa Indonesia" },
-    { "ja",    L"\u65E5\u672C\u8A9E" },                                       // 日本語
-    { "pl",    L"Polski" },
-    { "pt",    L"Portugu\u00eas" },                                                // Português
-    { "ru",    L"\u0420\u0443\u0441\u0441\u043a\u0438\u0439" },                   // Русский
-    { "tl",    L"Tagalog" },
-    { "uk",    L"\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430" }, // Українська
-    { "zh-CN", L"\u7b80\u4f53\u4e2d\u6587" },                                      // 简体中文
-    { "zh-TW", L"\u7e41\u9ad4\u4e2d\u6587" },                                      // 繁體中文
+    { "de",    L"Deutsch", L"Ger" },
+    { "es",    L"Espa\u00f1ol", L"Spn" },                                                  // Español
+    { "id",    L"Bahasa Indonesia", L"Ind" },
+    { "ja",    L"\u65E5\u672C\u8A9E", L"Jpn" },                                       // 日本語
+    { "pl",    L"Polski", L"Pol" },
+    { "pt",    L"Portugu\u00eas", L"Por" },                                                // Português
+    { "ru",    L"\u0420\u0443\u0441\u0441\u043a\u0438\u0439", L"Rus" },                   // Русский
+    { "tl",    L"Tagalog", L"Tgl" },
+    { "uk",    L"\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430", L"Ukr" }, // Українська
+    { "zh-CN", L"\u7b80\u4f53\u4e2d\u6587", L"Chs" },                                      // 简体中文
+    { "zh-TW", L"\u7e41\u9ad4\u4e2d\u6587", L"Cht" },                                      // 繁體中文
 };
 static const int s_NumLanguages = sizeof(s_Languages) / sizeof(s_Languages[0]);
 
@@ -232,10 +239,10 @@ namespace
     constexpr int SLIDE_HELP_CHECK_Y_LOCAL = 155;
     constexpr int RENDER_ALL_EFFECTS_CHECK_Y_LOCAL = 217;
     constexpr int WINDOWED_MODE_CHECK_Y_LOCAL = 356;
-    constexpr int CLOSE_BUTTON_X_LOCAL = 68;
-    constexpr int CLOSE_BUTTON_Y_LOCAL = 425;
-    constexpr int CLOSE_BUTTON_WIDTH = 54;
-    constexpr int CLOSE_BUTTON_HEIGHT = 30;
+    constexpr int CLOSE_BUTTON_X_LOCAL = 71;
+    constexpr int CLOSE_BUTTON_Y_LOCAL = 384;
+    constexpr int CLOSE_BUTTON_WIDTH = 48;
+    constexpr int CLOSE_BUTTON_HEIGHT = 26;
 
     // Render-level slider ("Effect limitation"). Drawn at ~half the legacy
     // 141x29 and horizontally centered: the window content centers on x+95, so a
@@ -280,7 +287,11 @@ namespace
 
     constexpr int WINDOW_PANEL_WIDTH = 190;
     constexpr int WINDOW_WIDTH = WINDOW_PANEL_WIDTH * 3;
-    constexpr int WINDOW_HEIGHT = 459;
+    // Was 459 (64 top + 35*10 slats + 45 bottom): at y=5 the bottom frame piece
+    // ended at 464 in the 480-tall reference space, ~35px under the in-game HUD
+    // (top ~429), so the test-rumble buttons and the lower edge were covered.
+    // 419 (31 slats) clears the HUD with the compacted lower rows below.
+    constexpr int WINDOW_HEIGHT = 419;
     constexpr int ADVANCED_X_LOCAL = WINDOW_PANEL_WIDTH;
 
     constexpr int FPS_COMBO_X_LOCAL = ADVANCED_X_LOCAL + 22;
@@ -300,6 +311,17 @@ namespace
 #else
         false;
 #endif
+
+    // Touch builds (Android / HarmonyOS) have no controller support at all:
+    // the gamepad enable checkbox, dead-zone/pointer sliders and the whole
+    // controller-mapping panel are hidden and inert. Phone-vibration
+    // settings (haptics) in the same panel stay available.
+    constexpr bool kGamepadPanelEnabled =
+#if defined(__ANDROID__) || defined(__OHOS__)
+        false;
+#else
+        true;
+#endif
     constexpr int FPS_SLIDER_MIN_FPS = 30;          // lowest selectable frame rate
     constexpr int FPS_SLIDER_DEFAULT_MAX_FPS = 60;  // fallback ceiling if detection fails
     constexpr int FPS_SLIDER_HARD_MAX_FPS = 240;    // sanity clamp for the ceiling
@@ -310,19 +332,19 @@ namespace
     constexpr int VSYNC_CHECK_Y_LOCAL = 79;
     constexpr int GAMEPAD_CHECK_Y_LOCAL = 196;
     constexpr int HAPTICS_CHECK_Y_LOCAL = 306;
-    constexpr int COMBAT_HAPTICS_CHECK_Y_LOCAL = 356;
-    constexpr int UI_HAPTICS_CHECK_Y_LOCAL = 374;
-    constexpr int TRANSACTION_HAPTICS_CHECK_Y_LOCAL = 392;
+    constexpr int COMBAT_HAPTICS_CHECK_Y_LOCAL = 348;
+    constexpr int UI_HAPTICS_CHECK_Y_LOCAL = 362;
+    constexpr int TRANSACTION_HAPTICS_CHECK_Y_LOCAL = 376;
 
     constexpr int ADVANCED_SLIDER_X_LOCAL = ADVANCED_X_LOCAL + 33;
     constexpr int ADVANCED_SLIDER_WIDTH = 124;
     constexpr int DEAD_ZONE_SLIDER_Y_LOCAL = 226;
     constexpr int POINTER_SPEED_SLIDER_Y_LOCAL = 258;
-    constexpr int HAPTIC_INTENSITY_SLIDER_Y_LOCAL = 336;
+    constexpr int HAPTIC_INTENSITY_SLIDER_Y_LOCAL = 330;
 
     constexpr int SHORT_TEST_X_LOCAL = ADVANCED_X_LOCAL + 20;
     constexpr int LONG_TEST_X_LOCAL = ADVANCED_X_LOCAL + 100;
-    constexpr int TEST_BUTTON_Y_LOCAL = 414;
+    constexpr int TEST_BUTTON_Y_LOCAL = 390;
     constexpr int TEST_BUTTON_WIDTH = 70;
     constexpr int TEST_BUTTON_HEIGHT = 16;
 
@@ -337,9 +359,11 @@ namespace
     constexpr int MAPPING_CHECKBOX_X_LOCAL = MAPPING_X_LOCAL + 150;
     constexpr int INVERT_POINTER_CHECK_Y_LOCAL = 181;
     constexpr int MAPPING_SUMMARY_Y_LOCAL = 207;
-    constexpr int MAPPING_SUMMARY_ROW_HEIGHT = 13;
+    // 16 rows must fit above the compacted bottom frame piece (local y 374):
+    // 207 + 16*11 = 383, reset button at 388.
+    constexpr int MAPPING_SUMMARY_ROW_HEIGHT = 11;
     constexpr int RESET_BINDINGS_X_LOCAL = MAPPING_X_LOCAL + 25;
-    constexpr int RESET_BINDINGS_Y_LOCAL = 420;
+    constexpr int RESET_BINDINGS_Y_LOCAL = 388;
     constexpr int RESET_BINDINGS_WIDTH = 140;
     constexpr int RESET_BINDINGS_HEIGHT = 16;
 
@@ -358,6 +382,65 @@ namespace
 
     constexpr std::uint64_t ADJUSTMENT_INITIAL_REPEAT_MS = 300;
     constexpr std::uint64_t ADJUSTMENT_REPEAT_MS = 110;
+
+    // The 16 "current mapping" summary rows are focus-navigable; Confirm on a
+    // row arms one-frame control capture to rebind that action. Their focus
+    // ids live in their own range so they never collide with OptionFocusId.
+    constexpr std::uint32_t MAPPING_ROW_FOCUS_ID_BASE = 0x1000;
+    constexpr int MAPPING_ROW_COUNT =
+        static_cast<int>(Core::Input::RemappableGamepadAction::Count);
+    constexpr int MAPPING_ROW_X_LOCAL = 10;
+    constexpr int MAPPING_ROW_WIDTH = 170;
+    constexpr int MAPPING_ROW_HIT_HEIGHT = 11;
+
+    // In-game Yes/No prompt shown after switching the BMD data language. The
+    // old native ::MessageBox could not be driven by the controller.
+    constexpr int RESTART_PROMPT_X_LOCAL = 155;
+    constexpr int RESTART_PROMPT_Y_LOCAL = 155;
+    constexpr int RESTART_PROMPT_WIDTH = 260;
+    constexpr int RESTART_PROMPT_HEIGHT = 118;
+    constexpr int RESTART_YES_X_LOCAL = RESTART_PROMPT_X_LOCAL + 20;
+    constexpr int RESTART_NO_X_LOCAL = RESTART_PROMPT_X_LOCAL + 140;
+    constexpr int RESTART_BUTTON_Y_LOCAL = RESTART_PROMPT_Y_LOCAL + 78;
+    constexpr int RESTART_BUTTON_WIDTH = 100;
+    constexpr int RESTART_BUTTON_HEIGHT = 18;
+
+    bool IsMappingRowFocusId(std::uint32_t focusId, int& row)
+    {
+        if (focusId < MAPPING_ROW_FOCUS_ID_BASE)
+            return false;
+        const std::uint32_t index = focusId - MAPPING_ROW_FOCUS_ID_BASE;
+        if (index >= static_cast<std::uint32_t>(MAPPING_ROW_COUNT))
+            return false;
+        row = static_cast<int>(index);
+        return true;
+    }
+
+    // Bright outline drawn around the control the controller cursor is on.
+    // Mirrors the raw-GL rect pattern in NewUIComboBox (UI coords -> GL).
+    void DrawFocusOutline(int x, int y, int w, int h, float pulse = 1.0f)
+    {
+        DisableTexture2D();
+
+        const float gx = ConvertX(static_cast<float>(x));
+        const float gyRaw = ConvertY(static_cast<float>(y));
+        const float gw = ConvertX(static_cast<float>(w));
+        const float gh = ConvertY(static_cast<float>(h));
+        const float gy = static_cast<float>(WindowHeight) - gyRaw;
+
+        IR::Begin(GL_LINE_LOOP);
+        PassthroughShader::Instance().SetUseTexture(false);
+        const float brightness = 0.75f + 0.25f * pulse;
+        IR::Color4f(1.0f, 0.82f * brightness, 0.20f * brightness, 1.0f);
+        IR::Vertex2f(gx,      gy);
+        IR::Vertex2f(gx + gw, gy);
+        IR::Vertex2f(gx + gw, gy - gh);
+        IR::Vertex2f(gx,      gy - gh);
+        IR::End();
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        EnableTexture2D();
+    }
 
     enum class OptionFocusId : std::uint32_t
     {
@@ -385,6 +468,8 @@ namespace
         ResetBindings,
         KeepDisplaySettings,
         RevertDisplaySettings,
+        RestartYes,
+        RestartNo,
     };
 
     struct OptionFocusTarget
@@ -421,9 +506,32 @@ namespace
         OptionFocusTarget{ OptionFocusId::ResetBindings, RESET_BINDINGS_X_LOCAL, RESET_BINDINGS_Y_LOCAL, RESET_BINDINGS_WIDTH, RESET_BINDINGS_HEIGHT },
     };
 
+    // Focus targets that belong to the gamepad/mapping panels only. Touch
+    // builds never register them (see kGamepadPanelEnabled).
+    constexpr bool IsGamepadOnlyFocusTarget(OptionFocusId id)
+    {
+        switch (id)
+        {
+        case OptionFocusId::GamepadEnabled:
+        case OptionFocusId::StickDeadZone:
+        case OptionFocusId::PointerSpeed:
+        case OptionFocusId::TriggerDeadZone:
+        case OptionFocusId::InvertPointerY:
+        case OptionFocusId::ResetBindings:
+            return true;
+        default:
+            return false;
+        }
+    }
+
     constexpr std::array DisplayConfirmationFocusTargets = {
         OptionFocusTarget{ OptionFocusId::KeepDisplaySettings, KEEP_DISPLAY_X_LOCAL, DISPLAY_BUTTON_Y_LOCAL, DISPLAY_BUTTON_WIDTH, DISPLAY_BUTTON_HEIGHT },
         OptionFocusTarget{ OptionFocusId::RevertDisplaySettings, REVERT_DISPLAY_X_LOCAL, DISPLAY_BUTTON_Y_LOCAL, DISPLAY_BUTTON_WIDTH, DISPLAY_BUTTON_HEIGHT },
+    };
+
+    constexpr std::array RestartPromptFocusTargets = {
+        OptionFocusTarget{ OptionFocusId::RestartYes, RESTART_YES_X_LOCAL, RESTART_BUTTON_Y_LOCAL, RESTART_BUTTON_WIDTH, RESTART_BUTTON_HEIGHT },
+        OptionFocusTarget{ OptionFocusId::RestartNo, RESTART_NO_X_LOCAL, RESTART_BUTTON_Y_LOCAL, RESTART_BUTTON_WIDTH, RESTART_BUTTON_HEIGHT },
     };
 
     constexpr std::uint32_t FocusId(OptionFocusId id)
@@ -444,7 +552,12 @@ namespace
 
         const auto confirmation = std::find_if(
             DisplayConfirmationFocusTargets.begin(), DisplayConfirmationFocusTargets.end(), matches);
-        return confirmation != DisplayConfirmationFocusTargets.end() ? &*confirmation : nullptr;
+        if (confirmation != DisplayConfirmationFocusTargets.end())
+            return &*confirmation;
+
+        const auto restart = std::find_if(
+            RestartPromptFocusTargets.begin(), RestartPromptFocusTargets.end(), matches);
+        return restart != RestartPromptFocusTargets.end() ? &*restart : nullptr;
     }
 
     bool IsAdjustableFocus(std::uint32_t focusId)
@@ -531,7 +644,8 @@ bool SEASON3B::CNewUIOptionWindow::Create(CNewUIManager* pNewUIMng, int x, int y
     InitFontCombo();
     InitFrameRateCombo();
     InitFrameRateSlider();
-    InitGamepadMappingCombos();
+    if (kGamepadPanelEnabled)
+        InitGamepadMappingCombos();
     Show(false);
     return true;
 }
@@ -757,6 +871,10 @@ bool SEASON3B::CNewUIOptionWindow::UpdateMouseEvent()
     RegisterFocusNodes();
     const bool result = ProcessMouseEvent();
     RememberCurrentFocus();
+    // Uses the focus identity remembered above: Confirm on a mapping row arms
+    // raw-control capture, and a completed capture rebinds that action.
+    if (kGamepadPanelEnabled)
+        UpdateMappingCapture();
     return result;
 }
 
@@ -779,6 +897,12 @@ void SEASON3B::CNewUIOptionWindow::RegisterFocusNodes()
     if (m_bDisplayChangePending)
     {
         RegisterDisplayConfirmationFocusNodes();
+        return;
+    }
+
+    if (m_bRestartPromptPending)
+    {
+        RegisterRestartPromptFocusNodes();
         return;
     }
 
@@ -825,19 +949,51 @@ void SEASON3B::CNewUIOptionWindow::RegisterStandardFocusNodes()
     // let a hidden field claim focus.
     if (!kUseFrameRateSlider)
         m_FrameRateCombo.RegisterFocusNodes();
-    m_GamepadActionCombo.RegisterFocusNodes();
-    m_GamepadControlCombo.RegisterFocusNodes();
+    if (kGamepadPanelEnabled)
+    {
+        m_GamepadActionCombo.RegisterFocusNodes();
+        m_GamepadControlCombo.RegisterFocusNodes();
+    }
     for (const OptionFocusTarget& target : StandardFocusTargets)
+    {
+        if (!kGamepadPanelEnabled && IsGamepadOnlyFocusTarget(target.id))
+            continue;
+        navigator.Register(this, FocusId(target.id),
+            static_cast<float>(m_Pos.x + target.xLocal),
+            static_cast<float>(m_Pos.y + target.yLocal),
+            static_cast<float>(target.width), static_cast<float>(target.height));
+    }
+    if (kGamepadPanelEnabled)
+    {
+        for (int row = 0; row < MAPPING_ROW_COUNT; ++row)
+        {
+            navigator.Register(this, MAPPING_ROW_FOCUS_ID_BASE + static_cast<std::uint32_t>(row),
+                static_cast<float>(m_Pos.x + MAPPING_X_LOCAL + MAPPING_ROW_X_LOCAL),
+                static_cast<float>(m_Pos.y + MAPPING_SUMMARY_Y_LOCAL
+                    + row * MAPPING_SUMMARY_ROW_HEIGHT - 1),
+                static_cast<float>(MAPPING_ROW_WIDTH),
+                static_cast<float>(MAPPING_ROW_HIT_HEIGHT));
+        }
+    }
+    navigator.Register(&m_BtnClose, 0,
+        static_cast<float>(m_Pos.x + CLOSE_BUTTON_X_LOCAL),
+        static_cast<float>(m_Pos.y + CLOSE_BUTTON_Y_LOCAL),
+        static_cast<float>(CLOSE_BUTTON_WIDTH), static_cast<float>(CLOSE_BUTTON_HEIGHT));
+}
+
+void SEASON3B::CNewUIOptionWindow::RegisterRestartPromptFocusNodes()
+{
+    auto& navigator = Core::Input::FocusNavigator::Instance();
+    for (const OptionFocusTarget& target : RestartPromptFocusTargets)
     {
         navigator.Register(this, FocusId(target.id),
             static_cast<float>(m_Pos.x + target.xLocal),
             static_cast<float>(m_Pos.y + target.yLocal),
             static_cast<float>(target.width), static_cast<float>(target.height));
     }
-    navigator.Register(&m_BtnClose, 0,
-        static_cast<float>(m_Pos.x + CLOSE_BUTTON_X_LOCAL),
-        static_cast<float>(m_Pos.y + CLOSE_BUTTON_Y_LOCAL),
-        static_cast<float>(CLOSE_BUTTON_WIDTH), static_cast<float>(CLOSE_BUTTON_HEIGHT));
+    // Land on "Yes" the first frame the prompt is up.
+    navigator.SetCurrent(this, FocusId(OptionFocusId::RestartYes));
+    FocusOptionControl(FocusId(OptionFocusId::RestartYes));
 }
 
 void SEASON3B::CNewUIOptionWindow::RegisterDisplayConfirmationFocusNodes()
@@ -882,7 +1038,9 @@ void SEASON3B::CNewUIOptionWindow::HandleFocusedAdjustment()
         || SEASON3B::IsPress(VK_PRIOR) || SEASON3B::IsRepeat(VK_PRIOR);
     const bool increase = SEASON3B::IsPress(VK_RIGHT) || SEASON3B::IsRepeat(VK_RIGHT)
         || SEASON3B::IsPress(VK_NEXT) || SEASON3B::IsRepeat(VK_NEXT);
-    if (m_bDisplayChangePending || FindOpenCombo() != nullptr || decrease == increase)
+    if (m_bDisplayChangePending || m_bRestartPromptPending
+        || m_iMappingCaptureRow >= 0
+        || FindOpenCombo() != nullptr || decrease == increase)
     {
         m_uActiveAdjustmentFocusId = 0;
         m_iHeldAdjustmentDirection = 0;
@@ -949,6 +1107,12 @@ bool SEASON3B::CNewUIOptionWindow::ProcessMouseEvent()
     if (m_bDisplayChangePending)
     {
         UpdateDisplayChangeMouseEvent();
+        return false;
+    }
+
+    if (m_bRestartPromptPending)
+    {
+        UpdateRestartPromptMouseEvent();
         return false;
     }
 
@@ -1177,7 +1341,9 @@ void SEASON3B::CNewUIOptionWindow::HandleAdvancedInputs()
         };
         const Checkbox boxes[] = {
             { VSYNC_CHECK_Y_LOCAL, &m_bVSync, &frameSettingsChanged },
+#if !defined(__ANDROID__) && !defined(__OHOS__)
             { GAMEPAD_CHECK_Y_LOCAL, &m_bGamepadEnabled, &gamepadSettingsChanged },
+#endif
             { HAPTICS_CHECK_Y_LOCAL, &m_bHapticsEnabled, &hapticSettingsChanged },
             { COMBAT_HAPTICS_CHECK_Y_LOCAL, &m_bCombatHaptics, &hapticSettingsChanged },
             { UI_HAPTICS_CHECK_Y_LOCAL, &m_bUIHaptics, &hapticSettingsChanged },
@@ -1199,23 +1365,26 @@ void SEASON3B::CNewUIOptionWindow::HandleAdvancedInputs()
             *checkbox.changed = true;
         }
 
-        if (CheckMouseIn(
-                m_Pos.x + MAPPING_CHECKBOX_X_LOCAL,
-                m_Pos.y + INVERT_POINTER_CHECK_Y_LOCAL,
-                ADVANCED_CHECKBOX_SIZE,
-                ADVANCED_CHECKBOX_SIZE))
+        if (kGamepadPanelEnabled)
         {
-            m_bInvertPointerY = !m_bInvertPointerY;
-            gamepadSettingsChanged = true;
-        }
+            if (CheckMouseIn(
+                    m_Pos.x + MAPPING_CHECKBOX_X_LOCAL,
+                    m_Pos.y + INVERT_POINTER_CHECK_Y_LOCAL,
+                    ADVANCED_CHECKBOX_SIZE,
+                    ADVANCED_CHECKBOX_SIZE))
+            {
+                m_bInvertPointerY = !m_bInvertPointerY;
+                gamepadSettingsChanged = true;
+            }
 
-        if (CheckMouseIn(
-                m_Pos.x + RESET_BINDINGS_X_LOCAL,
-                m_Pos.y + RESET_BINDINGS_Y_LOCAL,
-                RESET_BINDINGS_WIDTH,
-                RESET_BINDINGS_HEIGHT))
-        {
-            ResetGamepadBindings();
+            if (CheckMouseIn(
+                    m_Pos.x + RESET_BINDINGS_X_LOCAL,
+                    m_Pos.y + RESET_BINDINGS_Y_LOCAL,
+                    RESET_BINDINGS_WIDTH,
+                    RESET_BINDINGS_HEIGHT))
+            {
+                ResetGamepadBindings();
+            }
         }
 
         const double nowMs = static_cast<double>(SDL_GetTicks());
@@ -1239,18 +1408,21 @@ void SEASON3B::CNewUIOptionWindow::HandleAdvancedInputs()
         }
     }
 
-    gamepadSettingsChanged |= HandleIntegerSlider(
-        m_iStickDeadZonePercent, 0, 40,
-        ADVANCED_SLIDER_X_LOCAL, DEAD_ZONE_SLIDER_Y_LOCAL,
-        ADVANCED_SLIDER_WIDTH, 1);
-    gamepadSettingsChanged |= HandleIntegerSlider(
-        m_iPointerSpeed, 100, 1000,
-        ADVANCED_SLIDER_X_LOCAL, POINTER_SPEED_SLIDER_Y_LOCAL,
-        ADVANCED_SLIDER_WIDTH, 25);
-    gamepadSettingsChanged |= HandleIntegerSlider(
-        m_iTriggerDeadZonePercent, 0, 50,
-        MAPPING_X_LOCAL + 33, TRIGGER_DEAD_ZONE_SLIDER_Y_LOCAL,
-        ADVANCED_SLIDER_WIDTH, 1);
+    if (kGamepadPanelEnabled)
+    {
+        gamepadSettingsChanged |= HandleIntegerSlider(
+            m_iStickDeadZonePercent, 0, 40,
+            ADVANCED_SLIDER_X_LOCAL, DEAD_ZONE_SLIDER_Y_LOCAL,
+            ADVANCED_SLIDER_WIDTH, 1);
+        gamepadSettingsChanged |= HandleIntegerSlider(
+            m_iPointerSpeed, 100, 1000,
+            ADVANCED_SLIDER_X_LOCAL, POINTER_SPEED_SLIDER_Y_LOCAL,
+            ADVANCED_SLIDER_WIDTH, 25);
+        gamepadSettingsChanged |= HandleIntegerSlider(
+            m_iTriggerDeadZonePercent, 0, 50,
+            MAPPING_X_LOCAL + 33, TRIGGER_DEAD_ZONE_SLIDER_Y_LOCAL,
+            ADVANCED_SLIDER_WIDTH, 1);
+    }
     hapticSettingsChanged |= HandleIntegerSlider(
         m_iHapticIntensity, 0, 100,
         ADVANCED_SLIDER_X_LOCAL, HAPTIC_INTENSITY_SLIDER_Y_LOCAL,
@@ -1366,6 +1538,8 @@ bool SEASON3B::CNewUIOptionWindow::Render()
     RenderContents();
     RenderButtons();
     RenderDisplayChangeConfirmation();
+    RenderRestartPrompt();
+    RenderFocusHighlight();
     DisableAlphaBlend();
     return true;
 }
@@ -1389,6 +1563,9 @@ void SEASON3B::CNewUIOptionWindow::OpenningProcess()
     m_uActiveAdjustmentFocusId = 0;
     m_iHeldAdjustmentDirection = 0;
     m_uNextAdjustmentRepeatMs = 0;
+    m_bRestartPromptPending = false;
+    m_iMappingCaptureRow = -1;
+    Core::Input::GamepadService::Instance().CancelControlCapture();
     m_iResolutionIndex = FindCurrentResolutionIndex();
     m_ResolutionCombo.SetSelectedIndex(m_iResolutionIndex);
     m_ResolutionCombo.Close();
@@ -1449,6 +1626,9 @@ void SEASON3B::CNewUIOptionWindow::ClosingProcess()
     m_uActiveAdjustmentFocusId = 0;
     m_iHeldAdjustmentDirection = 0;
     m_uNextAdjustmentRepeatMs = 0;
+    m_bRestartPromptPending = false;
+    m_iMappingCaptureRow = -1;
+    Core::Input::GamepadService::Instance().CancelControlCapture();
 }
 
 void SEASON3B::CNewUIOptionWindow::LoadImages()
@@ -1490,7 +1670,7 @@ void SEASON3B::CNewUIOptionWindow::RenderFrame()
     // All columns use the original option-window texture grammar. Keeping the
     // advanced controls in sibling panels avoids squeezing translated labels
     // into the legacy 190-pixel column.
-    constexpr int SLAT_COUNT = 35;
+    constexpr int SLAT_COUNT = 31;
     const auto drawPanel = [this](float x)
     {
         float y = static_cast<float>(m_Pos.y);
@@ -1534,7 +1714,7 @@ void SEASON3B::CNewUIOptionWindow::RenderFrame()
 
     const float mappingX = x + MAPPING_X_LOCAL;
     RenderImage(IMAGE_OPTION_LINE, mappingX + 18, m_Pos.y + 197.f, 154.f, 2.f);
-    RenderImage(IMAGE_OPTION_LINE, mappingX + 18, m_Pos.y + 409.f, 154.f, 2.f);
+    RenderImage(IMAGE_OPTION_LINE, mappingX + 18, m_Pos.y + 384.f, 154.f, 2.f);
 }
 
 void SEASON3B::CNewUIOptionWindow::RenderContents()
@@ -1570,15 +1750,15 @@ void SEASON3B::CNewUIOptionWindow::RenderContents()
 
     y += 25.f;
     RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Font
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + FONT_LABEL_Y_LOCAL, I18N::Game::Font);
+    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + FONT_LABEL_Y_LOCAL - 2, I18N::Game::Font);
 
     y += 39.f;
     RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Language
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + LANG_LABEL_Y_LOCAL, I18N::Game::Language);
+    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + LANG_LABEL_Y_LOCAL - 2, I18N::Game::Language);
 
     y += 39.f;
     RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Resolution
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 322, I18N::Game::Resolution);
+    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 320, I18N::Game::Resolution);
 
     y += 39.f;
     RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Windowed Mode
@@ -1650,14 +1830,17 @@ void SEASON3B::CNewUIOptionWindow::RenderContents()
     g_pRenderText->SetTextColor(255, 230, 180, 255);
     g_pRenderText->RenderText(advancedX + 62, diagnosticY, reason, 108, 0, RT3_SORT_RIGHT);
 
-    g_pRenderText->SetTextColor(255, 230, 180, 255);
-    g_pRenderText->RenderText(
-        advancedX, m_Pos.y + 180, I18N::Game::Gamepad,
-        WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 199, I18N::Game::GamepadEnabled);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 214, I18N::Game::StickDeadZone);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 246, I18N::Game::PointerSpeed);
+    if (kGamepadPanelEnabled)
+    {
+        g_pRenderText->SetTextColor(255, 230, 180, 255);
+        g_pRenderText->RenderText(
+            advancedX, m_Pos.y + 180, I18N::Game::Gamepad,
+            WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
+        g_pRenderText->SetTextColor(255, 255, 255, 255);
+        g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 199, I18N::Game::GamepadEnabled);
+        g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 214, I18N::Game::StickDeadZone);
+        g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 246, I18N::Game::PointerSpeed);
+    }
 
     g_pRenderText->SetTextColor(255, 230, 180, 255);
     g_pRenderText->RenderText(
@@ -1665,63 +1848,78 @@ void SEASON3B::CNewUIOptionWindow::RenderContents()
         WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
     g_pRenderText->SetTextColor(255, 255, 255, 255);
     g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 309, I18N::Game::Haptics);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 324, I18N::Game::HapticIntensity);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 359, I18N::Game::CombatHaptics);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 377, I18N::Game::UIHaptics);
-    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 395, I18N::Game::TransactionHaptics);
+    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 320, I18N::Game::HapticIntensity);
+    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 351, I18N::Game::CombatHaptics);
+    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 365, I18N::Game::UIHaptics);
+    g_pRenderText->RenderText(advancedX + 40, m_Pos.y + 379, I18N::Game::TransactionHaptics);
 
-    if (Core::Input::GamepadService::Instance().IsConnected()
-        && !Core::Input::GamepadService::Instance().SupportsRumble())
+    if (kGamepadPanelEnabled)
     {
-        g_pRenderText->SetTextColor(255, 120, 100, 255);
+        if (Core::Input::GamepadService::Instance().IsConnected()
+            && !Core::Input::GamepadService::Instance().SupportsRumble())
+        {
+            g_pRenderText->SetTextColor(255, 120, 100, 255);
+            g_pRenderText->RenderText(
+                advancedX + 20, m_Pos.y + 408, I18N::Game::RumbleUnsupported,
+                150, 0, RT3_SORT_CENTER);
+        }
+
+        const int mappingX = m_Pos.x + MAPPING_X_LOCAL;
+        g_pRenderText->SetTextColor(255, 230, 180, 255);
         g_pRenderText->RenderText(
-            advancedX + 20, m_Pos.y + 436, I18N::Game::RumbleUnsupported,
+            mappingX, m_Pos.y + 34,
+            I18N::Game::ControllerMapping,
+            WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
+        g_pRenderText->SetTextColor(205, 205, 205, 255);
+        g_pRenderText->RenderText(
+            mappingX + 20, m_Pos.y + 50,
+            GetGamepadFamilyLabel(Core::Input::GamepadService::Instance().GetIconFamily()),
             150, 0, RT3_SORT_CENTER);
-    }
-
-    const int mappingX = m_Pos.x + MAPPING_X_LOCAL;
-    g_pRenderText->SetTextColor(255, 230, 180, 255);
-    g_pRenderText->RenderText(
-        mappingX, m_Pos.y + 34,
-        I18N::Game::ControllerMapping,
-        WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetTextColor(205, 205, 205, 255);
-    g_pRenderText->RenderText(
-        mappingX + 20, m_Pos.y + 50,
-        GetGamepadFamilyLabel(Core::Input::GamepadService::Instance().GetIconFamily()),
-        150, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(
-        mappingX + 22, m_Pos.y + 70,
-        I18N::Game::GamepadAction);
-    g_pRenderText->RenderText(
-        mappingX + 22, m_Pos.y + 106,
-        I18N::Game::PhysicalControl);
-    g_pRenderText->RenderText(
-        mappingX + 22, m_Pos.y + 144,
-        I18N::Game::TriggerDeadZone);
-    g_pRenderText->RenderText(
-        mappingX + 22, m_Pos.y + 184,
-        I18N::Game::InvertPointerY);
-    g_pRenderText->SetTextColor(255, 230, 180, 255);
-    g_pRenderText->RenderText(
-        mappingX, m_Pos.y + 199,
-        I18N::Game::CurrentMapping,
-        WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
-
-    const auto& bindings = GameConfig::GetInstance().GetGamepadSettings().bindings;
-    const wchar_t* const* actionLabels = GetGamepadActionLabels();
-    for (std::size_t index = 0; index < bindings.size(); ++index)
-    {
-        const int rowY = m_Pos.y + MAPPING_SUMMARY_Y_LOCAL
-            + static_cast<int>(index) * MAPPING_SUMMARY_ROW_HEIGHT;
-        g_pRenderText->SetTextColor(220, 220, 220, 255);
-        g_pRenderText->RenderText(mappingX + 12, rowY, actionLabels[index], 105, 0, RT3_SORT_LEFT);
         g_pRenderText->SetTextColor(255, 255, 255, 255);
         g_pRenderText->RenderText(
-            mappingX + 117, rowY,
-            Core::Input::GamepadControlConfigName(bindings[index]),
-            61, 0, RT3_SORT_RIGHT);
+            mappingX + 22, m_Pos.y + 70,
+            I18N::Game::GamepadAction);
+        g_pRenderText->RenderText(
+            mappingX + 22, m_Pos.y + 106,
+            I18N::Game::PhysicalControl);
+        g_pRenderText->RenderText(
+            mappingX + 22, m_Pos.y + 144,
+            I18N::Game::TriggerDeadZone);
+        g_pRenderText->RenderText(
+            mappingX + 22, m_Pos.y + 184,
+            I18N::Game::InvertPointerY);
+        g_pRenderText->SetTextColor(255, 230, 180, 255);
+        g_pRenderText->RenderText(
+            mappingX, m_Pos.y + 199,
+            I18N::Game::CurrentMapping,
+            WINDOW_PANEL_WIDTH, 0, RT3_SORT_CENTER);
+
+        const auto& bindings = GameConfig::GetInstance().GetGamepadSettings().bindings;
+        const wchar_t* const* actionLabels = GetGamepadActionLabels();
+        for (std::size_t index = 0; index < bindings.size(); ++index)
+        {
+            const int rowY = m_Pos.y + MAPPING_SUMMARY_Y_LOCAL
+                + static_cast<int>(index) * MAPPING_SUMMARY_ROW_HEIGHT;
+            if (static_cast<int>(index) == m_iMappingCaptureRow)
+            {
+                // Capture armed: prompt replaces label/control until a physical
+                // control is pressed (the Cancel-bound control aborts).
+                g_pRenderText->SetTextColor(255, 220, 90, 255);
+                g_pRenderText->RenderText(
+                    mappingX + 12, rowY,
+                    // "press any button..." -- UCN escapes keep the source ASCII.
+                    L"\u6309\u4E0B\u4EFB\u610F\u6309\u952E\u2026",
+                    166, 0, RT3_SORT_LEFT);
+                continue;
+            }
+            g_pRenderText->SetTextColor(220, 220, 220, 255);
+            g_pRenderText->RenderText(mappingX + 12, rowY, actionLabels[index], 105, 0, RT3_SORT_LEFT);
+            g_pRenderText->SetTextColor(255, 255, 255, 255);
+            g_pRenderText->RenderText(
+                mappingX + 117, rowY,
+                Core::Input::GamepadControlConfigName(bindings[index]),
+                61, 0, RT3_SORT_RIGHT);
+        }
     }
 }
 
@@ -1812,19 +2010,23 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
             checked ? 0.0f : 15.0f);
     };
     renderAdvancedCheckbox(m_bVSync, VSYNC_CHECK_Y_LOCAL);
-    renderAdvancedCheckbox(m_bGamepadEnabled, GAMEPAD_CHECK_Y_LOCAL);
+    if (kGamepadPanelEnabled)
+        renderAdvancedCheckbox(m_bGamepadEnabled, GAMEPAD_CHECK_Y_LOCAL);
     renderAdvancedCheckbox(m_bHapticsEnabled, HAPTICS_CHECK_Y_LOCAL);
     renderAdvancedCheckbox(m_bCombatHaptics, COMBAT_HAPTICS_CHECK_Y_LOCAL);
     renderAdvancedCheckbox(m_bUIHaptics, UI_HAPTICS_CHECK_Y_LOCAL);
     renderAdvancedCheckbox(m_bTransactionHaptics, TRANSACTION_HAPTICS_CHECK_Y_LOCAL);
-    RenderImage(
-        IMAGE_OPTION_BTN_CHECK,
-        m_Pos.x + MAPPING_CHECKBOX_X_LOCAL,
-        m_Pos.y + INVERT_POINTER_CHECK_Y_LOCAL,
-        ADVANCED_CHECKBOX_SIZE,
-        ADVANCED_CHECKBOX_SIZE,
-        0,
-        m_bInvertPointerY ? 0.0f : 15.0f);
+    if (kGamepadPanelEnabled)
+    {
+        RenderImage(
+            IMAGE_OPTION_BTN_CHECK,
+            m_Pos.x + MAPPING_CHECKBOX_X_LOCAL,
+            m_Pos.y + INVERT_POINTER_CHECK_Y_LOCAL,
+            ADVANCED_CHECKBOX_SIZE,
+            ADVANCED_CHECKBOX_SIZE,
+            0,
+            m_bInvertPointerY ? 0.0f : 15.0f);
+    }
 
     const auto renderAdvancedSlider = [this](int value, int minimum, int maximum, int yLocal)
     {
@@ -1856,40 +2058,46 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
             0,
             RT3_SORT_CENTER);
     };
-    renderAdvancedSlider(m_iStickDeadZonePercent, 0, 40, DEAD_ZONE_SLIDER_Y_LOCAL);
-    renderAdvancedSlider(m_iPointerSpeed, 100, 1000, POINTER_SPEED_SLIDER_Y_LOCAL);
+    if (kGamepadPanelEnabled)
+    {
+        renderAdvancedSlider(m_iStickDeadZonePercent, 0, 40, DEAD_ZONE_SLIDER_Y_LOCAL);
+        renderAdvancedSlider(m_iPointerSpeed, 100, 1000, POINTER_SPEED_SLIDER_Y_LOCAL);
+    }
     renderAdvancedSlider(m_iHapticIntensity, 0, 100, HAPTIC_INTENSITY_SLIDER_Y_LOCAL);
 
-    const auto renderMappingSlider = [this](int value, int minimum, int maximum, int yLocal)
+    if (kGamepadPanelEnabled)
     {
-        const float fraction = static_cast<float>(value - minimum) / static_cast<float>(maximum - minimum);
-        RenderImage(
-            IMAGE_OPTION_VOLUME_BACK,
-            m_Pos.x + MAPPING_X_LOCAL + 33,
-            m_Pos.y + yLocal,
-            ADVANCED_SLIDER_WIDTH,
-            16.f);
-        if (fraction > 0.0f)
+        const auto renderMappingSlider = [this](int value, int minimum, int maximum, int yLocal)
         {
+            const float fraction = static_cast<float>(value - minimum) / static_cast<float>(maximum - minimum);
             RenderImage(
-                IMAGE_OPTION_VOLUME_COLOR,
+                IMAGE_OPTION_VOLUME_BACK,
                 m_Pos.x + MAPPING_X_LOCAL + 33,
                 m_Pos.y + yLocal,
-                ADVANCED_SLIDER_WIDTH * fraction,
+                ADVANCED_SLIDER_WIDTH,
                 16.f);
-        }
-        wchar_t text[24] = {};
-        std::swprintf(text, sizeof(text) / sizeof(text[0]), L"%d%%", value);
-        g_pRenderText->SetTextColor(255, 255, 255, 255);
-        g_pRenderText->RenderText(
-            m_Pos.x + MAPPING_X_LOCAL + 33,
-            m_Pos.y + yLocal + 2,
-            text,
-            ADVANCED_SLIDER_WIDTH,
-            0,
-            RT3_SORT_CENTER);
-    };
-    renderMappingSlider(m_iTriggerDeadZonePercent, 0, 50, TRIGGER_DEAD_ZONE_SLIDER_Y_LOCAL);
+            if (fraction > 0.0f)
+            {
+                RenderImage(
+                    IMAGE_OPTION_VOLUME_COLOR,
+                    m_Pos.x + MAPPING_X_LOCAL + 33,
+                    m_Pos.y + yLocal,
+                    ADVANCED_SLIDER_WIDTH * fraction,
+                    16.f);
+            }
+            wchar_t text[24] = {};
+            std::swprintf(text, sizeof(text) / sizeof(text[0]), L"%d%%", value);
+            g_pRenderText->SetTextColor(255, 255, 255, 255);
+            g_pRenderText->RenderText(
+                m_Pos.x + MAPPING_X_LOCAL + 33,
+                m_Pos.y + yLocal + 2,
+                text,
+                ADVANCED_SLIDER_WIDTH,
+                0,
+                RT3_SORT_CENTER);
+        };
+        renderMappingSlider(m_iTriggerDeadZonePercent, 0, 50, TRIGGER_DEAD_ZONE_SLIDER_Y_LOCAL);
+    }
 
     RenderImage(
         IMAGE_OPTION_VOLUME_BACK,
@@ -1919,20 +2127,23 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
         0,
         RT3_SORT_CENTER);
 
-    RenderImage(
-        IMAGE_OPTION_VOLUME_BACK,
-        m_Pos.x + RESET_BINDINGS_X_LOCAL,
-        m_Pos.y + RESET_BINDINGS_Y_LOCAL,
-        RESET_BINDINGS_WIDTH,
-        RESET_BINDINGS_HEIGHT);
-    g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(
-        m_Pos.x + RESET_BINDINGS_X_LOCAL,
-        m_Pos.y + RESET_BINDINGS_Y_LOCAL + 2,
-        I18N::Game::RestoreDefaultMapping,
-        RESET_BINDINGS_WIDTH,
-        0,
-        RT3_SORT_CENTER);
+    if (kGamepadPanelEnabled)
+    {
+        RenderImage(
+            IMAGE_OPTION_VOLUME_BACK,
+            m_Pos.x + RESET_BINDINGS_X_LOCAL,
+            m_Pos.y + RESET_BINDINGS_Y_LOCAL,
+            RESET_BINDINGS_WIDTH,
+            RESET_BINDINGS_HEIGHT);
+        g_pRenderText->SetTextColor(255, 255, 255, 255);
+        g_pRenderText->RenderText(
+            m_Pos.x + RESET_BINDINGS_X_LOCAL,
+            m_Pos.y + RESET_BINDINGS_Y_LOCAL + 2,
+            I18N::Game::RestoreDefaultMapping,
+            RESET_BINDINGS_WIDTH,
+            0,
+            RT3_SORT_CENTER);
+    }
 
     // Combo boxes drawn last so their expanded dropdowns sit on top of
     // anything else in the window. Within the combo pair, render the
@@ -1958,11 +2169,17 @@ void SEASON3B::CNewUIOptionWindow::RenderButtons()
     {
         if (kUseFrameRateSlider && c == &m_FrameRateCombo)
             continue;
+        if (!kGamepadPanelEnabled
+            && (c == &m_GamepadActionCombo || c == &m_GamepadControlCombo))
+            continue;
         if (!c->IsOpen()) c->Render();
     }
     for (auto* c : combos)
     {
         if (kUseFrameRateSlider && c == &m_FrameRateCombo)
+            continue;
+        if (!kGamepadPanelEnabled
+            && (c == &m_GamepadActionCombo || c == &m_GamepadControlCombo))
             continue;
         if (c->IsOpen())  c->Render();
     }
@@ -2186,26 +2403,56 @@ int SEASON3B::CNewUIOptionWindow::FindCurrentLanguageIndex()
     return 0;  // default to English
 }
 
+// The UI locale (resx/I18N) switches immediately; NPC names, quest text and the
+// other BMD-backed strings are read once from Data\Local\<dir> during startup
+// loading, so a data-language change only takes effect after the process is
+// restarted. ApplyLanguage() arms the in-game Yes/No prompt
+// (RenderRestartPrompt / AcceptRestartForLanguage) so it stays fully
+// controller-navigable; the old native ::MessageBox could not.
+
 void SEASON3B::CNewUIOptionWindow::ApplyLanguage()
 {
-    const char* code = s_Languages[m_iLanguageIndex].code;
+    const auto& selected = s_Languages[m_iLanguageIndex];
+    const char* code = selected.code;
 
     // Persist as wide string so it round-trips cleanly through the existing
     // GameConfig string-IO. Locale codes are ASCII so the conversion is safe.
-    std::wstring wide(code, code + std::strlen(code));
+    std::wstring uiWide(code, code + std::strlen(code));
 
-    // Re-selecting the active language is a no-op; skip the relocalize and disk write.
-    if (GameConfig::GetInstance().GetUILocale() == wide)
+    // The UI (resx) layer and the BMD data layer are selected independently:
+    // [UI] Locale drives I18N, [LOGIN] Language names the Data\Local\<dir>
+    // folder loaded at startup.
+    const bool uiChanged = GameConfig::GetInstance().GetUILocale() != uiWide;
+    const std::wstring currentDataDir = GameConfig::GetInstance().GetLanguageSelection();
+    const bool dataChanged = _wcsicmp(currentDataDir.c_str(), selected.dataDir) != 0;
+
+    // Re-selecting the active combination is a no-op; skip work and disk write.
+    if (!uiChanged && !dataChanged)
         return;
 
-    I18N::SetLocale(code);
-    GameConfig::GetInstance().SetUILocale(wide);
+    if (uiChanged)
+    {
+        I18N::SetLocale(code);
+        GameConfig::GetInstance().SetUILocale(uiWide);
+    }
+    if (dataChanged)
+    {
+        GameConfig::GetInstance().SetLanguageSelection(selected.dataDir);
+    }
     GameConfig::GetInstance().Save();
     InitFontCombo();
     InitFrameRateCombo();
     InitFrameRateSlider();
     InitGamepadMappingCombos();
     PublishSettingHaptic();
+
+    if (dataChanged)
+    {
+        // Show the in-game, controller-navigable restart prompt; Yes re-execs
+        // the client (AcceptRestartForLanguage), No keeps the session.
+        m_bRestartPromptPending = true;
+        FocusOptionControl(FocusId(OptionFocusId::RestartYes));
+    }
 }
 
 int SEASON3B::CNewUIOptionWindow::FindCurrentFontIndex()
@@ -2413,6 +2660,271 @@ void SEASON3B::CNewUIOptionWindow::RenderDisplayChangeConfirmation()
     };
     renderButton(KEEP_DISPLAY_X_LOCAL, I18N::Game::KeepDisplaySettings);
     renderButton(REVERT_DISPLAY_X_LOCAL, I18N::Game::RevertDisplaySettings);
+}
+
+void SEASON3B::CNewUIOptionWindow::UpdateMappingCapture()
+{
+    auto& gamepad = Core::Input::GamepadService::Instance();
+
+    if (m_iMappingCaptureRow >= 0 && !gamepad.IsConnected())
+    {
+        m_iMappingCaptureRow = -1;
+        gamepad.CancelControlCapture();
+        return;
+    }
+
+    if (m_iMappingCaptureRow >= 0)
+    {
+        // The Cancel-action control aborts capture inside the service; any
+        // other newly pressed control completes the rebind.
+        if (const auto captured = gamepad.ConsumeCapturedControl())
+        {
+            const int row = m_iMappingCaptureRow;
+            m_iMappingCaptureRow = -1;
+            ApplyCapturedMapping(row, *captured);
+        }
+        else if (!gamepad.IsCapturingControl())
+        {
+            // Capture was aborted (cancel control, focus loss, mouse input).
+            m_iMappingCaptureRow = -1;
+        }
+        return;
+    }
+
+    if (!gamepad.IsConnected())
+        return;
+    if (m_uPreviousFocusOwner != reinterpret_cast<std::uintptr_t>(this))
+        return;
+
+    int row = -1;
+    if (!IsMappingRowFocusId(m_uPreviousFocusId, row))
+        return;
+
+    const auto& frame = gamepad.LastFrameState();
+    if (!frame.actions[static_cast<std::size_t>(Core::Input::InputAction::Confirm)].pressed)
+        return;
+
+    const auto cancelControl = GameConfig::GetInstance()
+        .GetGamepadSettings()
+        .bindings[static_cast<std::size_t>(Core::Input::RemappableGamepadAction::Cancel)];
+    m_iMappingCaptureRow = row;
+    // The Confirm press is still held; the capture waits for neutral first.
+    gamepad.BeginControlCapture(cancelControl);
+    PlayBuffer(SOUND_CLICK01);
+}
+
+void SEASON3B::CNewUIOptionWindow::ApplyCapturedMapping(
+    int row, Core::Input::GamepadControl control)
+{
+    if (row < 0 || row >= MAPPING_ROW_COUNT)
+        return;
+
+    auto settings = GameConfig::GetInstance().GetGamepadSettings();
+    const auto action = static_cast<Core::Input::RemappableGamepadAction>(row);
+    // RebindGamepadAction swaps the displaced action's control, keeping the
+    // table conflict-free.
+    Core::Input::RebindGamepadAction(settings.bindings, action, control);
+    GameConfig::GetInstance().SetGamepadSettings(settings);
+    GameConfig::GetInstance().Save();
+    Core::Input::GamepadService::Instance().SetGamepadSettings(settings);
+
+    // Keep the action/control combos in sync with the rebound row.
+    m_iGamepadActionIndex = row;
+    m_GamepadActionCombo.SetSelectedIndex(row);
+    m_iGamepadControlIndex = static_cast<int>(
+        settings.bindings[static_cast<std::size_t>(row)]);
+    m_GamepadControlCombo.SetSelectedIndex(m_iGamepadControlIndex);
+    m_GamepadControlCombo.Close();
+    PublishSettingHaptic();
+}
+
+void SEASON3B::CNewUIOptionWindow::UpdateRestartPromptMouseEvent()
+{
+    if (!SEASON3B::IsPress(VK_LBUTTON))
+        return;
+
+    if (CheckMouseIn(
+            m_Pos.x + RESTART_YES_X_LOCAL,
+            m_Pos.y + RESTART_BUTTON_Y_LOCAL,
+            RESTART_BUTTON_WIDTH,
+            RESTART_BUTTON_HEIGHT))
+    {
+        AcceptRestartForLanguage();
+        return;
+    }
+
+    if (CheckMouseIn(
+            m_Pos.x + RESTART_NO_X_LOCAL,
+            m_Pos.y + RESTART_BUTTON_Y_LOCAL,
+            RESTART_BUTTON_WIDTH,
+            RESTART_BUTTON_HEIGHT))
+    {
+        m_bRestartPromptPending = false;
+        PublishSettingHaptic();
+    }
+}
+
+void SEASON3B::CNewUIOptionWindow::AcceptRestartForLanguage()
+{
+    m_bRestartPromptPending = false;
+#if defined(_WIN32)
+    // Re-execute ourselves with the original command line (the /u /p connect
+    // arguments and the auto-login environment are inherited by the child),
+    // then quit so all language-dependent BMD data reloads on the next start.
+    wchar_t modulePath[MAX_PATH] = {};
+    if (GetModuleFileNameW(nullptr, modulePath, MAX_PATH) == 0)
+        return;
+
+    std::wstring commandLine = GetCommandLineW();
+    STARTUPINFOW startupInfo = {};
+    startupInfo.cb = sizeof(startupInfo);
+    PROCESS_INFORMATION processInfo = {};
+    if (CreateProcessW(
+            modulePath,
+            commandLine.empty() ? nullptr : commandLine.data(),
+            nullptr, nullptr, FALSE, 0, nullptr, nullptr,
+            &startupInfo, &processInfo))
+    {
+        ::CloseHandle(processInfo.hThread);
+        ::CloseHandle(processInfo.hProcess);
+        ::PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+    }
+#endif
+}
+
+void SEASON3B::CNewUIOptionWindow::RenderRestartPrompt()
+{
+    if (!m_bRestartPromptPending)
+        return;
+
+    RenderImage(
+        IMAGE_OPTION_FRAME_BACK,
+        m_Pos.x + RESTART_PROMPT_X_LOCAL,
+        m_Pos.y + RESTART_PROMPT_Y_LOCAL,
+        RESTART_PROMPT_WIDTH,
+        RESTART_PROMPT_HEIGHT);
+
+    g_pRenderText->SetTextColor(255, 230, 180, 255);
+    g_pRenderText->RenderText(
+        m_Pos.x + RESTART_PROMPT_X_LOCAL,
+        m_Pos.y + RESTART_PROMPT_Y_LOCAL + 10,
+        I18N::Game::RestartRequiredTitle,
+        RESTART_PROMPT_WIDTH,
+        0,
+        RT3_SORT_CENTER);
+
+    g_pRenderText->SetTextColor(255, 255, 255, 255);
+    g_pRenderText->RenderText(
+        m_Pos.x + RESTART_PROMPT_X_LOCAL + 15,
+        m_Pos.y + RESTART_PROMPT_Y_LOCAL + 30,
+        I18N::Game::RestartLanguageMessage,
+        RESTART_PROMPT_WIDTH - 30,
+        0,
+        RT3_SORT_CENTER);
+
+    const auto renderButton = [this](int xLocal, const wchar_t* label)
+    {
+        RenderImage(
+            IMAGE_OPTION_VOLUME_BACK,
+            m_Pos.x + xLocal,
+            m_Pos.y + RESTART_BUTTON_Y_LOCAL,
+            RESTART_BUTTON_WIDTH,
+            RESTART_BUTTON_HEIGHT);
+        g_pRenderText->SetTextColor(255, 255, 255, 255);
+        g_pRenderText->RenderText(
+            m_Pos.x + xLocal,
+            m_Pos.y + RESTART_BUTTON_Y_LOCAL + 3,
+            label,
+            RESTART_BUTTON_WIDTH,
+            0,
+            RT3_SORT_CENTER);
+    };
+    renderButton(RESTART_YES_X_LOCAL, I18N::Game::Yes);
+    renderButton(RESTART_NO_X_LOCAL, I18N::Game::No);
+}
+
+void SEASON3B::CNewUIOptionWindow::RenderFocusHighlight()
+{
+    const auto current = Core::Input::FocusNavigator::Instance().Current();
+    if (!current.has_value())
+        return;
+
+    const std::uint64_t nowMs = SDL_GetTicks();
+    const float pulse = 0.65f
+        + 0.35f * static_cast<float>(0.5 + 0.5 * std::sin(nowMs / 140.0));
+
+    if (current->owner == reinterpret_cast<std::uintptr_t>(this))
+    {
+        int row = -1;
+        if (IsMappingRowFocusId(current->id, row))
+        {
+            DrawFocusOutline(
+                m_Pos.x + MAPPING_X_LOCAL + MAPPING_ROW_X_LOCAL,
+                m_Pos.y + MAPPING_SUMMARY_Y_LOCAL
+                    + row * MAPPING_SUMMARY_ROW_HEIGHT - 1,
+                MAPPING_ROW_WIDTH,
+                MAPPING_ROW_HIT_HEIGHT,
+                m_iMappingCaptureRow == row ? 1.0f : pulse);
+            return;
+        }
+
+        if (const OptionFocusTarget* target = FindFocusTarget(current->id))
+        {
+            DrawFocusOutline(
+                m_Pos.x + target->xLocal - 2,
+                m_Pos.y + target->yLocal - 2,
+                target->width + 4,
+                target->height + 4,
+                pulse);
+        }
+        return;
+    }
+
+    if (current->owner == reinterpret_cast<std::uintptr_t>(&m_BtnClose))
+    {
+        DrawFocusOutline(
+            m_Pos.x + CLOSE_BUTTON_X_LOCAL - 2,
+            m_Pos.y + CLOSE_BUTTON_Y_LOCAL - 2,
+            CLOSE_BUTTON_WIDTH + 4,
+            CLOSE_BUTTON_HEIGHT + 4,
+            pulse);
+        return;
+    }
+
+    // Closed combo fields draw their own hover shade only under the virtual
+    // pointer; add the same controller outline around the focused field. Open
+    // dropdowns highlight their rows themselves, so nothing is drawn there.
+    struct ComboGeometry
+    {
+        CNewUIComboBox* combo;
+        int xLocal;
+        int yLocal;
+        int width;
+        int height;
+    };
+    const ComboGeometry geometries[] = {
+        { &m_ResolutionCombo, RES_COMBO_X_LOCAL, RES_COMBO_Y_LOCAL, RES_COMBO_WIDTH, RES_COMBO_HEIGHT },
+        { &m_LanguageCombo, LANG_COMBO_X_LOCAL, LANG_COMBO_Y_LOCAL, LANG_COMBO_WIDTH, LANG_COMBO_HEIGHT },
+        { &m_FontCombo, FONT_COMBO_X_LOCAL, FONT_COMBO_Y_LOCAL, FONT_COMBO_WIDTH, FONT_COMBO_HEIGHT },
+        { &m_FrameRateCombo, FPS_COMBO_X_LOCAL, FPS_COMBO_Y_LOCAL, FPS_COMBO_WIDTH, FPS_COMBO_HEIGHT },
+        { &m_GamepadActionCombo, MAPPING_COMBO_X_LOCAL, ACTION_COMBO_Y_LOCAL, MAPPING_COMBO_WIDTH, MAPPING_COMBO_HEIGHT },
+        { &m_GamepadControlCombo, MAPPING_COMBO_X_LOCAL, CONTROL_COMBO_Y_LOCAL, MAPPING_COMBO_WIDTH, MAPPING_COMBO_HEIGHT },
+    };
+    for (const ComboGeometry& geometry : geometries)
+    {
+        if (current->owner == reinterpret_cast<std::uintptr_t>(geometry.combo)
+            && current->id == ComboBoxNavigation::FieldFocusId
+            && !geometry.combo->IsOpen())
+        {
+            DrawFocusOutline(
+                m_Pos.x + geometry.xLocal - 2,
+                m_Pos.y + geometry.yLocal - 2,
+                geometry.width + 4,
+                geometry.height + 4,
+                pulse);
+            return;
+        }
+    }
 }
 
 void SEASON3B::CNewUIOptionWindow::PersistCurrentDisplaySettings()

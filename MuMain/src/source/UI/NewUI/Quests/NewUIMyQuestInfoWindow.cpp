@@ -457,7 +457,9 @@ void CNewUIMyQuestInfoWindow::SetCurQuestList(DWordList* pDWordList)
     DWordList::iterator iter;
     for (iter = pDWordList->begin(), i = 1; iter != pDWordList->end(); advance(iter, 1), ++i)
     {
-        ::mu_swprintf(szInput, L"%d.%ls", i, g_QuestMng.GetSubject(*iter));
+        // Clip to the 64-wchar buffer: quest subjects/words can be long
+        // dialogue entries, and an unbounded swprintf smashed this frame.
+        ::mu_swprintf_trunc(szInput, L"%d.%ls", i, g_QuestMng.GetSubject(*iter));
         ::ReduceStringByPixel(szOutput, 64, szInput, 150);
         m_CurQuestListBox.AddText(*iter, szOutput);
     }

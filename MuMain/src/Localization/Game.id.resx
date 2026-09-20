@@ -12887,4 +12887,297 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>Ingat Username</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>Ingat Password</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>Hanya simpan password di PC yang Anda percayai.</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>PERINGATAN!!!</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>Menyimpan password memungkinkan siapa pun yang menggunakan komputer ini untuk masuk ke akun Anda. Hanya lakukan ini di PC yang Anda percayai. Simpan password?</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>Fallback Serangan Dasar</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>Koneksi terputus</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>Memeriksa ketersediaan server</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>Sedang masuk</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>Memuat daftar karakter</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>Memasuki permainan</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>Mencoba lagi dalam %d detik...</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>Perintah</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>Server ini tidak menyediakan daftar perintah.</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>Jalankan</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : Perintah Obrolan Hidup/Mati</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>Khusus</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>Kembali</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>Templat</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>Belum ada templat yang disimpan.</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>Simpan sebagai templat</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>Tambahkan ke favorit</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>Hapus dari favorit</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>Silakan masukkan nilai yang diperlukan terlebih dahulu.</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>Perintah ini tidak tersedia lagi.</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>Laju bingkai</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>Ikuti tampilan</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>Maksimum asli tampilan</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>Sinkronisasi vertikal</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>Laju bingkai yang diminta</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>Laju bingkai efektif</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>Laju refresh tampilan</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>Laju bingkai sebenarnya</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>FPS rata-rata</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>Alasan pembatasan</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>Aktifkan gamepad</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>Getaran</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>Intensitas getaran</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>Getaran pertempuran</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>Getaran UI</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>Getaran transaksi</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>Uji getaran singkat</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>Uji getaran panjang</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>Getaran tidak didukung oleh pengontrol ini</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>Zona mati stik</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>Kecepatan penunjuk</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>Pembatas bingkai</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>Sinkronisasi vertikal</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>Laju refresh tidak tersedia, mundur ke 60 Hz</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>Batas laju bingkai latar belakang</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>Irama VSync tidak merata</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>Batas performa/eksternal</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>Pemetaan pengontrol</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>Pengontrol generik</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>Aksi</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>Kontrol fisik</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>Zona mati pemicu</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>Balikkan sumbu Y penunjuk</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>Pemetaan saat ini</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>Kembalikan pemetaan default</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>Konfirmasi / interaksi</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>Batal / kembali</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>Serangan utama</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>Aksi konteks</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>Gunakan skill saat ini</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>Kunci target</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>Skill sebelumnya</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>Skill berikutnya</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>Item cepat 1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>Item cepat 2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>Item cepat 3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>Item cepat 4</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>Peta</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>Menu sistem</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>Target berikutnya</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>Pertahankan pengaturan tampilan ini? Akan dikembalikan dalam %d detik.</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>Pertahankan (A / Enter)</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>Kembalikan (B / Esc)</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>Toko Solo</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>Perlengkapan</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>Bahan</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>Skill</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>Hewan Peliharaan / Tiket</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>Barang habis pakai</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>Tukar 1.000 Zen dengan 100 WCoin(C)</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>1.000 Zen ditukarkan dengan 100 WCoin(C).</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>Operasi gagal. Periksa emas, penyimpanan, dan koneksi.</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>Pintu masuk %ls telah dibuka dan akan ditutup dalam %ls menit.</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>Pintu masuk %ls telah ditutup.</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>Event Happy Hour telah dimulai!</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>Event Happy Hour telah berakhir!</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>Bahasa diubah</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>Bahasa konten permainan (nama NPC, quest, item, dan skill) hanya berubah setelah memulai ulang permainan. Mulai ulang sekarang?</value>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1% Rendah</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>Gamepad</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>Pembantu MU</value>
+  </data>
 </root>

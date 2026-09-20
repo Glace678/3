@@ -224,9 +224,17 @@ void CUIMng::CreateLoginScene()
 
     m_LoginWin.Create();
     m_WinList.AddHead(&m_LoginWin);
+    // Vertically centered in the window (previously sat at 2/3 height, too low).
     m_LoginWin.SetPosition(
         (rInput.GetScreenWidth() - m_LoginWin.GetWidth()) / 2,
-        (rInput.GetScreenHeight() - m_LoginWin.GetHeight()) * 2 / 3);
+        (rInput.GetScreenHeight() - m_LoginWin.GetHeight()) / 2);
+
+    m_RegisterWin.Create();
+    m_WinList.AddHead(&m_RegisterWin);
+    m_RegisterWin.SetPosition(
+        (rInput.GetScreenWidth() - m_RegisterWin.GetWidth()) / 2,
+        (rInput.GetScreenHeight() - m_RegisterWin.GetHeight()) / 2);
+    m_RegisterWin.Show(FALSE);  // created hidden; opened from the server/login windows
 
     m_CreditWin.Create();
     m_WinList.AddHead(&m_CreditWin);
@@ -308,6 +316,7 @@ void CUIMng::RepositionSceneUI()
         const bool wasShown_LoginMainWin = m_LoginMainWin.IsShow();
         const bool wasShown_ServerSelWin = m_ServerSelWin.IsShow();
         const bool wasShown_LoginWin     = m_LoginWin.IsShow();
+        const bool wasShown_RegisterWin  = m_RegisterWin.IsShow();
         const bool wasShown_CreditWin    = m_CreditWin.IsShow();
 
         CreateLoginScene();
@@ -322,6 +331,7 @@ void CUIMng::RepositionSceneUI()
         if (wasShown_LoginMainWin) ShowWin(&m_LoginMainWin);
         if (wasShown_ServerSelWin) ShowWin(&m_ServerSelWin);
         if (wasShown_LoginWin)     ShowWin(&m_LoginWin);
+        if (wasShown_RegisterWin)  ShowWin(&m_RegisterWin);
         if (wasShown_CreditWin)    ShowWin(&m_CreditWin);
 
         // Re-populate the server / server-group buttons from the existing

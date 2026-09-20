@@ -56,6 +56,7 @@ public:
 
 protected:
     void ReleaseText();
+    void RenderLabel();
     void ApplyVisualState(int frameIndex);
     void ApplyTextColorForState(int colorIndex);
     bool HasCheckVisuals() const;

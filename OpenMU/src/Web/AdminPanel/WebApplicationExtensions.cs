@@ -150,6 +150,7 @@ public static class WebApplicationExtensions
         app.MapControllers().RequireAuthorization();
         app.MapAdminPanelAuthEndpoints();
         app.MapMobileGmEndpoints();
+        app.MapPublicRegistrationEndpoints();
 
         AdminPanelEnvironment.IsHostingEmbedded = true;
 

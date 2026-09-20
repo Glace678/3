@@ -62,6 +62,49 @@ int32_t CMultiLanguage::ConvertFromUtf8(wchar_t* target, const char* source, int
         return 0;
     }
 
+    // Fixed-size on-disk text fields are byte-windowed rather than NUL-safe:
+    // if the window ends in the middle of a multi-byte UTF-8 sequence, the
+    // dangling lead byte converts to U+FFFD (shown as a stray diamond glyph).
+    // When no NUL terminator lies inside the window, walk the end back to the
+    // last complete code point boundary.
+    if (maxSourceLength > 0)
+    {
+        bool terminatorInside = false;
+        for (int i = 0; i < maxSourceLength; ++i)
+        {
+            if (source[i] == '\0')
+            {
+                terminatorInside = true;
+                break;
+            }
+        }
+
+        if (!terminatorInside)
+        {
+            int trailing = 0;
+            int i = maxSourceLength - 1;
+            while (i >= 0 && (static_cast<unsigned char>(source[i]) & 0xC0) == 0x80)
+            {
+                ++trailing;
+                --i;
+            }
+
+            if (i >= 0 && trailing > 0 && trailing <= 3)
+            {
+                const unsigned char lead = static_cast<unsigned char>(source[i]);
+                int expectedContinuation = 0;
+                if ((lead & 0xE0) == 0xC0) expectedContinuation = 1;
+                else if ((lead & 0xF0) == 0xE0) expectedContinuation = 2;
+                else if ((lead & 0xF8) == 0xF0) expectedContinuation = 3;
+
+                if (expectedContinuation > 0 && trailing < expectedContinuation)
+                {
+                    maxSourceLength = i; // drop the whole incomplete sequence
+                }
+            }
+        }
+    }
+
     // Determine how many UTF-16 characters are needed
     const int requiredChars = MultiByteToWideChar(CP_UTF8, 0, source, maxSourceLength, nullptr, 0);
     if (requiredChars <= 0)

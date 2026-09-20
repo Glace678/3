@@ -125,3 +125,10 @@ Enable with `-DBUILD_TESTING=ON`, then `ctest --test-dir <build-dir>
 --output-on-failure`. On a native Linux build they run directly; for
 MinGW/Windows binaries on a Linux host, CTest runs them through `wine`. See
 [the test reference](reference-tests.md) for adding a module.
+
+### Static analysis and sanitizers
+
+clang-tidy and MSVC AddressSanitizer are available as opt-in presets
+(`windows-x64-tidy`, `windows-x86-tidy`, `windows-x64-asan`). Both are off by
+default. See [static analysis](static-analysis.md).
+

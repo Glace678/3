@@ -25,6 +25,14 @@ namespace
 {
 constexpr std::chrono::seconds kMatchCountdownDuration{30};
 
+void RenderResultColumnHeaders(const int* xPos, int yPos)
+{
+    g_pRenderText->RenderText(xPos[2], yPos, I18N::Game::Rank, xPos[3] - xPos[2], 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(xPos[3], yPos, I18N::Game::Point, xPos[4] - xPos[3], 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(xPos[4], yPos, I18N::Game::EXP, xPos[5] - xPos[4], 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(xPos[5], yPos, I18N::Game::Reward, (REFERENCE_WIDTH - 230) / 2 + 210 - xPos[5], 0, RT3_SORT_CENTER);
+}
+
 template <std::size_t N>
 void ClearWideBuffer(wchar_t (&buffer)[N])
 {
@@ -242,10 +250,7 @@ void CSDevilSquareMatch::RenderMatchResult(void)
     yPos += 24;
 
     g_pRenderText->SetTextColor(0, 255, 0, 255);
-    g_pRenderText->RenderText(xPos[2], yPos, I18N::Game::Rank, xPos[3] - xPos[1], RT3_SORT_CENTER);
-    g_pRenderText->RenderText(xPos[3], yPos, I18N::Game::Point, xPos[4] - xPos[3], RT3_SORT_CENTER);
-    g_pRenderText->RenderText(xPos[4], yPos, I18N::Game::EXP, xPos[5] - xPos[4], RT3_SORT_CENTER);
-    g_pRenderText->RenderText(xPos[5], yPos, I18N::Game::Reward, (REFERENCE_WIDTH - 230) / 2 + 210 - xPos[5], RT3_SORT_CENTER);
+    RenderResultColumnHeaders(xPos, yPos);
     yPos += 20;
 
     int yStartPos = yPos;

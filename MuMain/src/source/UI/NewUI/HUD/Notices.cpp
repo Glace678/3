@@ -7,13 +7,15 @@
 #include "Render/Textures/ZzzOpenglUtil.h" // EnableAlphaTest
 #include "UI/NewUI/NewUISystem.h"        // g_pNewUISystem
 #include "Engine/AI/ZzzAI.h"             // FPS_ANIMATION_FACTOR
-#include "Engine/Object/ZzzInterface.h"  // CutText
+#include <cmath>
 
 namespace
 {
     constexpr int MAX_NOTICE = 6;
     constexpr int NOTICE_LIFETIME = 300;
     constexpr int NOTICE_TEXT_MAX = 256;
+    constexpr int NOTICE_WIDTH = 256;
+    constexpr int NOTICE_LINE_GAP = 2;
 
     struct Notice
     {
@@ -40,6 +42,14 @@ namespace
             }
         }
     }
+
+    void AppendLine(const std::wstring& text, int color)
+    {
+        Scroll();
+        auto& notice = s_notices[s_count++];
+        notice.Color = color;
+        wcsncpy_s(notice.Text, NOTICE_TEXT_MAX, text.c_str(), _TRUNCATE);
+    }
 }
 
 namespace UI::Notices
@@ -51,26 +61,20 @@ namespace UI::Notices
 
     void Create(const wchar_t* text, int color)
     {
-        SIZE size;
+        if (text == nullptr)
+            return;
         g_pRenderText->SetFont(g_hFontBold);
-        GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, lstrlen(text), &size);
-
-        Scroll();
-        s_notices[s_count].Color = color;
-        if (size.cx < NOTICE_TEXT_MAX)
+        const auto measure = [](const wchar_t* value, size_t length)
         {
-            wcscpy(s_notices[s_count++].Text, text);
-        }
-        else
-        {
-            wchar_t topText[NOTICE_TEXT_MAX] = { 0 };
-            wchar_t bottomText[NOTICE_TEXT_MAX] = { 0 };
-            CutText(text, topText, bottomText, NOTICE_TEXT_MAX);
-            wcscpy(s_notices[s_count++].Text, topText);
-            Scroll();
-            s_notices[s_count].Color = color;
-            wcscpy(s_notices[s_count++].Text, bottomText);
-        }
+            SIZE size{};
+            GetTextExtentPoint32(g_pRenderText->GetFontDC(), value, static_cast<int>(length), &size);
+            return static_cast<int>(size.cx);
+        };
+        const auto lines = WrapTextToWidth(text, static_cast<int>(NOTICE_WIDTH * g_fScreenRate_x), measure);
+        if (lines.empty())
+            AppendLine(L"", color);
+        for (const auto& line : lines)
+            AppendLine(line, color);
         s_time = NOTICE_LIFETIME;
     }
 
@@ -95,6 +99,10 @@ namespace UI::Notices
 
         g_pRenderText->SetFont(g_hFontBold);
 
+        SIZE fontSize{};
+        GetTextExtentPoint32(g_pRenderText->GetFontDC(), L"Ag", 2, &fontSize);
+        const int lineHeight = static_cast<int>(std::ceil(fontSize.cy / g_fScreenRate_y)) + NOTICE_LINE_GAP;
+
         glColor3f(1.f, 1.f, 1.f);
         for (int i = 0; i < MAX_NOTICE; i++)
         {
@@ -117,7 +125,7 @@ namespace UI::Notices
                 g_pRenderText->SetBgColor(0, 0, 0, 128);
             }
 
-            g_pRenderText->RenderText(320, 300 + i * 13, n->Text, 0, 0, RT3_WRITE_CENTER);
+            g_pRenderText->RenderText(320, 300 + i * lineHeight, n->Text, 0, 0, RT3_WRITE_CENTER);
         }
 
         s_blinkPhase += FPS_ANIMATION_FACTOR;

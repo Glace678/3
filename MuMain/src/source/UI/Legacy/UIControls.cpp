@@ -5,6 +5,7 @@
 #include "Core/Input/FocusNavigator.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Time/FrameTimerScheduler.h"
+#include "Core/Text/TextBoxLayout.h"
 #include "GameLogic/Items/CComGem.h"
 #include "UIControls.h"
 #include "UIWindows.h"
@@ -2723,15 +2724,56 @@ void CUIRenderTextOriginal::SetBgColor(DWORD dwColor) { m_dwBackColor = dwColor;
 
 void CUIRenderTextOriginal::SetFont(HFONT hFont) { SelectObject(m_hFontDC, hFont); }
 
+void CUIRenderTextOriginal::EnsureFontAtlasHeight(int neededHeightPx)
+{
+    BITMAP_t* b = Bitmaps.FindTexture(BITMAP_FONT);
+    if (b == nullptr)
+        return;
+
+    constexpr int kAtlasWidth = 256;   // one RenderText column-section; matches WriteText pitch
+    constexpr int kMinHeight = 64;
+    constexpr int kMaxHeight = 1024;
+
+    const int currentH = static_cast<int>(b->Height);
+    int needed = neededHeightPx + 2;
+    if (needed <= currentH)
+        return;
+
+    // Round the target height up to a 32px block; never shrink the atlas.
+    int newH = ((needed + 31) / 32) * 32;
+    if (newH < kMinHeight) newH = kMinHeight;
+    if (newH > kMaxHeight) newH = kMaxHeight;
+    if (newH <= currentH)
+        return;
+
+    const std::size_t newSize = static_cast<std::size_t>(kAtlasWidth) * newH * 4u;
+    b->BufferStorage.resize(newSize, 0);
+    b->Buffer = b->BufferStorage.data();
+
+    RHI::TextureDesc desc;
+    desc.width = kAtlasWidth;
+    desc.height = newH;
+    desc.filter = RHI::TexFilter::Nearest;
+    desc.wrap = RHI::TexWrap::Clamp;
+    const RHI::TextureHandle oldHandle{ b->TextureNumber };
+    b->TextureNumber = RHI::CreateTexture(desc, b->Buffer).id;
+    RHI::DestroyTexture(oldHandle);
+
+    b->Width = static_cast<float>(kAtlasWidth);
+    b->Height = static_cast<float>(newH);
+    b->Components = 4;
+}
+
 /// \brief Reads the Picture created by GDI and copies it to the texture bitmap.
 void CUIRenderTextOriginal::WriteText(int iOffset, int iWidth, int iHeight)
 {
-    const int LIMIT_WIDTH = 256, LIMIT_HEIGHT = 32;
+    const int LIMIT_WIDTH = 256;
+    BITMAP_t* pBitmapFont = &Bitmaps[BITMAP_FONT];
+    const int LIMIT_HEIGHT = static_cast<int>(pBitmapFont->Height);  // atlas may grow past the shipped 32px
 
     SIZE FontDCSize = { (int)(REFERENCE_WIDTH * g_fScreenRate_x), (int)(REFERENCE_HEIGHT * g_fScreenRate_y) };
     int iPitch = ((FontDCSize.cx * 24 + 31) & ~31) >> 3;
 
-    BITMAP_t* pBitmapFont = &Bitmaps[BITMAP_FONT];
     for (int y = 0; y < iHeight; ++y)
     {
         int SrcIndex = y * iPitch + iOffset;
@@ -2772,8 +2814,10 @@ void CUIRenderTextOriginal::WriteText(int iOffset, int iWidth, int iHeight)
 }
 
 /// \brief Binds the previously created texture bitmap to the opengl texture.
-void CUIRenderTextOriginal::UploadText(int sx, int sy, int Width, int Height)
+void CUIRenderTextOriginal::UploadText(float sx, float sy, int Width, int Height, float scale)
 {
+    if (scale <= 0.f)
+        return;
     BITMAP_t* b = &Bitmaps[BITMAP_FONT];
     int uploadWidth = Width;
     int uploadHeight = Height;
@@ -2786,28 +2830,30 @@ void CUIRenderTextOriginal::UploadText(int sx, int sy, int Width, int Height)
         uploadHeight = static_cast<int>(b->Height);
     }
 
+    float visibleWidth = static_cast<float>(Width);
+    float visibleHeight = static_cast<float>(Height);
     float TextureU = 0.f, TextureV = 0.f;
     if (sx < 0)
     {
-        TextureU = (-sx + 0.01f) / b->Width;
-        Width += sx;
+        TextureU = (-sx / scale + 0.01f) / b->Width;
+        visibleWidth += sx / scale;
         sx = 0.f;
     }
-    else if (sx + Width > (int)WindowWidth)
+    if (sx + visibleWidth * scale > WindowWidth)
     {
-        Width = WindowWidth - sx;
+        visibleWidth = (WindowWidth - sx) / scale;
     }
     if (sy < 0)
     {
-        TextureV = (-sy + 0.01f) / b->Height;
-        Height += sy;
+        TextureV = (-sy / scale + 0.01f) / b->Height;
+        visibleHeight += sy / scale;
         sy = 0.f;
     }
-    else if (sy + Height > (int)WindowHeight)
+    if (sy + visibleHeight * scale > WindowHeight)
     {
-        Height = WindowHeight - sy;
+        visibleHeight = (WindowHeight - sy) / scale;
     }
-    if (Width > 0 && Height > 0 && sx + Width > 0 && sy + Height > 0)
+    if (visibleWidth > 0 && visibleHeight > 0)
     {
         // DXP-12: RHI::UpdateTexture binds internally -- the old explicit BindTexture2D here
         // only existed to set up state for the raw glTexSubImage2D calls below, now redundant.
@@ -2837,8 +2883,8 @@ void CUIRenderTextOriginal::UploadText(int sx, int sy, int Width, int Height)
             }
         }
 
-        float TextureUWidth = (Width + 0.01f) / b->Width;
-        float TextureVHeight = (Height + 0.01f) / b->Height;
+        float TextureUWidth = (visibleWidth + 0.01f) / b->Width;
+        float TextureVHeight = (visibleHeight + 0.01f) / b->Height;
         // DXP-16 fix: the glyph atlas is mostly-transparent (background pixels are alpha=0,
         // only the glyph strokes themselves are opaque) and RELIES on alpha blending to show
         // through to whatever is underneath (panel art, other text). RenderBitmap itself never
@@ -2848,7 +2894,7 @@ void CUIRenderTextOriginal::UploadText(int sx, int sy, int Width, int Height)
         // BeginBitmap() didn't survive that gauntlet (confirmed: had zero effect on the
         // reported flicker), so pin it right at the point of use instead.
         EnableAlphaTest();
-        RenderBitmap(BITMAP_FONT, (float)sx, (float)sy, (float)Width, (float)Height,
+        RenderBitmap(BITMAP_FONT, sx, sy, visibleWidth * scale, visibleHeight * scale,
             TextureU, TextureV, TextureUWidth, TextureVHeight, false, false);
     }
 }
@@ -2868,6 +2914,10 @@ void CUIRenderTextOriginal::RenderText(int iPos_x, int iPos_y, const wchar_t* ps
     else
         GetTextExtentPoint32(m_hFontDC, pszText, lstrlen(pszText), &RealTextSize);
 
+    // Make sure the glyph atlas is tall enough for this font's cell (scaled
+    // fonts can exceed the shipped 32px atlas height) before we paint into it.
+    EnsureFontAtlasHeight(RealTextSize.cy);
+
     MU_POINTF RealBoxPos = { (float)iPos_x * g_fScreenRate_x, (float)iPos_y * g_fScreenRate_y };
     SIZEF RealBoxSize = { (float)iBoxWidth * g_fScreenRate_x, (float)iBoxHeight * g_fScreenRate_y };
     SIZE RealRenderingSize = { RealTextSize.cx, RealTextSize.cy };
@@ -2877,10 +2927,20 @@ void CUIRenderTextOriginal::RenderText(int iPos_x, int iPos_y, const wchar_t* ps
     if (RealBoxSize.cy == 0)
         RealBoxSize.cy = RealTextSize.cy;
 
-    int iTab = 0;
+    float iTab = 0;
     int iClipMove = 0;
+    float textScale = 1.f;
+    float textOffsetY = 0.f;
 
-    if (iSort == RT3_SORT_LEFT_CLIP)
+    if (iSort == RT3_SORT_CENTER_FIT)
+    {
+        const auto layout = Core::Text::FitTextInBox(RealTextSize.cx, RealTextSize.cy,
+            RealBoxSize.cx, RealBoxSize.cy);
+        textScale = layout.scale;
+        iTab = layout.offsetX;
+        textOffsetY = layout.offsetY;
+    }
+    else if (iSort == RT3_SORT_LEFT_CLIP)
     {
         if (RealRenderingSize.cx > RealBoxSize.cx)
         {
@@ -2944,8 +3004,6 @@ void CUIRenderTextOriginal::RenderText(int iPos_x, int iPos_y, const wchar_t* ps
         RealBoxPos.x -= (RealBoxSize.cx / 2);
     }
 
-    const int LIMIT_WIDTH = 256;
-
     if (m_dwBackColor != 0)
     {
         EnableAlphaTest();
@@ -2956,29 +3014,40 @@ void CUIRenderTextOriginal::RenderText(int iPos_x, int iPos_y, const wchar_t* ps
         EndRenderColor();
     }
 
-    if (pszText[0] != 0x0a)
-    {
-        ::SetBkColor(m_hFontDC, RGB(0, 0, 0));
-        ::SetTextColor(m_hFontDC, RGB(255, 255, 255));
-        TextOut(m_hFontDC, 0, 0, pszText, lstrlen(pszText));
-    }
-
-    int iRealRenderWidth = RealRenderingSize.cx;
-    int iNumberOfSections = (RealRenderingSize.cx / LIMIT_WIDTH) + ((iRealRenderWidth % LIMIT_WIDTH >= 0) ? 1 : 0);
-    for (int i = 0; i < iNumberOfSections; i++)
-    {
-        SIZE RealSectionLine = Core::Platform::MakeSize(LIMIT_WIDTH, RealRenderingSize.cy);
-        if (i == iNumberOfSections - 1)
-            RealSectionLine.cx = iRealRenderWidth % LIMIT_WIDTH;
-
-        WriteText(LIMIT_WIDTH * i * 3 + iClipMove, RealSectionLine.cx, RealSectionLine.cy);
-        UploadText(RealBoxPos.x + LIMIT_WIDTH * i + iTab, RealBoxPos.y, RealSectionLine.cx, RealSectionLine.cy);
-    }
+    RenderTextSections(pszText, RealBoxPos.x + iTab, RealBoxPos.y + textOffsetY,
+        RealRenderingSize.cx, RealRenderingSize.cy, iClipMove, textScale);
 
     if (lpTextSize)
     {
-        lpTextSize->cx = RealRenderingSize.cx / g_fScreenRate_x;
-        lpTextSize->cy = RealRenderingSize.cy / g_fScreenRate_y;
+        lpTextSize->cx = RealRenderingSize.cx * textScale / g_fScreenRate_x;
+        lpTextSize->cy = RealRenderingSize.cy * textScale / g_fScreenRate_y;
+    }
+}
+
+void CUIRenderTextOriginal::RenderTextSections(const wchar_t* text, float x, float y,
+    int width, int height, int clipPixels, float scale)
+{
+    constexpr int sectionWidth = 256;
+    constexpr int bytesPerPixel = 3;
+    if (text[0] != L'\n')
+    {
+        ::SetBkColor(m_hFontDC, RGB(0, 0, 0));
+        ::SetTextColor(m_hFontDC, RGB(255, 255, 255));
+        TextOut(m_hFontDC, 0, 0, text, lstrlen(text));
+    }
+    for (int offset = 0; offset < width; offset += sectionWidth)
+    {
+        const int currentWidth = std::min(sectionWidth, width - offset);
+        if (width + clipPixels > WindowWidth)
+        {
+            // Long fitted labels may exceed the DC width before scaling.
+            // Rasterize each slice at the origin instead of reading beyond it.
+            TextOut(m_hFontDC, -(offset + clipPixels), 0, text, lstrlen(text));
+            WriteText(0, currentWidth, height);
+        }
+        else
+            WriteText((offset + clipPixels) * bytesPerPixel, currentWidth, height);
+        UploadText(x + offset * scale, y, currentWidth, height, scale);
     }
 }
 
@@ -5856,7 +5925,8 @@ void CUICurQuestListBox::AddText(DWORD dwQuestIndex, const wchar_t* pszText)
     static SCurQuestItem sCurQuestItem;
     sCurQuestItem.m_bIsSelected = FALSE;
     sCurQuestItem.m_dwIndex = dwQuestIndex;
-    wcsncpy(sCurQuestItem.m_szText, pszText, 64);
+    wcsncpy(sCurQuestItem.m_szText, pszText, 63);
+    sCurQuestItem.m_szText[63] = L'\0';
 
     m_TextList.push_front(sCurQuestItem);
 

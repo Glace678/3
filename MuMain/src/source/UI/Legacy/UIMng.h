@@ -10,6 +10,7 @@
 #include "UI/Windows/LoginMainWin.h"
 #include "UI/Windows/ServerSelWin.h"
 #include "UI/Windows/LoginWin.h"
+#include "UI/Windows/RegisterWin.h"
 #include "UI/Windows/CreditWin.h"
 #include "Character/CharSelMainWin.h"
 #include "Character/CharMakeWin.h"
@@ -37,6 +38,7 @@ public:
     CLoginMainWin	m_LoginMainWin;
     CServerSelWin	m_ServerSelWin;
     CLoginWin		m_LoginWin;
+    CRegisterWin	m_RegisterWin;
     CCreditWin		m_CreditWin;
     CCharSelMainWin	m_CharSelMainWin;
     CCharMakeWin	m_CharMakeWin;

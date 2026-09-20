@@ -130,7 +130,10 @@ public static class AttackableExtensions
 
             if (attacker.Attributes[Stats.HasDoubleWield] > 0)
             {
-                // Double wield => 110% dmg (55% + 55%).
+                // Double wield => 110% dmg. The attribute system already scaled the base
+                // damage down to 55% (see AddDoubleWieldAttributeRelationships, which
+                // multiplies PhysicalBaseDmgIncrease by 0.55), so doubling here restores
+                // 110%. Do not "fix" this to a 1.1 factor without raising that 0.55 first.
                 dmg += dmg;
             }
 

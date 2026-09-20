@@ -13,10 +13,224 @@
 #include "Core/Platform/WinIni.h"  // private-profile (.ini) API
 #include "Core/Platform/Dpapi.h"   // DPAPI credential crypto (no-op off Windows)
 #include <algorithm>
+#include <fstream>
+#include <iterator>
+#include <map>
 
 namespace Data::Config
 {
     constexpr const char* kConfigurationPathEnvironment = "MU_CONFIG_FILE";
+
+#ifdef _WIN32
+    namespace
+    {
+        // The Win32 private-profile API parses the file in the system ANSI code
+        // page. A UTF-8 BOM glued to the first section header makes that section
+        // invisible; subsequent WritePrivateProfileStringW calls then append a
+        // duplicate section at the end of the file, and reads silently return
+        // the appended values (observed: UI locale switched to Japanese while
+        // the data language kept loading "Eng" NPC names). Normalize the file
+        // to BOM-free, single-section content before touching it so the legacy
+        // API can only ever update keys in place. Content is byte-preserving
+        // for comments and non-ASCII values.
+        std::string AsciiLower(std::string value)
+        {
+            for (char& c : value)
+                if (c >= 'A' && c <= 'Z')
+                    c = static_cast<char>(c - 'A' + 'a');
+            return value;
+        }
+
+        std::string TrimAscii(std::string value)
+        {
+            const auto isBlank = [](char c) { return c == ' ' || c == '\t'; };
+            while (!value.empty() && isBlank(value.front())) value.erase(value.begin());
+            while (!value.empty() && isBlank(value.back())) value.pop_back();
+            return value;
+        }
+
+        struct IniToken
+        {
+            bool isKeyValue = false;
+            std::string keyLower;
+            std::string keyText;
+            std::string value;
+            std::string raw;
+        };
+
+        struct IniSection
+        {
+            std::string nameLower;
+            std::string headerText;
+            std::vector<IniToken> tokens;
+        };
+
+        void SanitizeIniFile(const std::wstring& path)
+        {
+            std::ifstream input(path, std::ios::binary);
+            if (!input.is_open())
+                return;
+
+            std::string content(
+                (std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+            input.close();
+
+            bool dirty = false;
+            static constexpr char ByteOrderMark[3] = {
+                static_cast<char>(0xEF), static_cast<char>(0xBB), static_cast<char>(0xBF) };
+            if (content.size() >= 3 && content.compare(0, 3, ByteOrderMark, 3) == 0)
+            {
+                content.erase(0, 3);
+                dirty = true;
+            }
+
+            std::vector<std::string> lines;
+            {
+                std::string current;
+                for (char c : content)
+                {
+                    if (c == '\n')
+                    {
+                        if (!current.empty() && current.back() == '\r')
+                            current.pop_back();
+                        else
+                            dirty = true;  // lone LF: normalize to CRLF
+                        lines.push_back(current);
+                        current.clear();
+                    }
+                    else
+                    {
+                        current.push_back(c);
+                    }
+                }
+                if (!current.empty() && current.back() == '\r')
+                {
+                    current.pop_back();
+                    dirty = true;
+                }
+                if (!current.empty() || !content.empty() && content.back() == '\n')
+                    lines.push_back(current);
+            }
+
+            std::vector<IniToken> leadingTokens;
+            // std::map node addresses stay valid across later insertions, so
+            // currentSection can keep a raw pointer through the whole parse.
+            std::map<std::string, IniSection> sectionsByName;
+            std::vector<std::string> sectionOrder;
+            IniSection* currentSection = nullptr;
+
+            for (const std::string& originalLine : lines)
+            {
+                const std::string line = TrimAscii(originalLine);
+                auto& bucket = currentSection == nullptr ? leadingTokens : currentSection->tokens;
+
+                if (line.empty() || line[0] == ';' || line[0] == '#')
+                {
+                    bucket.push_back(IniToken { false, {}, {}, {}, originalLine });
+                    continue;
+                }
+
+                if (line.front() == '[' && line.back() == ']' && line.size() >= 2)
+                {
+                    const std::string name = TrimAscii(line.substr(1, line.size() - 2));
+                    const std::string nameLower = AsciiLower(name);
+                    const auto existing = sectionsByName.find(nameLower);
+                    if (existing != sectionsByName.end())
+                    {
+                        // Merge a duplicate section into the first one so writes
+                        // can never land in a second, shadowing section.
+                        currentSection = &existing->second;
+                        dirty = true;
+                    }
+                    else
+                    {
+                        IniSection section;
+                        section.nameLower = nameLower;
+                        section.headerText = line;
+                        auto inserted = sectionsByName.emplace(nameLower, std::move(section));
+                        sectionOrder.push_back(nameLower);
+                        currentSection = &inserted.first->second;
+                    }
+                    continue;
+                }
+
+                const auto equals = line.find('=');
+                if (equals == std::string::npos)
+                {
+                    bucket.push_back(IniToken { false, {}, {}, {}, originalLine });
+                    continue;
+                }
+
+                const std::string keyText = TrimAscii(line.substr(0, equals));
+                const std::string value = line.substr(equals + 1);
+                const std::string keyLower = AsciiLower(keyText);
+
+                // The private-profile API returns the first matching key on a
+                // BOM-free file, so duplicates keep the first value; later
+                // copies are dropped on rewrite.
+                bool duplicate = false;
+                for (const IniToken& token : bucket)
+                {
+                    if (token.isKeyValue && token.keyLower == keyLower)
+                    {
+                        duplicate = true;
+                        dirty = true;
+                        break;
+                    }
+                }
+                if (!duplicate)
+                {
+                    IniToken token;
+                    token.isKeyValue = true;
+                    token.keyLower = keyLower;
+                    token.keyText = keyText;
+                    token.value = value;
+                    bucket.push_back(std::move(token));
+                }
+            }
+
+            if (!dirty)
+                return;
+
+            std::string normalized;
+            const auto appendTokens = [&normalized](const std::vector<IniToken>& tokens) {
+                for (const IniToken& token : tokens)
+                {
+                    if (token.isKeyValue)
+                        normalized += token.keyText + "=" + token.value;
+                    else
+                        normalized += token.raw;
+                    normalized += "\r\n";
+                }
+            };
+            appendTokens(leadingTokens);
+            for (const std::string& name : sectionOrder)
+            {
+                const IniSection& section = sectionsByName.find(name)->second;
+                normalized += section.headerText + "\r\n";
+                appendTokens(section.tokens);
+            }
+
+            const std::wstring temporaryPath = path + L".sanitize.tmp";
+            {
+                std::ofstream output(temporaryPath, std::ios::binary | std::ios::trunc);
+                if (!output.is_open())
+                    return;
+                output.write(normalized.data(), static_cast<std::streamsize>(normalized.size()));
+                if (!output.good())
+                    return;
+                output.close();
+            }
+
+            if (!MoveFileExW(
+                    temporaryPath.c_str(), path.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+            {
+                DeleteFileW(temporaryPath.c_str());
+            }
+        }
+    }
+#endif
 
     std::wstring ConfigurationPathOverride()
     {
@@ -73,6 +287,11 @@ GameConfig::GameConfig()
     const std::wstring configuredPath = Data::Config::ConfigurationPathOverride();
     if (!configuredPath.empty())
         m_configPath = configuredPath;
+
+#ifdef _WIN32
+    // Repair BOM/duplicate-section damage before any private-profile API call.
+    Data::Config::SanitizeIniFile(m_configPath);
+#endif
 
     Load();
 }
@@ -198,6 +417,12 @@ void GameConfig::Load()
 
 void GameConfig::Save()
 {
+#ifdef _WIN32
+    // An external tool may have reintroduced a BOM or duplicate sections;
+    // normalize first so the private-profile writes update keys in place.
+    Data::Config::SanitizeIniFile(m_configPath);
+#endif
+
     using namespace CfgSections;
     using namespace CfgKeys;
 

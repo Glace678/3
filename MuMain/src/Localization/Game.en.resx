@@ -13147,4 +13147,22 @@
   <data name="SoloShopExchange" xml:space="preserve"><value>Exchange 1,000 Zen for 100 WCoin(C)</value></data>
   <data name="SoloShopExchangeSucceeded" xml:space="preserve"><value>1,000 Zen exchanged for 100 WCoin(C).</value></data>
   <data name="SoloShopOperationFailed" xml:space="preserve"><value>Operation failed. Check gold, storage and connection.</value></data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>%ls entrance is open and closes in %ls minute(s).</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>%ls entrance closed.</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>Happy Hour event has been started!</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>Happy Hour event has ended!</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>Language changed</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>The game content language (NPC names, quests, items and skills) only changes after restarting the game. Restart now?</value>
+  </data>
 </root>

@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <array>
 #include <cwchar>
+#include <cmath>
 
 #include "Camera/CameraProjection.h"
 
@@ -106,8 +107,38 @@ void CCharInfoBalloon::Render()
     if (m_pCharInfo == nullptr || !CSprite::m_bShow)
         return;
 
+    UpdateLayout();
     CSprite::Render();
+    RenderLines();
+}
 
+void CCharInfoBalloon::UpdateLayout()
+{
+    constexpr int lineCount = 3;
+    constexpr float baseWidth = 118.f;
+    constexpr float padding = 6.f;
+    constexpr float lineGap = 2.f;
+    const int screenWidth = static_cast<int>(WindowWidth);
+    const int screenHeight = static_cast<int>(WindowHeight);
+    g_pRenderText->SetFont(g_hFixFont);
+    SIZE textSize{};
+    int maxWidth = 0;
+    int maxHeight = 0;
+    for (const auto* text : { m_szName, m_szGuild, m_szClass })
+    {
+        GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, lstrlen(text), &textSize);
+        maxWidth = std::max(maxWidth, static_cast<int>(textSize.cx));
+        maxHeight = std::max(maxHeight, static_cast<int>(textSize.cy));
+    }
+    m_textTop = static_cast<int>(std::ceil(padding * g_fScreenRate_y));
+    m_lineHeight = maxHeight + static_cast<int>(std::ceil(lineGap * g_fScreenRate_y));
+    const int width = std::min(screenWidth, static_cast<int>(std::ceil(
+        std::max(baseWidth * g_fScreenRate_x, maxWidth + padding * 2.f * g_fScreenRate_x))));
+    const int height = lineCount * m_lineHeight + 2 * m_textTop;
+    CSprite::SetSize(width, height);
+    m_fScrHeight = static_cast<float>(WindowHeight);
+    m_fDatumX = width / 2.f;
+    m_fDatumY = static_cast<float>(height);
     vec3_t afPos;
     VectorCopy(m_pCharInfo->Object.Position, afPos);
     afPos[2] += 350.0f;
@@ -116,10 +147,13 @@ void CCharInfoBalloon::Render()
     CameraProjection::WorldToScreen(g_Camera, afPos, &nPosX, &nPosY);
 
     CSprite::SetPosition(
-        int(nPosX * g_fScreenRate_x),
-        int(nPosY * g_fScreenRate_y)
+        std::clamp(int(nPosX * g_fScreenRate_x), width / 2, screenWidth - (width + 1) / 2),
+        std::clamp(int(nPosY * g_fScreenRate_y), height, std::max(height, screenHeight))
     );
+}
 
+void CCharInfoBalloon::RenderLines()
+{
     g_pRenderText->SetFont(g_hFixFont);
     g_pRenderText->SetBgColor(0);
 
@@ -129,35 +163,17 @@ void CCharInfoBalloon::Render()
 
     const int nTextPosX = int(spriteX / g_fScreenRate_x);
 
-    g_pRenderText->SetTextColor(m_dwNameColor);
-    g_pRenderText->RenderText(
-        nTextPosX,
-        int((spriteY + 6) / g_fScreenRate_y),
-        m_szName,
-        spriteW / g_fScreenRate_x,
-        0,
-        RT3_SORT_CENTER
-    );
-
-    g_pRenderText->SetTextColor(CLRDW_WHITE);
-    g_pRenderText->RenderText(
-        nTextPosX,
-        int((spriteY + 22) / g_fScreenRate_y),
-        m_szGuild,
-        spriteW / g_fScreenRate_x,
-        0,
-        RT3_SORT_CENTER
-    );
-
-    g_pRenderText->SetTextColor(CLRDW_BR_ORANGE);
-    g_pRenderText->RenderText(
-        nTextPosX,
-        int((spriteY + 38) / g_fScreenRate_y),
-        m_szClass,
-        spriteW / g_fScreenRate_x,
-        0,
-        RT3_SORT_CENTER
-    );
+    const wchar_t* lines[] = { m_szName, m_szGuild, m_szClass };
+    const DWORD colors[] = { m_dwNameColor, CLRDW_WHITE, CLRDW_BR_ORANGE };
+    constexpr int horizontalPadding = 6;
+    for (size_t line = 0; line < std::size(lines); ++line)
+    {
+        g_pRenderText->SetTextColor(colors[line]);
+        g_pRenderText->RenderText(nTextPosX + horizontalPadding,
+            int((spriteY + m_textTop + line * m_lineHeight) / g_fScreenRate_y),
+            lines[line], spriteW / g_fScreenRate_x - horizontalPadding * 2,
+            m_lineHeight / g_fScreenRate_y, RT3_SORT_CENTER_FIT);
+    }
 }
 
 void CCharInfoBalloon::SetInfo()

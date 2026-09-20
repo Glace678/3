@@ -1,0 +1,6242 @@
+[
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:0",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 0,
+    "name": "Bull Fighter",
+    "masterInstance": false,
+    "contentRank": 7.82,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 7.82,
+      "kind": "normal",
+      "health": 178.9338288,
+      "damage": 16.099600000000002,
+      "armor": 15.083,
+      "accuracy": 123.46000000000001,
+      "evasion": 123.46000000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 152.47382,
+      "zen": 17
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:3",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 3,
+    "name": "Spider",
+    "masterInstance": false,
+    "contentRank": 1,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 1,
+      "kind": "normal",
+      "health": 110.012,
+      "damage": 10.78,
+      "armor": 10.65,
+      "accuracy": 103,
+      "evasion": 103,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 37.55,
+      "zen": 9
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:2",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 2,
+    "name": "Budge Dragon",
+    "masterInstance": false,
+    "contentRank": 4.41,
+    "kind": "normal",
+    "originalSpawnCount": 60,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 4.41,
+      "kind": "normal",
+      "health": 144.3333772,
+      "damage": 13.4398,
+      "armor": 12.8665,
+      "accuracy": 113.23,
+      "evasion": 113.23,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 88.616455,
+      "zen": 13
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:6",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 6,
+    "name": "Lich",
+    "masterInstance": false,
+    "contentRank": 21.47,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 21.47,
+      "kind": "normal",
+      "health": 320.2315308,
+      "damage": 26.7466,
+      "armor": 23.9555,
+      "accuracy": 164.41,
+      "evasion": 164.41,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 536.168495,
+      "zen": 33
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:14",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 14,
+    "name": "Skeleton Warrior",
+    "masterInstance": false,
+    "contentRank": 30,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 30,
+      "kind": "normal",
+      "health": 410.8,
+      "damage": 33.400000000000006,
+      "armor": 29.5,
+      "accuracy": 190,
+      "evasion": 190,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 880,
+      "zen": 45
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:1",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 1,
+    "name": "Hound",
+    "masterInstance": false,
+    "contentRank": 12.94,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 12.94,
+      "kind": "normal",
+      "health": 231.40932320000002,
+      "damage": 20.0932,
+      "armor": 18.411,
+      "accuracy": 138.82,
+      "evasion": 138.82,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 272.37398,
+      "zen": 23
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:4",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 4,
+    "name": "Elite Bull Fighter",
+    "masterInstance": false,
+    "contentRank": 18.06,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 18.06,
+      "kind": "normal",
+      "health": 284.51396320000003,
+      "damage": 24.0868,
+      "armor": 21.738999999999997,
+      "accuracy": 154.18,
+      "evasion": 154.18,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 421.10997999999995,
+      "zen": 29
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0000-0000-0000-000000000000:7",
+    "route": "start",
+    "mapId": 0,
+    "mapDefinitionId": "00000300-0000-0000-0000-000000000000",
+    "mapName": "Lorencia",
+    "monsterId": 7,
+    "name": "Giant",
+    "masterInstance": false,
+    "contentRank": 26.59,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 26.59,
+      "kind": "normal",
+      "health": 374.3843372,
+      "damage": 30.7402,
+      "armor": 27.2835,
+      "accuracy": 179.76999999999998,
+      "evasion": 179.76999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 732.945455,
+      "zen": 40
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:8",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 8,
+    "name": "Poison Bull",
+    "masterInstance": false,
+    "contentRank": 90,
+    "kind": "normal",
+    "originalSpawnCount": 40,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 90,
+      "kind": "normal",
+      "health": 1097.2,
+      "damage": 80.2,
+      "armor": 68.5,
+      "accuracy": 370,
+      "evasion": 370,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 5560.000000000001,
+      "zen": 139
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:16",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 16,
+    "name": "Elite Skeleton",
+    "masterInstance": false,
+    "contentRank": 85.56,
+    "kind": "normal",
+    "originalSpawnCount": 44,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 85.56,
+      "kind": "normal",
+      "health": 1043.4461632,
+      "damage": 76.7368,
+      "armor": 65.614,
+      "accuracy": 356.68,
+      "evasion": 356.68,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 5078.002480000001,
+      "zen": 131
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:14",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 14,
+    "name": "Skeleton Warrior",
+    "masterInstance": false,
+    "contentRank": 60,
+    "kind": "normal",
+    "originalSpawnCount": 62,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 60,
+      "kind": "normal",
+      "health": 743.2,
+      "damage": 56.800000000000004,
+      "armor": 49,
+      "accuracy": 280,
+      "evasion": 280,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 2725,
+      "zen": 88
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:12",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 12,
+    "name": "Larva",
+    "masterInstance": false,
+    "contentRank": 66.67,
+    "kind": "normal",
+    "originalSpawnCount": 44,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 66.67,
+      "kind": "normal",
+      "health": 820.0386668000001,
+      "damage": 62.0026,
+      "armor": 53.3355,
+      "accuracy": 300.01,
+      "evasion": 300.01,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 3269.728895,
+      "zen": 99
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:15",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 15,
+    "name": "Skeleton Archer",
+    "masterInstance": false,
+    "contentRank": 76.67,
+    "kind": "normal",
+    "originalSpawnCount": 36,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 76.67,
+      "kind": "normal",
+      "health": 937.2394668000001,
+      "damage": 69.80260000000001,
+      "armor": 59.8355,
+      "accuracy": 330.01,
+      "evasion": 330.01,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 4178.098895,
+      "zen": 116
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:11",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 11,
+    "name": "Ghost",
+    "masterInstance": false,
+    "contentRank": 74.44,
+    "kind": "normal",
+    "originalSpawnCount": 114,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 74.44,
+      "kind": "normal",
+      "health": 910.8957631999999,
+      "damage": 68.0632,
+      "armor": 58.386,
+      "accuracy": 323.32,
+      "evasion": 323.32,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 3966.00248,
+      "zen": 112
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:17",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 17,
+    "name": "Cyclops",
+    "masterInstance": false,
+    "contentRank": 70,
+    "kind": "normal",
+    "originalSpawnCount": 62,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 70,
+      "kind": "normal",
+      "health": 858.8,
+      "damage": 64.6,
+      "armor": 55.5,
+      "accuracy": 310,
+      "evasion": 310,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 3560,
+      "zen": 105
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:5",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 5,
+    "name": "Hell Hound",
+    "masterInstance": false,
+    "contentRank": 81.11,
+    "kind": "normal",
+    "originalSpawnCount": 28,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 81.11,
+      "kind": "normal",
+      "health": 990.0459852,
+      "damage": 73.2658,
+      "armor": 62.7215,
+      "accuracy": 343.33,
+      "evasion": 343.33,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 4616.677655,
+      "zen": 124
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:13",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 13,
+    "name": "Hell Spider",
+    "masterInstance": false,
+    "contentRank": 83.33,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 83.33,
+      "kind": "normal",
+      "health": 1016.6266668,
+      "damage": 74.9974,
+      "armor": 64.1645,
+      "accuracy": 349.99,
+      "evasion": 349.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 4844.098895000001,
+      "zen": 127
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:9",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 9,
+    "name": "Thunder Lich",
+    "masterInstance": false,
+    "contentRank": 87.78,
+    "kind": "normal",
+    "originalSpawnCount": 42,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 87.78,
+      "kind": "normal",
+      "health": 1070.2639408,
+      "damage": 78.4684,
+      "armor": 67.057,
+      "accuracy": 363.34000000000003,
+      "evasion": 363.34000000000003,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 5316.29062,
+      "zen": 135
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:10",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 10,
+    "name": "Dark Knight",
+    "masterInstance": false,
+    "contentRank": 92.22,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 92.22,
+      "kind": "normal",
+      "health": 1124.2543408000001,
+      "damage": 81.9316,
+      "armor": 69.943,
+      "accuracy": 376.65999999999997,
+      "evasion": 376.65999999999997,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 5809.13062,
+      "zen": 143
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "dungeon:00000300-0001-0000-0000-000000000000:18",
+    "route": "dungeon",
+    "mapId": 1,
+    "mapDefinitionId": "00000300-0001-0000-0000-000000000000",
+    "mapName": "Dungeon",
+    "monsterId": 18,
+    "name": "Gorgon",
+    "masterInstance": false,
+    "contentRank": 100,
+    "kind": "normal",
+    "originalSpawnCount": 8,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 100,
+      "kind": "normal",
+      "health": 1220,
+      "damage": 88,
+      "armor": 75,
+      "accuracy": 400,
+      "evasion": 400,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 6725.000000000001,
+      "zen": 158
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:20",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 20,
+    "name": "Elite Yeti",
+    "masterInstance": false,
+    "contentRank": 45,
+    "kind": "normal",
+    "originalSpawnCount": 235,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 45,
+      "kind": "normal",
+      "health": 574.3,
+      "damage": 45.1,
+      "armor": 39.25,
+      "accuracy": 235,
+      "evasion": 235,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 1678.7500000000002,
+      "zen": 66
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:25",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 25,
+    "name": "Ice Queen",
+    "masterInstance": false,
+    "contentRank": 65,
+    "kind": "normal",
+    "originalSpawnCount": 75,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 65,
+      "kind": "normal",
+      "health": 800.7,
+      "damage": 60.7,
+      "armor": 52.25,
+      "accuracy": 295,
+      "evasion": 295,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 3128.75,
+      "zen": 96
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:23",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 23,
+    "name": "Hommerd",
+    "masterInstance": false,
+    "contentRank": 30,
+    "kind": "normal",
+    "originalSpawnCount": 75,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 30,
+      "kind": "normal",
+      "health": 410.8,
+      "damage": 33.400000000000006,
+      "armor": 29.5,
+      "accuracy": 190,
+      "evasion": 190,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 880,
+      "zen": 45
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:22",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 22,
+    "name": "Ice Monster",
+    "masterInstance": false,
+    "contentRank": 27.5,
+    "kind": "normal",
+    "originalSpawnCount": 75,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 27.5,
+      "kind": "normal",
+      "health": 384.075,
+      "damage": 31.45,
+      "armor": 27.875,
+      "accuracy": 182.5,
+      "evasion": 182.5,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 770.9375,
+      "zen": 41
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:24",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 24,
+    "name": "Worm",
+    "masterInstance": false,
+    "contentRank": 25,
+    "kind": "normal",
+    "originalSpawnCount": 65,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 25,
+      "kind": "normal",
+      "health": 357.5,
+      "damage": 29.5,
+      "armor": 26.25,
+      "accuracy": 175,
+      "evasion": 175,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 668.75,
+      "zen": 38
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "devias:00000300-0002-0000-0000-000000000000:21",
+    "route": "devias",
+    "mapId": 2,
+    "mapDefinitionId": "00000300-0002-0000-0000-000000000000",
+    "mapName": "Devias",
+    "monsterId": 21,
+    "name": "Assassin",
+    "masterInstance": false,
+    "contentRank": 32.5,
+    "kind": "normal",
+    "originalSpawnCount": 35,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 32.5,
+      "kind": "normal",
+      "health": 437.675,
+      "damage": 35.35,
+      "armor": 31.125,
+      "accuracy": 197.5,
+      "evasion": 197.5,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 995.9375,
+      "zen": 48
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:26",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 26,
+    "name": "Goblin",
+    "masterInstance": false,
+    "contentRank": 1,
+    "kind": "normal",
+    "originalSpawnCount": 155,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 1,
+      "kind": "normal",
+      "health": 110.012,
+      "damage": 10.78,
+      "armor": 10.65,
+      "accuracy": 103,
+      "evasion": 103,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 37.55,
+      "zen": 9
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:27",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 27,
+    "name": "Chain Scorpion",
+    "masterInstance": false,
+    "contentRank": 4.87,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 4.87,
+      "kind": "normal",
+      "health": 148.98460279999998,
+      "damage": 13.7986,
+      "armor": 13.1655,
+      "accuracy": 114.61,
+      "evasion": 114.61,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 96.484295,
+      "zen": 13
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:28",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 28,
+    "name": "Beetle Monster",
+    "masterInstance": false,
+    "contentRank": 14.53,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 14.53,
+      "kind": "normal",
+      "health": 247.83345079999998,
+      "damage": 21.333399999999997,
+      "armor": 19.444499999999998,
+      "accuracy": 143.59,
+      "evasion": 143.59,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 315.476495,
+      "zen": 25
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:29",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 29,
+    "name": "Hunter",
+    "masterInstance": false,
+    "contentRank": 20.33,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 20.33,
+      "kind": "normal",
+      "health": 308.25970679999995,
+      "damage": 25.8574,
+      "armor": 23.2145,
+      "accuracy": 160.99,
+      "evasion": 160.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 496.27989499999995,
+      "zen": 32
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:30",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 30,
+    "name": "Forest Monster",
+    "masterInstance": false,
+    "contentRank": 24.2,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 24.2,
+      "kind": "normal",
+      "health": 349.02768,
+      "damage": 28.876,
+      "armor": 25.73,
+      "accuracy": 172.6,
+      "evasion": 172.6,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 637.502,
+      "zen": 37
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:31",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 31,
+    "name": "Agon",
+    "masterInstance": false,
+    "contentRank": 26.13,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 26.13,
+      "kind": "normal",
+      "health": 369.4933228,
+      "damage": 30.3814,
+      "armor": 26.9845,
+      "accuracy": 178.39,
+      "evasion": 178.39,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 714.087295,
+      "zen": 39
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:32",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 32,
+    "name": "Stone Golem",
+    "masterInstance": false,
+    "contentRank": 30,
+    "kind": "normal",
+    "originalSpawnCount": 100,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 30,
+      "kind": "normal",
+      "health": 410.8,
+      "damage": 33.400000000000006,
+      "armor": 29.5,
+      "accuracy": 190,
+      "evasion": 190,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 880,
+      "zen": 45
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0003-0000-0000-000000000000:33",
+    "route": "start",
+    "mapId": 3,
+    "mapDefinitionId": "00000300-0003-0000-0000-000000000000",
+    "mapName": "Noria",
+    "monsterId": 33,
+    "name": "Elite Goblin",
+    "masterInstance": false,
+    "contentRank": 10.67,
+    "kind": "normal",
+    "originalSpawnCount": 125,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 10.67,
+      "kind": "normal",
+      "health": 208.0661868,
+      "damage": 18.3226,
+      "armor": 16.9355,
+      "accuracy": 132.01,
+      "evasion": 132.01,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 215.656895,
+      "zen": 20
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:40",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 40,
+    "name": "Death Knight",
+    "masterInstance": false,
+    "contentRank": 138.42,
+    "kind": "normal",
+    "originalSpawnCount": 72,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 138.42,
+      "kind": "normal",
+      "health": 1714.1211567999999,
+      "damage": 117.96759999999999,
+      "armor": 99.973,
+      "accuracy": 515.26,
+      "evasion": 515.26,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 12224.09302,
+      "zen": 237
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:36",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 36,
+    "name": "Shadow",
+    "masterInstance": false,
+    "contentRank": 95,
+    "kind": "normal",
+    "originalSpawnCount": 72,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 95,
+      "kind": "normal",
+      "health": 1158.3,
+      "damage": 84.10000000000001,
+      "armor": 71.75,
+      "accuracy": 385,
+      "evasion": 385,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 6128.750000000001,
+      "zen": 149
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:35",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 35,
+    "name": "Death Gorgon",
+    "masterInstance": false,
+    "contentRank": 144.21,
+    "kind": "normal",
+    "originalSpawnCount": 61,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 144.21,
+      "kind": "normal",
+      "health": 1791.6582892000001,
+      "damage": 122.48380000000002,
+      "armor": 103.7365,
+      "accuracy": 532.63,
+      "evasion": 532.63,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 13193.608255000003,
+      "zen": 250
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:39",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 39,
+    "name": "Poison Shadow",
+    "masterInstance": false,
+    "contentRank": 103.68,
+    "kind": "normal",
+    "originalSpawnCount": 87,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 103.68,
+      "kind": "normal",
+      "health": 1265.7945088000001,
+      "damage": 90.8704,
+      "armor": 77.39200000000001,
+      "accuracy": 411.04,
+      "evasion": 411.04,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 7181.408320000001,
+      "zen": 165
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:34",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 34,
+    "name": "Cursed Wizard",
+    "masterInstance": false,
+    "contentRank": 115.26,
+    "kind": "normal",
+    "originalSpawnCount": 49,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 115.26,
+      "kind": "normal",
+      "health": 1412.0184112000002,
+      "damage": 99.90280000000001,
+      "armor": 84.91900000000001,
+      "accuracy": 445.78000000000003,
+      "evasion": 445.78000000000003,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 8714.797180000001,
+      "zen": 188
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:41",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 41,
+    "name": "Death Cow",
+    "masterInstance": false,
+    "contentRank": 123.95,
+    "kind": "normal",
+    "originalSpawnCount": 51,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 123.95,
+      "kind": "normal",
+      "health": 1523.86323,
+      "damage": 106.68100000000001,
+      "armor": 90.56750000000001,
+      "accuracy": 471.85,
+      "evasion": 471.85,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 9962.381375,
+      "zen": 206
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:37",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 37,
+    "name": "Devil",
+    "masterInstance": false,
+    "contentRank": 132.63,
+    "kind": "normal",
+    "originalSpawnCount": 54,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 132.63,
+      "kind": "normal",
+      "health": 1637.3886028,
+      "damage": 113.4514,
+      "armor": 96.2095,
+      "accuracy": 497.89,
+      "evasion": 497.89,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 11291.454295,
+      "zen": 224
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "lost_tower:00000300-0004-0000-0000-000000000000:38",
+    "route": "lost_tower",
+    "mapId": 4,
+    "mapDefinitionId": "00000300-0004-0000-0000-000000000000",
+    "mapName": "Lost Tower",
+    "monsterId": 38,
+    "name": "Balrog",
+    "masterInstance": false,
+    "contentRank": 150,
+    "kind": "boss",
+    "originalSpawnCount": 2,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 150,
+      "kind": "boss",
+      "health": 48620,
+      "damage": 107.95,
+      "armor": 118.25000000000001,
+      "accuracy": 550,
+      "evasion": 550,
+      "attackSeconds": 2.5,
+      "telegraph": true,
+      "experience": 426000,
+      "zen": 7890
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:48",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 48,
+    "name": "Lizard King",
+    "masterInstance": false,
+    "contentRank": 184.19,
+    "kind": "normal",
+    "originalSpawnCount": 65,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 184.19,
+      "kind": "normal",
+      "health": 2349.0114732,
+      "damage": 153.6682,
+      "armor": 129.7235,
+      "accuracy": 652.5699999999999,
+      "evasion": 652.5699999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 20894.555855,
+      "zen": 346
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:51",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 51,
+    "name": "Great Bahamut",
+    "masterInstance": false,
+    "contentRank": 178.39,
+    "kind": "normal",
+    "originalSpawnCount": 65,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 178.39,
+      "kind": "normal",
+      "health": 2265.7759051999997,
+      "damage": 149.14419999999998,
+      "armor": 125.95349999999999,
+      "accuracy": 635.17,
+      "evasion": 635.17,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 19668.325655,
+      "zen": 332
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:45",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 45,
+    "name": "Bahamut",
+    "masterInstance": false,
+    "contentRank": 145,
+    "kind": "normal",
+    "originalSpawnCount": 29,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 145,
+      "kind": "normal",
+      "health": 1802.3,
+      "damage": 123.10000000000001,
+      "armor": 104.25,
+      "accuracy": 535,
+      "evasion": 535,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 13328.75,
+      "zen": 252
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:46",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 46,
+    "name": "Vepar",
+    "masterInstance": false,
+    "contentRank": 147.9,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 147.9,
+      "kind": "normal",
+      "health": 1841.4929200000001,
+      "damage": 125.36200000000001,
+      "armor": 106.135,
+      "accuracy": 543.7,
+      "evasion": 543.7,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 13830.725500000004,
+      "zen": 258
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:52",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 52,
+    "name": "Silver Valkyrie",
+    "masterInstance": false,
+    "contentRank": 181.29,
+    "kind": "normal",
+    "originalSpawnCount": 85,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 181.29,
+      "kind": "normal",
+      "health": 2307.2927692,
+      "damage": 151.4062,
+      "armor": 127.8385,
+      "accuracy": 643.87,
+      "evasion": 643.87,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 20276.815255,
+      "zen": 339
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:47",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 47,
+    "name": "Valkyrie",
+    "masterInstance": false,
+    "contentRank": 149.35,
+    "kind": "normal",
+    "originalSpawnCount": 43,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 149.35,
+      "kind": "normal",
+      "health": 1861.16507,
+      "damage": 126.493,
+      "armor": 107.0775,
+      "accuracy": 548.05,
+      "evasion": 548.05,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 14085.182375,
+      "zen": 262
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "atlans:00000300-0007-0000-0000-000000000000:49",
+    "route": "atlans",
+    "mapId": 7,
+    "mapDefinitionId": "00000300-0007-0000-0000-000000000000",
+    "mapName": "Atlans",
+    "monsterId": 49,
+    "name": "Hydra",
+    "masterInstance": false,
+    "contentRank": 190,
+    "kind": "boss",
+    "originalSpawnCount": 4,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 190,
+      "kind": "boss",
+      "health": 63263.2,
+      "damage": 134.47,
+      "armor": 146.85000000000002,
+      "accuracy": 670,
+      "evasion": 670,
+      "attackSeconds": 2.5,
+      "telegraph": true,
+      "experience": 664800.0000000001,
+      "zen": 10842
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:61",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 61,
+    "name": "Beam Knight",
+    "masterInstance": false,
+    "contentRank": 210.71,
+    "kind": "normal",
+    "originalSpawnCount": 56,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 210.71,
+      "kind": "normal",
+      "health": 2739.8844492,
+      "damage": 174.3538,
+      "armor": 146.9615,
+      "accuracy": 732.13,
+      "evasion": 732.13,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 26972.807255000003,
+      "zen": 417
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:58",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 58,
+    "name": "Tantallos",
+    "masterInstance": false,
+    "contentRank": 208.57,
+    "kind": "normal",
+    "originalSpawnCount": 63,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 208.57,
+      "kind": "normal",
+      "health": 2707.7173387999997,
+      "damage": 172.6846,
+      "armor": 145.5705,
+      "accuracy": 725.71,
+      "evasion": 725.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 26453.634695,
+      "zen": 411
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:59",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 59,
+    "name": "Zaikan",
+    "masterInstance": false,
+    "contentRank": 223.57,
+    "kind": "normal",
+    "originalSpawnCount": 1,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 223.57,
+      "kind": "normal",
+      "health": 2935.5025388,
+      "damage": 184.3846,
+      "armor": 155.3205,
+      "accuracy": 770.71,
+      "evasion": 770.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 30198.789695000003,
+      "zen": 454
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:62",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 62,
+    "name": "Mutant",
+    "masterInstance": false,
+    "contentRank": 185,
+    "kind": "normal",
+    "originalSpawnCount": 41,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 185,
+      "kind": "normal",
+      "health": 2360.7,
+      "damage": 154.3,
+      "armor": 130.25,
+      "accuracy": 655,
+      "evasion": 655,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 21068.750000000004,
+      "zen": 348
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:60",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 60,
+    "name": "Bloody Wolf",
+    "masterInstance": false,
+    "contentRank": 193.57,
+    "kind": "normal",
+    "originalSpawnCount": 32,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 193.57,
+      "kind": "normal",
+      "health": 2485.3321388,
+      "damage": 160.9846,
+      "armor": 135.82049999999998,
+      "accuracy": 680.71,
+      "evasion": 680.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 22955.979695,
+      "zen": 371
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:57",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 57,
+    "name": "Iron Wheel",
+    "masterInstance": false,
+    "contentRank": 202.14,
+    "kind": "normal",
+    "originalSpawnCount": 23,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 202.14,
+      "kind": "normal",
+      "health": 2611.7269552,
+      "damage": 167.6692,
+      "armor": 141.391,
+      "accuracy": 706.42,
+      "evasion": 706.42,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 24923.99878,
+      "zen": 394
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "tarkan:00000300-0008-0000-0000-000000000000:63",
+    "route": "tarkan",
+    "mapId": 8,
+    "mapDefinitionId": "00000300-0008-0000-0000-000000000000",
+    "mapName": "Tarkan",
+    "monsterId": 63,
+    "name": "Death Beam Knight",
+    "masterInstance": false,
+    "contentRank": 230,
+    "kind": "normal",
+    "originalSpawnCount": 1,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 230,
+      "kind": "normal",
+      "health": 3034.8,
+      "damage": 189.4,
+      "armor": 159.5,
+      "accuracy": 790,
+      "evasion": 790,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 31880.000000000004,
+      "zen": 473
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:70",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 70,
+    "name": "Queen Rainer",
+    "masterInstance": false,
+    "contentRank": 233.48,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 233.48,
+      "kind": "normal",
+      "health": 3088.9549247999994,
+      "damage": 192.1144,
+      "armor": 161.762,
+      "accuracy": 800.4399999999999,
+      "evasion": 800.4399999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 32808.860720000004,
+      "zen": 483
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:73",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 73,
+    "name": "Drakan",
+    "masterInstance": false,
+    "contentRank": 238.33,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 238.33,
+      "kind": "normal",
+      "health": 3164.9142668000004,
+      "damage": 195.8974,
+      "armor": 164.9145,
+      "accuracy": 814.99,
+      "evasion": 814.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 34125.613895,
+      "zen": 497
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:72",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 72,
+    "name": "Phantom Knight",
+    "masterInstance": false,
+    "contentRank": 250.45,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 250.45,
+      "kind": "normal",
+      "health": 3357.20243,
+      "damage": 205.351,
+      "armor": 172.7925,
+      "accuracy": 851.3499999999999,
+      "evasion": 851.3499999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 37529.261375,
+      "zen": 534
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:74",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 74,
+    "name": "Alpha Crust",
+    "masterInstance": false,
+    "contentRank": 245.61,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 245.61,
+      "kind": "normal",
+      "health": 3279.9912652000003,
+      "damage": 201.57580000000002,
+      "armor": 169.6465,
+      "accuracy": 836.83,
+      "evasion": 836.83,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 36150.669655000005,
+      "zen": 519
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:71",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 71,
+    "name": "Mega Crust",
+    "masterInstance": false,
+    "contentRank": 228.64,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 228.64,
+      "kind": "normal",
+      "health": 3013.7149951999995,
+      "damage": 188.3392,
+      "armor": 158.61599999999999,
+      "accuracy": 785.92,
+      "evasion": 785.92,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 31520.617280000002,
+      "zen": 469
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:69",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 69,
+    "name": "Alquamos",
+    "masterInstance": false,
+    "contentRank": 225,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 225,
+      "kind": "normal",
+      "health": 2957.5,
+      "damage": 185.5,
+      "armor": 156.25,
+      "accuracy": 775,
+      "evasion": 775,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 30568.750000000004,
+      "zen": 458
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:75",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 75,
+    "name": "Great Drakan",
+    "masterInstance": false,
+    "contentRank": 255.3,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 255.3,
+      "kind": "normal",
+      "health": 3435.13708,
+      "damage": 209.13400000000001,
+      "armor": 175.94500000000002,
+      "accuracy": 865.9000000000001,
+      "evasion": 865.9000000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 38936.54950000001,
+      "zen": 550
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "icarus:00000300-000a-0000-0000-000000000000:77",
+    "route": "icarus",
+    "mapId": 10,
+    "mapDefinitionId": "00000300-000a-0000-0000-000000000000",
+    "mapName": "Icarus",
+    "monsterId": 77,
+    "name": "Dark Phoenix",
+    "masterInstance": false,
+    "contentRank": 265,
+    "kind": "boss",
+    "originalSpawnCount": 1,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 265,
+      "kind": "boss",
+      "health": 93410.2,
+      "damage": 184.19500000000002,
+      "armor": 200.47500000000002,
+      "accuracy": 895,
+      "evasion": 895,
+      "attackSeconds": 2.5,
+      "telegraph": true,
+      "experience": 1254862.5,
+      "zen": 17412
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:304",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 304,
+    "name": "Witch Queen",
+    "masterInstance": false,
+    "contentRank": 278.33,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 278.33,
+      "kind": "normal",
+      "health": 3812.9110668,
+      "damage": 227.0974,
+      "armor": 190.9145,
+      "accuracy": 934.99,
+      "evasion": 934.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 45972.133895,
+      "zen": 624
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:305",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 305,
+    "name": "Blue Golem",
+    "masterInstance": false,
+    "contentRank": 270,
+    "kind": "normal",
+    "originalSpawnCount": 38,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 270,
+      "kind": "normal",
+      "health": 3674.8,
+      "damage": 220.6,
+      "armor": 185.5,
+      "accuracy": 910,
+      "evasion": 910,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 43360,
+      "zen": 597
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:306",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 306,
+    "name": "Death Rider",
+    "masterInstance": false,
+    "contentRank": 265,
+    "kind": "normal",
+    "originalSpawnCount": 39,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 265,
+      "kind": "normal",
+      "health": 3592.7,
+      "damage": 216.70000000000002,
+      "armor": 182.25,
+      "accuracy": 895,
+      "evasion": 895,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 41828.75,
+      "zen": 580
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:307",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 307,
+    "name": "Forest Orc",
+    "masterInstance": false,
+    "contentRank": 261.67,
+    "kind": "normal",
+    "originalSpawnCount": 36,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 261.67,
+      "kind": "normal",
+      "health": 3538.3542668000005,
+      "damage": 214.10260000000002,
+      "armor": 180.08550000000002,
+      "accuracy": 885.01,
+      "evasion": 885.01,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 40824.19389500001,
+      "zen": 570
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:308",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 308,
+    "name": "Death Tree",
+    "masterInstance": false,
+    "contentRank": 260,
+    "kind": "normal",
+    "originalSpawnCount": 29,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 260,
+      "kind": "normal",
+      "health": 3511.2,
+      "damage": 212.8,
+      "armor": 179,
+      "accuracy": 880,
+      "evasion": 880,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 40325,
+      "zen": 564
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:309",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 309,
+    "name": "Hell Maine",
+    "masterInstance": false,
+    "contentRank": 281.67,
+    "kind": "normal",
+    "originalSpawnCount": 3,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 281.67,
+      "kind": "normal",
+      "health": 3868.7558668,
+      "damage": 229.70260000000002,
+      "armor": 193.08550000000002,
+      "accuracy": 945.01,
+      "evasion": 945.01,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 47040.93389500001,
+      "zen": 635
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:549",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 549,
+    "name": "Bloody Orc",
+    "masterInstance": false,
+    "contentRank": 295,
+    "kind": "normal",
+    "originalSpawnCount": 23,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 295,
+      "kind": "normal",
+      "health": 4094.3,
+      "damage": 240.1,
+      "armor": 201.75,
+      "accuracy": 985,
+      "evasion": 985,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 51428.75,
+      "zen": 681
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:550",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 550,
+    "name": "Bloody Death Rider",
+    "masterInstance": false,
+    "contentRank": 295.83,
+    "kind": "normal",
+    "originalSpawnCount": 25,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 295.83,
+      "kind": "normal",
+      "health": 4108.484666799999,
+      "damage": 240.7474,
+      "armor": 202.2895,
+      "accuracy": 987.49,
+      "evasion": 987.49,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 51708.423895,
+      "zen": 683
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:551",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 551,
+    "name": "Bloody Golem",
+    "masterInstance": false,
+    "contentRank": 297.5,
+    "kind": "normal",
+    "originalSpawnCount": 28,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 297.5,
+      "kind": "normal",
+      "health": 4137.075,
+      "damage": 242.05,
+      "armor": 203.375,
+      "accuracy": 992.5,
+      "evasion": 992.5,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 52273.4375,
+      "zen": 689
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "aida:00000300-0021-0000-0000-000000000000:552",
+    "route": "aida",
+    "mapId": 33,
+    "mapDefinitionId": "00000300-0021-0000-0000-000000000000",
+    "mapName": "Aida",
+    "monsterId": 552,
+    "name": "Bloody Witch Queen",
+    "masterInstance": false,
+    "contentRank": 300,
+    "kind": "normal",
+    "originalSpawnCount": 19,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 300,
+      "kind": "normal",
+      "health": 4180,
+      "damage": 244,
+      "armor": 205,
+      "accuracy": 1000,
+      "evasion": 1000,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 53125,
+      "zen": 698
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:334",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 334,
+    "name": "Death Angel 7",
+    "masterInstance": false,
+    "contentRank": 370.52,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 370.52,
+      "kind": "normal",
+      "health": 5452.6208448,
+      "damage": 299.0056,
+      "armor": 250.838,
+      "accuracy": 1211.56,
+      "evasion": 1211.56,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 79978.02872,
+      "zen": 965
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:336",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 336,
+    "name": "Death Centurion 7",
+    "masterInstance": false,
+    "contentRank": 384.48,
+    "kind": "normal",
+    "originalSpawnCount": 5,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 384.48,
+      "kind": "normal",
+      "health": 5718.6984448,
+      "damage": 309.8944,
+      "armor": 259.91200000000003,
+      "accuracy": 1253.44,
+      "evasion": 1253.44,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 85942.43872,
+      "zen": 1022
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:333",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 333,
+    "name": "Blood Soldier 7",
+    "masterInstance": false,
+    "contentRank": 364.31,
+    "kind": "normal",
+    "originalSpawnCount": 7,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 364.31,
+      "kind": "normal",
+      "health": 5335.7613132,
+      "damage": 294.1618,
+      "armor": 246.8015,
+      "accuracy": 1192.93,
+      "evasion": 1192.93,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 77393.69685500002,
+      "zen": 940
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:331",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 331,
+    "name": "Aegis 7",
+    "masterInstance": false,
+    "contentRank": 355,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 355,
+      "kind": "normal",
+      "health": 5162.3,
+      "damage": 286.90000000000003,
+      "armor": 240.75,
+      "accuracy": 1165,
+      "evasion": 1165,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 73598.75000000001,
+      "zen": 903
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:332",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 332,
+    "name": "Rogue Centurion 7",
+    "masterInstance": false,
+    "contentRank": 359.66,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 359.66,
+      "kind": "normal",
+      "health": 5248.863787200001,
+      "damage": 290.5348,
+      "armor": 243.77900000000002,
+      "accuracy": 1178.98,
+      "evasion": 1178.98,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 75486.34358000002,
+      "zen": 921
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:335",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 335,
+    "name": "Necron 7",
+    "masterInstance": false,
+    "contentRank": 376.72,
+    "kind": "normal",
+    "originalSpawnCount": 8,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 376.72,
+      "kind": "normal",
+      "health": 5570.215500800001,
+      "damage": 303.8416,
+      "armor": 254.86800000000002,
+      "accuracy": 1230.16,
+      "evasion": 1230.16,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 82600.51712000002,
+      "zen": 990
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:337",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 337,
+    "name": "Schriker 7",
+    "masterInstance": false,
+    "contentRank": 392.24,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 392.24,
+      "kind": "normal",
+      "health": 5868.6266112,
+      "damage": 315.9472,
+      "armor": 264.956,
+      "accuracy": 1276.72,
+      "evasion": 1276.72,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 89350.59968000001,
+      "zen": 1055
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kalima_7:00000300-0024-0000-0000-000000000000:275",
+    "route": "kalima_7",
+    "mapId": 36,
+    "mapDefinitionId": "00000300-0024-0000-0000-000000000000",
+    "mapName": "Kalima 7",
+    "monsterId": 275,
+    "name": "Illusion of Kundun 7",
+    "masterInstance": false,
+    "contentRank": 400,
+    "kind": "boss",
+    "originalSpawnCount": 1,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400,
+      "kind": "boss",
+      "health": 156520,
+      "damage": 273.7,
+      "armor": 297,
+      "accuracy": 1300,
+      "evasion": 1300,
+      "attackSeconds": 2.5,
+      "telegraph": true,
+      "experience": 2784750.0000000005,
+      "zen": 32640
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:350",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 350,
+    "name": "Berserker",
+    "masterInstance": false,
+    "contentRank": 311.33,
+    "kind": "normal",
+    "originalSpawnCount": 28,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 311.33,
+      "kind": "normal",
+      "health": 4376.4164267999995,
+      "damage": 252.8374,
+      "armor": 212.3645,
+      "accuracy": 1033.99,
+      "evasion": 1033.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 57070.462895,
+      "zen": 738
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:351",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 351,
+    "name": "Splinter Wolf",
+    "masterInstance": false,
+    "contentRank": 295,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 295,
+      "kind": "normal",
+      "health": 4094.3,
+      "damage": 240.1,
+      "armor": 201.75,
+      "accuracy": 985,
+      "evasion": 985,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 51428.75,
+      "zen": 681
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:352",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 352,
+    "name": "Iron Rider",
+    "masterInstance": false,
+    "contentRank": 296.63,
+    "kind": "normal",
+    "originalSpawnCount": 21,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 296.63,
+      "kind": "normal",
+      "health": 4122.1722828,
+      "damage": 241.3714,
+      "armor": 202.8095,
+      "accuracy": 989.89,
+      "evasion": 989.89,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 51978.706294999996,
+      "zen": 686
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:353",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 353,
+    "name": "Satyros",
+    "masterInstance": false,
+    "contentRank": 299.08,
+    "kind": "normal",
+    "originalSpawnCount": 25,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 299.08,
+      "kind": "normal",
+      "health": 4164.1861567999995,
+      "damage": 243.2824,
+      "armor": 204.402,
+      "accuracy": 997.24,
+      "evasion": 997.24,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 52810.82552,
+      "zen": 695
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:354",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 354,
+    "name": "Blade Hunter",
+    "masterInstance": false,
+    "contentRank": 301.53,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 301.53,
+      "kind": "normal",
+      "health": 4206.344090799999,
+      "damage": 245.1934,
+      "armor": 205.9945,
+      "accuracy": 1004.5899999999999,
+      "evasion": 1004.5899999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 53649.54749499999,
+      "zen": 703
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:355",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 355,
+    "name": "Kentauros",
+    "masterInstance": false,
+    "contentRank": 305.61,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 305.61,
+      "kind": "normal",
+      "health": 4276.869665200001,
+      "damage": 248.37580000000003,
+      "armor": 208.6465,
+      "accuracy": 1016.83,
+      "evasion": 1016.83,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 55060.92965500001,
+      "zen": 718
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:356",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 356,
+    "name": "Gigantis",
+    "masterInstance": false,
+    "contentRank": 309.69,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 309.69,
+      "kind": "normal",
+      "health": 4347.7947532,
+      "damage": 251.5582,
+      "armor": 211.29850000000002,
+      "accuracy": 1029.07,
+      "evasion": 1029.07,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 56490.62285500001,
+      "zen": 732
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:357",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 357,
+    "name": "Genocider",
+    "masterInstance": false,
+    "contentRank": 315.41,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 315.41,
+      "kind": "normal",
+      "health": 4447.901617200001,
+      "damage": 256.01980000000003,
+      "armor": 215.01650000000004,
+      "accuracy": 1046.23,
+      "evasion": 1046.23,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 58525.82745500001,
+      "zen": 753
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:553",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 553,
+    "name": "Berserker Warrior",
+    "masterInstance": false,
+    "contentRank": 330.1,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 330.1,
+      "kind": "normal",
+      "health": 4708.59212,
+      "damage": 267.478,
+      "armor": 224.56500000000003,
+      "accuracy": 1090.3000000000002,
+      "evasion": 1090.3000000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 63917.505500000014,
+      "zen": 807
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:554",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 554,
+    "name": "Kentauros Warrior",
+    "masterInstance": false,
+    "contentRank": 332.55,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 332.55,
+      "kind": "normal",
+      "health": 4752.57403,
+      "damage": 269.389,
+      "armor": 226.15750000000003,
+      "accuracy": 1097.65,
+      "evasion": 1097.65,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 64839.82637500001,
+      "zen": 816
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:555",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 555,
+    "name": "Gigantis Warrior",
+    "masterInstance": false,
+    "contentRank": 334.18,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 334.18,
+      "kind": "normal",
+      "health": 4781.9152688,
+      "damage": 270.66040000000004,
+      "armor": 227.217,
+      "accuracy": 1102.54,
+      "evasion": 1102.54,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 65457.10982,
+      "zen": 822
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0025-0000-0000-000000000000:556",
+    "route": "kanturu",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 556,
+    "name": "Genocider Warrior",
+    "masterInstance": false,
+    "contentRank": 335,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 335,
+      "kind": "normal",
+      "health": 4796.7,
+      "damage": 271.3,
+      "armor": 227.75,
+      "accuracy": 1105,
+      "evasion": 1105,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 65768.75,
+      "zen": 825
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:350",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 350,
+    "name": "Berserker",
+    "masterInstance": true,
+    "contentRank": 408.16,
+    "kind": "normal",
+    "originalSpawnCount": 28,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 408.16,
+      "kind": "normal",
+      "health": 6180.7350272,
+      "damage": 328.3648,
+      "armor": 275.30400000000003,
+      "accuracy": 1324.48,
+      "evasion": 1324.48,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 96549.94208000002,
+      "zen": 1123
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:351",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 351,
+    "name": "Splinter Wolf",
+    "masterInstance": true,
+    "contentRank": 400,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400,
+      "kind": "normal",
+      "health": 6020,
+      "damage": 322,
+      "armor": 270,
+      "accuracy": 1300,
+      "evasion": 1300,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92825.00000000001,
+      "zen": 1088
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:352",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 352,
+    "name": "Iron Rider",
+    "masterInstance": true,
+    "contentRank": 400.82,
+    "kind": "normal",
+    "originalSpawnCount": 21,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400.82,
+      "kind": "normal",
+      "health": 6036.0800688,
+      "damage": 322.63960000000003,
+      "armor": 270.533,
+      "accuracy": 1302.46,
+      "evasion": 1302.46,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93196.00982,
+      "zen": 1092
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:353",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 353,
+    "name": "Satyros",
+    "masterInstance": true,
+    "contentRank": 402.04,
+    "kind": "normal",
+    "originalSpawnCount": 25,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 402.04,
+      "kind": "normal",
+      "health": 6060.0339392,
+      "damage": 323.5912,
+      "armor": 271.326,
+      "accuracy": 1306.1200000000001,
+      "evasion": 1306.1200000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93749.36888000002,
+      "zen": 1097
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:354",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 354,
+    "name": "Blade Hunter",
+    "masterInstance": true,
+    "contentRank": 403.27,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 403.27,
+      "kind": "normal",
+      "health": 6084.2203148,
+      "damage": 324.5506,
+      "armor": 272.1255,
+      "accuracy": 1309.81,
+      "evasion": 1309.81,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 94308.92109500001,
+      "zen": 1102
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:355",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 355,
+    "name": "Kentauros",
+    "masterInstance": true,
+    "contentRank": 405.31,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 405.31,
+      "kind": "normal",
+      "health": 6124.4143532,
+      "damage": 326.1418,
+      "armor": 273.4515,
+      "accuracy": 1315.93,
+      "evasion": 1315.93,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 95240.62785500001,
+      "zen": 1111
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:356",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 356,
+    "name": "Gigantis",
+    "masterInstance": true,
+    "contentRank": 407.35,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 407.35,
+      "kind": "normal",
+      "health": 6164.70827,
+      "damage": 327.733,
+      "armor": 274.77750000000003,
+      "accuracy": 1322.0500000000002,
+      "evasion": 1322.0500000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 96176.91237500001,
+      "zen": 1120
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:357",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 357,
+    "name": "Genocider",
+    "masterInstance": true,
+    "contentRank": 410.2,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 410.2,
+      "kind": "normal",
+      "health": 6221.16848,
+      "damage": 329.956,
+      "armor": 276.63,
+      "accuracy": 1330.6,
+      "evasion": 1330.6,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 97492.622,
+      "zen": 1132
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:553",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 553,
+    "name": "Berserker Warrior",
+    "masterInstance": true,
+    "contentRank": 417.55,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417.55,
+      "kind": "normal",
+      "health": 6367.6760300000005,
+      "damage": 335.689,
+      "armor": 281.4075,
+      "accuracy": 1352.65,
+      "evasion": 1352.65,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100927.00137500002,
+      "zen": 1165
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:554",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 554,
+    "name": "Kentauros Warrior",
+    "masterInstance": true,
+    "contentRank": 418.78,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 418.78,
+      "kind": "normal",
+      "health": 6392.320260799999,
+      "damage": 336.6484,
+      "armor": 282.207,
+      "accuracy": 1356.34,
+      "evasion": 1356.34,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101507.53861999999,
+      "zen": 1170
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:555",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 555,
+    "name": "Gigantis Warrior",
+    "masterInstance": true,
+    "contentRank": 419.59,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 419.59,
+      "kind": "normal",
+      "health": 6408.5692172,
+      "damage": 337.2802,
+      "armor": 282.7335,
+      "accuracy": 1358.77,
+      "evasion": 1358.77,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101890.75245500001,
+      "zen": 1174
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0025-0000-0000-000000000000:556",
+    "route": "master_1",
+    "mapId": 37,
+    "mapDefinitionId": "00000300-0025-0000-0000-000000000000",
+    "mapName": "Kanturu_I",
+    "monsterId": 556,
+    "name": "Genocider Warrior",
+    "masterInstance": true,
+    "contentRank": 420,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 420,
+      "kind": "normal",
+      "health": 6416.8,
+      "damage": 337.6,
+      "armor": 283,
+      "accuracy": 1360,
+      "evasion": 1360,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 102085.00000000001,
+      "zen": 1176
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "kanturu:00000300-0026-0000-0000-000000000000:358",
+    "route": "kanturu",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 358,
+    "name": "Persona",
+    "masterInstance": false,
+    "contentRank": 315,
+    "kind": "normal",
+    "originalSpawnCount": 27,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 315,
+      "kind": "normal",
+      "health": 4440.7,
+      "damage": 255.70000000000002,
+      "armor": 214.75,
+      "accuracy": 1045,
+      "evasion": 1045,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 58378.75,
+      "zen": 751
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0026-0000-0000-000000000000:359",
+    "route": "kanturu",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 359,
+    "name": "Twin Tale",
+    "masterInstance": false,
+    "contentRank": 295,
+    "kind": "normal",
+    "originalSpawnCount": 24,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 295,
+      "kind": "normal",
+      "health": 4094.3,
+      "damage": 240.1,
+      "armor": 201.75,
+      "accuracy": 985,
+      "evasion": 985,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 51428.75,
+      "zen": 681
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "kanturu:00000300-0026-0000-0000-000000000000:360",
+    "route": "kanturu",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 360,
+    "name": "Dreadfear",
+    "masterInstance": false,
+    "contentRank": 335,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 335,
+      "kind": "normal",
+      "health": 4796.7,
+      "damage": 271.3,
+      "armor": 227.75,
+      "accuracy": 1105,
+      "evasion": 1105,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 65768.75,
+      "zen": 825
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_1:00000300-0026-0000-0000-000000000000:358",
+    "route": "master_1",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 358,
+    "name": "Persona",
+    "masterInstance": true,
+    "contentRank": 410,
+    "kind": "normal",
+    "originalSpawnCount": 27,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 410,
+      "kind": "normal",
+      "health": 6217.2,
+      "damage": 329.8,
+      "armor": 276.5,
+      "accuracy": 1330,
+      "evasion": 1330,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 97400.00000000001,
+      "zen": 1131
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0026-0000-0000-000000000000:359",
+    "route": "master_1",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 359,
+    "name": "Twin Tale",
+    "masterInstance": true,
+    "contentRank": 400,
+    "kind": "normal",
+    "originalSpawnCount": 24,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400,
+      "kind": "normal",
+      "health": 6020,
+      "damage": 322,
+      "armor": 270,
+      "accuracy": 1300,
+      "evasion": 1300,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92825.00000000001,
+      "zen": 1088
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0026-0000-0000-000000000000:360",
+    "route": "master_1",
+    "mapId": 38,
+    "mapDefinitionId": "00000300-0026-0000-0000-000000000000",
+    "mapName": "Kanturu_III",
+    "monsterId": 360,
+    "name": "Dreadfear",
+    "masterInstance": true,
+    "contentRank": 420,
+    "kind": "normal",
+    "originalSpawnCount": 12,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 420,
+      "kind": "normal",
+      "health": 6416.8,
+      "damage": 337.6,
+      "armor": 283,
+      "accuracy": 1360,
+      "evasion": 1360,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 102085.00000000001,
+      "zen": 1176
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:418",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 418,
+    "name": "Strange Rabbit",
+    "masterInstance": false,
+    "contentRank": 1,
+    "kind": "normal",
+    "originalSpawnCount": 80,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 1,
+      "kind": "normal",
+      "health": 110.012,
+      "damage": 10.78,
+      "armor": 10.65,
+      "accuracy": 103,
+      "evasion": 103,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 37.55,
+      "zen": 9
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:419",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 419,
+    "name": "Polluted Butterfly",
+    "masterInstance": false,
+    "contentRank": 6.93,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 6.93,
+      "kind": "normal",
+      "health": 169.8762988,
+      "damage": 15.4054,
+      "armor": 14.5045,
+      "accuracy": 120.78999999999999,
+      "evasion": 120.78999999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 134.573695,
+      "zen": 16
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:420",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 420,
+    "name": "Hideous Rabbit",
+    "masterInstance": false,
+    "contentRank": 10.89,
+    "kind": "normal",
+    "originalSpawnCount": 45,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 10.89,
+      "kind": "normal",
+      "health": 210.32310520000001,
+      "damage": 18.4942,
+      "armor": 17.078500000000002,
+      "accuracy": 132.67000000000002,
+      "evasion": 132.67000000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 220.90565500000002,
+      "zen": 20
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:421",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 421,
+    "name": "Werewolf",
+    "masterInstance": false,
+    "contentRank": 14.18,
+    "kind": "normal",
+    "originalSpawnCount": 30,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 14.18,
+      "kind": "normal",
+      "health": 244.21286880000002,
+      "damage": 21.0604,
+      "armor": 19.217,
+      "accuracy": 142.54,
+      "evasion": 142.54,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 305.74982,
+      "zen": 24
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:422",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 422,
+    "name": "Cursed Lich",
+    "masterInstance": false,
+    "contentRank": 18.14,
+    "kind": "normal",
+    "originalSpawnCount": 30,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 18.14,
+      "kind": "normal",
+      "health": 285.34871519999996,
+      "damage": 24.1492,
+      "armor": 21.791,
+      "accuracy": 154.42000000000002,
+      "evasion": 154.42000000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 423.66278,
+      "zen": 29
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:423",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 423,
+    "name": "Totem Golem",
+    "masterInstance": false,
+    "contentRank": 22.09,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 22.09,
+      "kind": "normal",
+      "health": 326.75561719999996,
+      "damage": 27.2302,
+      "armor": 24.3585,
+      "accuracy": 166.26999999999998,
+      "evasion": 166.26999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 558.4624550000001,
+      "zen": 34
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:424",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 424,
+    "name": "Grizzly",
+    "masterInstance": false,
+    "contentRank": 26.7,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 26.7,
+      "kind": "normal",
+      "health": 375.55468,
+      "damage": 30.826,
+      "armor": 27.355,
+      "accuracy": 180.1,
+      "evasion": 180.1,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 737.4894999999999,
+      "zen": 40
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "start:00000300-0033-0000-0000-000000000000:425",
+    "route": "start",
+    "mapId": 51,
+    "mapDefinitionId": "00000300-0033-0000-0000-000000000000",
+    "mapName": "Elvenland",
+    "monsterId": 425,
+    "name": "Captain Grizzly",
+    "masterInstance": false,
+    "contentRank": 30,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 30,
+      "kind": "normal",
+      "health": 410.8,
+      "damage": 33.400000000000006,
+      "armor": 29.5,
+      "accuracy": 190,
+      "evasion": 190,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 880,
+      "zen": 45
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:443",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 443,
+    "name": "Sapi-Tres",
+    "masterInstance": false,
+    "contentRank": 365,
+    "kind": "normal",
+    "originalSpawnCount": 27,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 365,
+      "kind": "normal",
+      "health": 5348.7,
+      "damage": 294.7,
+      "armor": 247.25,
+      "accuracy": 1195,
+      "evasion": 1195,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 77678.75000000001,
+      "zen": 942
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:448",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 448,
+    "name": "Ghost Napin",
+    "masterInstance": false,
+    "contentRank": 367.86,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 367.86,
+      "kind": "normal",
+      "health": 5402.451755200001,
+      "damage": 296.93080000000003,
+      "armor": 249.109,
+      "accuracy": 1203.58,
+      "evasion": 1203.58,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 78865.85878000001,
+      "zen": 954
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:449",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 449,
+    "name": "Blaze Napin",
+    "masterInstance": false,
+    "contentRank": 368.57,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 368.57,
+      "kind": "normal",
+      "health": 5415.8261388,
+      "damage": 297.4846,
+      "armor": 249.5705,
+      "accuracy": 1205.71,
+      "evasion": 1205.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 79161.954695,
+      "zen": 957
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:557",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 557,
+    "name": "Sapi Queen",
+    "masterInstance": false,
+    "contentRank": 385.71,
+    "kind": "normal",
+    "originalSpawnCount": 44,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 385.71,
+      "kind": "normal",
+      "health": 5742.3664492,
+      "damage": 310.8538,
+      "armor": 260.7115,
+      "accuracy": 1257.1299999999999,
+      "evasion": 1257.1299999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 86478.232255,
+      "zen": 1027
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:558",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 558,
+    "name": "Ice Napin",
+    "masterInstance": false,
+    "contentRank": 388.57,
+    "kind": "normal",
+    "originalSpawnCount": 46,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 388.57,
+      "kind": "normal",
+      "health": 5797.5397388,
+      "damage": 313.0846,
+      "armor": 262.57050000000004,
+      "accuracy": 1265.71,
+      "evasion": 1265.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 87730.494695,
+      "zen": 1039
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:559",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 559,
+    "name": "Shadow Master",
+    "masterInstance": false,
+    "contentRank": 390,
+    "kind": "normal",
+    "originalSpawnCount": 36,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 390,
+      "kind": "normal",
+      "health": 5825.2,
+      "damage": 314.2,
+      "armor": 263.5,
+      "accuracy": 1270,
+      "evasion": 1270,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 88360.00000000001,
+      "zen": 1045
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:441",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 441,
+    "name": "Sapi-Unus",
+    "masterInstance": false,
+    "contentRank": 360,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 360,
+      "kind": "normal",
+      "health": 5255.2,
+      "damage": 290.8,
+      "armor": 244,
+      "accuracy": 1180,
+      "evasion": 1180,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 75625.00000000001,
+      "zen": 922
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:442",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 442,
+    "name": "Sapi-Duo",
+    "masterInstance": false,
+    "contentRank": 360.71,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 360.71,
+      "kind": "normal",
+      "health": 5268.440449199999,
+      "damage": 291.3538,
+      "armor": 244.4615,
+      "accuracy": 1182.1299999999999,
+      "evasion": 1182.1299999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 75914.957255,
+      "zen": 925
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:447",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 447,
+    "name": "Thunder Napin",
+    "masterInstance": false,
+    "contentRank": 361.43,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 361.43,
+      "kind": "normal",
+      "health": 5281.8797388,
+      "damage": 291.91540000000003,
+      "armor": 244.92950000000002,
+      "accuracy": 1184.29,
+      "evasion": 1184.29,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 76209.56469500001,
+      "zen": 928
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:444",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 444,
+    "name": "Shadow Pawn",
+    "masterInstance": false,
+    "contentRank": 362.14,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 362.14,
+      "kind": "normal",
+      "health": 5295.1445552,
+      "damage": 292.4692,
+      "armor": 245.391,
+      "accuracy": 1186.42,
+      "evasion": 1186.42,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 76500.63878000001,
+      "zen": 931
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:445",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 445,
+    "name": "Shadow Knight",
+    "masterInstance": false,
+    "contentRank": 363.57,
+    "kind": "normal",
+    "originalSpawnCount": 29,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 363.57,
+      "kind": "normal",
+      "health": 5321.8977388,
+      "damage": 293.5846,
+      "armor": 246.3205,
+      "accuracy": 1190.71,
+      "evasion": 1190.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 77088.569695,
+      "zen": 937
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "swamp:00000300-0038-0000-0000-000000000000:446",
+    "route": "swamp",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 446,
+    "name": "Shadow Look",
+    "masterInstance": false,
+    "contentRank": 366.43,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 366.43,
+      "kind": "normal",
+      "health": 5375.5513388,
+      "damage": 295.8154,
+      "armor": 248.17950000000002,
+      "accuracy": 1199.29,
+      "evasion": 1199.29,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 78271.17969500001,
+      "zen": 948
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:443",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 443,
+    "name": "Sapi-Tres",
+    "masterInstance": true,
+    "contentRank": 403.33,
+    "kind": "normal",
+    "originalSpawnCount": 27,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 403.33,
+      "kind": "normal",
+      "health": 6085.401066799999,
+      "damage": 324.5974,
+      "armor": 272.1645,
+      "accuracy": 1309.99,
+      "evasion": 1309.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 94336.258895,
+      "zen": 1102
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:448",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 448,
+    "name": "Ghost Napin",
+    "masterInstance": true,
+    "contentRank": 405.24,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 405.24,
+      "kind": "normal",
+      "health": 6123.0334912,
+      "damage": 326.0872,
+      "armor": 273.406,
+      "accuracy": 1315.72,
+      "evasion": 1315.72,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 95208.58168000002,
+      "zen": 1111
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:449",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 449,
+    "name": "Blaze Napin",
+    "masterInstance": true,
+    "contentRank": 405.71,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 405.71,
+      "kind": "normal",
+      "health": 6132.3072492,
+      "damage": 326.4538,
+      "armor": 273.7115,
+      "accuracy": 1317.1299999999999,
+      "evasion": 1317.1299999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 95423.852255,
+      "zen": 1113
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:557",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 557,
+    "name": "Sapi Queen",
+    "masterInstance": true,
+    "contentRank": 417.14,
+    "kind": "normal",
+    "originalSpawnCount": 44,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417.14,
+      "kind": "normal",
+      "health": 6359.469355199999,
+      "damage": 335.3692,
+      "armor": 281.141,
+      "accuracy": 1351.42,
+      "evasion": 1351.42,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100733.85878000001,
+      "zen": 1163
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:558",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 558,
+    "name": "Ice Napin",
+    "masterInstance": true,
+    "contentRank": 419.05,
+    "kind": "normal",
+    "originalSpawnCount": 46,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 419.05,
+      "kind": "normal",
+      "health": 6397.734829999999,
+      "damage": 336.85900000000004,
+      "armor": 282.3825,
+      "accuracy": 1357.15,
+      "evasion": 1357.15,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101635.19637500001,
+      "zen": 1171
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:559",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 559,
+    "name": "Shadow Master",
+    "masterInstance": true,
+    "contentRank": 420,
+    "kind": "normal",
+    "originalSpawnCount": 36,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 420,
+      "kind": "normal",
+      "health": 6416.8,
+      "damage": 337.6,
+      "armor": 283,
+      "accuracy": 1360,
+      "evasion": 1360,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 102085.00000000001,
+      "zen": 1176
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:441",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 441,
+    "name": "Sapi-Unus",
+    "masterInstance": true,
+    "contentRank": 400,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400,
+      "kind": "normal",
+      "health": 6020,
+      "damage": 322,
+      "armor": 270,
+      "accuracy": 1300,
+      "evasion": 1300,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92825.00000000001,
+      "zen": 1088
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:442",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 442,
+    "name": "Sapi-Duo",
+    "masterInstance": true,
+    "contentRank": 400.48,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400.48,
+      "kind": "normal",
+      "health": 6029.410764800001,
+      "damage": 322.37440000000004,
+      "armor": 270.312,
+      "accuracy": 1301.44,
+      "evasion": 1301.44,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93042.08672000002,
+      "zen": 1090
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:447",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 447,
+    "name": "Thunder Napin",
+    "masterInstance": true,
+    "contentRank": 400.95,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400.95,
+      "kind": "normal",
+      "health": 6038.63083,
+      "damage": 322.741,
+      "armor": 270.6175,
+      "accuracy": 1302.85,
+      "evasion": 1302.85,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93254.896375,
+      "zen": 1092
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:444",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 444,
+    "name": "Shadow Pawn",
+    "masterInstance": true,
+    "contentRank": 401.43,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 401.43,
+      "kind": "normal",
+      "health": 6048.052538800001,
+      "damage": 323.1154,
+      "armor": 270.9295,
+      "accuracy": 1304.29,
+      "evasion": 1304.29,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93472.484695,
+      "zen": 1094
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:445",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 445,
+    "name": "Shadow Knight",
+    "masterInstance": true,
+    "contentRank": 402.38,
+    "kind": "normal",
+    "originalSpawnCount": 29,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 402.38,
+      "kind": "normal",
+      "health": 6066.715972800001,
+      "damage": 323.8564,
+      "armor": 271.547,
+      "accuracy": 1307.1399999999999,
+      "evasion": 1307.1399999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 93903.87542000001,
+      "zen": 1098
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_1:00000300-0038-0000-0000-000000000000:446",
+    "route": "master_1",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 446,
+    "name": "Shadow Look",
+    "masterInstance": true,
+    "contentRank": 404.29,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 404.29,
+      "kind": "normal",
+      "health": 6104.3048492,
+      "damage": 325.3462,
+      "armor": 272.7885,
+      "accuracy": 1312.8700000000001,
+      "evasion": 1312.8700000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 94774.20225500001,
+      "zen": 1107
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:443",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 443,
+    "name": "Sapi-Tres",
+    "masterInstance": true,
+    "contentRank": 420.83,
+    "kind": "normal",
+    "originalSpawnCount": 27,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 420.83,
+      "kind": "normal",
+      "health": 6433.4746668,
+      "damage": 338.24739999999997,
+      "armor": 283.5395,
+      "accuracy": 1362.49,
+      "evasion": 1362.49,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 102478.798895,
+      "zen": 1179
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:448",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 448,
+    "name": "Ghost Napin",
+    "masterInstance": true,
+    "contentRank": 423.02,
+    "kind": "normal",
+    "originalSpawnCount": 20,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 423.02,
+      "kind": "normal",
+      "health": 6477.5510448,
+      "damage": 339.9556,
+      "armor": 284.963,
+      "accuracy": 1369.06,
+      "evasion": 1369.06,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 103521.49622,
+      "zen": 1189
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:449",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 449,
+    "name": "Blaze Napin",
+    "masterInstance": true,
+    "contentRank": 423.57,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 423.57,
+      "kind": "normal",
+      "health": 6488.6385388,
+      "damage": 340.3846,
+      "armor": 285.3205,
+      "accuracy": 1370.71,
+      "evasion": 1370.71,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 103784.189695,
+      "zen": 1192
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:557",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 557,
+    "name": "Sapi Queen",
+    "masterInstance": true,
+    "contentRank": 436.71,
+    "kind": "normal",
+    "originalSpawnCount": 44,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 436.71,
+      "kind": "normal",
+      "health": 6755.6874892,
+      "damage": 350.6338,
+      "armor": 293.8615,
+      "accuracy": 1410.1299999999999,
+      "evasion": 1410.1299999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110159.113255,
+      "zen": 1251
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:558",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 558,
+    "name": "Ice Napin",
+    "masterInstance": true,
+    "contentRank": 438.9,
+    "kind": "normal",
+    "originalSpawnCount": 46,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 438.9,
+      "kind": "normal",
+      "health": 6800.59852,
+      "damage": 352.342,
+      "armor": 295.28499999999997,
+      "accuracy": 1416.6999999999998,
+      "evasion": 1416.6999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 111240.0655,
+      "zen": 1261
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:559",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 559,
+    "name": "Shadow Master",
+    "masterInstance": true,
+    "contentRank": 440,
+    "kind": "normal",
+    "originalSpawnCount": 36,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 440,
+      "kind": "normal",
+      "health": 6823.200000000001,
+      "damage": 353.2,
+      "armor": 296,
+      "accuracy": 1420,
+      "evasion": 1420,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 111785.00000000001,
+      "zen": 1266
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:441",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 441,
+    "name": "Sapi-Unus",
+    "masterInstance": true,
+    "contentRank": 417,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417,
+      "kind": "normal",
+      "health": 6356.668,
+      "damage": 335.26,
+      "armor": 281.05,
+      "accuracy": 1351,
+      "evasion": 1351,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100667.95000000001,
+      "zen": 1162
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:442",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 442,
+    "name": "Sapi-Duo",
+    "masterInstance": true,
+    "contentRank": 417.55,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417.55,
+      "kind": "normal",
+      "health": 6367.6760300000005,
+      "damage": 335.689,
+      "armor": 281.4075,
+      "accuracy": 1352.65,
+      "evasion": 1352.65,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100927.00137500002,
+      "zen": 1165
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:447",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 447,
+    "name": "Thunder Napin",
+    "masterInstance": true,
+    "contentRank": 418.1,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 418.1,
+      "kind": "normal",
+      "health": 6378.69132,
+      "damage": 336.11800000000005,
+      "armor": 281.76500000000004,
+      "accuracy": 1354.3000000000002,
+      "evasion": 1354.3000000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101186.38550000002,
+      "zen": 1167
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:444",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 444,
+    "name": "Shadow Pawn",
+    "masterInstance": true,
+    "contentRank": 418.64,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 418.64,
+      "kind": "normal",
+      "health": 6389.5133952,
+      "damage": 336.5392,
+      "armor": 282.116,
+      "accuracy": 1355.92,
+      "evasion": 1355.92,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101441.37728000002,
+      "zen": 1170
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:445",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 445,
+    "name": "Shadow Knight",
+    "masterInstance": true,
+    "contentRank": 419.74,
+    "kind": "normal",
+    "originalSpawnCount": 29,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 419.74,
+      "kind": "normal",
+      "health": 6411.5800112,
+      "damage": 337.3972,
+      "armor": 282.831,
+      "accuracy": 1359.22,
+      "evasion": 1359.22,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 101961.79718000002,
+      "zen": 1174
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0038-0000-0000-000000000000:446",
+    "route": "master_2",
+    "mapId": 56,
+    "mapDefinitionId": "00000300-0038-0000-0000-000000000000",
+    "mapName": "Swamp Of Calmness",
+    "monsterId": 446,
+    "name": "Shadow Look",
+    "masterInstance": true,
+    "contentRank": 421.93,
+    "kind": "normal",
+    "originalSpawnCount": 9,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 421.93,
+      "kind": "normal",
+      "health": 6455.5990988,
+      "damage": 339.10540000000003,
+      "armor": 284.2545,
+      "accuracy": 1365.79,
+      "evasion": 1365.79,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 103001.86869500001,
+      "zen": 1184
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:454",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 454,
+    "name": "Ice Walker",
+    "masterInstance": false,
+    "contentRank": 385,
+    "kind": "normal",
+    "originalSpawnCount": 7,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 385,
+      "kind": "normal",
+      "health": 5728.7,
+      "damage": 310.3,
+      "armor": 260.25,
+      "accuracy": 1255,
+      "evasion": 1255,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 86168.75000000001,
+      "zen": 1024
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:455",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 455,
+    "name": "Giant Mammoth",
+    "masterInstance": false,
+    "contentRank": 388.26,
+    "kind": "normal",
+    "originalSpawnCount": 5,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 388.26,
+      "kind": "normal",
+      "health": 5791.549931199999,
+      "damage": 312.8428,
+      "armor": 262.369,
+      "accuracy": 1264.78,
+      "evasion": 1264.78,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 87594.32518,
+      "zen": 1038
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:456",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 456,
+    "name": "Ice Giant",
+    "masterInstance": false,
+    "contentRank": 391.52,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 391.52,
+      "kind": "normal",
+      "health": 5854.6549248,
+      "damage": 315.3856,
+      "armor": 264.488,
+      "accuracy": 1274.56,
+      "evasion": 1274.56,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 89031.59072000001,
+      "zen": 1052
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:457",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 457,
+    "name": "Coolutin",
+    "masterInstance": false,
+    "contentRank": 394.78,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 394.78,
+      "kind": "normal",
+      "health": 5918.0149808,
+      "damage": 317.9284,
+      "armor": 266.60699999999997,
+      "accuracy": 1284.34,
+      "evasion": 1284.34,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 90480.54662,
+      "zen": 1066
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:458",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 458,
+    "name": "Iron Knight",
+    "masterInstance": false,
+    "contentRank": 398.04,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 398.04,
+      "kind": "normal",
+      "health": 5981.630099200001,
+      "damage": 320.4712,
+      "armor": 268.726,
+      "accuracy": 1294.1200000000001,
+      "evasion": 1294.1200000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 91941.19288000002,
+      "zen": 1080
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:562",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 562,
+    "name": "Dark Mammoth",
+    "masterInstance": false,
+    "contentRank": 397.39,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 397.39,
+      "kind": "normal",
+      "health": 5968.925745199999,
+      "damage": 319.9642,
+      "armor": 268.3035,
+      "accuracy": 1292.17,
+      "evasion": 1292.17,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 91649.026655,
+      "zen": 1077
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:563",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 563,
+    "name": "Dark Giant",
+    "masterInstance": false,
+    "contentRank": 398.37,
+    "kind": "normal",
+    "originalSpawnCount": 24,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 398.37,
+      "kind": "normal",
+      "health": 5988.0838828,
+      "damage": 320.72860000000003,
+      "armor": 268.9405,
+      "accuracy": 1295.1100000000001,
+      "evasion": 1295.1100000000001,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92089.701295,
+      "zen": 1081
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:564",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 564,
+    "name": "Dark Coolutin",
+    "masterInstance": false,
+    "contentRank": 399.02,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 399.02,
+      "kind": "normal",
+      "health": 6000.8035248,
+      "damage": 321.2356,
+      "armor": 269.363,
+      "accuracy": 1297.06,
+      "evasion": 1297.06,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92382.56822,
+      "zen": 1084
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "raklion:00000300-0039-0000-0000-000000000000:565",
+    "route": "raklion",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 565,
+    "name": "Dark Iron Knight",
+    "masterInstance": false,
+    "contentRank": 400,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 400,
+      "kind": "normal",
+      "health": 6020,
+      "damage": 322,
+      "armor": 270,
+      "accuracy": 1300,
+      "evasion": 1300,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 92825.00000000001,
+      "zen": 1088
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:454",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 454,
+    "name": "Ice Walker",
+    "masterInstance": true,
+    "contentRank": 417,
+    "kind": "normal",
+    "originalSpawnCount": 7,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417,
+      "kind": "normal",
+      "health": 6356.668,
+      "damage": 335.26,
+      "armor": 281.05,
+      "accuracy": 1351,
+      "evasion": 1351,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100667.95000000001,
+      "zen": 1162
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:455",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 455,
+    "name": "Giant Mammoth",
+    "masterInstance": true,
+    "contentRank": 422,
+    "kind": "normal",
+    "originalSpawnCount": 5,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 422,
+      "kind": "normal",
+      "health": 6457.008,
+      "damage": 339.16,
+      "armor": 284.3,
+      "accuracy": 1366,
+      "evasion": 1366,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 103035.20000000001,
+      "zen": 1185
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:456",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 456,
+    "name": "Ice Giant",
+    "masterInstance": true,
+    "contentRank": 427,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 427,
+      "kind": "normal",
+      "health": 6557.948,
+      "damage": 343.06,
+      "armor": 287.55,
+      "accuracy": 1381,
+      "evasion": 1381,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 105429.95000000001,
+      "zen": 1207
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:457",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 457,
+    "name": "Coolutin",
+    "masterInstance": true,
+    "contentRank": 432,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 432,
+      "kind": "normal",
+      "health": 6659.488,
+      "damage": 346.96000000000004,
+      "armor": 290.8,
+      "accuracy": 1396,
+      "evasion": 1396,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 107852.20000000001,
+      "zen": 1230
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:458",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 458,
+    "name": "Iron Knight",
+    "masterInstance": true,
+    "contentRank": 437,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 437,
+      "kind": "normal",
+      "health": 6761.628,
+      "damage": 350.86,
+      "armor": 294.05,
+      "accuracy": 1411,
+      "evasion": 1411,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110301.95000000001,
+      "zen": 1253
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:562",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 562,
+    "name": "Dark Mammoth",
+    "masterInstance": true,
+    "contentRank": 436,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 436,
+      "kind": "normal",
+      "health": 6741.152,
+      "damage": 350.08,
+      "armor": 293.40000000000003,
+      "accuracy": 1408,
+      "evasion": 1408,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 109809.8,
+      "zen": 1248
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:563",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 563,
+    "name": "Dark Giant",
+    "masterInstance": true,
+    "contentRank": 437.5,
+    "kind": "normal",
+    "originalSpawnCount": 24,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 437.5,
+      "kind": "normal",
+      "health": 6771.875,
+      "damage": 351.25,
+      "armor": 294.375,
+      "accuracy": 1412.5,
+      "evasion": 1412.5,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110548.43750000001,
+      "zen": 1255
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:564",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 564,
+    "name": "Dark Coolutin",
+    "masterInstance": true,
+    "contentRank": 438.5,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 438.5,
+      "kind": "normal",
+      "health": 6792.387000000001,
+      "damage": 352.03000000000003,
+      "armor": 295.02500000000003,
+      "accuracy": 1415.5,
+      "evasion": 1415.5,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 111042.2375,
+      "zen": 1259
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0039-0000-0000-000000000000:565",
+    "route": "master_2",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 565,
+    "name": "Dark Iron Knight",
+    "masterInstance": true,
+    "contentRank": 440,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 440,
+      "kind": "normal",
+      "health": 6823.200000000001,
+      "damage": 353.2,
+      "armor": 296,
+      "accuracy": 1420,
+      "evasion": 1420,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 111785.00000000001,
+      "zen": 1266
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:454",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 454,
+    "name": "Ice Walker",
+    "masterInstance": true,
+    "contentRank": 437,
+    "kind": "normal",
+    "originalSpawnCount": 7,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 437,
+      "kind": "normal",
+      "health": 6761.628,
+      "damage": 350.86,
+      "armor": 294.05,
+      "accuracy": 1411,
+      "evasion": 1411,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110301.95000000001,
+      "zen": 1253
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:455",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 455,
+    "name": "Giant Mammoth",
+    "masterInstance": true,
+    "contentRank": 444.17,
+    "kind": "normal",
+    "originalSpawnCount": 5,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 444.17,
+      "kind": "normal",
+      "health": 6909.1438668,
+      "damage": 356.4526,
+      "armor": 298.7105,
+      "accuracy": 1432.51,
+      "evasion": 1432.51,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 113862.883895,
+      "zen": 1286
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:456",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 456,
+    "name": "Ice Giant",
+    "masterInstance": true,
+    "contentRank": 451.35,
+    "kind": "normal",
+    "originalSpawnCount": 14,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 451.35,
+      "kind": "normal",
+      "health": 7058.10187,
+      "damage": 362.05300000000005,
+      "armor": 303.3775,
+      "accuracy": 1454.0500000000002,
+      "evasion": 1454.0500000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 117485.45237500002,
+      "zen": 1319
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:457",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 457,
+    "name": "Coolutin",
+    "masterInstance": true,
+    "contentRank": 458.52,
+    "kind": "normal",
+    "originalSpawnCount": 11,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 458.52,
+      "kind": "normal",
+      "health": 7208.0870847999995,
+      "damage": 367.6456,
+      "armor": 308.038,
+      "accuracy": 1475.56,
+      "evasion": 1475.56,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 121159.56472000001,
+      "zen": 1353
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:458",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 458,
+    "name": "Iron Knight",
+    "masterInstance": true,
+    "contentRank": 465.7,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 465.7,
+      "kind": "normal",
+      "health": 7359.517879999999,
+      "damage": 373.246,
+      "armor": 312.705,
+      "accuracy": 1497.1,
+      "evasion": 1497.1,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 124895.46949999999,
+      "zen": 1388
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:562",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 562,
+    "name": "Dark Mammoth",
+    "masterInstance": true,
+    "contentRank": 464.26,
+    "kind": "normal",
+    "originalSpawnCount": 6,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 464.26,
+      "kind": "normal",
+      "health": 7329.0481712,
+      "damage": 372.1228,
+      "armor": 311.769,
+      "accuracy": 1492.78,
+      "evasion": 1492.78,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 124141.66118,
+      "zen": 1381
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:563",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 563,
+    "name": "Dark Giant",
+    "masterInstance": true,
+    "contentRank": 466.41,
+    "kind": "normal",
+    "originalSpawnCount": 24,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 466.41,
+      "kind": "normal",
+      "health": 7374.559457200001,
+      "damage": 373.7998,
+      "armor": 313.16650000000004,
+      "accuracy": 1499.23,
+      "evasion": 1499.23,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 125267.97845500002,
+      "zen": 1391
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:564",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 564,
+    "name": "Dark Coolutin",
+    "masterInstance": true,
+    "contentRank": 467.85,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 467.85,
+      "kind": "normal",
+      "health": 7405.10347,
+      "damage": 374.923,
+      "armor": 314.1025,
+      "accuracy": 1503.5500000000002,
+      "evasion": 1503.5500000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 126025.19237500003,
+      "zen": 1398
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0039-0000-0000-000000000000:565",
+    "route": "master_3",
+    "mapId": 57,
+    "mapDefinitionId": "00000300-0039-0000-0000-000000000000",
+    "mapName": "LaCleon",
+    "monsterId": 565,
+    "name": "Dark Iron Knight",
+    "masterInstance": true,
+    "contentRank": 470,
+    "kind": "normal",
+    "originalSpawnCount": 16,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 470,
+      "kind": "normal",
+      "health": 7450.799999999999,
+      "damage": 376.6,
+      "armor": 315.5,
+      "accuracy": 1510,
+      "evasion": 1510,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 127160,
+      "zen": 1409
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "selupan:00000300-003a-0000-0000-000000000000:459",
+    "route": "selupan",
+    "mapId": 58,
+    "mapDefinitionId": "00000300-003a-0000-0000-000000000000",
+    "mapName": "LaCleon Boss",
+    "monsterId": 459,
+    "name": "Selupan",
+    "masterInstance": true,
+    "contentRank": 450,
+    "kind": "boss",
+    "originalSpawnCount": 1,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 450,
+      "kind": "boss",
+      "health": 182780,
+      "damage": 306.84999999999997,
+      "armor": 332.75,
+      "accuracy": 1450,
+      "evasion": 1450,
+      "attackSeconds": 2.5,
+      "telegraph": true,
+      "experience": 3504000.0000000005,
+      "zen": 39390
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "selupan:00000300-003a-0000-0000-000000000000:457",
+    "route": "selupan",
+    "mapId": 58,
+    "mapDefinitionId": "00000300-003a-0000-0000-000000000000",
+    "mapName": "LaCleon Boss",
+    "monsterId": 457,
+    "name": "Coolutin",
+    "masterInstance": true,
+    "contentRank": 450,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 450,
+      "kind": "normal",
+      "health": 7030,
+      "damage": 361,
+      "armor": 302.5,
+      "accuracy": 1450,
+      "evasion": 1450,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 116800.00000000001,
+      "zen": 1313
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "karutan:00000300-0050-0000-0000-000000000000:569",
+    "route": "karutan",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 569,
+    "name": "Venomous Chain Scorpion",
+    "masterInstance": false,
+    "contentRank": 330,
+    "kind": "normal",
+    "originalSpawnCount": 35,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 330,
+      "kind": "normal",
+      "health": 4706.8,
+      "damage": 267.40000000000003,
+      "armor": 224.5,
+      "accuracy": 1090,
+      "evasion": 1090,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 63880.00000000001,
+      "zen": 807
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0050-0000-0000-000000000000:570",
+    "route": "karutan",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 570,
+    "name": "Bone Scorpion",
+    "masterInstance": false,
+    "contentRank": 339.33,
+    "kind": "normal",
+    "originalSpawnCount": 47,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 339.33,
+      "kind": "normal",
+      "health": 4875.0381867999995,
+      "damage": 274.6774,
+      "armor": 230.5645,
+      "accuracy": 1117.99,
+      "evasion": 1117.99,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 67426.62689500001,
+      "zen": 842
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0050-0000-0000-000000000000:571",
+    "route": "karutan",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 571,
+    "name": "Orcus",
+    "masterInstance": false,
+    "contentRank": 344,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 344,
+      "kind": "normal",
+      "health": 4960.032,
+      "damage": 278.32,
+      "armor": 233.6,
+      "accuracy": 1132,
+      "evasion": 1132,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 69237.8,
+      "zen": 860
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0050-0000-0000-000000000000:573",
+    "route": "karutan",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 573,
+    "name": "Crypta",
+    "masterInstance": false,
+    "contentRank": 358,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 358,
+      "kind": "normal",
+      "health": 5217.968,
+      "damage": 289.24,
+      "armor": 242.70000000000002,
+      "accuracy": 1174,
+      "evasion": 1174,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 74811.2,
+      "zen": 914
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0050-0000-0000-000000000000:574",
+    "route": "karutan",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 574,
+    "name": "Crypos",
+    "masterInstance": false,
+    "contentRank": 365,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 365,
+      "kind": "normal",
+      "health": 5348.7,
+      "damage": 294.7,
+      "armor": 247.25,
+      "accuracy": 1195,
+      "evasion": 1195,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 77678.75000000001,
+      "zen": 942
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_2:00000300-0050-0000-0000-000000000000:569",
+    "route": "master_2",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 569,
+    "name": "Venomous Chain Scorpion",
+    "masterInstance": true,
+    "contentRank": 417,
+    "kind": "normal",
+    "originalSpawnCount": 35,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 417,
+      "kind": "normal",
+      "health": 6356.668,
+      "damage": 335.26,
+      "armor": 281.05,
+      "accuracy": 1351,
+      "evasion": 1351,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 100667.95000000001,
+      "zen": 1162
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0050-0000-0000-000000000000:570",
+    "route": "master_2",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 570,
+    "name": "Bone Scorpion",
+    "masterInstance": true,
+    "contentRank": 423.13,
+    "kind": "normal",
+    "originalSpawnCount": 47,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 423.13,
+      "kind": "normal",
+      "health": 6479.7679628000005,
+      "damage": 340.0414,
+      "armor": 285.0345,
+      "accuracy": 1369.3899999999999,
+      "evasion": 1369.3899999999999,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 103574.008295,
+      "zen": 1190
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0050-0000-0000-000000000000:571",
+    "route": "master_2",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 571,
+    "name": "Orcus",
+    "masterInstance": true,
+    "contentRank": 426.2,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 426.2,
+      "kind": "normal",
+      "health": 6541.75728,
+      "damage": 342.436,
+      "armor": 287.03000000000003,
+      "accuracy": 1378.6,
+      "evasion": 1378.6,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 105044.942,
+      "zen": 1203
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0050-0000-0000-000000000000:573",
+    "route": "master_2",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 573,
+    "name": "Crypta",
+    "masterInstance": true,
+    "contentRank": 435.4,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 435.4,
+      "kind": "normal",
+      "health": 6728.87792,
+      "damage": 349.61199999999997,
+      "armor": 293.01,
+      "accuracy": 1406.1999999999998,
+      "evasion": 1406.1999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 109515.038,
+      "zen": 1245
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_2:00000300-0050-0000-0000-000000000000:574",
+    "route": "master_2",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 574,
+    "name": "Crypos",
+    "masterInstance": true,
+    "contentRank": 440,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 440,
+      "kind": "normal",
+      "health": 6823.200000000001,
+      "damage": 353.2,
+      "armor": 296,
+      "accuracy": 1420,
+      "evasion": 1420,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 111785.00000000001,
+      "zen": 1266
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0050-0000-0000-000000000000:569",
+    "route": "master_3",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 569,
+    "name": "Venomous Chain Scorpion",
+    "masterInstance": true,
+    "contentRank": 437,
+    "kind": "normal",
+    "originalSpawnCount": 35,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 437,
+      "kind": "normal",
+      "health": 6761.628,
+      "damage": 350.86,
+      "armor": 294.05,
+      "accuracy": 1411,
+      "evasion": 1411,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110301.95000000001,
+      "zen": 1253
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0050-0000-0000-000000000000:570",
+    "route": "master_3",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 570,
+    "name": "Bone Scorpion",
+    "masterInstance": true,
+    "contentRank": 445.8,
+    "kind": "normal",
+    "originalSpawnCount": 47,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 445.8,
+      "kind": "normal",
+      "health": 6942.85168,
+      "damage": 357.72400000000005,
+      "armor": 299.77000000000004,
+      "accuracy": 1437.4,
+      "evasion": 1437.4,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 114680.30200000003,
+      "zen": 1293
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0050-0000-0000-000000000000:571",
+    "route": "master_3",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 571,
+    "name": "Orcus",
+    "masterInstance": true,
+    "contentRank": 450.2,
+    "kind": "normal",
+    "originalSpawnCount": 10,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 450.2,
+      "kind": "normal",
+      "health": 7034.1604800000005,
+      "damage": 361.156,
+      "armor": 302.63,
+      "accuracy": 1450.6,
+      "evasion": 1450.6,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 116901.42199999999,
+      "zen": 1314
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0050-0000-0000-000000000000:573",
+    "route": "master_3",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 573,
+    "name": "Crypta",
+    "masterInstance": true,
+    "contentRank": 463.4,
+    "kind": "normal",
+    "originalSpawnCount": 18,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 463.4,
+      "kind": "normal",
+      "health": 7310.87472,
+      "damage": 371.452,
+      "armor": 311.21,
+      "accuracy": 1490.1999999999998,
+      "evasion": 1490.1999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 123692.558,
+      "zen": 1377
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0050-0000-0000-000000000000:574",
+    "route": "master_3",
+    "mapId": 80,
+    "mapDefinitionId": "00000300-0050-0000-0000-000000000000",
+    "mapName": "Karutan 1",
+    "monsterId": 574,
+    "name": "Crypos",
+    "masterInstance": true,
+    "contentRank": 470,
+    "kind": "normal",
+    "originalSpawnCount": 13,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 470,
+      "kind": "normal",
+      "health": 7450.799999999999,
+      "damage": 376.6,
+      "armor": 315.5,
+      "accuracy": 1510,
+      "evasion": 1510,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 127160,
+      "zen": 1409
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "karutan:00000300-0051-0000-0000-000000000000:571",
+    "route": "karutan",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 571,
+    "name": "Orcus",
+    "masterInstance": false,
+    "contentRank": 330,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 330,
+      "kind": "normal",
+      "health": 4706.8,
+      "damage": 267.40000000000003,
+      "armor": 224.5,
+      "accuracy": 1090,
+      "evasion": 1090,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 63880.00000000001,
+      "zen": 807
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0051-0000-0000-000000000000:572",
+    "route": "karutan",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 572,
+    "name": "Gollock",
+    "masterInstance": false,
+    "contentRank": 337,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 337,
+      "kind": "normal",
+      "health": 4832.828,
+      "damage": 272.86,
+      "armor": 229.05,
+      "accuracy": 1111,
+      "evasion": 1111,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 66531.95000000001,
+      "zen": 833
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0051-0000-0000-000000000000:575",
+    "route": "karutan",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 575,
+    "name": "Condra",
+    "masterInstance": false,
+    "contentRank": 358,
+    "kind": "normal",
+    "originalSpawnCount": 62,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 358,
+      "kind": "normal",
+      "health": 5217.968,
+      "damage": 289.24,
+      "armor": 242.70000000000002,
+      "accuracy": 1174,
+      "evasion": 1174,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 74811.2,
+      "zen": 914
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "karutan:00000300-0051-0000-0000-000000000000:576",
+    "route": "karutan",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 576,
+    "name": "Narcondra",
+    "masterInstance": false,
+    "contentRank": 365,
+    "kind": "normal",
+    "originalSpawnCount": 34,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 365,
+      "kind": "normal",
+      "health": 5348.7,
+      "damage": 294.7,
+      "armor": 247.25,
+      "accuracy": 1195,
+      "evasion": 1195,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 77678.75000000001,
+      "zen": 942
+    },
+    "status": "candidate-requires-runtime-adapter"
+  },
+  {
+    "contentKey": "master_3:00000300-0051-0000-0000-000000000000:571",
+    "route": "master_3",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 571,
+    "name": "Orcus",
+    "masterInstance": true,
+    "contentRank": 437,
+    "kind": "normal",
+    "originalSpawnCount": 22,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 437,
+      "kind": "normal",
+      "health": 6761.628,
+      "damage": 350.86,
+      "armor": 294.05,
+      "accuracy": 1411,
+      "evasion": 1411,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 110301.95000000001,
+      "zen": 1253
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0051-0000-0000-000000000000:572",
+    "route": "master_3",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 572,
+    "name": "Gollock",
+    "masterInstance": true,
+    "contentRank": 443.6,
+    "kind": "normal",
+    "originalSpawnCount": 15,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 443.6,
+      "kind": "normal",
+      "health": 6897.371520000001,
+      "damage": 356.00800000000004,
+      "armor": 298.34000000000003,
+      "accuracy": 1430.8000000000002,
+      "evasion": 1430.8000000000002,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 113577.72800000002,
+      "zen": 1283
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0051-0000-0000-000000000000:575",
+    "route": "master_3",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 575,
+    "name": "Condra",
+    "masterInstance": true,
+    "contentRank": 463.4,
+    "kind": "normal",
+    "originalSpawnCount": 62,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 463.4,
+      "kind": "normal",
+      "health": 7310.87472,
+      "damage": 371.452,
+      "armor": 311.21,
+      "accuracy": 1490.1999999999998,
+      "evasion": 1490.1999999999998,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 123692.558,
+      "zen": 1377
+    },
+    "status": "requires-isolated-master-instance"
+  },
+  {
+    "contentKey": "master_3:00000300-0051-0000-0000-000000000000:576",
+    "route": "master_3",
+    "mapId": 81,
+    "mapDefinitionId": "00000300-0051-0000-0000-000000000000",
+    "mapName": "Karutan 2",
+    "monsterId": 576,
+    "name": "Narcondra",
+    "masterInstance": true,
+    "contentRank": 470,
+    "kind": "normal",
+    "originalSpawnCount": 34,
+    "spawnTriggers": [
+      "Automatic"
+    ],
+    "proposedStats": {
+      "rank": 470,
+      "kind": "normal",
+      "health": 7450.799999999999,
+      "damage": 376.6,
+      "armor": 315.5,
+      "accuracy": 1510,
+      "evasion": 1510,
+      "attackSeconds": 1.8,
+      "telegraph": false,
+      "experience": 127160,
+      "zen": 1409
+    },
+    "status": "requires-isolated-master-instance"
+  }
+]

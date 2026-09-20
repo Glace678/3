@@ -34,7 +34,10 @@ namespace
     constexpr float SCROLLBAR_THUMB_BRIGHT = 0.35f;
 
     constexpr int TEXT_PAD_X     = 6;   // left padding inside rows
-    constexpr int TEXT_PAD_Y     = 4;   // top  padding inside rows
+    // RenderText uses a font ascent that leaves a few pixels below the visual
+    // center when placed at the row's top edge.  Keep the label centered in
+    // the 16px field/list rows.
+    constexpr int TEXT_PAD_Y     = 2;
     constexpr int ARROW_WIDTH    = 14;  // width reserved for the dropdown-arrow glyph
     constexpr int SCROLLBAR_WIDTH = 6;  // vertical scrollbar width inside the list
     constexpr std::uint64_t NAVIGATION_INITIAL_REPEAT_MS = 300;

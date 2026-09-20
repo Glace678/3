@@ -215,6 +215,7 @@ namespace SEASON3B
 #endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
 
     private:
+        void RenderLabel();
         void EnsureLocaleObserver();
         static void OnLocaleChanged(void* ctx) noexcept;
     };
@@ -339,6 +340,7 @@ namespace SEASON3B
 #endif // KJH_MOD_RADIOBTN_MOUSE_OVER_IMAGE
 
     private:
+        void RenderLabel();
         void EnsureLocaleObserver();
         static void OnLocaleChanged(void* ctx) noexcept;
     };

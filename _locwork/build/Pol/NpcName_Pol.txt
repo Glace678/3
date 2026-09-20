@@ -1,0 +1,674 @@
+// MAX : 512			
+//∫Ì∑ØµÂƒ≥ΩΩ			
+//∫Ì∑ØµÂƒ≥ΩΩ1			
+84	1	"W√≥dz Szkielet Wojownik"	
+85	1	"W√≥dz Szkielet ≈Åucznik"	
+86	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+87	1	"Wielki Ogr"	
+88	1	"Czerwony Rycerz Szkielet"	
+89	1	"Magiczny Szkielet"	
+//∫Ì∑ØµÂƒ≥ΩΩ2			
+90	1	"W√≥dz Szkielet Wojownik"	
+91	1	"W√≥dz Szkielet ≈Åucznik"	
+92	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+93	1	"Wielki Ogr"	
+94	1	"Czerwony Rycerz Szkielet"	
+95	1	"Magiczny Szkielet"	
+//∫Ì∑ØµÂƒ≥ΩΩ3			
+96	1	"W√≥dz Szkielet Wojownik"	
+97	1	"W√≥dz Szkielet ≈Åucznik"	
+98	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+99	1	"Wielki Ogr"	
+111	1	"Czerwony Rycerz Szkielet"	
+112	1	"Magiczny Szkielet"	
+//∫Ì∑ØµÂƒ≥ΩΩ4			
+113	1	"W√≥dz Szkielet Wojownik"	
+114	1	"W√≥dz Szkielet ≈Åucznik"	
+115	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+116	1	"Wielki Ogr"	
+117	1	"Czerwony Rycerz Szkielet"	
+118	1	"Magiczny Szkielet"	
+//∫Ì∑ØµÂƒ≥ΩΩ5			
+119	1	"W√≥dz Szkielet Wojownik"	
+120	1	"W√≥dz Szkielet ≈Åucznik"	
+121	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+122	1	"Wielki Ogr"	
+123	1	"Czerwony Rycerz Szkielet"	
+124	1	"Magiczny Szkielet"	
+//∫Ì∑ØµÂƒ≥ΩΩ6			
+125	1	"W√≥dz Szkielet Wojownik"	
+126	1	"W√≥dz Szkielet ≈Åucznik"	
+127	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+128	1	"Wielki Ogr"	
+129	1	"Czerwony Rycerz Szkielet"	
+130	1	"Magiczny Szkielet"	
+131	1	"Brama Zamku"	
+132	1	"PosƒÖg ≈öwiƒôtego"	
+133	1	"PosƒÖg ≈öwiƒôtego"	
+134	1	"PosƒÖg ≈öwiƒôtego"	
+			
+// π›¡ˆ¿« ¿¸¿Ô			
+135	1	"Bia≈Çy Czarodziej"	
+136	1	"Niszczycielski Ogr-≈ªo≈Çnierz"	
+137	1	"Niszczycielski ≈Åucznik-Ogr"	
+			
+//∫Ì∑ØµÂƒ≥ΩΩ7			
+138	1	"W√≥dz Szkielet Wojownik"	
+139	1	"W√≥dz Szkielet ≈Åucznik"	
+140	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+141	1	"Wielki Ogr"	
+142	1	"Czerwony Rycerz Szkielet"	
+143	1	"Magiczny Szkielet"	
+			
+//ƒÆ∏Æ∏∂_ø¿»ƒ 7:05 2004-08-25			
+// 1 ƒÆ∏Æ∏∂			
+147	1	"Aegis"	
+148	1	"Centurion ≈Åotr"	
+146	1	"Krwawy ≈ªo≈Çnierz"	
+144	1	"Anio≈Ç ≈ömierci"	
+149	1	"Necron"	
+145	1	"Centurion ≈ömierci"	
+160	1	"Schriker"	
+161	1	"Iluzja Kunduna"	
+// 2 ƒÆ∏Æ∏∂			
+177	1	"Aegis"	
+178	1	"Centurion ≈Åotr"	
+176	1	"Krwawy ≈ªo≈Çnierz"	
+174	1	"Anio≈Ç ≈ömierci"	
+179	1	"Necron"	
+175	1	"Centurion ≈ömierci"	
+180	1	"Schriker"	
+181	1	"Iluzja Kunduna"	
+// 3 ƒÆ∏Æ∏∂			
+185	1	"Aegis"	
+186	1	"Centurion ≈Åotr"	
+184	1	"Krwawy ≈ªo≈Çnierz"	
+182	1	"Anio≈Ç ≈ömierci"	
+187	1	"Necron"	
+183	1	"Centurion ≈ömierci"	
+188	1	"Schriker"	
+189	1	"Iluzja Kunduna"	
+// 4 ƒÆ∏Æ∏∂			
+193	1	"Aegis"	
+194	1	"Centurion ≈Åotr"	
+192	1	"Krwawy ≈ªo≈Çnierz"	
+190	1	"Anio≈Ç ≈ömierci"	
+195	1	"Necron"	
+191	1	"Centurion ≈ömierci"	
+196	1	"Schriker"	
+197	1	"Iluzja Kunduna"	
+ 			
+//ƒ´ø¿Ω∫ƒ≥ΩΩ ∏ÛΩ∫≈Õ.			
+162	1	"Chaos Castle 1"	
+163	1	"Chaos Castle 5"	
+164	1	"Chaos Castle 6"	
+165	1	"Chaos Castle 7"	
+166	1	"Chaos Castle 8"	
+167	1	"Chaos Castle 9"	
+168	1	"Chaos Castle 10"	
+169	1	"Chaos Castle 11"	
+170	1	"Chaos Castle 12"	
+171	1	"Chaos Castle 2"	
+172	1	"Chaos Castle 3"	
+173	1	"Chaos Castle 4"	
+			
+83	1	"Z≈Çote Ko≈Ço"	
+82	1	"Z≈Çoty Tantalos"	
+81	1	"Z≈Çoty Vepar"	
+80	1	"Z≈Çoty Kr√≥l Jaszczur√≥w"	
+79	1	"Z≈Çoty Derkon"	
+78	1	"Z≈Çoty Goblin"	
+			
+77	1	"Feniks Ciemno≈õci"	
+76	1	"Tarcza Mrocznego Feniksa"	
+75	1	"Wielki Drakan"	
+74	1	"Alpha Crust"	
+73	1	"Drakan"	
+72	1	"Rycerz Widmo"	
+71	1	"Mega Crust"	
+70	1	"Kr√≥lowa Rainier"	
+69	1	"Alquamos"	
+68	1	"Molt"	
+			
+57	1	"≈ªelazne Ko≈Ço"	
+58	1	"Tantalos"	
+59	1	"Zaikan"	
+60	1	"Krwawy Wilk"	
+61	1	"Rycerz Promienia"	
+62	1	"Mutant"	
+63	1	"Rycerz Promienia ≈ömierci"	
+			
+64	1	"≈Åucznik Ogr"	
+65	1	"Elitarny Ogr"	
+66	1	"Przeklƒôty Kr√≥l"	
+67	1	"Metalowy Balrog"	
+			
+36	1	"Cie≈Ñ"	
+39	1	"Zatruty Cie≈Ñ"	
+34	1	"Przeklƒôty Czarodziej"	
+41	1	"Krowa ≈ömierci"	
+37	1	"Diabe≈Ç"	
+40	1	"Rycerz ≈ömierci"	
+35	1	"Gorgona ≈ömierci"	
+38	1	"Balrog"	
+			
+3	1	"PajƒÖk"	
+26	1	"Goblin"	
+2	1	"Budge Dragon"	
+27	1	"≈Åa≈Ñcuchowy Skorpion"	
+0	1	"Zawodnik Byk√≥w"	
+33	1	"Elitarny Goblin"	
+1	1	"Ogar"	
+28	1	"≈ªuk"	
+4	1	"Elitarny Zawodnik Byk√≥w"	
+29	1	"≈Åowca"	
+6	1	"Lich"	
+30	1	"Le≈õny Potw√≥r"	
+31	1	"Agon"	
+7	1	"Olbrzym"	
+32	1	"Kamienny Golem"	
+14	1	"Szkielet"	
+24	1	"Robak"	
+22	1	"Lodowy Potw√≥r"	
+23	1	"Hommerd"	
+12	1	"Larwa"	
+21	1	"Zab√≥jca"	
+17	1	"Cyklop"	
+19	1	"Yeti"	
+11	1	"Duch"	
+15	1	"Szkielet ≈Åucznik"	
+20	1	"Elitarny Yeti"	
+5	1	"Piekielny Ogar"	
+13	1	"Piekielny PajƒÖk"	
+16	1	"W√≥dz Szkielet Wojownik"	
+9	1	"Piorunowy Lich"	
+8	1	"Zatruty Zawodnik Byk√≥w"	
+10	1	"Mroczny Rycerz"	
+25	1	"Kr√≥lowa Lodu"	
+18	1	"Gorgona"	
+			
+45	1	"Bahamut"	
+46	1	"Vepar"	
+47	1	"Walkiria"	
+48	1	"Kr√≥l Jaszczur√≥w"	
+49	1	"Hydra"	
+50	1	"Morski Robak"	
+51	1	"Wielki Bahamut"	
+52	1	"Srebrna Walkiria"	
+			
+43	1	"Z≈Çoty Budge Dragon"	
+44	1	"Smok"	
+53	1	"Z≈Çoty Tytan"	
+54	1	"Z≈Çoty ≈ªo≈Çnierz"	
+55	1	"Kr√≥l ≈ömierci"	
+56	1	"Ko≈õƒá ≈ömierci"	
+			
+150	1	"Bali"	
+151	1	"≈ªo≈Çnierz"	
+152	1	"Kamie≈Ñ magii %s"	
+153	1	"Kamie≈Ñ magii %s"	
+154	1	"Kamie≈Ñ magii %s"	
+155	1	"Kamie≈Ñ magii %s"	
+156	1	"Kamie≈Ñ magii %s"	
+157	1	"Kamie≈Ñ magii %s"	
+158	1	"Kamie≈Ñ magii %s"	
+//158	1	"Shadow Knight"	'- Ω¶µµøÏ≥™¿Ã∆Æ∂Û¥¬ ∏˜¿Ã æ¯¿∏π«∑Œ
+			
+// «‘¡§ ( 100 ~ 110 )			
+100	1	"Lanca"	
+101	1	"≈ªelazny Kij"	
+102	1	"Ogie≈Ñ"	
+103	1	"Meteoryt"	
+			
+// ∞¯º∫∆Æ∑¶.            			
+104	1	"Pu≈Çapka"	
+105	1	"Pu≈Çapka Armatnia"	
+106	1	"Pu≈Çapka Laserowa"	
+200	1	"Pi≈Çka No≈ºna"	
+			
+// ≈©∂Û¿ÃøÔ«¡ ∑π¿ÃµÂ MVP (2005.9.23 ¿Ã«ı¿Á √ﬂ∞°)			
+204	1	"Status Wilka"	
+205	1	"O≈Çtarz Wilka1"	
+206	1	"O≈Çtarz Wilka2"	
+207	1	"O≈Çtarz Wilka3"	
+208	1	"O≈Çtarz Wilka4"	
+209	1	"O≈Çtarz Wilka5"	
+215	1	"Tarcza"	
+// ∞¯º∫			
+216	1	"Korona"	
+217	1	"Prze≈ÇƒÖcznik Korony2"	
+218	1	"Prze≈ÇƒÖcznik Korony1"	
+219	1	"Prze≈ÇƒÖcznik Bramy Zamku"	
+220	1	"Gatekeeper"	
+221	1	"Atak z Procy"	
+222	1	"Obrona z Procy"	
+//NPC			
+223	1	"Starszy"	
+224	1	"Guardsman"	
+226	1	"Trener"	
+//227	1	"McDonalds"	
+//228	1	"Popeyes"	
+229	1	"Marlon"	
+230	1	"Wƒôdrowny Kupiec Alex"	
+231	1	"Thompson Kenel"	
+232	1	"Archanio≈Ç"	
+233	1	"Pos≈Çaniec Archanio≈Ça"	
+234	1	"Trener Zwierzak√≥w"	
+235	1	"Sebina Kap≈Çan"	
+236	1	"Z≈Çoty ≈Åucznik"	
+237	1	"Charon"	
+238	1	"Chaos Goblin"	
+239	1	"Stra≈ºnik Areny"	
+240	1	"Stra≈ºnik Bezpiecze≈Ñstwa"
+241	1	"Kapitan Gwardii Kr√≥lewskiej Lorence"	
+242	1	"Elf Lala"	
+243	1	"Eo Rzemie≈õlnik"	
+244	1	"Caren Ober≈ºystka"	
+245	1	"Czarodziej Izabel"	
+246	1	"Kupiec Broni Zienna"	
+247	1	"Stra≈º"	
+248	1	"Wƒôdrowny Kupiec Martin"	
+249	1	"Stra≈º"	
+250	1	"Wƒôdrowny Kupiec"	
+251	1	"Hanzo Kowal"	
+252	1	""	
+253	1	"Amy Sprzedawczyni Mikstur"	
+254	1	"Pasi Mag"	
+255	1	"Lumen Ober≈ºystka"	
+256	1	"Lahap"	
+257	1	"Shadow Phantom Soldier"	
+			
+//ƒÆ∏Æ∏∂ ∏ÛΩ∫≈Õ			
+// 5 ƒÆ∏Æ∏∂			
+263	1	"Aegis"	
+264	1	"Centurion ≈Åotr"	
+262	1	"Krwawy ≈ªo≈Çnierz"	
+260	1	"Anio≈Ç ≈ömierci"	
+265	1	"Necron"	
+261	1	"Centurion ≈ömierci"	
+266	1	"Schriker"	
+267	1	"Iluzja Kunduna"	
+// 6 ƒÆ∏Æ∏∂			
+271	1	"Aegis"	
+272	1	"Centurion ≈Åotr"	
+270	1	"Krwawy ≈ªo≈Çnierz"	
+268	1	"Anio≈Ç ≈ömierci"	
+273	1	"Necron"	
+269	1	"Centurion ≈ömierci"	
+274	1	"Schriker"	
+275	1	"Kundun"	
+			
+// ∞¯º∫¿¸ ∏ÛΩ∫≈Õ.			
+277	1	"Brama Zamku"	
+278	1	"Kamie≈Ñ ≈ªycia"	
+283	1	"PosƒÖg Stra≈ºnika"	
+285	1	"Stra≈ºnik"	
+286	1	"≈Åucznik"	
+287	1	"W≈Ç√≥cznik"	
+288	1	"Wie≈ºa Armatnia"	
+			
+//Ω√∑√¿« ∂•			
+290	1	"Wojownik Jaszczur√≥w"	
+291	1	"Ognisty Golem"	
+292	1	"Kr√≥lowa Pszcz√≥≈Ç"	
+293	1	"Zatruty Golem"	
+294	1	"Wojownik Toporu"	
+295	1	"Erohim"	
+296	1	"Potwora7"	
+			
+// ∑Œ∑£«˘∞Ó¿Ã∫•∆Æ ∏ÛΩ∫≈Õ.			
+300	1	"Hero Mutant"	
+301	1	"Omega Wing"	
+302	1	"Axl Hero"	
+303	1	"Gigas Golem"	
+			
+			
+//æ∆¿Ã¥Ÿ. ≈©∂Û¿ÃøÔ«¡. ¿“æÓπˆ∏∞ ƒÆ∏Æ∏∂ √ﬂ∞° ¿€æ˜_±‚»π/¡§µø¿œ (ø¿»ƒ 3:18 2005-07-26)			
+			
+//æ∆¿Ã¥Ÿ ∏ÛΩ∫≈Õ			
+308	1	"Drzewo ≈ömierci"	
+307	1	"Le≈õny Ork"	
+306	1	"Je≈∫dziec ≈ömierci"	
+305	1	"Niebieski Golem"	
+304	1	"Kr√≥lowa Czarownic"	
+309	1	"Hell Maine"	
+			
+//≈©∂Û¿ÃøÔ«¡			
+310	1	"Zwiadowca M≈Çota"	
+311	1	"Zwiadowca Lancy"	
+312	1	"Zwiadowca ≈Åuku"	
+313	1	"Wilko≈Çak"	
+314	1	"Zwiadowca(Hero)"	
+315	1	"Wilko≈Çak(Hero)"	
+316	1	"Balram"	
+317	1	"Soram"	
+			
+// ≈©∂Û¿ÃøÔ«¡ MVP ∏ÛΩ∫≈Õ - √ﬂ∞° 2005.11.23 (¿Ã«ı¿Á)			
+340	1	"Mroczny Elf"	
+341	1	"Soram"	
+344	1	"Balram"	
+345	1	"Duch ≈ömierci"	
+348	1	"Tanker"	
+349	1	"Balgass"	//MVP ∫∏Ω∫
+			
+//¿“æÓπˆ∏∞ ƒÆ∏Æ∏∂			
+331	1	"Aegis"	
+332	1	"Centurion ≈Åotr"	
+333	1	"Krwawy ≈ªo≈Çnierz"	
+334	1	"Anio≈Ç ≈ömierci"	
+335	1	"Necron"	
+336	1	"Centurion ≈ömierci"	
+337	1	"Schriker"	
+338	1	"Iluzja Kunduna"	//¡¶ 6ƒÆ∏Æ∏∂ ¿ßƒ°
+			
+// ≈©∂Û¿ÃøÔ«¡ ø‰ªı ∏  ªÛ¿Œ _ 8ø˘ 8¿œ ( ø¿Ω¬æ ) : ≈©∂Û¿ÃøÔ«¡ ø‰ªı ¡∂∑√ªÁ π◊ ºº∏£∫ÒΩ∫ ∏˜ π¯»£ ºˆ¡§			
+// æ∆∑° 2 NPC¥¬ √ﬂ»ƒ √ﬂ∞°			
+// ∆÷ Ω√Ω∫≈€ ¿Ã»ƒ µÓ∑œ			
+//344	1	"Summoner"	
+// ≥Î∏Ææ∆¿« ¡∂«’ ∞Ì∫Ì∏∞∞˙ µø¿œ. ¡∂«’ ºˆ¡§«— ¿Ã»ƒ πËƒ° ( «ˆΩ√¡°ø°º≠¥¬ √ﬂ∞° ±›¡ˆ )			
+//345	1	"Chaos Goblin"	
+			
+//¿Ã∫•∆Æ ¿¸øÎ NPC √ﬂ∞° - 2006.1.23 (¿ÃπŒ¡§)			
+258	1	"Luke Pomocnik"	
+//2006.4.17 √ﬂ∞° (¿ÃπŒ¡§)			
+259	1	"Wyrocznia Layla"	
+			
+//ƒ≠≈ı∏£ ∏ÛΩ∫≈Õ √ﬂ∞° - 2006.5.16 (±Ë∫∏∞Ê)			
+350	1	"Berserk"	
+351	1	"Wilk Drzazga"	
+352	1	"≈ªelazny Je≈∫dziec"	
+353	1	"Satyros"	
+354	1	"≈Åowca Ostrzy"	
+355	1	"Kentaur"	
+356	1	"Gigantis"	
+357	1	"Genocider"	
+358	1	"Persona"	
+359	1	"Twin Tale"	
+360	1	"Dreadfear"	
+361	1	"Koszmar"	
+362	1	"Rƒôka Mayi"	
+363	1	"Rƒôka Mayi"	
+364	1	"Maya"	
+			
+//ƒ≠≈ı∏£ npc			
+367	1	"Maszyna Bram"	
+368	1	"Elpis"	
+//¡∂»≠¿« ∫∏ºÆ ∞¸∑√ npc			
+369	1	"Osbourne"	
+370	1	"Jerridon"	
+			
+//»≠¿Ã∆Æø£¡© ¿Ã∫•∆Æ æ∆¿Ã≈€ ¡ˆ±ﬁ NPC √ﬂ∞° - 2006.8.23 ¿ÃπŒ¡§			
+371	1	"Leo Pomocnik"	
+			
+//ø§∏Æ∆Æ«ÿ∞Ò¿¸ªÁ∫ØΩ≈π›¡ˆ NPC √ﬂ∞° - 2006.9.5 ¿ÃπŒ¡§			
+372	1	"Elitarny ≈ªo≈Çnierz Czaszki"	
+			
+//«“∑Œ¿©¿Ã∫•∆Æ NPC √ﬂ∞° - 2006.9.12 ¿ÃπŒ¡§			
+373	1	"Jack Olantern"	
+			
+//≈©∏ÆΩ∫∏∂Ω∫ ∫ØΩ≈π›¡ˆøÎ NPC √ﬂ∞° - 2006.11.30 ¿ÃπŒ¡§			
+374	1	"Miko≈Çaj"	
+			
+// ƒ´ø¿Ω∫ƒ´µÂ ¥„¥Á			
+375	1	"Mistrz Kart Chaosu"	
+			
+// ∞¯º∫¿¸ Ω≈±‘ π∞æ‡ NPC - 2007.1.22 ±Ë∫∏∞Ê			
+376	1	"Pamela Dostawczyni"	
+377	1	"Angela Dostawczyni"	
+			
+// º≥≥Ø ∫π¡÷∏”¥œ ¿Ã∏ß			
+365	1	"Torebka B≈Çogos≈Çawie≈Ñstwa"	
+378	1	"GameMaster"	
+379	1	"Natasha Handlarz Petard"	
+			
+//Ω≈±‘ ¿Ã∫•∆Æ∏ 			
+380	1	"Kamienny PosƒÖg"	
+381	1	"Genera≈Ç Sojusznik√≥w MU"	
+382	1	"Starszy Iluzjonista"	
+383	1	"Sojusznicza Skrytka ≈öwiƒôtych Przedmiot√≥w"	
+384	1	"Skrytka ≈öwiƒôtych Przedmiot√≥w Illusion Castle"	
+385	1	"Mirage"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  1 (∑π∫ß 220~270)			
+386	1	"Duch Iluzjonisty"	
+387	1	"Duch Iluzjonisty"	
+388	1	"Duch Iluzjonisty"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  2 (∑π∫ß 271~320)			
+389	1	"Duch Iluzjonisty"	
+390	1	"Duch Iluzjonisty"	
+391	1	"Duch Iluzjonisty"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  3 (∑π∫ß 321~350)			
+392	1	"Duch Iluzjonisty"	
+393	1	"Duch Iluzjonisty"	
+394	1	"Duch Iluzjonisty"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  4 (∑π∫ß 351~380)			
+395	1	"Duch Iluzjonisty"	
+396	1	"Duch Iluzjonisty"	
+397	1	"Duch Iluzjonisty"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  5 (∑π∫ß 381~399)			
+398	1	"Duch Iluzjonisty"	
+399	1	"Duch Iluzjonisty"	
+400	1	"Duch Iluzjonisty"	
+// Ω≈±‘ ¿Ã∫•∆Æ∏  6 (∑π∫ß 400)			
+401	1	"Duch Iluzjonisty"	
+402	1	"Duch Iluzjonisty"	
+403	1	"Duch Iluzjonisty"	
+// ¿Ã∫•∆Æ∏  ƒ≥∏Ø≈Õ ∫ØΩ≈øÎ ¿Œµ¶Ω∫			
+404	1	"Sojusznicy MU"	
+405	1	"Iluzjonista"	
+			
+// 3¬˜ √º¿Œ¡ˆæ˜			
+406	1	"Aposto≈Ç Devin"	
+407	1	"Wilko≈Çak Quarel"	
+408	1	"Gatekeeper"	
+409	1	"Balram (≈ªo≈Çnierz Szkoleniowy)"	
+410	1	"Duch ≈ömierci (≈ªo≈Çnierz Szkoleniowy)"	
+411	1	"Soram (≈ªo≈Çnierz Szkoleniowy)"	
+412	1	"Mroczny Elf (≈ªo≈Çnierz Szkoleniowy)"	
+			
+// √ﬂºÆ(2007)¿Ã∫•∆Æ			
+413	1	"Ksiƒô≈ºycowy Kr√≥lik"	
+414	1	"Pomocnik Ellen"	
+// ø§∫£∂ıµÂ  NPC			
+415	1	"Silvia"	
+416	1	"Rhea"	
+417	1	"Marce"	
+// ø§∫£∂ıµÂ ªÁ≥…≈Õ (2007-09-18 ±Ë«ˆ¡ˆ)			
+418	1	"Dziwny Kr√≥lik"	
+419	1	"Ohydny Kr√≥lik"	
+420	1	"Wilko≈Çak"	
+421	1	"Zanieczyszczony Motyl"	
+422	1	"Przeklƒôty Lich"	
+423	1	"Totem Golem"	
+424	1	"Grizzly"	
+425	1	"Kapitan Grizzly"	
+// ¿Ã∫•∆Æ∏  µÓ±ﬁ √ﬂ∞°∑Œ ¿Œ«— ∏ÛΩ∫≈Õ √ﬂ∞°(2007.10.16)			
+//ƒ´ø¿Ω∫ƒ≥ΩΩ7_»Æ¿Â			
+426	1	"Chaos Zamek13"	
+427	1	"Chaos Zamek14"	
+//∫Ì∑ØµÂƒ≥ΩΩ8_»Æ¿Â			
+428	1	"W√≥dz Szkielet Wojownik"	
+429	1	"W√≥dz Szkielet ≈Åucznik"	
+430	1	"≈ªo≈Çnierz Mrocznej Czaszki"	
+431	1	"Wielki Ogr"	
+432	1	"Czerwony Rycerz Szkielet"	
+433	1	"Magiczny Szkielet"	
+//æ«∏∂¿«±§¿Â7_»Æ¿Â			
+434	1	"Gigantis"	
+435	1	"Berserk"	
+436	1	"Balram (≈ªo≈Çnierz Szkoleniowy)"	
+437	1	"Soram (≈ªo≈Çnierz Szkoleniowy)"	
+438	1	"Persona"	
+439	1	"Dreadfear"	
+440	1	"Mroczny Elf"	
+// ∆Úø¬¿« ¥À ∏ÛΩ∫≈Õ √ﬂ∞°			
+441	1	"Sapi-Unus"	
+442	1	"Sapi-Duo"	
+443	1	"Sapi-Tres"	
+444	1	"Pionek Cienia"	
+445	1	"Rycerz Cienia"	
+446	1	"Shadow Look"	
+447	1	"Piorunowy Napin"	
+448	1	"Duch Napin"	
+449	1	"Blaze Napin"	 
+// ∫¢≤…¿Ã∫•∆Æ npc √ﬂ∞°			
+450	1	"Duch Sakury"	
+451	1	"Drzewo Sakury"	
+// º“ƒœ Ω√Ω∫≈€ NPC			
+452	1	"Mistrz Ziarna"	
+453	1	"Badacz Ziarna"	
+// ∂Û≈¨∏Æø¬ ∏ÛΩ∫≈Õ √ﬂ∞°			
+454	1	"Lodowy Wƒôdrowiec"	
+455	1	"Wielki Mamut"	
+456	1	"Lodowy Olbrzym"	
+457	1	"Coolutin"	
+458	1	"≈ªelazny Rycerz"	
+459	1	"Selupan"	
+460	1	"Jaja PajƒÖka"	
+461	1	"Jaja PajƒÖka"	
+462	1	"Jaja PajƒÖka"	
+// ∫“≤…¡÷∏”¥œ √ﬂ∞°			
+463	1	"Ognisty Duch P≈Çomieni"	
+// √º«Ëº≠πˆøÎ NPC √ﬂ∞°			
+//464	1	"Re-Initialization Helper"	
+// ªÛøÎ»≠ 7¡÷≥‚ ¿Ã∫•∆Æ NPC √ﬂ∞°			
+478	1	"Delgado"	
+// ≈©∏ÆΩ∫∏∂Ω∫¿Ã∫•∆Æ NPC √ﬂ∞°(±π≥ª ¿˚øÎ √ﬂ∞°)			
+465	1	"≈öwiƒôty Miko≈Çaj"	
+466	1	"Przeklƒôty Goblin"	
+467	1	"Ba≈Çwan"	
+468	1	"Dasher"	
+469	1	"Kermit"	
+470	1	"Ma≈Çy Miko≈Çaj"	
+471	1	"Kupid"	
+472	1	"Prancer"	
+473	1	"Donner"	
+474	1	"Vixen"	
+475	1	"Blitzen"	
+476	1	"Przeklƒôty Miko≈Çaj"	
+477	1	"Przemieniony Ba≈Çwan"	
+// PK« µÂ ∏ÛΩ∫≈Õ NPC √ﬂ∞°			
+479	1	"Dozorca Tytus"	
+480	1	"Zombie Wojownik"	
+481	1	"Zombie Wojownik"	
+482	1	"Wskrzeszony Gladiator"	
+483	1	"Wskrzeszony Gladiator"	
+484	1	"Ash Slaughterer"	
+485	1	"Ash Slaughterer"	
+486	1	"Krwawy Zab√≥jca"	
+487	1	"Okrutny Krwawy Zab√≥jca"	
+488	1	"Okrutny Krwawy Zab√≥jca"	
+489	1	"P≈ÇonƒÖcy Olbrzym Lawy"	
+490	1	"Bezwzglƒôdny Olbrzym Lawy"	
+491	1	"Bezwzglƒôdny Olbrzym Lawy"	
+// ∞◊∫Ì NPC √ﬂ∞°			
+492	1	"Moss"	
+// »≤±›±∫¥‹¿Ã∫•∆Æ(¿œ∫ª)			
+502	1	"Z≈Çoty Kr√≥lik"	
+493	1	"Z≈Çoty Mroczny Rycerz"	
+494	1	"Z≈Çoty Diabe≈Ç"	
+495	1	"Z≈Çoty Kamienny Golem"	
+496	1	"Z≈Çoty Crust"	
+497	1	"Z≈Çoty Satyros"	
+498	1	"Z≈Çoty Twin Tail"	
+499	1	"Z≈Çoty ≈ªelazny Rycerz"	
+500	1	"Z≈Çoty Napin"	
+501	1	"Wielki Z≈Çoty Smok"	
+// 5ø˘ «¡∏ÆπÃæˆ æ∆¿Ã≈€ (∆“¥ı∫ØΩ≈π›¡ˆ)			
+503	1	"Przemieniona Panda"	
+// ¡¶±π ºˆ»£±∫ ∏ÛΩ∫≈Õ NPC √ﬂ∞°			
+// ∏ÛΩ∫≈Õ			
+504	1	"Gaion Kharein"	
+// ∏  ∫∏Ω∫			
+505	1	"Jerint"	
+506	1	"Raymond"	
+507	1	"Erkanne"	
+508	1	"Destler"	
+509	1	"Vermont"	
+510	1	"Kato"	
+511	1	"Galia"	
+// ¡∏ ∫∏Ω∫			
+512	1	"Kwatermistrz"	
+513	1	"Instruktor Walki"	
+514	1	"Dow√≥dca Rycerzy"	
+515	1	"Wielki Czarodziej"	
+516	1	"Mistrz Zab√≥jc√≥w"	
+517	1	"Kapitan Kawalerii"	
+// ¿œπ› ∏ÛΩ∫≈Õ			
+518	1	"Nosiciel Tarczy"	
+519	1	"Medyk"	
+520	1	"Rycerze"	
+521	1	"Ochroniarz"	
+// NPC			
+522	1	"Jerint Asystent"	
+// ø¿∫Í¡ß∆Æ NPC			
+523	1	"Pu≈Çapka"	
+524	1	"Brama Zamku 1"	//≥ª∑¡∞°¥¬ º∫πÆ(∆Ú¿œ)
+525	1	"Brama Zamku 2"	//∆ƒ±´µ«¥¬ º∫πÆ(∆Ú¿œ)
+526	1	"Kamienny PosƒÖg 1"	
+527	1	"Brama Zamku 3"	//≥ª∑¡∞°¥¬ º∫πÆ(¡÷∏ª)
+528	1	"Brama Zamku 4"	//∆ƒ±´µ«¥¬ º∫πÆ(¡÷∏ª)
+// µµ«√∞ªæÓ ∏ÛΩ∫≈Õ NPC √ﬂ∞°			
+// ∏ÛΩ∫≈Õ			
+// ∫∏Ω∫ ∏ÛΩ∫≈Õ			
+529	1	"W≈õciek≈Çy Rze≈∫nik"	
+530	1	"Rze≈∫nik"	
+// πÃº« ∏ÛΩ∫≈Õ			
+531	1	"Lodowy Wƒôdrowiec"	
+// ¿œπ› ∏ÛΩ∫≈Õ			
+532	1	"Larwa"	
+533	1	"Doppelganger"	
+534	1	"Doppelganger Elf"	
+535	1	"Doppelganger Knight"	
+536	1	"Doppelganger Wizard"	
+537	1	"Doppelganger Magic Gladiator"	
+538	1	"Doppelganger Dark Lord"	
+539	1	"Doppelganger Summoner"	
+// NPC			
+540	1	"Lugard"	
+541	1	"Skrzynia Nagrody CzƒÖstkowej"	
+542	1	"Skrzynia Nagrody Ko≈Ñcowej"	
+// ∞’Ω∫ NPC			
+543	1	"Gens Duprian RzƒÖdca"	
+544	1	"Gens Vanert RzƒÖdca"	
+//∑Œ∑£Ω√¿Â NPC √ﬂ∞° 2009.11.24 »´Ω¬øÌ			
+545	1	"Christine Handlarz"	
+546	1	"Jubiler Raul"	
+547	1	"Julia Cz≈Çonek Unii Targowej"	
+//Ω∫ƒÃ∑π≈Ê∫ØΩ≈π›¡ˆøÎ ∫ØΩ≈Ω∫ƒÃ∑π≈Ê √ﬂ∞°			
+548	1	"Przemieniony Szkielet"	
+549	1	"Krwawy Ork"	
+550	1	"Krwawy Je≈∫dziec ≈ömierci"	
+551	1	"Krwawy Golem"	
+552	1	"Krwawa Kr√≥lowa Czarownic"	
+553	1	"Wojownik Berserk"	
+554	1	"Wojownik Kentaur"	
+555	1	"Wojownik Gigantis"	
+556	1	"Wojownik Genocider"	
+557	1	"Sapi Queen"	
+558	1	"Lodowy Napin"	
+559	1	"Mistrz Cienia"	
+560	1	"Sapi Queen"	
+561	1	"Medusa"	
+562	1	"Mroczny Mamut"	
+563	1	"Mroczny Olbrzym"	
+564	1	"Dark Coolutin"	
+565	1	"Mroczny ≈ªelazny Rycerz"
+566	1	"Tercia Kierownik Gildii Najemnik√≥w"
+567	1	"Kap≈Çanka Veina"
+568	1	"Wƒôdrowny Kupiec Zyro"
+// ƒÆ∑Á≈∫ ∏ÛΩ∫≈Õ √ﬂ∞° 2010-06-30 »´Ω¬øÌ	
+569	1	"Jadowity Skorpion ≈Åa≈Ñcuchowy"
+570	1	"Ko≈õciany Skorpion"
+571	1	"Orcus"
+572	1	"Gollock"
+573	1	"Crypta"
+574	1	"Crypos"
+575	1	"Condra"
+576	1	"Narcondra"																						
+// ƒÆ∑Á≈∫ NPC √ﬂ∞° 2010-06-30 »´Ω¬øÌ																													
+577	1	"Leina Handlarz"																											
+578	1	"Kupiec Broni Bolo"																											
+// ∑∞≈∞æ∆¿Ã≈€ NPC √ﬂ∞° 2010-09-01 ¿Ã±‚ºˆ																													
+579	1	"David"	
+585	1	"Strach na Wr√≥ble"	
+end			

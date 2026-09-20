@@ -9,6 +9,7 @@
 #include "UI/NewUI/NewUISystem.h"
 #include "World/MapInfra/MapManager.h"
 #include "MUHelper/MuHelper.h"
+#include <cmath>
 
 using namespace SEASON3B;
 
@@ -169,8 +170,6 @@ bool CNewUIHeroPositionInfo::Update()
 
 bool CNewUIHeroPositionInfo::Render()
 {
-    wchar_t szText[255] = {};
-
     EnableAlphaTest();
     glColor4f(1.f, 1.f, 1.f, 1.f);
 
@@ -188,12 +187,31 @@ bool CNewUIHeroPositionInfo::Render()
 
     MUHelper::g_MuHelper.IsActive() ? m_BtnStop.Render() : m_BtnStart.Render();
     //--
-    mu_swprintf(szText, L"%ls (%d , %d)", gMapManager.GetMapName(gMapManager.WorldActive), m_CurHeroPosition.x, m_CurHeroPosition.y);
-
-    g_pRenderText->RenderText(m_Pos.x + 10, m_Pos.y + 5, szText, WidenX + 20, 13 - 4, RT3_SORT_CENTER);
+    RenderPositionText();
 
     DisableAlphaBlend();
     return true;
+}
+
+void CNewUIHeroPositionInfo::RenderPositionText()
+{
+    // The middle texture's borders are at rows 1 and 14; the rest of its
+    // 25-pixel height is shadow/transparent padding, not the text panel.
+    constexpr float textPanelTop = 2.f;
+    constexpr float textPanelHeight = 12.f;
+    constexpr int textInset = 10;
+    constexpr int textWidthExtension = 20;
+    wchar_t text[255]{};
+    mu_swprintf_s(text, L"%ls (%d, %d)", gMapManager.GetMapName(gMapManager.WorldActive),
+        m_CurHeroPosition.x, m_CurHeroPosition.y);
+
+    SIZE textSize{};
+    GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, lstrlen(text), &textSize);
+    const float textHeight = textSize.cy / g_fScreenRate_y;
+    const int textY = static_cast<int>(std::lround(
+        m_Pos.y + textPanelTop + (textPanelHeight - textHeight) / 2.f));
+    g_pRenderText->RenderText(m_Pos.x + textInset, textY, text,
+        WidenX + textWidthExtension, 0, RT3_SORT_CENTER);
 }
 
 float CNewUIHeroPositionInfo::GetLayerDepth()

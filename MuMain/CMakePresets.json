@@ -75,6 +75,33 @@
       "cacheVariables": {
         "ENABLE_EDITOR": "ON"
       }
+    },
+    {
+      "name": "windows-x86-tidy",
+      "displayName": "Windows x86 + clang-tidy",
+      "description": "x86 build with clang-tidy run over the engine sources (advisory findings, never fails the build)",
+      "inherits": "windows-x86",
+      "cacheVariables": {
+        "ENABLE_CLANG_TIDY": "ON"
+      }
+    },
+    {
+      "name": "windows-x64-tidy",
+      "displayName": "Windows x64 + clang-tidy",
+      "description": "x64 build with clang-tidy run over the engine sources (advisory findings, never fails the build)",
+      "inherits": "windows-x64",
+      "cacheVariables": {
+        "ENABLE_CLANG_TIDY": "ON"
+      }
+    },
+    {
+      "name": "windows-x64-asan",
+      "displayName": "Windows x64 + AddressSanitizer",
+      "description": "x64 build under MSVC AddressSanitizer (MSVC ASan has no 32-bit support)",
+      "inherits": "windows-x64",
+      "cacheVariables": {
+        "ENABLE_ASAN": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -124,6 +151,24 @@
       "name": "windows-x64-mueditor-release",
       "displayName": "x64 MuEditor Release",
       "configurePreset": "windows-x64-mueditor",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-x86-tidy-release",
+      "displayName": "x86 + clang-tidy Release",
+      "configurePreset": "windows-x86-tidy",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-x64-tidy-release",
+      "displayName": "x64 + clang-tidy Release",
+      "configurePreset": "windows-x64-tidy",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-x64-asan-release",
+      "displayName": "x64 + AddressSanitizer Release",
+      "configurePreset": "windows-x64-asan",
       "configuration": "Release"
     }
   ]

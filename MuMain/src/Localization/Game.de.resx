@@ -12888,4 +12888,297 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>Standard</value>
   </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>Benutzername merken</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>Passwort merken</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>Speichere das Passwort nur auf einem PC, dem du vertraust.</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>WARNUNG!!!</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>Wenn das Passwort gespeichert ist, kann sich jeder, der diesen Computer nutzt, in deinem Account anmelden. Tu dies nur auf einem PC, dem du vertraust. Passwort speichern?</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>Rückfall auf Grundangriff</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>Verbindung getrennt</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>Serververfügbarkeit wird geprüft</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>Anmeldung läuft</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>Charakterliste wird geladen</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>Spiel wird betreten</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>Wiederholung in %d Sekunden...</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>Befehle</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>Dieser Server bietet keine Befehlsliste an.</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>Ausführen</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : Chat-Befehle An/Aus</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>Spezial</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>Vorlagen</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>Noch keine Vorlagen gespeichert.</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>Als Vorlage speichern</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>Zu Favoriten hinzufügen</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>Aus Favoriten entfernen</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>Bitte gib zuerst die erforderlichen Werte ein.</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>Dieser Befehl ist nicht mehr verfügbar.</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>Bildrate</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>Anzeige folgen</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>Native Maximalauflösung der Anzeige</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>Vertikale Synchronisation</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>Angeforderte Bildrate</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>Effektive Bildrate</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>Bildwiederholrate der Anzeige</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>Tatsächliche Bildrate</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>Durchschnittliche FPS</value>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1 % Low</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>Begrenzungsgrund</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>Gamepad aktivieren</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>Vibrationsintensität</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>Kampfvibration</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>UI-Vibration</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>Transaktionsvibration</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>Kurze Vibration testen</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>Lange Vibration testen</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>Vibration wird von diesem Controller nicht unterstützt</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>Totzone des Sticks</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>Zeigergeschwindigkeit</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>Bildratenbegrenzer</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>Vertikale Synchronisation</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>Bildwiederholrate nicht verfügbar, Rückfall auf 60 Hz</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>Bildratenbegrenzung im Hintergrund</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>VSync ungleichmäßiger Takt</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>Leistungs-/externe Begrenzung</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>Controller-Belegung</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>Generischer Controller</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>Aktion</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>Physische Steuerung</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>Totzone der Trigger</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>Zeiger Y invertieren</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>Aktuelle Belegung</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>Standardbelegung wiederherstellen</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>Bestätigen / interagieren</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>Abbrechen / zurück</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>Primärangriff</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>Kontextaktion</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>Aktuellen Skill einsetzen</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>Ziel fixieren</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>Vorheriger Skill</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>Nächster Skill</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>Schnellitem 1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>Schnellitem 2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>Schnellitem 3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>Schnellitem 4</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>Karte</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>Systemmenü</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>Nächstes Ziel</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>Diese Anzeigeeinstellungen behalten? Rückkehr in %d Sekunden.</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>Behalten (A / Enter)</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>Rückgängig (B / Esc)</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>Solo-Shop</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>Ausrüstung</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>Materialien</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>Begleiter / Tickets</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>Verbrauchsmaterial</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>1.000 Zen gegen 100 WCoin(C) eintauschen</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>1.000 Zen gegen 100 WCoin(C) getauscht.</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>Vorgang fehlgeschlagen. Überprüfe Gold, Lager und Verbindung.</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>Eingang zu %ls ist geöffnet und schließt in %ls Minute(n).</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>Eingang zu %ls geschlossen.</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>Happy-Hour-Event hat begonnen!</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>Happy-Hour-Event ist beendet!</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>Sprache geändert</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>Die Sprache der Spielinhalte (NPC-Namen, Quests, Gegenstände und Skills) ändert sich erst nach einem Neustart des Spiels. Jetzt neu starten?</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>Gamepad</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>MU-Helfer</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>Fertigkeiten</value>
+  </data>
 </root>

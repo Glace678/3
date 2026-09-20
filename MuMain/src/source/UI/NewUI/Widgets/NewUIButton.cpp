@@ -479,31 +479,7 @@ bool SEASON3B::CNewUIButton::Render(bool RendOption)
 #endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
     }
 
-    if (m_Name.size() != 0)
-    {
-        SIZE Fontsize;
-        g_pRenderText->SetFont(m_hTextFont);
-        GetTextExtentPoint32(g_pRenderText->GetFontDC(), m_Name.c_str(), m_Name.size(), &Fontsize);
-
-        Fontsize.cx = Fontsize.cx / ((float)WindowWidth / REFERENCE_WIDTH);
-        Fontsize.cy = Fontsize.cy / ((float)WindowHeight / REFERENCE_HEIGHT);
-
-        int x = m_Pos.x + ((m_Size.x / 2) - (Fontsize.cx / 2));
-        int y = m_Pos.y + ((m_Size.y / 2) - (Fontsize.cy / 2));
-
-#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
-        if ((m_bClickEffect == true) && (GetBTState() == BUTTON_STATE_DOWN))
-        {
-            RenderText(m_Name.c_str(), x + m_iMoveTextPosX + 1, y + m_iMoveTextPosY + 1, m_Size.x, 0, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-        }
-        else
-        {
-            RenderText(m_Name.c_str(), x + m_iMoveTextPosX, y + m_iMoveTextPosY, m_Size.x, 0, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-        }
-#else // KJH_ADD_INGAMESHOP_UI_SYSTEM
-        RenderText(m_Name.c_str(), x, y, m_Size.x, 0, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-#endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
-    }
+    RenderLabel();
 
     if (m_TooltipText.size() != 0)
     {
@@ -530,6 +506,28 @@ bool SEASON3B::CNewUIButton::Render(bool RendOption)
     }
 
     return true;
+}
+
+void SEASON3B::CNewUIButton::RenderLabel()
+{
+    if (m_Name.empty())
+        return;
+    constexpr int padding = 2;
+    int moveX = 0;
+    int moveY = 0;
+#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
+    const int pressedOffset = m_bClickEffect && GetBTState() == BUTTON_STATE_DOWN ? 1 : 0;
+    moveX = m_iMoveTextPosX + pressedOffset;
+    moveY = m_iMoveTextPosY + pressedOffset;
+#endif
+    const int insetX = padding + std::abs(moveX);
+    const int insetY = padding + std::abs(moveY);
+    const int width = m_Size.x - insetX * 2;
+    const int height = m_Size.y - insetY * 2;
+    if (width <= 0 || height <= 0)
+        return;
+    RenderText(m_Name.c_str(), m_Pos.x + insetX + moveX, m_Pos.y + insetY + moveY,
+        width, height, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_CENTER_FIT);
 }
 
 CNewUIRadioButton::CNewUIRadioButton() : m_NameColor(0xffB5B5B5), m_NameBackColor(0x00000000),
@@ -830,39 +828,29 @@ bool CNewUIRadioButton::Render()
 #endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
     }
 
-    if (m_Name.size() != 0)
-    {
-        SIZE Fontsize;
-
-#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
-        g_pRenderText->SetFont(m_hTextFont);
-#else // KJH_ADD_INGAMESHOP_UI_SYSTEM
-        g_pRenderText->SetFont(g_hFont);
-#endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
-
-        GetTextExtentPoint32(g_pRenderText->GetFontDC(), m_Name.c_str(), m_Name.size(), &Fontsize);
-
-        Fontsize.cx = Fontsize.cx / ((float)WindowWidth / REFERENCE_WIDTH);
-        Fontsize.cy = Fontsize.cy / ((float)WindowHeight / REFERENCE_HEIGHT);
-
-        int x = m_Pos.x + ((m_Size.x / 2) - (Fontsize.cx / 2));
-        int y = m_Pos.y + ((m_Size.y / 2) - (Fontsize.cy / 2));
-
-#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
-        if ((m_bClickEffect == true) && GetBTState() == BUTTON_STATE_DOWN)
-        {
-            RenderText(m_Name.c_str(), x + 1, y + 1, m_Size.x, 0, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-        }
-        else
-        {
-            RenderText(m_Name.c_str(), x, y, m_Size.x, 0, m_hTextFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-        }
-#else // KJH_ADD_INGAMESHOP_UI_SYSTEM
-        RenderText(m_Name.c_str(), x, y, m_Size.x, 0, g_hFont, m_NameColor, m_NameBackColor, RT3_SORT_LEFT);
-#endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
-    }
+    RenderLabel();
 
     return true;
+}
+
+void SEASON3B::CNewUIRadioButton::RenderLabel()
+{
+    if (m_Name.empty())
+        return;
+    constexpr int padding = 2;
+    int pressedOffset = 0;
+    HFONT font = g_hFont;
+#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
+    font = m_hTextFont;
+    pressedOffset = m_bClickEffect && GetBTState() == BUTTON_STATE_DOWN ? 1 : 0;
+#endif
+    const int inset = padding + pressedOffset;
+    const int width = m_Size.x - inset * 2;
+    const int height = m_Size.y - inset * 2;
+    if (width <= 0 || height <= 0)
+        return;
+    RenderText(m_Name.c_str(), m_Pos.x + inset + pressedOffset, m_Pos.y + inset + pressedOffset,
+        width, height, font, m_NameColor, m_NameBackColor, RT3_SORT_CENTER_FIT);
 }
 
 //////////////////////////////////////////////////////////////////////

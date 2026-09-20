@@ -380,6 +380,15 @@ endif()
 target_compile_features(Main PUBLIC cxx_std_20)
 target_link_libraries(Main PRIVATE MuClient::MuClient)
 
+# Static analysis / sanitizers attach to the engine library and the entry-point
+# executable only. Vendored third-party (SDL, SDL_mixer, imgui) is deliberately
+# left alone: its findings are not actionable in this repository. See
+# cmake/StaticAnalysis.cmake; both are no-ops unless the matching option is on.
+mu_enable_clang_tidy(MuClient)
+mu_enable_clang_tidy(Main)
+mu_enable_asan(MuClient)
+mu_enable_asan(Main)
+
 if (NOT MSVC)
   set(MU_MAIN_MAP_FILE "${CMAKE_CURRENT_BINARY_DIR}/Main.map")
   if(APPLE)

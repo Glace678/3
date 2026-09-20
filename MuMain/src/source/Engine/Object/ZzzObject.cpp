@@ -7281,7 +7281,12 @@ void RenderPartObjectBody(BMD* b, OBJECT* o, int Type, float Alpha, int RenderTy
     {
         float sine = float(sinf(WorldTime * 0.00004f) * 0.15f) + 0.5f;
         b->RenderBody(RenderType, 1.f, o->BlendMesh, o->BlendMeshLight, o->BlendMeshTexCoordU, o->BlendMeshTexCoordV, 0);
-        b->RenderBody(RenderType, 1.f, 0.5f, sine, o->BlendMeshTexCoordU, o->BlendMeshTexCoordV, 1);
+        // The third argument is the blend-mesh index (int). This was `0.5f`,
+        // which truncates to mesh 0 -- the same mesh MODEL_SCROLL_OF_BLOOD
+        // uses for the same call shape. The literal was copied from the `+ 0.5f`
+        // on the sine line above; spelling the truncation out keeps the
+        // behaviour identical and stops the float->int narrowing there.
+        b->RenderBody(RenderType, 1.f, 0, sine, o->BlendMeshTexCoordU, o->BlendMeshTexCoordV, 1);
     }
     else if (o->Type == MODEL_SCROLL_OF_BLOOD)
     {

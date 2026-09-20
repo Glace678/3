@@ -736,6 +736,9 @@ struct RENDER_TEXT_DATA
     BOOL m_bUseTextEX;
 };
 
+// Opt-in fit mode for labels whose entire text must stay inside a fixed box.
+inline constexpr int RT3_SORT_CENTER_FIT = 9;
+
 class IUIRenderText
 {
 public:
@@ -795,7 +798,16 @@ public:
 
 protected:
     void WriteText(int iOffset, int iWidth, int iHeight);
-    void UploadText(int sx, int sy, int Width, int Height);
+    void UploadText(float sx, float sy, int Width, int Height, float scale = 1.f);
+    void RenderTextSections(const wchar_t* text, float x, float y, int width, int height,
+        int clipPixels, float scale);
+
+    // Grows the GDI glyph atlas (BITMAP_FONT) so it can hold a glyph cell at
+    // least neededHeightPx tall. The shipped atlas is 256x32, enough for the
+    // fixed 12px reference font; once fonts scale with g_fScreenRate the body
+    // font reaches ~27px at 1080p and the doubled "big" font ~54px, so rows
+    // past 32 were clipped. Lazily (re)creates the RGBA texture; never shrinks.
+    void EnsureFontAtlasHeight(int neededHeightPx);
 };
 
 class CUIRenderText

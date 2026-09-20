@@ -11,8 +11,91 @@
 #include "UI/NewUI/NewUIMuHelper.h"
 #include "Character/CharacterManager.h"
 #include "MUHelper/MuHelper.h"
+#include "Core/Input/FocusNavigator.h"
+#include "Render/Core/ImmediateRenderer.h"
+#include "Render/Shaders/PassthroughShader.h"
+#include "Render/Textures/ZzzOpenglUtil.h"
+
+#include <SDL3/SDL.h>
+
+#include <cmath>
+#include <cstdint>
 
 using namespace MUHelper;
+
+extern unsigned int WindowHeight;
+float ConvertX(float x);
+float ConvertY(float y);
+
+namespace
+{
+    // Stable focus-id bands per control kind (button and checkbox map keys
+    // both start at 0, so they cannot share a band).
+    constexpr std::uint32_t MUHELPER_FOCUS_TAB_BASE = 0x100;
+    constexpr std::uint32_t MUHELPER_FOCUS_BUTTON_BASE = 0x200;
+    constexpr std::uint32_t MUHELPER_FOCUS_CHECKBOX_BASE = 0x400;
+    constexpr std::uint32_t MUHELPER_FOCUS_SLOT_BASE = 0x600;
+    constexpr std::uint32_t MUHELPER_FOCUS_CLOSE = 0x800;
+
+    // Ext-page controls live on a different owner, so small ids are fine.
+    constexpr std::uint32_t EXTFOCUS_PRECON_HUNT_RANGE = 1;
+    constexpr std::uint32_t EXTFOCUS_PRECON_ATTACKING = 2;
+    constexpr std::uint32_t EXTFOCUS_SUBCON_TWO = 3;
+    constexpr std::uint32_t EXTFOCUS_SUBCON_THREE = 4;
+    constexpr std::uint32_t EXTFOCUS_SUBCON_FOUR = 5;
+    constexpr std::uint32_t EXTFOCUS_SUBCON_FIVE = 6;
+    constexpr std::uint32_t EXTFOCUS_PARTY_HEAL = 7;
+    constexpr std::uint32_t EXTFOCUS_PARTY_DURATION = 8;
+    constexpr std::uint32_t EXTFOCUS_SAVE = 20;
+    constexpr std::uint32_t EXTFOCUS_RESET = 21;
+    constexpr std::uint32_t EXTFOCUS_CLOSE = 22;
+    constexpr std::uint32_t EXTFOCUS_BAR_POTION = 30;
+    constexpr std::uint32_t EXTFOCUS_BAR_HEAL = 31;
+    constexpr std::uint32_t EXTFOCUS_BAR_PARTY_HEAL = 32;
+
+    // Golden pulsing outline around the controller-focused control.
+    // Mirrors the raw-GL rect pattern in NewUIOptionWindow (UI coords -> GL).
+    void DrawMuHelperFocusOutline(int x, int y, int w, int h, float pulse)
+    {
+        DisableTexture2D();
+
+        const float gx = ConvertX(static_cast<float>(x));
+        const float gyRaw = ConvertY(static_cast<float>(y));
+        const float gw = ConvertX(static_cast<float>(w));
+        const float gh = ConvertY(static_cast<float>(h));
+        const float gy = static_cast<float>(WindowHeight) - gyRaw;
+
+        IR::Begin(GL_LINE_LOOP);
+        PassthroughShader::Instance().SetUseTexture(false);
+        const float brightness = 0.75f + 0.25f * pulse;
+        IR::Color4f(1.0f, 0.82f * brightness, 0.20f * brightness, 1.0f);
+        IR::Vertex2f(gx,      gy);
+        IR::Vertex2f(gx + gw, gy);
+        IR::Vertex2f(gx + gw, gy - gh);
+        IR::Vertex2f(gx,      gy - gh);
+        IR::End();
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        EnableTexture2D();
+    }
+
+    float MuHelperFocusPulse()
+    {
+        const std::uint64_t nowMs = SDL_GetTicks();
+        return 0.65f + 0.35f * static_cast<float>(0.5 + 0.5 * std::sin(nowMs / 140.0));
+    }
+
+    struct ExtFocusRect
+    {
+        std::uint32_t id;
+        int x;
+        int y;
+        int width;
+        int height;
+    };
+
+    constexpr int EXT_FOCUS_MAX = 10;
+}
 
 // defining constants naming since the original code hard coded these ids
 
@@ -102,6 +185,54 @@ enum ESkillSlot
     SUB_PAGE_PARTY_CONFIG,
     SUB_PAGE_PARTY_CONFIG_ELF
 };
+
+namespace
+{
+    // Controller-focusable controls of the visible condition/potion sub-page.
+    // The numeric buff-time edit box is deliberately excluded.
+    int BuildExtFocusRects(int page, const POINT& pos, ExtFocusRect* rects)
+    {
+        int count = 0;
+        auto add = [&](std::uint32_t id, int x, int y, int width, int height)
+        {
+            rects[count++] = { id, pos.x + x, pos.y + y, width, height };
+        };
+
+        if (page == SUB_PAGE_SKILL2_CONFIG || page == SUB_PAGE_SKILL3_CONFIG)
+        {
+            add(EXTFOCUS_PRECON_HUNT_RANGE, 17, 78, 15, 15);
+            add(EXTFOCUS_PRECON_ATTACKING, 17, 93, 15, 15);
+            add(EXTFOCUS_SUBCON_TWO, 17, 143, 15, 15);
+            add(EXTFOCUS_SUBCON_THREE, 17, 158, 15, 15);
+            add(EXTFOCUS_SUBCON_FOUR, 17 + 78, 143, 15, 15);
+            add(EXTFOCUS_SUBCON_FIVE, 17 + 78, 158, 15, 15);
+        }
+        else if (page == SUB_PAGE_POTION_CONFIG)
+        {
+            add(EXTFOCUS_BAR_POTION, 33 - 8, 80, 124 + 8, 16);
+        }
+        else if (page == SUB_PAGE_POTION_CONFIG_ELF || page == SUB_PAGE_POTION_CONFIG_SUMMY)
+        {
+            add(EXTFOCUS_BAR_POTION, 33 - 8, 80, 124 + 8, 16);
+            add(EXTFOCUS_BAR_HEAL, 33 - 8, 145, 124 + 8, 16);
+        }
+        else if (page == SUB_PAGE_PARTY_CONFIG)
+        {
+            add(EXTFOCUS_PARTY_DURATION, 17, 78, 15, 15);
+        }
+        else if (page == SUB_PAGE_PARTY_CONFIG_ELF)
+        {
+            add(EXTFOCUS_PARTY_HEAL, 17, 78, 15, 15);
+            add(EXTFOCUS_BAR_PARTY_HEAL, 32 - 8, 100, 124 + 8, 16);
+            add(EXTFOCUS_PARTY_DURATION, 17, 168, 15, 15);
+        }
+
+        add(EXTFOCUS_SAVE, 120, 388, 52, 26);
+        add(EXTFOCUS_RESET, 65, 388, 52, 26);
+        add(EXTFOCUS_CLOSE, 20, 388, 36, 29);
+        return count;
+    }
+}
 
 using namespace SEASON3B;
 
@@ -402,7 +533,7 @@ void CNewUIMuHelper::InitTextboxInput()
 {
     wchar_t wsInitText[MAX_NUMBER_DIGITS + 1];
 
-    m_DistanceTimeInput.Init(g_hWnd, 17, 15, MAX_NUMBER_DIGITS, false);
+    m_DistanceTimeInput.Init(g_hWnd, 17, 9, MAX_NUMBER_DIGITS, false);
     m_DistanceTimeInput.SetPosition(m_Pos.x + 142, m_Pos.y + 140);
     m_DistanceTimeInput.SetTextColor(255, 0, 0, 0);
     m_DistanceTimeInput.SetBackColor(255, 255, 255, 255);
@@ -412,7 +543,7 @@ void CNewUIMuHelper::InitTextboxInput()
     std::swprintf(wsInitText, MAX_NUMBER_DIGITS + 1, L"%d", _TempConfig.iMaxSecondsAway);
     m_DistanceTimeInput.SetText(wsInitText);
 
-    m_Skill2DelayInput.Init(g_hWnd, 17, 15, MAX_NUMBER_DIGITS, false);
+    m_Skill2DelayInput.Init(g_hWnd, 17, 9, MAX_NUMBER_DIGITS, false);
     m_Skill2DelayInput.SetPosition(m_Pos.x + 142, m_Pos.y + 177);
     m_Skill2DelayInput.SetTextColor(255, 0, 0, 0);
     m_Skill2DelayInput.SetBackColor(255, 255, 255, 255);
@@ -422,7 +553,7 @@ void CNewUIMuHelper::InitTextboxInput()
     std::swprintf(wsInitText, MAX_NUMBER_DIGITS + 1, L"%d", _TempConfig.aiSkillInterval[1]);
     m_Skill2DelayInput.SetText(wsInitText);
 
-    m_Skill3DelayInput.Init(g_hWnd, 17, 15, MAX_NUMBER_DIGITS, false);
+    m_Skill3DelayInput.Init(g_hWnd, 17, 9, MAX_NUMBER_DIGITS, false);
     m_Skill3DelayInput.SetPosition(m_Pos.x + 142, m_Pos.y + 229);
     m_Skill3DelayInput.SetTextColor(255, 0, 0, 0);
     m_Skill3DelayInput.SetBackColor(255, 255, 255, 255);
@@ -432,7 +563,7 @@ void CNewUIMuHelper::InitTextboxInput()
     std::swprintf(wsInitText, MAX_NUMBER_DIGITS + 1, L"%d", _TempConfig.aiSkillInterval[2]);
     m_Skill3DelayInput.SetText(wsInitText);
 
-    m_ItemInput.Init(g_hWnd, 88, 15, MAX_ITEM_NAME, false);
+    m_ItemInput.Init(g_hWnd, 88, 9, MAX_ITEM_NAME, false);
     m_ItemInput.SetPosition(m_Pos.x + 36, m_Pos.y + 219);
     m_ItemInput.SetTextColor(255, 0, 0, 0);
     m_ItemInput.SetBackColor(255, 255, 255, 255);
@@ -474,6 +605,10 @@ bool CNewUIMuHelper::Update()
 
 bool CNewUIMuHelper::UpdateMouseEvent()
 {
+    // Publish controller focus nodes even while the virtual pointer is still
+    // outside the window, otherwise it could never be steered in here.
+    RegisterFocusNodes();
+
     // Ignore events outside MU Helper window
     if (!CheckMouseIn(m_Pos.x, m_Pos.y, WINDOW_WIDTH, WINDOW_HEIGHT))
     {
@@ -1254,9 +1389,143 @@ bool CNewUIMuHelper::Render()
         m_ItemInput.Render();
     }
 
+    RenderFocusHighlight();
+
     DisableAlphaBlend();
 
     return true;
+}
+
+void CNewUIMuHelper::RenderFocusHighlight()
+{
+    if (g_pNewUISystem->IsVisible(INTERFACE_MUHELPER_EXT))
+        return;
+
+    const auto current = Core::Input::FocusNavigator::Instance().Current();
+    if (!current.has_value()
+        || current->owner != reinterpret_cast<std::uintptr_t>(this))
+    {
+        return;
+    }
+
+    const float pulse = MuHelperFocusPulse();
+    const std::uint32_t id = current->id;
+
+    if (id == MUHELPER_FOCUS_CLOSE)
+    {
+        DrawMuHelperFocusOutline(m_Pos.x + 169 - 2, m_Pos.y + 7 - 2, 13 + 4, 12 + 4, pulse);
+        return;
+    }
+
+    if (id >= MUHELPER_FOCUS_TAB_BASE && id < MUHELPER_FOCUS_TAB_BASE + 3)
+    {
+        const int tab = static_cast<int>(id - MUHELPER_FOCUS_TAB_BASE);
+        DrawMuHelperFocusOutline(m_Pos.x + 10 + tab * 56 - 2, m_Pos.y + 48 - 2, 56 + 4, 22 + 4, pulse);
+        return;
+    }
+
+    if (id >= MUHELPER_FOCUS_SLOT_BASE && id < MUHELPER_FOCUS_SLOT_BASE + MAX_SKILLS_SLOT)
+    {
+        const int slot = static_cast<int>(id - MUHELPER_FOCUS_SLOT_BASE);
+        auto it = m_IconList.find(slot);
+        if (it != m_IconList.end())
+        {
+            const cTexture& image = it->second;
+            DrawMuHelperFocusOutline(image.m_Pos.x - 2, image.m_Pos.y - 2,
+                image.m_Size.x + 4, image.m_Size.y + 4, pulse);
+        }
+        return;
+    }
+
+    if (id >= MUHELPER_FOCUS_BUTTON_BASE && id < MUHELPER_FOCUS_CHECKBOX_BASE)
+    {
+        const int key = static_cast<int>(id - MUHELPER_FOCUS_BUTTON_BASE);
+        auto it = m_ButtonList.find(key);
+        if (it != m_ButtonList.end())
+        {
+            const CButtonTap& tap = it->second;
+            DrawMuHelperFocusOutline(tap.x - 2, tap.y - 2, tap.width + 4, tap.height + 4, pulse);
+        }
+        return;
+    }
+
+    if (id >= MUHELPER_FOCUS_CHECKBOX_BASE && id < MUHELPER_FOCUS_SLOT_BASE)
+    {
+        const int key = static_cast<int>(id - MUHELPER_FOCUS_CHECKBOX_BASE);
+        auto it = m_CheckBoxList.find(key);
+        if (it != m_CheckBoxList.end())
+        {
+            const CheckBoxTap& tap = it->second;
+            DrawMuHelperFocusOutline(tap.x - 2, tap.y - 2, tap.width + 4, tap.height + 4, pulse);
+        }
+        return;
+    }
+}
+
+void CNewUIMuHelper::RegisterFocusNodes()
+{
+    // The condition/potion sub-page covers the same panel and owns the input
+    // while open; publish nothing from underneath it.
+    if (g_pNewUISystem->IsVisible(INTERFACE_MUHELPER_EXT))
+        return;
+
+    auto& navigator = Core::Input::FocusNavigator::Instance();
+    const int baseClass = gCharacterManager.GetBaseClass(Hero->Class);
+    const auto visibleOnTab = [this](int iNumTab)
+    {
+        return iNumTab == m_iCurrentOpenTab || iNumTab == -1;
+    };
+
+    // Window close button (top-right X) and the three tab radios.
+    navigator.Register(this, MUHELPER_FOCUS_CLOSE,
+        static_cast<float>(m_Pos.x + 169), static_cast<float>(m_Pos.y + 7), 13.f, 12.f);
+    for (int tab = 0; tab < 3; ++tab)
+    {
+        navigator.Register(this, MUHELPER_FOCUS_TAB_BASE + static_cast<std::uint32_t>(tab),
+            static_cast<float>(m_Pos.x + 10 + tab * 56),
+            static_cast<float>(m_Pos.y + 48), 56.f, 22.f);
+    }
+
+    for (const auto& pair : m_ButtonList)
+    {
+        const CButtonTap& tap = pair.second;
+        if (tap.class_character[baseClass] && visibleOnTab(tap.iNumTab))
+        {
+            navigator.Register(this,
+                MUHELPER_FOCUS_BUTTON_BASE + static_cast<std::uint32_t>(pair.first),
+                static_cast<float>(tap.x), static_cast<float>(tap.y),
+                static_cast<float>(tap.width), static_cast<float>(tap.height));
+        }
+    }
+
+    for (const auto& pair : m_CheckBoxList)
+    {
+        const CheckBoxTap& tap = pair.second;
+        if (tap.class_character[baseClass] && visibleOnTab(tap.iNumTab))
+        {
+            navigator.Register(this,
+                MUHELPER_FOCUS_CHECKBOX_BASE + static_cast<std::uint32_t>(pair.first),
+                static_cast<float>(tap.x), static_cast<float>(tap.y),
+                static_cast<float>(tap.width), static_cast<float>(tap.height));
+        }
+    }
+
+    // Skill slots only; the numeric/string edit-box icons are intentionally
+    // not focusable (text entry stays mouse/keyboard only for now).
+    for (const auto& pair : m_IconList)
+    {
+        if (pair.first >= MAX_SKILLS_SLOT)
+            continue;
+
+        const cTexture& image = pair.second;
+        if (image.class_character[baseClass] && visibleOnTab(image.iNumTab))
+        {
+            navigator.Register(this,
+                MUHELPER_FOCUS_SLOT_BASE + static_cast<std::uint32_t>(pair.first),
+                static_cast<float>(image.m_Pos.x), static_cast<float>(image.m_Pos.y),
+                static_cast<float>(image.m_Size.x), static_cast<float>(image.m_Size.y));
+        }
+    }
 }
 
 void CNewUIMuHelper::RenderBack(int x, int y, int width, int height)
@@ -1340,6 +1609,10 @@ void CNewUIMuHelper::InsertButton(int imgindex, int x, int y, int sx, int sy, bo
 
     cBTN.btn = button;
     cBTN.iNumTab = iNumTab;
+    cBTN.x = x;
+    cBTN.y = y;
+    cBTN.width = sx;
+    cBTN.height = sy;
     memset(cBTN.class_character, 0, sizeof(cBTN.class_character));
 
     RegisterButton(Identifier, cBTN);
@@ -1420,6 +1693,10 @@ void CNewUIMuHelper::InsertCheckBox(int imgindex, int x, int y, int sx, int sy, 
 
     cBOX.box = cbox;
     cBOX.iNumTab = iNumTab;
+    cBOX.x = x;
+    cBOX.y = y;
+    cBOX.width = sx;
+    cBOX.height = sy;
     memset(cBOX.class_character, 0, sizeof(cBOX.class_character));
 
     RegisterCheckBox(Identifier, cBOX);
@@ -1896,6 +2173,8 @@ void CNewUIMuHelperSkillList::UnloadImages()
 
 bool CNewUIMuHelperSkillList::UpdateMouseEvent()
 {
+    RegisterFocusNodes();
+
     if (IsRelease(VK_LBUTTON))
     {
         int skillId = UpdateMouseSkillList();
@@ -2014,7 +2293,41 @@ bool CNewUIMuHelperSkillList::Render()
         m_bRenderSkillInfo = false;
     }
 
+    RenderFocusHighlight();
+
     return true;
+}
+
+void CNewUIMuHelperSkillList::RegisterFocusNodes()
+{
+    auto& navigator = Core::Input::FocusNavigator::Instance();
+    for (const auto& pair : m_skillIconMap)
+    {
+        const cSkillIcon& icon = pair.second;
+        // Every map entry is rendered by Render(); there is no separate
+        // visibility flag on these icons.
+        navigator.Register(this, static_cast<std::uint32_t>(icon.skillId),
+            static_cast<float>(icon.location.x), static_cast<float>(icon.location.y),
+            static_cast<float>(icon.area.cx), static_cast<float>(icon.area.cy));
+    }
+}
+
+void CNewUIMuHelperSkillList::RenderFocusHighlight()
+{
+    const auto current = Core::Input::FocusNavigator::Instance().Current();
+    if (!current.has_value()
+        || current->owner != reinterpret_cast<std::uintptr_t>(this))
+    {
+        return;
+    }
+
+    auto it = m_skillIconMap.find(static_cast<int>(current->id));
+    if (it == m_skillIconMap.end())
+        return;
+
+    const cSkillIcon& icon = it->second;
+    DrawMuHelperFocusOutline(icon.location.x - 2, icon.location.y - 2,
+        icon.area.cx + 4, icon.area.cy + 4, MuHelperFocusPulse());
 }
 
 void CNewUIMuHelperSkillList::RenderSkillInfo()
@@ -2398,7 +2711,7 @@ void CNewUIMuHelperExt::SetPos(int x, int y)
 
 void CNewUIMuHelperExt::InitText()
 {
-    m_BuffTimeInput.Init(g_hWnd, 17, 15, MAX_NUMBER_DIGITS, false);
+    m_BuffTimeInput.Init(g_hWnd, 17, 9, MAX_NUMBER_DIGITS, false);
     m_BuffTimeInput.SetTextColor(255, 0, 0, 0);
     m_BuffTimeInput.SetBackColor(255, 255, 255, 255);
     m_BuffTimeInput.SetFont(g_hFont);
@@ -2558,9 +2871,47 @@ bool CNewUIMuHelperExt::Render()
     m_BtnReset.Render();
     m_BtnClose.Render();
 
+    RenderFocusHighlight();
+
     DisableAlphaBlend();
 
     return true;
+}
+
+void CNewUIMuHelperExt::RegisterFocusNodes()
+{
+    ExtFocusRect rects[EXT_FOCUS_MAX] = {};
+    const int count = BuildExtFocusRects(m_iCurrentPage, m_Pos, rects);
+
+    auto& navigator = Core::Input::FocusNavigator::Instance();
+    for (int i = 0; i < count; ++i)
+    {
+        navigator.Register(this, rects[i].id,
+            static_cast<float>(rects[i].x), static_cast<float>(rects[i].y),
+            static_cast<float>(rects[i].width), static_cast<float>(rects[i].height));
+    }
+}
+
+void CNewUIMuHelperExt::RenderFocusHighlight()
+{
+    const auto current = Core::Input::FocusNavigator::Instance().Current();
+    if (!current.has_value()
+        || current->owner != reinterpret_cast<std::uintptr_t>(this))
+    {
+        return;
+    }
+
+    ExtFocusRect rects[EXT_FOCUS_MAX] = {};
+    const int count = BuildExtFocusRects(m_iCurrentPage, m_Pos, rects);
+    for (int i = 0; i < count; ++i)
+    {
+        if (rects[i].id == current->id)
+        {
+            DrawMuHelperFocusOutline(rects[i].x - 2, rects[i].y - 2,
+                rects[i].width + 4, rects[i].height + 4, MuHelperFocusPulse());
+            return;
+        }
+    }
 }
 
 void CNewUIMuHelperExt::RenderHpLevel(int x, int y, int width, int height, int level, const wchar_t* pszLabel)
@@ -2740,6 +3091,10 @@ bool CNewUIMuHelperExt::Update()
 
 bool CNewUIMuHelperExt::UpdateMouseEvent()
 {
+    // Controller nodes are needed even while the virtual pointer is outside
+    // the window, so register before the bounds early-return.
+    RegisterFocusNodes();
+
     // Ignore events outside MU Helper window
     if (!CheckMouseIn(m_Pos.x, m_Pos.y, WINDOW_WIDTH, WINDOW_HEIGHT))
     {

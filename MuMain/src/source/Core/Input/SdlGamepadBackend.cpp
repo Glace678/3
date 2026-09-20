@@ -19,6 +19,7 @@ namespace Core::Input
 {
     namespace
     {
+#if !defined(__ANDROID__) && !defined(__OHOS__)
         constexpr float AxisPositiveMaximum = 32767.0f;
         constexpr float AxisNegativeMaximum = 32768.0f;
         constexpr Sint16 ActivityAxisThreshold = 12000;
@@ -40,6 +41,7 @@ namespace Core::Input
             SDL_GAMEPAD_BUTTON_DPAD_LEFT,
             SDL_GAMEPAD_BUTTON_DPAD_RIGHT,
         };
+#endif
     }
 
     SdlGamepadBackend::~SdlGamepadBackend()
@@ -50,19 +52,11 @@ namespace Core::Input
     bool SdlGamepadBackend::Initialize()
     {
         if (m_initialized) return true;
-#ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
-        if (const char* forceFocus = std::getenv("MU_VIRTUAL_GAMEPAD_FORCE_FOCUS");
-            forceFocus != nullptr && std::strcmp(forceFocus, "1") == 0)
-        {
-            // Hidden acceptance clients have no SDL keyboard focus. Permit
-            // their virtual device only when the explicit Debug runner asks
-            // for it; normal clients continue to reject background input.
-            SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
-        }
-#endif
-        if (!SDL_InitSubSystem(SDL_INIT_GAMEPAD)) return false;
-        m_initialized = true;
 #if defined(__ANDROID__) || defined(__OHOS__)
+        // Phone/tablet builds are touch-only: the SDL gamepad subsystem is
+        // never initialized and no controller is ever opened. The haptics
+        // subsystem stays up so phone vibration (combat/UI/touch feedback)
+        // keeps working through the system vibrator.
         if (SDL_InitSubSystem(SDL_INIT_HAPTIC))
         {
             m_hapticSubsystemInitialized = true;
@@ -84,7 +78,21 @@ namespace Core::Input
             }
             SDL_free(haptics);
         }
+        m_initialized = true;
+        return true;
+#else
+#ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
+        if (const char* forceFocus = std::getenv("MU_VIRTUAL_GAMEPAD_FORCE_FOCUS");
+            forceFocus != nullptr && std::strcmp(forceFocus, "1") == 0)
+        {
+            // Hidden acceptance clients have no SDL keyboard focus. Permit
+            // their virtual device only when the explicit Debug runner asks
+            // for it; normal clients continue to reject background input.
+            SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
+        }
 #endif
+        if (!SDL_InitSubSystem(SDL_INIT_GAMEPAD)) return false;
+        m_initialized = true;
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
         if (const char* statePath = std::getenv("MU_VIRTUAL_GAMEPAD_STATE"))
         {
@@ -95,12 +103,12 @@ namespace Core::Input
 #endif
         RefreshDevices();
         return true;
+#endif
     }
 
     void SdlGamepadBackend::Shutdown()
     {
         if (!m_initialized) return;
-        CloseDevice();
 #if defined(__ANDROID__) || defined(__OHOS__)
         if (m_systemHaptic != nullptr)
         {
@@ -113,16 +121,23 @@ namespace Core::Input
             SDL_QuitSubSystem(SDL_INIT_HAPTIC);
             m_hapticSubsystemInitialized = false;
         }
-#endif
+        m_initialized = false;
+        return;
+#else
+        CloseDevice();
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
         DetachVirtualTestDevice();
 #endif
         SDL_QuitSubSystem(SDL_INIT_GAMEPAD);
         m_initialized = false;
+#endif
     }
 
     void SdlGamepadBackend::RefreshDevices()
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return; // touch-only build: controllers are never enumerated
+#else
         if (!m_initialized) return;
         if (m_gamepad && SDL_GamepadConnected(m_gamepad)) return;
 
@@ -135,10 +150,14 @@ namespace Core::Input
             if (OpenDevice(devices[i])) break;
         }
         SDL_free(devices);
+#endif
     }
 
     GamepadSnapshot SdlGamepadBackend::Poll()
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return GamepadSnapshot{}; // touch-only build never produces gamepad input
+#else
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
         UpdateVirtualTestDevice();
 #endif
@@ -164,22 +183,35 @@ namespace Core::Input
         result.rightTrigger = NormalizeTrigger(SDL_GetGamepadAxis(m_gamepad, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER));
         result.sequence = ++m_sequence;
         return result;
+#endif
     }
 
     bool SdlGamepadBackend::IsConnected() const
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return false;
+#else
         return m_gamepad != nullptr && SDL_GamepadConnected(m_gamepad);
+#endif
     }
 
     std::string SdlGamepadBackend::GetDeviceName() const
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return {};
+#else
         if (!m_gamepad) return {};
         const char* name = SDL_GetGamepadName(m_gamepad);
         return name ? name : "Gamepad";
+#endif
     }
 
     void SdlGamepadBackend::HandleEvent(const SDL_Event& event)
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        (void)event; // touch-only build ignores controller events
+        return;
+#else
         switch (event.type)
         {
         case SDL_EVENT_GAMEPAD_ADDED:
@@ -206,10 +238,14 @@ namespace Core::Input
         default:
             break;
         }
+#endif
     }
 
     GamepadIconFamily SdlGamepadBackend::GetIconFamily() const
     {
+#if defined(__ANDROID__) || defined(__OHOS__)
+        return GamepadIconFamily::Generic;
+#else
         if (!m_gamepad) return GamepadIconFamily::Generic;
         switch (SDL_GetGamepadType(m_gamepad))
         {
@@ -228,6 +264,7 @@ namespace Core::Input
         default:
             return GamepadIconFamily::Generic;
         }
+#endif
     }
 
     bool SdlGamepadBackend::SupportsRumble() const
@@ -279,6 +316,7 @@ namespace Core::Input
 #endif
     }
 
+#if !defined(__ANDROID__) && !defined(__OHOS__)
     bool SdlGamepadBackend::OpenDevice(SDL_JoystickID deviceId)
     {
         if (deviceId == 0) return false;
@@ -320,6 +358,7 @@ namespace Core::Input
     {
         return std::clamp(static_cast<float>(std::max<Sint16>(value, 0)) / AxisPositiveMaximum, 0.0f, 1.0f);
     }
+#endif
 
 #ifdef MU_ENABLE_VIRTUAL_GAMEPAD_TESTS
     bool SdlGamepadBackend::AttachVirtualTestDevice()

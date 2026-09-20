@@ -47,6 +47,7 @@
 #include "UI/NewUI/NewUISystem.h"
 #include "Network/Server/ServerListManager.h"
 #include <algorithm>
+#include <array>
 #include <time.h>
 #include <unordered_map>
 #include <unordered_set>
@@ -303,10 +304,19 @@ int RenderTextList(int sx, int sy, int TextNum, int Tab, int iSort = RT3_SORT_CE
     return TextWidth + Tab;
 }
 
+namespace
+{
+    void SelectTooltipLineFont(int line)
+    {
+        g_pRenderText->SetFont(TextBold[line] ? g_hFontBold : g_hFont);
+    }
+}
+
 void RenderTipTextList(const int sx, const int sy, int TextNum, int Tab, int iSort, int iRenderPoint, BOOL bUseBG)
 {
+    TextNum = std::clamp(TextNum, 0, static_cast<int>(std::size(TextList)));
     SIZE TextSize = { 0, 0 };
-    int TextLine = 0; int EmptyLine = 0;
+    std::array<float, std::size(TextList)> lineHeights{};
     float fWidth = 0; float fHeight = 0;
     for (int i = 0; i < TextNum; ++i)
     {
@@ -316,32 +326,18 @@ void RenderTipTextList(const int sx, const int sy, int TextNum, int Tab, int iSo
             break;
         }
 
-        if (TextBold[i])
-        {
-            g_pRenderText->SetFont(g_hFontBold);
-        }
-        else
-        {
-            g_pRenderText->SetFont(g_hFont);
-        }
-
+        SelectTooltipLineFont(i);
         GetTextExtentPoint32(g_pRenderText->GetFontDC(), TextList[i], lstrlen(TextList[i]), &TextSize);
 
         if (fWidth < TextSize.cx)
             fWidth = TextSize.cx;
 
-        if (TextList[i][0] == '\n')
-        {
-            ++EmptyLine;
-        }
-        else
-        {
-            ++TextLine;
-        }
+        constexpr float lineSpacing = 1.1f;
+        const float heightFraction = TextList[i][0] == L'\n' ? 0.5f : 1.f;
+        lineHeights[i] = TextSize.cy / g_fScreenRate_y * heightFraction * lineSpacing;
+        fHeight += lineHeights[i];
     }
 
-    fHeight = TextSize.cy * TextLine + TextSize.cy / 2.0f * EmptyLine;
-    fHeight /= g_fScreenRate_y / 1.1f;
     EnableAlphaTest();
     fWidth /= g_fScreenRate_x;
     if (Tab > 0)
@@ -393,11 +389,10 @@ void RenderTipTextList(const int sx, const int sy, int TextNum, int Tab, int iSo
             g_pRenderText->SetFont(g_hFont);
         }
 
-        float fHeight = 0;
         if (TextList[i][0] == 0x0a || (TextList[i][0] == ' ' && TextList[i][1] == 0x00))
         {
-            GetTextExtentPoint32(g_pRenderText->GetFontDC(), TextList[i], lstrlen(TextList[i]), &TextSize);
-            fHeight = (float)TextSize.cy / g_fScreenRate_y / (TextList[i][0] == 0x0a ? 2.0f : 1.0f);
+            fsy += lineHeights[i];
+            continue;
         }
         else
         {
@@ -464,9 +459,8 @@ void RenderTipTextList(const int sx, const int sy, int TextNum, int Tab, int iSo
             }
             SIZE TextSize;
             g_pRenderText->RenderText(fsx, fsy, TextList[i], (fWidth - 2), 0, iSort, &TextSize);
-            fHeight = TextSize.cy;
         }
-        fsy += fHeight * 1.1f;
+        fsy += lineHeights[i];
     }
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -11404,7 +11398,7 @@ void RenderGuildList(int StartX, int StartY)
     else
         mu_swprintf(Text, L"%ls (Score:%d)", GuildMark[Hero->GuildMarkIndex].GuildName, GuildTotalScore);
 
-    g_pRenderText->RenderText(StartX + 95 - 60, StartY + 12, Text, 120 * WindowWidth / REFERENCE_WIDTH, true, 3);
+    g_pRenderText->RenderText(StartX + 95 - 60, StartY + 12, Text, 120, 0, RT3_SORT_CENTER);
 
     g_pRenderText->SetBgColor(0);
     g_pRenderText->SetTextColor(230, 230, 230, 255);

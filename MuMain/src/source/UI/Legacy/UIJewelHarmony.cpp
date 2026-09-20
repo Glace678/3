@@ -8,7 +8,7 @@
 
 
 #define HARMONYJEWELOPTION_DATA_FILE std::wstring(L"Data\\Local\\"+g_strSelectedML+L"\\JewelOfHarmonyOption_"+g_strSelectedML+L".bmd").c_str()
-#define NOTSMELTING_DATA_FILE std::wstring(L"Data\\Local\\"+g_strSelectedML+"L\\JewelOfHarmonySmelt_"+g_strSelectedML+L".bmd").c_str()
+#define NOTSMELTING_DATA_FILE std::wstring(L"Data\\Local\\"+g_strSelectedML+L"\\JewelOfHarmonySmelt_"+g_strSelectedML+L".bmd").c_str()
 
 
 

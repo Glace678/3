@@ -1,0 +1,2144 @@
+[
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10510819821028727
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 1087.7513187921581,
+      "xpPerHour": 527559.3896141967,
+      "grossZenPerHour": 24983.21122970178,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 372.8361665788383,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 10492.948716474748,
+      "netZenPerHour": 14077.426346648193,
+      "combatFraction": 0.5649032826952095,
+      "recoveryFraction": 0.43509671730479055
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 743.9005606864187,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17592.306142016292,
+      "combatFraction": 0.5635610308230444,
+      "recoveryFraction": 0.4364389691769556
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1490.13164026255,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17546.795376802293,
+      "combatFraction": 0.5644438031297537,
+      "recoveryFraction": 0.43555619687024627
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 8648293.515358362,
+      "grossZenPerHour": 131088.55699658708,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 2225.6090498945027,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 55057.193938566576,
+      "netZenPerHour": 45920.70281358676,
+      "combatFraction": 0.5620224873470967,
+      "recoveryFraction": 0.43797751265290336
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 761.138760678768,
+      "xpPerHour": 15226580.907378757,
+      "grossZenPerHour": 183755.76366279126,
+      "potionZenPerHour": 22834.16282036304,
+      "repairZenPerHour": 3205.7511269650686,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 77177.42073837233,
+      "netZenPerHour": 80178.42897709082,
+      "combatFraction": 0.5396887419133112,
+      "recoveryFraction": 0.4603112580866888
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 755.7811015815065,
+      "xpPerHour": 22133049.55981442,
+      "grossZenPerHour": 241117.57038740558,
+      "potionZenPerHour": 22673.433047445196,
+      "repairZenPerHour": 3884.967086900544,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 101269.37956271034,
+      "netZenPerHour": 112849.79069034949,
+      "combatFraction": 0.5351194334573752,
+      "recoveryFraction": 0.4648805665426249
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 749.1501752096822,
+      "xpPerHour": 39798603.05801436,
+      "grossZenPerHour": 375760.84250216297,
+      "potionZenPerHour": 89898.02102516186,
+      "repairZenPerHour": 5241.442638180429,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 157819.55385090844,
+      "netZenPerHour": 122201.82498791223,
+      "combatFraction": 0.5294386503212554,
+      "recoveryFraction": 0.4705613496787446
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "assault",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 646.0311094107049,
+      "xpPerHour": 59967837.73104869,
+      "grossZenPerHour": 505090.8952821154,
+      "potionZenPerHour": 77523.73312928459,
+      "repairZenPerHour": 6878.120526784737,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 212138.17601848845,
+      "netZenPerHour": 207750.86560755761,
+      "combatFraction": 0.5210697368776316,
+      "recoveryFraction": 0.4789302631223684
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.0977014863636683
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 791.7888563049853,
+      "xpPerHour": 384017.59530791786,
+      "grossZenPerHour": 18185.616422287392,
+      "potionZenPerHour": 3167.155425219941,
+      "repairZenPerHour": 325.6709692642533,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 7637.958897360704,
+      "netZenPerHour": 7014.831130442493,
+      "combatFraction": 0.4934408625215959,
+      "recoveryFraction": 0.5065591374784041
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 798.8165680473372,
+      "xpPerHour": 1106360.9467455621,
+      "grossZenPerHour": 33315.635502958576,
+      "potionZenPerHour": 3195.266272189349,
+      "repairZenPerHour": 651.4632129088162,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 13992.566911242602,
+      "netZenPerHour": 15396.339106617806,
+      "combatFraction": 0.4935327370521336,
+      "recoveryFraction": 0.5064672629478665
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 3630895.522388059,
+      "grossZenPerHour": 70636.64238805968,
+      "potionZenPerHour": 24179.10447761194,
+      "repairZenPerHour": 1520.5273602878058,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 29667.389802985068,
+      "netZenPerHour": 15109.620747174871,
+      "combatFraction": 0.5759573334423507,
+      "recoveryFraction": 0.4240426665576494
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 7564029.850746268,
+      "grossZenPerHour": 114653.57373134329,
+      "potionZenPerHour": 24179.10447761194,
+      "repairZenPerHour": 2271.0070454396146,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 48154.50096716418,
+      "netZenPerHour": 39808.96124112755,
+      "combatFraction": 0.5734866276362662,
+      "recoveryFraction": 0.42651337236373377
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 16123432.835820897,
+      "grossZenPerHour": 194579.0543283582,
+      "potionZenPerHour": 24179.10447761194,
+      "repairZenPerHour": 3394.571197459747,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 81723.20281791044,
+      "netZenPerHour": 84922.17583537608,
+      "combatFraction": 0.5714766325689811,
+      "recoveryFraction": 0.42852336743101893
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 23602835.820895523,
+      "grossZenPerHour": 257129.4304477612,
+      "potionZenPerHour": 96716.41791044777,
+      "repairZenPerHour": 4734.806333017331,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 107994.3607880597,
+      "netZenPerHour": 47243.84541623642,
+      "combatFraction": 0.6521771808563817,
+      "recoveryFraction": 0.3478228191436184
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 42817164.17910448,
+      "grossZenPerHour": 404260.7641791044,
+      "potionZenPerHour": 96716.41791044777,
+      "repairZenPerHour": 6444.553835138034,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 169789.52095522385,
+      "netZenPerHour": 130710.27147829477,
+      "combatFraction": 0.6509650338523266,
+      "recoveryFraction": 0.3490349661476734
+    }
+  },
+  {
+    "classId": "DK",
+    "buildId": "guard",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 696.6372977938006,
+      "xpPerHour": 64665357.16770955,
+      "grossZenPerHour": 544656.6756677522,
+      "potionZenPerHour": 83596.47573525607,
+      "repairZenPerHour": 8344.024972429592,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 228755.8037804559,
+      "netZenPerHour": 223160.37117961055,
+      "combatFraction": 0.6321231039719387,
+      "recoveryFraction": 0.3678768960280613
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10599778196802519
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 260.12601923395226,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8202.411872657942,
+      "combatFraction": 0.3941303321726549,
+      "recoveryFraction": 0.6058696678273451
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 644.7138192615629,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17691.492883441148,
+      "combatFraction": 0.4884195600466385,
+      "recoveryFraction": 0.5115804399533616
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 931.0344827586207,
+      "xpPerHour": 4194310.344827586,
+      "grossZenPerHour": 81597.50068965516,
+      "potionZenPerHour": 27931.034482758623,
+      "repairZenPerHour": 1304.8072224735756,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 34270.95028965517,
+      "netZenPerHour": 17930.708694767796,
+      "combatFraction": 0.4942451600278695,
+      "recoveryFraction": 0.5057548399721306
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 888.7355864110938,
+      "xpPerHour": 8340783.478468115,
+      "grossZenPerHour": 126427.40078972127,
+      "potionZenPerHour": 26662.067592332813,
+      "repairZenPerHour": 1860.276065476559,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 53099.50833168293,
+      "netZenPerHour": 44565.54880022897,
+      "combatFraction": 0.4697666832011513,
+      "recoveryFraction": 0.5302333167988488
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 791.364124650027,
+      "xpPerHour": 15831239.313623792,
+      "grossZenPerHour": 191052.83631951877,
+      "potionZenPerHour": 23740.92373950081,
+      "repairZenPerHour": 2971.179382543463,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 80242.19125419788,
+      "netZenPerHour": 83738.54194327662,
+      "combatFraction": 0.5001985492497412,
+      "recoveryFraction": 0.49980145075025884
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 781.4935779879812,
+      "xpPerHour": 22886039.431378033,
+      "grossZenPerHour": 249320.64641934054,
+      "potionZenPerHour": 23444.807339639436,
+      "repairZenPerHour": 3580.9914072411702,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 104714.67149612302,
+      "netZenPerHour": 117140.17617633691,
+      "combatFraction": 0.4932495051296378,
+      "recoveryFraction": 0.5067504948703623
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 769.2576997476267,
+      "xpPerHour": 40866815.299092665,
+      "grossZenPerHour": 385846.43096097384,
+      "potionZenPerHour": 23077.730992428802,
+      "repairZenPerHour": 4797.780262324227,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 162055.501003609,
+      "netZenPerHour": 195315.41870261185,
+      "combatFraction": 0.48462426892163907,
+      "recoveryFraction": 0.515375731078361
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "elemental",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 588.31027938533,
+      "xpPerHour": 54609901.683943264,
+      "grossZenPerHour": 459962.6262417324,
+      "potionZenPerHour": 70597.2335262396,
+      "repairZenPerHour": 5699.8598741310125,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 193184.3030215276,
+      "netZenPerHour": 189681.22981983423,
+      "combatFraction": 0.4318075662220464,
+      "recoveryFraction": 0.5681924337779535
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.09604954709026853
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 791.7888563049853,
+      "xpPerHour": 384017.59530791786,
+      "grossZenPerHour": 18185.616422287392,
+      "potionZenPerHour": 3167.155425219941,
+      "repairZenPerHour": 282.24817336235293,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 7637.958897360704,
+      "netZenPerHour": 7058.253926344392,
+      "combatFraction": 0.42764874751871645,
+      "recoveryFraction": 0.5723512524812836
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 644.7138192615629,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17691.492883441148,
+      "combatFraction": 0.4884195600466385,
+      "recoveryFraction": 0.5115804399533616
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 4109290.5405405406,
+      "grossZenPerHour": 79943.49729729729,
+      "potionZenPerHour": 27364.864864864867,
+      "repairZenPerHour": 1534.0301129081226,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33576.26886486486,
+      "netZenPerHour": 17308.33345465944,
+      "combatFraction": 0.5810720124651979,
+      "recoveryFraction": 0.4189279875348021
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 8560641.891891893,
+      "grossZenPerHour": 129759.95675675679,
+      "potionZenPerHour": 27364.864864864867,
+      "repairZenPerHour": 2291.1742894724757,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 54499.181837837845,
+      "netZenPerHour": 45364.7357645816,
+      "combatFraction": 0.578579366028403,
+      "recoveryFraction": 0.42142063397159707
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 858.7165103829738,
+      "xpPerHour": 17178623.790211394,
+      "grossZenPerHour": 207313.19476431995,
+      "potionZenPerHour": 25761.495311489212,
+      "repairZenPerHour": 3761.3965096019588,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 87071.54180101438,
+      "netZenPerHour": 90358.7611422144,
+      "combatFraction": 0.6332317356232254,
+      "recoveryFraction": 0.36676826437677457
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 854.5169679943039,
+      "xpPerHour": 25024529.40771319,
+      "grossZenPerHour": 272617.3686355121,
+      "potionZenPerHour": 25635.509039829114,
+      "repairZenPerHour": 4568.202486759075,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 114499.29482691507,
+      "netZenPerHour": 127474.36228200882,
+      "combatFraction": 0.6292289926665393,
+      "recoveryFraction": 0.3707710073334608
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 849.3285901486133,
+      "xpPerHour": 45120581.35164508,
+      "grossZenPerHour": 426008.61236679385,
+      "potionZenPerHour": 101919.4308178336,
+      "repairZenPerHour": 6180.036423783779,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 178923.6171940534,
+      "netZenPerHour": 138385.52793112307,
+      "combatFraction": 0.6242461034125031,
+      "recoveryFraction": 0.3757538965874969
+    }
+  },
+  {
+    "classId": "DW",
+    "buildId": "barrier",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 728.7509012299228,
+      "xpPerHour": 67646302.40666759,
+      "grossZenPerHour": 569764.2726147189,
+      "potionZenPerHour": 87450.10814759074,
+      "repairZenPerHour": 8069.168679390728,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 239300.9944981819,
+      "netZenPerHour": 234144.00128955545,
+      "combatFraction": 0.6113006575296006,
+      "recoveryFraction": 0.38869934247039933
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.1017530927921621
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 356.8892808545723,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8105.648611037321,
+      "combatFraction": 0.5407413346281398,
+      "recoveryFraction": 0.45925866537186016
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 686.1874993578796,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17650.019203344826,
+      "combatFraction": 0.5198390146650602,
+      "recoveryFraction": 0.4801609853349397
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1344.1622976383615,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17692.764719426486,
+      "combatFraction": 0.5091523854690764,
+      "recoveryFraction": 0.4908476145309237
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 8648293.515358362,
+      "grossZenPerHour": 131088.55699658708,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 2322.1633404408667,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 55057.193938566576,
+      "netZenPerHour": 45824.14852304039,
+      "combatFraction": 0.5864048839497137,
+      "recoveryFraction": 0.4135951160502863
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 18434641.63822526,
+      "grossZenPerHour": 222470.93242320823,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 3450.5198014868083,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 93437.79161774745,
+      "netZenPerHour": 97577.5698094347,
+      "combatFraction": 0.5808955894758936,
+      "recoveryFraction": 0.4191044105241064
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 26986177.474402737,
+      "grossZenPerHour": 293987.57406143355,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 4202.113238525319,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 123474.78110580209,
+      "netZenPerHour": 138225.62852256693,
+      "combatFraction": 0.5788034763808977,
+      "recoveryFraction": 0.4211965236191023
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 815.805172510949,
+      "xpPerHour": 43339649.78964417,
+      "grossZenPerHour": 409193.8426825248,
+      "potionZenPerHour": 24474.15517532847,
+      "repairZenPerHour": 5771.837655312075,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 171861.4139266604,
+      "netZenPerHour": 206486.43592522384,
+      "combatFraction": 0.5830139045769773,
+      "recoveryFraction": 0.41698609542302273
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "marksman",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 705.0467589034465,
+      "xpPerHour": 65445965.395212434,
+      "grossZenPerHour": 551231.5018314421,
+      "potionZenPerHour": 84605.6110684136,
+      "repairZenPerHour": 7395.115075424072,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 231517.2307692057,
+      "netZenPerHour": 226913.54491839875,
+      "combatFraction": 0.5602359905624297,
+      "recoveryFraction": 0.43976400943757027
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.07082250479677898
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 385.2925489990698,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8077.245342892822,
+      "combatFraction": 0.5837765893925301,
+      "recoveryFraction": 0.41622341060747
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 759.6287305621337,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17576.57797214057,
+      "combatFraction": 0.5754763110319193,
+      "recoveryFraction": 0.4245236889680806
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1513.670518363814,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17523.256498701034,
+      "combatFraction": 0.573360044834778,
+      "recoveryFraction": 0.4266399551652221
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 790.9818801447856,
+      "xpPerHour": 7423364.945158812,
+      "grossZenPerHour": 112521.41211347334,
+      "potionZenPerHour": 23729.456404343568,
+      "repairZenPerHour": 2258.3980619641297,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 47258.993087658804,
+      "netZenPerHour": 39034.564559506834,
+      "combatFraction": 0.5703025409000327,
+      "recoveryFraction": 0.4296974590999672
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 772.9174770328691,
+      "xpPerHour": 15462214.128042549,
+      "grossZenPerHour": 186599.40680702566,
+      "potionZenPerHour": 23187.52431098607,
+      "repairZenPerHour": 3292.2242191996406,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 78371.75085895078,
+      "netZenPerHour": 81387.90741788916,
+      "combatFraction": 0.554246501548761,
+      "recoveryFraction": 0.4457534984512391
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 765.9938528386573,
+      "xpPerHour": 22432129.98038008,
+      "grossZenPerHour": 244375.7542252156,
+      "potionZenPerHour": 22979.81558515972,
+      "repairZenPerHour": 3978.9566286490585,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 102637.81677459055,
+      "netZenPerHour": 114339.16523681628,
+      "combatFraction": 0.5480656513290713,
+      "recoveryFraction": 0.45193434867092874
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 658.4212120845154,
+      "xpPerHour": 34978626.89198989,
+      "grossZenPerHour": 330252.75513674505,
+      "potionZenPerHour": 19752.63636253546,
+      "repairZenPerHour": 5314.96832289814,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 138706.15715743293,
+      "netZenPerHour": 165878.9932938785,
+      "combatFraction": 0.5368654871614282,
+      "recoveryFraction": 0.4631345128385719
+    }
+  },
+  {
+    "classId": "FE",
+    "buildId": "support",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 577.342957470372,
+      "xpPerHour": 53591860.02718729,
+      "grossZenPerHour": 451387.9703711717,
+      "potionZenPerHour": 69281.15489644464,
+      "repairZenPerHour": 6916.491348441936,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 189582.9475558921,
+      "netZenPerHour": 184807.37657039304,
+      "combatFraction": 0.5239766173062071,
+      "recoveryFraction": 0.47602338269379274
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.111445938462362
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 385.2925489990698,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8077.245342892822,
+      "combatFraction": 0.5837765893925301,
+      "recoveryFraction": 0.41622341060747
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 1276279.863481229,
+      "grossZenPerHour": 38432.37133105803,
+      "potionZenPerHour": 3686.006825938567,
+      "repairZenPerHour": 767.4064991344421,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 16141.59595904437,
+      "netZenPerHour": 17757.36204694065,
+      "combatFraction": 0.581368559950335,
+      "recoveryFraction": 0.418631440049665
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 917.1083335827948,
+      "xpPerHour": 4131573.0427904907,
+      "grossZenPerHour": 80376.98846586324,
+      "potionZenPerHour": 27513.250007483843,
+      "repairZenPerHour": 1506.4539077043792,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33758.33515566256,
+      "netZenPerHour": 17438.949395012452,
+      "combatFraction": 0.5706264801910527,
+      "recoveryFraction": 0.4293735198089474
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 889.0809018770778,
+      "xpPerHour": 8344024.264116376,
+      "grossZenPerHour": 126476.52376564841,
+      "potionZenPerHour": 26672.427056312335,
+      "repairZenPerHour": 2175.8474799819796,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 53120.13998157233,
+      "netZenPerHour": 44268.10924778176,
+      "combatFraction": 0.5494564343388837,
+      "recoveryFraction": 0.4505435656611163
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 668.1975305581517,
+      "xpPerHour": 13367291.598815827,
+      "grossZenPerHour": 161317.691134015,
+      "potionZenPerHour": 20045.925916744553,
+      "repairZenPerHour": 2846.1720153591355,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 67753.43027628631,
+      "netZenPerHour": 70312.16292562503,
+      "combatFraction": 0.4791535379392483,
+      "recoveryFraction": 0.5208464620607517
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 662.3402605536435,
+      "xpPerHour": 19396634.53031345,
+      "grossZenPerHour": 211307.04917107904,
+      "potionZenPerHour": 19870.207816609305,
+      "repairZenPerHour": 3440.5278324161277,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 88748.9606518532,
+      "netZenPerHour": 98807.35287020043,
+      "combatFraction": 0.4739019052914776,
+      "recoveryFraction": 0.5260980947085224
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 571.4882785042819,
+      "xpPerHour": 30360314.795539975,
+      "grossZenPerHour": 286648.6908993575,
+      "potionZenPerHour": 17144.648355128455,
+      "repairZenPerHour": 4613.220293346138,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 120392.45017773015,
+      "netZenPerHour": 143898.3720731527,
+      "combatFraction": 0.4659818478127412,
+      "recoveryFraction": 0.5340181521872588
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "blade",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 567.2010657855515,
+      "xpPerHour": 52650438.93154382,
+      "grossZenPerHour": 443458.66623036505,
+      "potionZenPerHour": 68064.12789426617,
+      "repairZenPerHour": 6092.062549463638,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 186252.6398167533,
+      "netZenPerHour": 182249.83596988194,
+      "combatFraction": 0.4615198901108816,
+      "recoveryFraction": 0.5384801098891183
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.111445938462362
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 791.7888563049853,
+      "xpPerHour": 384017.59530791786,
+      "grossZenPerHour": 18185.616422287392,
+      "potionZenPerHour": 3167.155425219941,
+      "repairZenPerHour": 278.70624267772405,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 7637.958897360704,
+      "netZenPerHour": 7061.795857029021,
+      "combatFraction": 0.4222821858753394,
+      "recoveryFraction": 0.5777178141246606
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 1276279.863481229,
+      "grossZenPerHour": 38432.37133105803,
+      "potionZenPerHour": 3686.006825938567,
+      "repairZenPerHour": 639.5054159453684,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 16141.59595904437,
+      "netZenPerHour": 17885.26313012972,
+      "combatFraction": 0.48447379995861245,
+      "recoveryFraction": 0.5155262000413875
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1261.3920986365115,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17775.534918428333,
+      "combatFraction": 0.4778000373623149,
+      "recoveryFraction": 0.5221999626376851
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 889.0809018770778,
+      "xpPerHour": 8344024.264116376,
+      "grossZenPerHour": 126476.52376564841,
+      "potionZenPerHour": 26672.427056312335,
+      "repairZenPerHour": 2175.8474799819796,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 53120.13998157233,
+      "netZenPerHour": 44268.10924778176,
+      "combatFraction": 0.5494564343388837,
+      "recoveryFraction": 0.4505435656611163
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 868.5850835967523,
+      "xpPerHour": 17376044.597353034,
+      "grossZenPerHour": 209695.68702570852,
+      "potionZenPerHour": 26057.55250790257,
+      "repairZenPerHour": 3171.187019451458,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 88072.18855079758,
+      "netZenPerHour": 92034.7589475569,
+      "combatFraction": 0.5338698685945216,
+      "recoveryFraction": 0.46613013140547843
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 776.3374894025462,
+      "xpPerHour": 22735043.377153568,
+      "grossZenPerHour": 247675.6945280842,
+      "potionZenPerHour": 23290.124682076384,
+      "repairZenPerHour": 3456.588574154382,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 104023.79170179536,
+      "netZenPerHour": 116465.18957005805,
+      "combatFraction": 0.47611412867140246,
+      "recoveryFraction": 0.5238858713285974
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 655.0816491489181,
+      "xpPerHour": 34801212.61103628,
+      "grossZenPerHour": 328577.687808732,
+      "potionZenPerHour": 19652.449474467543,
+      "repairZenPerHour": 4627.0090960860825,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 138002.62887966743,
+      "netZenPerHour": 165695.6003585109,
+      "combatFraction": 0.4673746561703113,
+      "recoveryFraction": 0.5326253438296886
+    }
+  },
+  {
+    "classId": "MG",
+    "buildId": "spell",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 649.9393228613714,
+      "xpPerHour": 60330617.64460681,
+      "grossZenPerHour": 508146.4803801014,
+      "potionZenPerHour": 77992.71874336456,
+      "repairZenPerHour": 6108.128741614452,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 213421.52175964258,
+      "netZenPerHour": 209824.11113547982,
+      "combatFraction": 0.46273702587988275,
+      "recoveryFraction": 0.5372629741201174
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10418549793884298
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 1147.8551188281995,
+      "xpPerHour": 556709.7326316767,
+      "grossZenPerHour": 26363.66088401757,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 335.9260801894023,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 11072.737571287378,
+      "netZenPerHour": 14914.997232540789,
+      "combatFraction": 0.5089789093778823,
+      "recoveryFraction": 0.4910210906221177
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 666.4224018300973,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17669.784300872612,
+      "combatFraction": 0.5048654559318919,
+      "recoveryFraction": 0.4951345440681081
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1344.5170631057206,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17692.409953959126,
+      "combatFraction": 0.5092867663279246,
+      "recoveryFraction": 0.4907132336720755
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 8648293.515358362,
+      "grossZenPerHour": 131088.55699658708,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 2015.263364598341,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 55057.193938566576,
+      "netZenPerHour": 46131.04849888291,
+      "combatFraction": 0.5089048900500861,
+      "recoveryFraction": 0.4910951099499139
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 862.8268524541172,
+      "xpPerHour": 17260851.183344617,
+      "grossZenPerHour": 208305.5224254743,
+      "potionZenPerHour": 25884.80557362352,
+      "repairZenPerHour": 3394.389474997995,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 87488.3194186992,
+      "netZenPerHour": 91178.0079581536,
+      "combatFraction": 0.571446039561952,
+      "recoveryFraction": 0.4285539604380481
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 854.1034162449648,
+      "xpPerHour": 25012418.544733796,
+      "grossZenPerHour": 272485.4328239108,
+      "potionZenPerHour": 25623.102487348948,
+      "repairZenPerHour": 4105.696729362287,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 114443.88178604252,
+      "netZenPerHour": 127872.75182115701,
+      "combatFraction": 0.5655229654768991,
+      "recoveryFraction": 0.43447703452310094
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 651.0186985799271,
+      "xpPerHour": 34585368.362058625,
+      "grossZenPerHour": 326539.78168607585,
+      "potionZenPerHour": 19530.560957397814,
+      "repairZenPerHour": 4977.023965685509,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 137146.70830815186,
+      "netZenPerHour": 164285.48845484067,
+      "combatFraction": 0.5027296935035868,
+      "recoveryFraction": 0.4972703064964131
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "command",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 645.3033879439997,
+      "xpPerHour": 59900286.98590178,
+      "grossZenPerHour": 504521.93585929536,
+      "potionZenPerHour": 77436.40655327997,
+      "repairZenPerHour": 6576.137239894801,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 211899.21306090403,
+      "netZenPerHour": 207810.1790052166,
+      "combatFraction": 0.4981922151435454,
+      "recoveryFraction": 0.5018077848564546
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10418549793884298
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 334.59949007065427,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8127.938401821239,
+      "combatFraction": 0.506968924349476,
+      "recoveryFraction": 0.4930310756505239
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 1276279.863481229,
+      "grossZenPerHour": 38432.37133105803,
+      "potionZenPerHour": 3686.006825938567,
+      "repairZenPerHour": 674.640814063131,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 16141.59595904437,
+      "netZenPerHour": 17850.12773201196,
+      "combatFraction": 0.5110915258054022,
+      "recoveryFraction": 0.4889084741945978
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1346.3925894310191,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17690.53442763383,
+      "combatFraction": 0.5099971929662951,
+      "recoveryFraction": 0.49000280703370486
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 884.8107155080304,
+      "xpPerHour": 8303948.565042865,
+      "grossZenPerHour": 125869.06686645247,
+      "potionZenPerHour": 26544.32146524091,
+      "repairZenPerHour": 2324.4684119912026,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 52865.008083910034,
+      "netZenPerHour": 43895.26890531033,
+      "combatFraction": 0.5869869727250511,
+      "recoveryFraction": 0.41301302727494893
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 862.301573176331,
+      "xpPerHour": 17250342.971392505,
+      "grossZenPerHour": 208178.7083676279,
+      "potionZenPerHour": 25869.047195289928,
+      "repairZenPerHour": 3394.927368132701,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 87435.05751440371,
+      "netZenPerHour": 91119.67628980157,
+      "combatFraction": 0.5715365939617342,
+      "recoveryFraction": 0.4284634060382657
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 658.7670291822712,
+      "xpPerHour": 19291992.449602816,
+      "grossZenPerHour": 210167.07773636805,
+      "potionZenPerHour": 19763.01087546814,
+      "repairZenPerHour": 3696.898701263221,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 88270.17264927458,
+      "netZenPerHour": 97996.99551036212,
+      "combatFraction": 0.5092146971436944,
+      "recoveryFraction": 0.49078530285630567
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 650.7856200814792,
+      "xpPerHour": 34572986.066828586,
+      "grossZenPerHour": 326422.87352020456,
+      "potionZenPerHour": 19523.568602444375,
+      "repairZenPerHour": 4977.7230123647505,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 137097.6068784859,
+      "netZenPerHour": 164223.97502690952,
+      "combatFraction": 0.5028003042792676,
+      "recoveryFraction": 0.49719969572073247
+    }
+  },
+  {
+    "classId": "DL",
+    "buildId": "force",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 645.1258115568343,
+      "xpPerHour": 59883803.45776315,
+      "grossZenPerHour": 504383.10010499833,
+      "potionZenPerHour": 77415.09738682011,
+      "repairZenPerHour": 6576.864870195146,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 211840.9020440993,
+      "netZenPerHour": 207750.23580388376,
+      "combatFraction": 0.4982473386511474,
+      "recoveryFraction": 0.5017526613488527
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.07470322090865897
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 385.2925489990698,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8077.245342892822,
+      "combatFraction": 0.5837765893925301,
+      "recoveryFraction": 0.41622341060747
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 1276279.863481229,
+      "grossZenPerHour": 38432.37133105803,
+      "potionZenPerHour": 3686.006825938567,
+      "repairZenPerHour": 767.4064991344421,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 16141.59595904437,
+      "netZenPerHour": 17757.36204694065,
+      "combatFraction": 0.581368559950335,
+      "recoveryFraction": 0.418631440049665
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1513.670518363814,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17523.256498701034,
+      "combatFraction": 0.573360044834778,
+      "recoveryFraction": 0.4266399551652221
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 8648293.515358362,
+      "grossZenPerHour": 131088.55699658708,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 2255.190907397215,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 55057.193938566576,
+      "netZenPerHour": 45891.120956084036,
+      "combatFraction": 0.569492653383135,
+      "recoveryFraction": 0.43050734661686496
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 720.5824655009778,
+      "xpPerHour": 14415252.222347064,
+      "grossZenPerHour": 173964.57527937155,
+      "potionZenPerHour": 21617.473965029334,
+      "repairZenPerHour": 3069.3044410898005,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 73065.12161733604,
+      "netZenPerHour": 75852.67525591639,
+      "combatFraction": 0.5167179193753872,
+      "recoveryFraction": 0.48328208062461275
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 713.8514797781427,
+      "xpPerHour": 20905140.58530291,
+      "grossZenPerHour": 227740.72289104149,
+      "potionZenPerHour": 21415.54439334428,
+      "repairZenPerHour": 3708.102965589275,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 95651.10361423742,
+      "netZenPerHour": 106525.97191787051,
+      "combatFraction": 0.510757984240947,
+      "recoveryFraction": 0.489242015759053
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 614.9578053414193,
+      "xpPerHour": 32669633.408762902,
+      "grossZenPerHour": 308452.25788500404,
+      "potionZenPerHour": 18448.73416024258,
+      "repairZenPerHour": 4964.119009715409,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 129549.9483117017,
+      "netZenPerHour": 154889.45640334435,
+      "combatFraction": 0.501426162597516,
+      "recoveryFraction": 0.49857383740248384
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "curse",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 610.7528444062932,
+      "xpPerHour": 56693132.782014176,
+      "grossZenPerHour": 477509.0494615142,
+      "potionZenPerHour": 73290.34132875518,
+      "repairZenPerHour": 6559.833460878435,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 200553.80077383597,
+      "netZenPerHour": 196305.07389804465,
+      "combatFraction": 0.4969570803695784,
+      "recoveryFraction": 0.5030429196304215
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.07470322090865897
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 798.8165680473372,
+      "xpPerHour": 387426.0355029586,
+      "grossZenPerHour": 18347.027218934913,
+      "potionZenPerHour": 3195.266272189349,
+      "repairZenPerHour": 341.7040015972627,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 7705.751431952663,
+      "netZenPerHour": 7064.305513195638,
+      "combatFraction": 0.5177333357534283,
+      "recoveryFraction": 0.48226666424657166
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 773.6565831138756,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17562.550119588836,
+      "combatFraction": 0.5861034720559662,
+      "recoveryFraction": 0.41389652794403375
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 4109290.5405405406,
+      "grossZenPerHour": 79943.49729729729,
+      "potionZenPerHour": 27364.864864864867,
+      "repairZenPerHour": 1534.0301129081226,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33576.26886486486,
+      "netZenPerHour": 17308.33345465944,
+      "combatFraction": 0.5810720124651979,
+      "recoveryFraction": 0.4189279875348021
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 880.5745116897793,
+      "xpPerHour": 8264191.792208579,
+      "grossZenPerHour": 125266.4441672538,
+      "potionZenPerHour": 26417.23535069338,
+      "repairZenPerHour": 2580.470950209562,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 52611.90655024659,
+      "netZenPerHour": 43416.83131610427,
+      "combatFraction": 0.6516340783357479,
+      "recoveryFraction": 0.34836592166425207
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 873.9458621104986,
+      "xpPerHour": 17483286.97152053,
+      "grossZenPerHour": 210989.89775377876,
+      "potionZenPerHour": 26218.37586331496,
+      "repairZenPerHour": 3828.1049398449795,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 88615.75705658707,
+      "netZenPerHour": 91967.65989403175,
+      "combatFraction": 0.6444621110850134,
+      "recoveryFraction": 0.3555378889149866
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 871.3632599450317,
+      "xpPerHour": 25517873.067490257,
+      "grossZenPerHour": 277991.85732899304,
+      "potionZenPerHour": 26140.89779835095,
+      "repairZenPerHour": 4658.261871960773,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 116756.58007817707,
+      "netZenPerHour": 129996.11758050424,
+      "combatFraction": 0.6416338666612633,
+      "recoveryFraction": 0.35836613333873657
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 748.1810834380977,
+      "xpPerHour": 39747120.05764894,
+      "grossZenPerHour": 375274.7627379147,
+      "potionZenPerHour": 89781.73001257173,
+      "repairZenPerHour": 6221.770131459315,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 157615.40034992417,
+      "netZenPerHour": 121055.86224395945,
+      "combatFraction": 0.6284616294403348,
+      "recoveryFraction": 0.37153837055966515
+    }
+  },
+  {
+    "classId": "SU",
+    "buildId": "sustain",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 652.0757048767431,
+      "xpPerHour": 60528927.30518369,
+      "grossZenPerHour": 509816.78245857725,
+      "potionZenPerHour": 78249.08458520917,
+      "repairZenPerHour": 8122.696591099426,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 214123.04863260244,
+      "netZenPerHour": 208521.95264966617,
+      "combatFraction": 0.6153558023560171,
+      "recoveryFraction": 0.38464419764398294
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10868875764033709
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 442398.64864864864,
+      "grossZenPerHour": 20950.321621621624,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 308.72800400566496,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 8799.135081081082,
+      "netZenPerHour": 8153.809887886227,
+      "combatFraction": 0.4677697030388862,
+      "recoveryFraction": 0.5322302969611138
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 912.1621621621622,
+      "xpPerHour": 1263344.5945945946,
+      "grossZenPerHour": 38042.854054054056,
+      "potionZenPerHour": 3648.6486486486488,
+      "repairZenPerHour": 730.4122409251285,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 15977.998702702704,
+      "netZenPerHour": 17605.79446177758,
+      "combatFraction": 0.553342606761461,
+      "recoveryFraction": 0.44665739323853904
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 4151365.187713311,
+      "grossZenPerHour": 80762.0313993174,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 1455.4524215036672,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 33920.05318771331,
+      "netZenPerHour": 17581.47459556118,
+      "combatFraction": 0.5513077354180558,
+      "recoveryFraction": 0.4486922645819442
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 8648293.515358362,
+      "grossZenPerHour": 131088.55699658708,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 2168.4527955742446,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 55057.193938566576,
+      "netZenPerHour": 45977.85906790702,
+      "combatFraction": 0.5475890897914759,
+      "recoveryFraction": 0.45241091020852414
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 897.6744811771703,
+      "xpPerHour": 17957977.995949294,
+      "grossZenPerHour": 216718.5122226718,
+      "potionZenPerHour": 26930.234435315106,
+      "repairZenPerHour": 3676.56135519815,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 91021.77513352215,
+      "netZenPerHour": 94729.94129863639,
+      "combatFraction": 0.6189497230973315,
+      "recoveryFraction": 0.3810502769026685
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 26986177.474402737,
+      "grossZenPerHour": 293987.57406143355,
+      "potionZenPerHour": 27645.05119453925,
+      "repairZenPerHour": 4602.637010703557,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 123474.78110580209,
+      "netZenPerHour": 137825.10475038865,
+      "combatFraction": 0.6339720400418122,
+      "recoveryFraction": 0.36602795995818777
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 921.5017064846418,
+      "xpPerHour": 48954778.15699659,
+      "grossZenPerHour": 462209.40614334476,
+      "potionZenPerHour": 110580.204778157,
+      "repairZenPerHour": 6258.463505307973,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 194127.9505802048,
+      "netZenPerHour": 150642.787279675,
+      "combatFraction": 0.6321680308391892,
+      "recoveryFraction": 0.36783196916081085
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "brawler",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 703.1496530125569,
+      "xpPerHour": 65269866.540890604,
+      "grossZenPerHour": 549748.2746324479,
+      "potionZenPerHour": 84377.95836150683,
+      "repairZenPerHour": 7261.757517920111,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 230894.2753456281,
+      "netZenPerHour": 226414.28340739285,
+      "combatFraction": 0.550133145296978,
+      "recoveryFraction": 0.44986685470302196
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 1,
+    "farm": {
+      "killsPerHour": 637.9355475900702,
+      "xpPerHour": 23954.479812007135,
+      "grossZenPerHour": 4130.335647854747,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 18.380643701060887,
+      "travelZenPerHour": 2,
+      "craftBudgetPerHour": 1734.7409720989936,
+      "netZenPerHour": 2375.2140320546923,
+      "combatFraction": 0.5569892030624511,
+      "recoveryFraction": 0.10614678105003438
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 20,
+    "farm": {
+      "killsPerHour": 791.7888563049853,
+      "xpPerHour": 384017.59530791786,
+      "grossZenPerHour": 18185.616422287392,
+      "potionZenPerHour": 3167.155425219941,
+      "repairZenPerHour": 321.5841261666047,
+      "travelZenPerHour": 40,
+      "craftBudgetPerHour": 7637.958897360704,
+      "netZenPerHour": 7018.917973540141,
+      "combatFraction": 0.48724867601000693,
+      "recoveryFraction": 0.512751323989993
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 40,
+    "farm": {
+      "killsPerHour": 943.366830325275,
+      "xpPerHour": 1306563.060000506,
+      "grossZenPerHour": 39344.2834335852,
+      "potionZenPerHour": 0,
+      "repairZenPerHour": 755.3993238647653,
+      "travelZenPerHour": 80,
+      "craftBudgetPerHour": 16524.599042105783,
+      "netZenPerHour": 21984.28506761465,
+      "combatFraction": 0.5722722150490644,
+      "recoveryFraction": 0.42772778495093544
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 80,
+    "farm": {
+      "killsPerHour": 798.8165680473372,
+      "xpPerHour": 3598668.6390532544,
+      "grossZenPerHour": 70009.6899408284,
+      "potionZenPerHour": 23964.497041420116,
+      "repairZenPerHour": 1471.9590318067167,
+      "travelZenPerHour": 160,
+      "craftBudgetPerHour": 29404.069775147924,
+      "netZenPerHour": 15009.16409245364,
+      "combatFraction": 0.557560239320726,
+      "recoveryFraction": 0.44243976067927404
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 120,
+    "farm": {
+      "killsPerHour": 798.8165680473372,
+      "xpPerHour": 7496893.49112426,
+      "grossZenPerHour": 113635.93846153848,
+      "potionZenPerHour": 23964.497041420116,
+      "repairZenPerHour": 2193.0457020329263,
+      "travelZenPerHour": 240,
+      "craftBudgetPerHour": 47727.094153846156,
+      "netZenPerHour": 39511.30156423928,
+      "combatFraction": 0.5537994197052845,
+      "recoveryFraction": 0.44620058029471554
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 180,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 16123432.835820897,
+      "grossZenPerHour": 194579.0543283582,
+      "potionZenPerHour": 96716.41791044777,
+      "repairZenPerHour": 3772.539908171544,
+      "travelZenPerHour": 360,
+      "craftBudgetPerHour": 81723.20281791044,
+      "netZenPerHour": 12006.89369182846,
+      "combatFraction": 0.6351077286484081,
+      "recoveryFraction": 0.36489227135159186
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 220,
+    "farm": {
+      "killsPerHour": 805.9701492537313,
+      "xpPerHour": 23602835.820895523,
+      "grossZenPerHour": 257129.4304477612,
+      "potionZenPerHour": 96716.41791044777,
+      "repairZenPerHour": 4600.674265709653,
+      "travelZenPerHour": 440,
+      "craftBudgetPerHour": 107994.3607880597,
+      "netZenPerHour": 47377.977483544106,
+      "combatFraction": 0.6337016894916877,
+      "recoveryFraction": 0.3662983105083123
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 300,
+    "farm": {
+      "killsPerHour": 804.3297292889374,
+      "xpPerHour": 42730016.868474804,
+      "grossZenPerHour": 403437.95773998724,
+      "potionZenPerHour": 96519.5675146725,
+      "repairZenPerHour": 6979.743324507654,
+      "travelZenPerHour": 600,
+      "craftBudgetPerHour": 169443.94225079464,
+      "netZenPerHour": 129894.70465001246,
+      "combatFraction": 0.7050245782330962,
+      "recoveryFraction": 0.29497542176690383
+    }
+  },
+  {
+    "classId": "RF",
+    "buildId": "vitality",
+    "level": 400,
+    "farm": {
+      "killsPerHour": 712.0493648035292,
+      "xpPerHour": 66095982.28788761,
+      "grossZenPerHour": 556706.3968200239,
+      "potionZenPerHour": 85445.92377642351,
+      "repairZenPerHour": 9140.61060637345,
+      "travelZenPerHour": 800,
+      "craftBudgetPerHour": 233816.68666441002,
+      "netZenPerHour": 227503.1757728169,
+      "combatFraction": 0.6924705004828371,
+      "recoveryFraction": 0.30752949951716296
+    }
+  }
+]

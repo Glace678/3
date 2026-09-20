@@ -10700,7 +10700,7 @@
     <comment>legacy_id=3157</comment>
   </data>
   <data name="Phoenix Shot (Mana:%d)" xml:space="preserve">
-    <value> </value>
+    <value>フェニックスショット（マナ:%d）</value>
     <comment>legacy_id=3158</comment>
   </data>
   <data name="Finding a Client" xml:space="preserve">
@@ -10964,5 +10964,2220 @@
   </data>
   <data name="DefaultFont" xml:space="preserve">
     <value>デフォルト</value>
+  </data>
+  <data name="F9 - Toggle 3D Camera" xml:space="preserve">
+    <value>F9 - 3Dカメラ切り替え</value>
+  </data>
+  <data name="F10 - Lock / Unlock Camera Zoom" xml:space="preserve">
+    <value>F10 - ズームロック/解除</value>
+  </data>
+  <data name="F11 - Reset Camera View" xml:space="preserve">
+    <value>F11 - カメラ視点リセット</value>
+  </data>
+  <data name="Home - Toggle MU Helper" xml:space="preserve">
+    <value>Home - MUヘルパー切り替え</value>
+  </data>
+  <data name="Sound volume" xml:space="preserve">
+    <value>サウンド音量</value>
+  </data>
+  <data name="Music volume" xml:space="preserve">
+    <value>音楽音量</value>
+  </data>
+  <data name="Render full effects" xml:space="preserve">
+    <value>フルエフェクト表示</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>解像度</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Windowed mode" xml:space="preserve">
+    <value>ウィンドウモード</value>
+  </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>IDを保存</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>パスワードを保存</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>信頼できるPCでのみパスワードを保存してください。</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>警告！！！</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>パスワードを保存すると、このPCを使用する誰もがあなたのアカウントにログインできるようになります。信頼できるPCでのみ実行してください。パスワードを保存しますか？</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="June 7-8, 'MU Level UP 2003' event will be held in Coex Mall." xml:space="preserve">
+    <value>6月7日～8日、コエックスモールで「MU Level UP 2003」イベントが開催されます。</value>
+    <comment>legacy_id=719</comment>
+  </data>
+  <data name="Loren (New)" xml:space="preserve">
+    <value>ロレン (New)</value>
+    <comment>legacy_id=728</comment>
+  </data>
+  <data name="LorenIsTheNameOfA" xml:space="preserve">
+    <value>ロレンは、高度な剣術を誇る王国の名であり、多くの名高きダークナイトたちの故郷です。</value>
+    <comment>legacy_id=729</comment>
+  </data>
+  <data name="ThisGameMayBeInappropriateFor" xml:space="preserve">
+    <value>このゲームは12歳未満のプレイヤーには不適切な場合があります。保護者の指導と監督のもとでプレイしてください。</value>
+    <comment>legacy_id=1076</comment>
+  </data>
+  <data name="ThisGameMayBeInappropriateFor1077" xml:space="preserve">
+    <value>このゲームは15歳未満のプレイヤーには不適切な場合があります。保護者の指導と監督のもとでプレイしてください。</value>
+    <comment>legacy_id=1077</comment>
+  </data>
+  <data name="ThisGameMayBeInappropriateFor1078" xml:space="preserve">
+    <value>このゲームは18歳未満のプレイヤーには不適切な場合があります。保護者の指導と監督のもとでプレイしてください。</value>
+    <comment>legacy_id=1078</comment>
+  </data>
+  <data name="You haven't paid the subscription." xml:space="preserve">
+    <value>定期利用料金が未払いです。</value>
+    <comment>legacy_id=2227</comment>
+  </data>
+  <data name="Before my parents died, they taught me how to make the portion." xml:space="preserve">
+    <value>両親が亡くなる前に、ポーションの作り方を教わりました。</value>
+    <comment>legacy_id=2240</comment>
+  </data>
+  <data name="Queen Ariel will bless you." xml:space="preserve">
+    <value>アリエル女王があなたを祝福するでしょう。</value>
+    <comment>legacy_id=2241</comment>
+  </data>
+  <data name="ToBeatAgainstKundunMoreOrganizational" xml:space="preserve">
+    <value>クンドゥンに打ち勝つには、より組織的な行動が必要です。つまり、ギルドが不可欠なのです。</value>
+    <comment>legacy_id=2242</comment>
+  </data>
+  <data name="&lt;AM&gt; &lt;PM&gt;" xml:space="preserve">
+    <value>&lt;午前&gt; &lt;午後&gt;</value>
+    <comment>legacy_id=2421</comment>
+  </data>
+  <data name="0:30 Blood Castle 12:30 Blood Castle" xml:space="preserve">
+    <value>0:30 ブラッドキャッスル 12:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2422</comment>
+  </data>
+  <data name="1:00 Illusion Temple 13:00 Illusion Temple" xml:space="preserve">
+    <value>1:00 イリュージョンテンプル 13:00 イリュージョンテンプル</value>
+    <comment>legacy_id=2423</comment>
+  </data>
+  <data name="1:30 - 13:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>1:30 - 13:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2424</comment>
+  </data>
+  <data name="2:00 - 14:00 Chaos Castle" xml:space="preserve">
+    <value>2:00 - 14:00 カオスキャッスル</value>
+    <comment>legacy_id=2425</comment>
+  </data>
+  <data name="2:30 Blood Castle 14:30 Blood Castle" xml:space="preserve">
+    <value>2:30 ブラッドキャッスル 14:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2426</comment>
+  </data>
+  <data name="3:00 Devil's Square 15:00 Devil's Square" xml:space="preserve">
+    <value>3:00 デビルスクエア 15:00 デビルスクエア</value>
+    <comment>legacy_id=2427</comment>
+  </data>
+  <data name="3:30 - 15:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>3:30 - 15:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2428</comment>
+  </data>
+  <data name="4:00 - 16:00 Chaos Castle" xml:space="preserve">
+    <value>4:00 - 16:00 カオスキャッスル</value>
+    <comment>legacy_id=2429</comment>
+  </data>
+  <data name="4:30 Blood Castle 16:30 Blood Castle" xml:space="preserve">
+    <value>4:30 ブラッドキャッスル 16:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2430</comment>
+  </data>
+  <data name="5:00 Illusion Temple 17:00 Illusion Temple" xml:space="preserve">
+    <value>5:00 イリュージョンテンプル 17:00 イリュージョンテンプル</value>
+    <comment>legacy_id=2431</comment>
+  </data>
+  <data name="5:30 - 17:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>5:30 - 17:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2432</comment>
+  </data>
+  <data name="6:00 - 18:00 Chaos Castle" xml:space="preserve">
+    <value>6:00 - 18:00 カオスキャッスル</value>
+    <comment>legacy_id=2433</comment>
+  </data>
+  <data name="6:30 Blood Castle 18:30 Blood Castle" xml:space="preserve">
+    <value>6:30 ブラッドキャッスル 18:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2434</comment>
+  </data>
+  <data name="7:00 Devil's Square 19:00 Devil's Square" xml:space="preserve">
+    <value>7:00 デビルスクエア 19:00 デビルスクエア</value>
+    <comment>legacy_id=2435</comment>
+  </data>
+  <data name="7:30 - 19:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>7:30 - 19:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2436</comment>
+  </data>
+  <data name="8:00 - 20:00 Chaos Castle" xml:space="preserve">
+    <value>8:00 - 20:00 カオスキャッスル</value>
+    <comment>legacy_id=2437</comment>
+  </data>
+  <data name="8:30 Blood Castle 20:30 Blood Castle" xml:space="preserve">
+    <value>8:30 ブラッドキャッスル 20:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2438</comment>
+  </data>
+  <data name="9:00 Illusion Temple 21:00 Illusion Temple" xml:space="preserve">
+    <value>9:00 イリュージョンテンプル 21:00 イリュージョンテンプル</value>
+    <comment>legacy_id=2439</comment>
+  </data>
+  <data name="9:30 - 21:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>9:30 - 21:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2440</comment>
+  </data>
+  <data name="10:00 - 22:00 Chaos Castle" xml:space="preserve">
+    <value>10:00 - 22:00 カオスキャッスル</value>
+    <comment>legacy_id=2441</comment>
+  </data>
+  <data name="10:30 Blood Castle 22:30 Blood Castle" xml:space="preserve">
+    <value>10:30 ブラッドキャッスル 22:30 ブラッドキャッスル</value>
+    <comment>legacy_id=2442</comment>
+  </data>
+  <data name="11:00 Devil's Square 23:00 Devil's Square" xml:space="preserve">
+    <value>11:00 デビルスクエア 23:00 デビルスクエア</value>
+    <comment>legacy_id=2443</comment>
+  </data>
+  <data name="11:30 - 23:30 Chaos Castle(PC)" xml:space="preserve">
+    <value>11:30 - 23:30 カオスキャッスル(PC)</value>
+    <comment>legacy_id=2444</comment>
+  </data>
+  <data name="12:00 Chaos Castle 24:00 -" xml:space="preserve">
+    <value>12:00 カオスキャッスル 24:00 -</value>
+    <comment>legacy_id=2445</comment>
+  </data>
+  <data name=" &lt;&lt; Chaos Castle &gt;&gt; &lt;&lt; Devil's Square &gt;&gt;" xml:space="preserve">
+    <value> &lt;&lt; カオスキャッスル &gt;&gt; &lt;&lt; デビルスクエア &gt;&gt;</value>
+    <comment>legacy_id=2446</comment>
+  </data>
+  <data name=" 7 Master Master 7 Master Master" xml:space="preserve">
+    <value> 7 マスター マスター 7 マスター マスター</value>
+    <comment>legacy_id=2454</comment>
+  </data>
+  <data name=" &lt;&lt; Blood Castle &gt;&gt; &lt;&lt; Illusion Temple &gt;&gt;" xml:space="preserve">
+    <value> &lt;&lt; ブラッドキャッスル &gt;&gt; &lt;&lt; イリュージョンテンプル &gt;&gt;</value>
+    <comment>legacy_id=2455</comment>
+  </data>
+  <data name=" 6 281-330 261-310 6 Master" xml:space="preserve">
+    <value> 6 281-330 261-310 6 マスター</value>
+    <comment>legacy_id=2462</comment>
+  </data>
+  <data name="Reward for Every 255 Pieces" xml:space="preserve">
+    <value>255個ごとの報酬</value>
+    <comment>legacy_id=2564</comment>
+  </data>
+  <data name="255 Golden Cherry Blossom Branches" xml:space="preserve">
+    <value>黄金の桜の枝 255本</value>
+    <comment>legacy_id=2565</comment>
+  </data>
+  <data name="CharacterNamesMustStartWithA" xml:space="preserve">
+    <value>キャラクター名は大文字で始めてください。最大10文字までです。</value>
+    <comment>legacy_id=2614</comment>
+  </data>
+  <data name="Fee: 5,000 Zens" xml:space="preserve">
+    <value>料金: 5,000 Zen</value>
+    <comment>legacy_id=2999</comment>
+  </data>
+  <data name="TheElfQueenWhoBattledBy" xml:space="preserve">
+    <value>ムレンの側で戦ったエルフの女王。セクラリウムとクンドゥンから長らくノリアを守り続けてきた。</value>
+    <comment>legacy_id=3023</comment>
+  </data>
+  <data name="TheHeadOfTheEvilArmy" xml:space="preserve">
+    <value>エビルアーミーの首領。魔術女王と協定を結んだクンドゥンによって召喚され、クライウォルフ要塞を攻略せんとした。</value>
+    <comment>legacy_id=3025</comment>
+  </data>
+  <data name="Lemuria (New)" xml:space="preserve">
+    <value>レムリア (New)</value>
+    <comment>legacy_id=3026</comment>
+  </data>
+  <data name="TheWizardWhoBroughtDownElve" xml:space="preserve">
+    <value>エルフを陥れた魔法使い。アントニアスを誘惑してクンドゥンを復活させ、第二次デモゴルゴン戦争を引き起こす。</value>
+    <comment>legacy_id=3027</comment>
+  </data>
+  <data name="Cannot be equipped while another Transformation Ring is equipped." xml:space="preserve">
+    <value>他の変身リングを装備中は装備できません。</value>
+    <comment>legacy_id=3089</comment>
+  </data>
+  <data name="Dark Lord use only." xml:space="preserve">
+    <value>ダークロード専用</value>
+    <comment>legacy_id=3115</comment>
+  </data>
+  <data name="You can enter to Gold Channel." xml:space="preserve">
+    <value>ゴールドチャンネルに入場できます。</value>
+    <comment>legacy_id=3116</comment>
+  </data>
+  <data name="TheGameClientIsLoadedOnly" xml:space="preserve">
+    <value>ゲームクライアントは公式ウェブサイトからのみ起動されます。アプリケーションを終了し、もう一度お試しください。</value>
+    <comment>legacy_id=3117</comment>
+  </data>
+  <data name="Please purchase 'gold channel ticket' to enter." xml:space="preserve">
+    <value>入場するには「ゴールドチャンネルチケット」を購入してください。</value>
+    <comment>legacy_id=3118</comment>
+  </data>
+  <data name="Your gold channel ticket is valid for next %d minutes." xml:space="preserve">
+    <value>ゴールドチャンネルチケットは残り %d 分有効です。</value>
+    <comment>legacy_id=3119</comment>
+  </data>
+  <data name="EXP gain 100%%" xml:space="preserve">
+    <value>経験値獲得 100%%</value>
+    <comment>legacy_id=3140</comment>
+  </data>
+  <data name="Item Drop 100%%" xml:space="preserve">
+    <value>アイテムドロップ 100%%</value>
+    <comment>legacy_id=3141</comment>
+  </data>
+  <data name="Stamina will not decrease temporarily." xml:space="preserve">
+    <value>スタミナが一時的に減少しなくなります。</value>
+    <comment>legacy_id=3142</comment>
+  </data>
+  <data name="Enemy Gens Member x %lu/%lu" xml:space="preserve">
+    <value>敵対Gensメンバー x %lu/%lu</value>
+    <comment>legacy_id=3278</comment>
+  </data>
+  <data name="You cannot accept any more quest." xml:space="preserve">
+    <value>これ以上クエストを受けることはできません。</value>
+    <comment>legacy_id=3279</comment>
+  </data>
+  <data name="You can proceed maximum 10 quests" xml:space="preserve">
+    <value>同時に進行できるクエストは最大10個です</value>
+    <comment>legacy_id=3280</comment>
+  </data>
+  <data name="at the same time." xml:space="preserve">
+    <value>同時に進行できます。</value>
+    <comment>legacy_id=3281</comment>
+  </data>
+  <data name="You need to clear at least 1 quest to" xml:space="preserve">
+    <value>このクエストを受けるには、</value>
+    <comment>legacy_id=3282</comment>
+  </data>
+  <data name="accept this one." xml:space="preserve">
+    <value>少なくとも1つのクエストをクリアする必要があります。</value>
+    <comment>legacy_id=3283</comment>
+  </data>
+  <data name="Gens Chat On/Off" xml:space="preserve">
+    <value>Gensチャット ON/OFF</value>
+    <comment>legacy_id=3321</comment>
+  </data>
+  <data name="Open Expanded Inventory (K)" xml:space="preserve">
+    <value>拡張インベントリを開く (K)</value>
+    <comment>legacy_id=3322</comment>
+  </data>
+  <data name="Expanded Inventory" xml:space="preserve">
+    <value>拡張インベントリ</value>
+    <comment>legacy_id=3323,3451</comment>
+  </data>
+  <data name="You lack %d points." xml:space="preserve">
+    <value>ポイントが %d 不足しています。</value>
+    <comment>legacy_id=3325</comment>
+  </data>
+  <data name="You can't raise any more levels." xml:space="preserve">
+    <value>これ以上レベルを上げることはできません。</value>
+    <comment>legacy_id=3326</comment>
+  </data>
+  <data name="You must meet all skill requirements." xml:space="preserve">
+    <value>すべてのスキル条件を満たしている必要があります。</value>
+    <comment>legacy_id=3327</comment>
+  </data>
+  <data name="# #Next Level:#" xml:space="preserve">
+    <value># 次のレベル:#</value>
+    <comment>legacy_id=3328</comment>
+  </data>
+  <data name="Requirements3329" xml:space="preserve">
+    <value># 必要条件:#</value>
+    <comment>legacy_id=3329</comment>
+  </data>
+  <data name="Willpower: %d" xml:space="preserve">
+    <value>意志力: %d</value>
+    <comment>legacy_id=3330</comment>
+  </data>
+  <data name="Destruction: %d" xml:space="preserve">
+    <value>破壊: %d</value>
+    <comment>legacy_id=3332</comment>
+  </data>
+  <data name="Min &amp; Max Wizardry Increase" xml:space="preserve">
+    <value>最小/最大呪術力上昇</value>
+    <comment>legacy_id=3333</comment>
+  </data>
+  <data name="Min &amp; Max Wizardry, Critical Damage Rate Increase" xml:space="preserve">
+    <value>最小/最大呪術力、クリティカルダメージ率上昇</value>
+    <comment>legacy_id=3334</comment>
+  </data>
+  <data name="EXP: %6.2f%%" xml:space="preserve">
+    <value>経験値: %6.2f%%</value>
+    <comment>legacy_id=3335</comment>
+  </data>
+  <data name="You need to wear the required equipment to level up this skill." xml:space="preserve">
+    <value>このスキルをレベルアップするには、必要な装備を着用している必要があります。</value>
+    <comment>legacy_id=3336</comment>
+  </data>
+  <data name="Opening an Expanded Vault (H)" xml:space="preserve">
+    <value>拡張倉庫を開く (H)</value>
+    <comment>legacy_id=3338</comment>
+  </data>
+  <data name="Expanded Vault" xml:space="preserve">
+    <value>拡張倉庫</value>
+    <comment>legacy_id=3339</comment>
+  </data>
+  <data name="Move to a closed channel?" xml:space="preserve">
+    <value>閉鎖チャンネルに移動しますか？</value>
+    <comment>legacy_id=3340</comment>
+  </data>
+  <data name="Insufficient space in the expanded inventory" xml:space="preserve">
+    <value>拡張インベントリの空きが不足しています</value>
+    <comment>legacy_id=3341</comment>
+  </data>
+  <data name="Insufficient space in the expanded vault" xml:space="preserve">
+    <value>拡張倉庫の空きが不足しています</value>
+    <comment>legacy_id=3342</comment>
+  </data>
+  <data name="You can use it after expanding it." xml:space="preserve">
+    <value>拡張後に使用できます。</value>
+    <comment>legacy_id=3343</comment>
+  </data>
+  <data name="Adding a $ in front of text: Chat to Gens members" xml:space="preserve">
+    <value>文章の先頭に$を付ける: Gensメンバーとのチャット</value>
+    <comment>legacy_id=3344</comment>
+  </data>
+  <data name="F6: Normal Chat On/Off" xml:space="preserve">
+    <value>F6: 通常チャット ON/OFF</value>
+    <comment>legacy_id=3345</comment>
+  </data>
+  <data name="F7: Party Chat On/Off" xml:space="preserve">
+    <value>F7: パーティチャット ON/OFF</value>
+    <comment>legacy_id=3346</comment>
+  </data>
+  <data name="F8: Guild Chat On/Off" xml:space="preserve">
+    <value>F8: ギルドチャット ON/OFF</value>
+    <comment>legacy_id=3347</comment>
+  </data>
+  <data name="F9: Gens Chat On/Off" xml:space="preserve">
+    <value>F9: Gensチャット ON/OFF</value>
+    <comment>legacy_id=3348</comment>
+  </data>
+  <data name="Please log in to game again to use the expanded inventory/vault." xml:space="preserve">
+    <value>拡張インベントリ/倉庫を使用するには、再度ゲームにログインしてください。</value>
+    <comment>legacy_id=3349</comment>
+  </data>
+  <data name="Cannot be used any more." xml:space="preserve">
+    <value>これ以上使用できません。</value>
+    <comment>legacy_id=3350</comment>
+  </data>
+  <data name="Use this to expand your vault." xml:space="preserve">
+    <value>倉庫を拡張するために使用します。</value>
+    <comment>legacy_id=3351</comment>
+  </data>
+  <data name="Use this to expand your inventory." xml:space="preserve">
+    <value>インベントリを拡張するために使用します。</value>
+    <comment>legacy_id=3352</comment>
+  </data>
+  <data name="Use this and log in to game again to activate." xml:space="preserve">
+    <value>これを使用し、再度ゲームにログインすると有効になります。</value>
+    <comment>legacy_id=3353</comment>
+  </data>
+  <data name="TheNumberOfSkillPointsPossessed" xml:space="preserve">
+    <value>所有しているスキルポイント数が、マスタースキルレベルに到達するのに必要なポイント数と一致しません。カスタマーサービスまでお問い合わせください。</value>
+    <comment>legacy_id=3354</comment>
+  </data>
+  <data name="Increases max HP by 6%%" xml:space="preserve">
+    <value>最大HP 6%%上昇</value>
+    <comment>legacy_id=3355</comment>
+  </data>
+  <data name="Decreases damage by 6%%" xml:space="preserve">
+    <value>被ダメージ 6%%減少</value>
+    <comment>legacy_id=3356</comment>
+  </data>
+  <data name="Increases the amount of Zen received from killing monsters by 60%%" xml:space="preserve">
+    <value>モンスター討伐時のZen獲得量 60%%上昇</value>
+    <comment>legacy_id=3357</comment>
+  </data>
+  <data name="Increases the chance of causing Excellent Damage by 15%%" xml:space="preserve">
+    <value>エクセレントダメージ発生確率 15%%上昇</value>
+    <comment>legacy_id=3358</comment>
+  </data>
+  <data name="Increases attack speed by 10d" xml:space="preserve">
+    <value>攻撃速度 10上昇</value>
+    <comment>legacy_id=3359</comment>
+  </data>
+  <data name="Increases max Mana by 6%%" xml:space="preserve">
+    <value>最大マナ 6%%上昇</value>
+    <comment>legacy_id=3360</comment>
+  </data>
+  <data name="You need a 5 person party to enter this area." xml:space="preserve">
+    <value>このエリアに入場するには、5人パーティが必要です。</value>
+    <comment>legacy_id=3361</comment>
+  </data>
+  <data name="All party members must be of the same level for this area." xml:space="preserve">
+    <value>パーティメンバーは全員、このエリアと同レベル帯である必要があります。</value>
+    <comment>legacy_id=3362</comment>
+  </data>
+  <data name="Players with an Outlaw or Killer status cannot enter this area." xml:space="preserve">
+    <value>無法者またはキラー状態のプレイヤーはこのエリアに入場できません。</value>
+    <comment>legacy_id=3363</comment>
+  </data>
+  <data name=" &lt;&lt; Doppelganger entry level &gt;&gt;" xml:space="preserve">
+    <value> &lt;&lt; ドッペルゲンガー入場レベル &gt;&gt;</value>
+    <comment>legacy_id=3364</comment>
+  </data>
+  <data name="Level#Basic#Advanced" xml:space="preserve">
+    <value>レベル#基本#上級</value>
+    <comment>legacy_id=3365</comment>
+  </data>
+  <data name="DoppelgangerWillEndBecauseTheCompeting" xml:space="preserve">
+    <value>対戦パーティが入場しなかったため、ドッペルゲンガーは終了します。</value>
+    <comment>legacy_id=3369</comment>
+  </data>
+  <data name="WhatSGoingOnDoYou" xml:space="preserve">
+    <value>どうした？ アケロンに行きたいのか？ 命がけの場所だ。相応の対価は覚悟しているだろうな？</value>
+    <comment>legacy_id=3375</comment>
+  </data>
+  <data name="What? You wanted to go to Acheron without a map?" xml:space="preserve">
+    <value>はぁ？ 地図も持たずにアケロンに行くつもりか？</value>
+    <comment>legacy_id=3376</comment>
+  </data>
+  <data name="The ships are full. Let's wait until we can go." xml:space="preserve">
+    <value>船が満杯だ。行けるようになるまで待とう。</value>
+    <comment>legacy_id=3377</comment>
+  </data>
+  <data name="Are you here to join the Arca War?" xml:space="preserve">
+    <value>アルカ戦争に参加しに来たのか？</value>
+    <comment>legacy_id=3378</comment>
+  </data>
+  <data name="1. Ask about the Arca War." xml:space="preserve">
+    <value>1. アルカ戦争について聞く</value>
+    <comment>legacy_id=3379</comment>
+  </data>
+  <data name="2. Register for the Arca War (Guild master)" xml:space="preserve">
+    <value>2. アルカ戦争に登録する（ギルドマスター）</value>
+    <comment>legacy_id=3380</comment>
+  </data>
+  <data name="3. Register to participate in the Arca War (Guild member)" xml:space="preserve">
+    <value>3. アルカ戦争に参加登録する（ギルドメンバー）</value>
+    <comment>legacy_id=3381</comment>
+  </data>
+  <data name="4. Exchange Trophies of Battle" xml:space="preserve">
+    <value>4. 戦いの勲章を交換する</value>
+    <comment>legacy_id=3382</comment>
+  </data>
+  <data name="5. Enter the Arca War" xml:space="preserve">
+    <value>5. アルカ戦争に入場する</value>
+    <comment>legacy_id=3383</comment>
+  </data>
+  <data name="TheArcaWarStartedInThe" xml:space="preserve">
+    <value>アルカ戦争は、クンドゥンの魔術によって倒れた精霊たちを救うため、アケロン征服同盟で始まった。しかし、デュプリアンが偉大な王ラクス・ミロンを殺そうとしたことで、アルカでの戦いへと発展した。</value>
+    <comment>legacy_id=3384</comment>
+  </data>
+  <data name="SuccessfullyRegisteredToParticipateInThe" xml:space="preserve">
+    <value>アルカ戦争への参加登録が完了しました。ギルドメンバーに参加を呼びかけてください。</value>
+    <comment>legacy_id=3385</comment>
+  </data>
+  <data name="Successfully registered to participate in the Arca War. I wish you luck." xml:space="preserve">
+    <value>アルカ戦争への参加登録が完了しました。幸運を祈ります。</value>
+    <comment>legacy_id=3386</comment>
+  </data>
+  <data name="YouCannotParticipateOnlyTheGuild" xml:space="preserve">
+    <value>参加できません。アルカ戦争の登録はギルドマスターのみが行えます。</value>
+    <comment>legacy_id=3387</comment>
+  </data>
+  <data name="YouCannotParticipateOnlyGuildsWith" xml:space="preserve">
+    <value>参加できません。アルカ戦争に参加できるのは、メンバーが10人以上のギルドのみです。</value>
+    <comment>legacy_id=3388</comment>
+  </data>
+  <data name="IMSorryTheMaximumNumber" xml:space="preserve">
+    <value>申し訳ありません。参加者数が上限に達しました。これ以上登録は受け付けておりません。次回お試しください。</value>
+    <comment>legacy_id=3389</comment>
+  </data>
+  <data name="You have already registered. Please get ready for the Arca War." xml:space="preserve">
+    <value>既に登録済みです。アルカ戦争の準備をしてください。</value>
+    <comment>legacy_id=3390,3394</comment>
+  </data>
+  <data name="I'm sorry. The registration period has ended. Please try again next time." xml:space="preserve">
+    <value>申し訳ありません。登録期間が終了しました。次回お試しください。</value>
+    <comment>legacy_id=3391,3396</comment>
+  </data>
+  <data name="YouCannotParticipateYouNeedA" xml:space="preserve">
+    <value>参加できません。アルカ戦争に参加するには、ロードの紋章を10束以上持っている必要があります。</value>
+    <comment>legacy_id=3392</comment>
+  </data>
+  <data name="YouCannotParticipateInTheArca" xml:space="preserve">
+    <value>アルカ戦争に参加できません。登録されたギルドのメンバーではありません。</value>
+    <comment>legacy_id=3393</comment>
+  </data>
+  <data name="IMSorryTheMaximumNumber3395" xml:space="preserve">
+    <value>申し訳ありません。参加者数が上限に達しました。これ以上登録は受け付けておりません。ギルドごとの参加上限は20人です。</value>
+    <comment>legacy_id=3395</comment>
+  </data>
+  <data name="YouHaveAlreadyRegisteredTheGuild" xml:space="preserve">
+    <value>既に登録済みです。ギルドマスターは自動的に登録されます。</value>
+    <comment>legacy_id=3397</comment>
+  </data>
+  <data name="YouCannotParticipateInTheArca3398" xml:space="preserve">
+    <value>アルカ戦争に参加できません。まずアルカ戦争に登録してください。</value>
+    <comment>legacy_id=3398</comment>
+  </data>
+  <data name="The Arca War is not going on at the moment. Please enter during the Arca War." xml:space="preserve">
+    <value>現在アルカ戦争は開催されていません。開催中に入場してください。</value>
+    <comment>legacy_id=3399</comment>
+  </data>
+  <data name="View Details" xml:space="preserve">
+    <value>詳細を見る</value>
+    <comment>legacy_id=3400</comment>
+  </data>
+  <data name="My Quests" xml:space="preserve">
+    <value>マイクエスト</value>
+    <comment>legacy_id=3401</comment>
+  </data>
+  <data name="Life" xml:space="preserve">
+    <value>生命力</value>
+    <comment>legacy_id=3402</comment>
+  </data>
+  <data name="Attack Power (Rate)" xml:space="preserve">
+    <value>攻撃力（成功率）</value>
+    <comment>legacy_id=3403</comment>
+  </data>
+  <data name="Attack Speed" xml:space="preserve">
+    <value>攻撃速度</value>
+    <comment>legacy_id=3404</comment>
+  </data>
+  <data name="Leadership available" xml:space="preserve">
+    <value>リーダーシップ使用可能</value>
+    <comment>legacy_id=3405</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>全般</value>
+    <comment>legacy_id=3406</comment>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>システム</value>
+    <comment>legacy_id=3407,3429</comment>
+  </data>
+  <data name="Chatting" xml:space="preserve">
+    <value>チャット</value>
+    <comment>legacy_id=3408</comment>
+  </data>
+  <data name="AMPM3409" xml:space="preserve">
+    <value>午前/午後</value>
+    <comment>legacy_id=3409</comment>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>レーティング</value>
+    <comment>legacy_id=3410</comment>
+  </data>
+  <data name="2nd" xml:space="preserve">
+    <value>2次</value>
+    <comment>legacy_id=3411</comment>
+  </data>
+  <data name="Event Entry Time" xml:space="preserve">
+    <value>イベント入場時間</value>
+    <comment>legacy_id=3412</comment>
+  </data>
+  <data name="Event Entry Level" xml:space="preserve">
+    <value>イベント入場レベル</value>
+    <comment>legacy_id=3413</comment>
+  </data>
+  <data name="Chaos Castle (PC)" xml:space="preserve">
+    <value>カオスキャッスル (PC)</value>
+    <comment>legacy_id=3414</comment>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>ヘルプ</value>
+    <comment>legacy_id=3415</comment>
+  </data>
+  <data name="Hot Key" xml:space="preserve">
+    <value>ホットキー</value>
+    <comment>legacy_id=3416</comment>
+  </data>
+  <data name="Chatting Mode Hot Key" xml:space="preserve">
+    <value>チャットモード ホットキー</value>
+    <comment>legacy_id=3417</comment>
+  </data>
+  <data name="Feature" xml:space="preserve">
+    <value>機能</value>
+    <comment>legacy_id=3418</comment>
+  </data>
+  <data name="In-game Shop" xml:space="preserve">
+    <value>ゲーム内ショップ</value>
+    <comment>legacy_id=3421</comment>
+  </data>
+  <data name="Community" xml:space="preserve">
+    <value>コミュニティ</value>
+    <comment>legacy_id=3428</comment>
+  </data>
+  <data name="View Map" xml:space="preserve">
+    <value>マップを見る</value>
+    <comment>legacy_id=3430</comment>
+  </data>
+  <data name="Etc." xml:space="preserve">
+    <value>その他</value>
+    <comment>legacy_id=3431</comment>
+  </data>
+  <data name="Guild Mark" xml:space="preserve">
+    <value>ギルドマーク</value>
+    <comment>legacy_id=3432</comment>
+  </data>
+  <data name="Choose color" xml:space="preserve">
+    <value>色を選ぶ</value>
+    <comment>legacy_id=3433</comment>
+  </data>
+  <data name="Guild Score" xml:space="preserve">
+    <value>ギルドスコア</value>
+    <comment>legacy_id=3434</comment>
+  </data>
+  <data name="Guild Members" xml:space="preserve">
+    <value>ギルドメンバー</value>
+    <comment>legacy_id=3435</comment>
+  </data>
+  <data name="Choose Hostility Guild" xml:space="preserve">
+    <value>敵対ギルドを選ぶ</value>
+    <comment>legacy_id=3436</comment>
+  </data>
+  <data name="Score3438" xml:space="preserve">
+    <value>スコア:</value>
+    <comment>legacy_id=3438</comment>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>人数</value>
+    <comment>legacy_id=3439</comment>
+  </data>
+  <data name="Normal Guild Members" xml:space="preserve">
+    <value>一般ギルドメンバー</value>
+    <comment>legacy_id=3440</comment>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>移動</value>
+    <comment>legacy_id=3445</comment>
+  </data>
+  <data name="System Menu" xml:space="preserve">
+    <value>システムメニュー</value>
+    <comment>legacy_id=3450</comment>
+  </data>
+  <data name="You must purchase Expanded Inventory first." xml:space="preserve">
+    <value>まず拡張インベントリを購入する必要があります。</value>
+    <comment>legacy_id=3452</comment>
+  </data>
+  <data name="Store Name" xml:space="preserve">
+    <value>店舗名</value>
+    <comment>legacy_id=3454</comment>
+  </data>
+  <data name="%sZen required" xml:space="preserve">
+    <value>%s Zen必要</value>
+    <comment>legacy_id=3455</comment>
+  </data>
+  <data name="%d pieces combined" xml:space="preserve">
+    <value>%d個結合済み</value>
+    <comment>legacy_id=3456</comment>
+  </data>
+  <data name="Entrance Fee" xml:space="preserve">
+    <value>入場料</value>
+    <comment>legacy_id=3458</comment>
+  </data>
+  <data name="NPC Quest" xml:space="preserve">
+    <value>NPCクエスト</value>
+    <comment>legacy_id=3460</comment>
+  </data>
+  <data name="Register Guild" xml:space="preserve">
+    <value>ギルド登録</value>
+    <comment>legacy_id=3461</comment>
+  </data>
+  <data name="Trade Target" xml:space="preserve">
+    <value>取引相手</value>
+    <comment>legacy_id=3462</comment>
+  </data>
+  <data name="Price3464" xml:space="preserve">
+    <value>価格</value>
+    <comment>legacy_id=3464</comment>
+  </data>
+  <data name="You cannot do this during the Arca War event." xml:space="preserve">
+    <value>アルカ戦争開催中は実行できません。</value>
+    <comment>legacy_id=3466</comment>
+  </data>
+  <data name="Improper items for combination/refinement" xml:space="preserve">
+    <value>結合/精製に不適切なアイテムです</value>
+    <comment>legacy_id=3467</comment>
+  </data>
+  <data name="Exiting Game." xml:space="preserve">
+    <value>ゲームを終了します。</value>
+    <comment>legacy_id=3490</comment>
+  </data>
+  <data name="Moving back to server selection window." xml:space="preserve">
+    <value>サーバー選択画面に戻ります。</value>
+    <comment>legacy_id=3491</comment>
+  </data>
+  <data name="Moving to safety." xml:space="preserve">
+    <value>安全地帯に移動します。</value>
+    <comment>legacy_id=3492</comment>
+  </data>
+  <data name="Moving back to character selection window." xml:space="preserve">
+    <value>キャラクター選択画面に戻ります。</value>
+    <comment>legacy_id=3493</comment>
+  </data>
+  <data name="Moving to another area." xml:space="preserve">
+    <value>他のエリアに移動します。</value>
+    <comment>legacy_id=3494</comment>
+  </data>
+  <data name="Hunting" xml:space="preserve">
+    <value>狩猟</value>
+    <comment>legacy_id=3500</comment>
+  </data>
+  <data name="Obtaining" xml:space="preserve">
+    <value>取得</value>
+    <comment>legacy_id=3501</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>設定</value>
+    <comment>legacy_id=3502</comment>
+  </data>
+  <data name="Save Setting" xml:space="preserve">
+    <value>設定を保存</value>
+    <comment>legacy_id=3503</comment>
+  </data>
+  <data name="Initialization" xml:space="preserve">
+    <value>初期化</value>
+    <comment>legacy_id=3504,3542</comment>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>追加</value>
+    <comment>legacy_id=3505</comment>
+  </data>
+  <data name="Potion" xml:space="preserve">
+    <value>ポーション</value>
+    <comment>legacy_id=3507</comment>
+  </data>
+  <data name="Long-Distance Counter Attack" xml:space="preserve">
+    <value>遠距離カウンター攻撃</value>
+    <comment>legacy_id=3508</comment>
+  </data>
+  <data name="Original Position" xml:space="preserve">
+    <value>元の位置</value>
+    <comment>legacy_id=3509</comment>
+  </data>
+  <data name="Delay" xml:space="preserve">
+    <value>遅延</value>
+    <comment>legacy_id=3510</comment>
+  </data>
+  <data name="Con" xml:space="preserve">
+    <value>条件</value>
+    <comment>legacy_id=3511</comment>
+  </data>
+  <data name="Buff Duration" xml:space="preserve">
+    <value>バフ持続時間</value>
+    <comment>legacy_id=3513</comment>
+  </data>
+  <data name="Use Dark Spirits" xml:space="preserve">
+    <value>ダークスピリット使用</value>
+    <comment>legacy_id=3514</comment>
+  </data>
+  <data name="Auto Heal" xml:space="preserve">
+    <value>自動回復</value>
+    <comment>legacy_id=3516,3546</comment>
+  </data>
+  <data name="Drain Life" xml:space="preserve">
+    <value>ドレインライフ</value>
+    <comment>legacy_id=3517</comment>
+  </data>
+  <data name="Repair Item" xml:space="preserve">
+    <value>アイテム修理</value>
+    <comment>legacy_id=3518</comment>
+  </data>
+  <data name="Pick All Near Items" xml:space="preserve">
+    <value>周囲のアイテムをすべて拾う</value>
+    <comment>legacy_id=3519</comment>
+  </data>
+  <data name="Pick Selected Items" xml:space="preserve">
+    <value>選択したアイテムを拾う</value>
+    <comment>legacy_id=3520</comment>
+  </data>
+  <data name="Jewel/Gem" xml:space="preserve">
+    <value>宝石/ジェム</value>
+    <comment>legacy_id=3521</comment>
+  </data>
+  <data name="Set Item" xml:space="preserve">
+    <value>セットアイテム</value>
+    <comment>legacy_id=3522</comment>
+  </data>
+  <data name="Excellent Item" xml:space="preserve">
+    <value>エクセレントアイテム</value>
+    <comment>legacy_id=3524</comment>
+  </data>
+  <data name="Add Extra Item" xml:space="preserve">
+    <value>追加アイテムを追加</value>
+    <comment>legacy_id=3525</comment>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>範囲</value>
+    <comment>legacy_id=3526,3532</comment>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>距離</value>
+    <comment>legacy_id=3527</comment>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>最小</value>
+    <comment>legacy_id=3528</comment>
+  </data>
+  <data name="Basic Skill" xml:space="preserve">
+    <value>基本スキル</value>
+    <comment>legacy_id=3529</comment>
+  </data>
+  <data name="Activation Skill 1" xml:space="preserve">
+    <value>発動スキル1</value>
+    <comment>legacy_id=3530</comment>
+  </data>
+  <data name="Activation Skill 2" xml:space="preserve">
+    <value>発動スキル2</value>
+    <comment>legacy_id=3531</comment>
+  </data>
+  <data name="Cease Attack" xml:space="preserve">
+    <value>攻撃停止</value>
+    <comment>legacy_id=3533</comment>
+  </data>
+  <data name="Auto Attack" xml:space="preserve">
+    <value>自動攻撃</value>
+    <comment>legacy_id=3534</comment>
+  </data>
+  <data name="Attack Together" xml:space="preserve">
+    <value>共に攻撃</value>
+    <comment>legacy_id=3535</comment>
+  </data>
+  <data name="Official MU Helper" xml:space="preserve">
+    <value>公式MUヘルパー</value>
+    <comment>legacy_id=3536</comment>
+  </data>
+  <data name="Used Extension function" xml:space="preserve">
+    <value>拡張機能使用中</value>
+    <comment>legacy_id=3537</comment>
+  </data>
+  <data name="No Extension Function Being Used" xml:space="preserve">
+    <value>拡張機能は使用されていません</value>
+    <comment>legacy_id=3538</comment>
+  </data>
+  <data name="Preference of Party Heal" xml:space="preserve">
+    <value>パーティ回復の優先度</value>
+    <comment>legacy_id=3539</comment>
+  </data>
+  <data name="Buff Duration for All Party Members" xml:space="preserve">
+    <value>パーティメンバー全員のバフ持続時間</value>
+    <comment>legacy_id=3540</comment>
+  </data>
+  <data name="Save setup" xml:space="preserve">
+    <value>設定を保存</value>
+    <comment>legacy_id=3541</comment>
+  </data>
+  <data name="Pre-con" xml:space="preserve">
+    <value>プレ条件</value>
+    <comment>legacy_id=3543</comment>
+  </data>
+  <data name="Sub-con" xml:space="preserve">
+    <value>サブ条件</value>
+    <comment>legacy_id=3544</comment>
+  </data>
+  <data name="Auto Potion" xml:space="preserve">
+    <value>自動ポーション</value>
+    <comment>legacy_id=3545</comment>
+  </data>
+  <data name="HP Status" xml:space="preserve">
+    <value>HP状態</value>
+    <comment>legacy_id=3547</comment>
+  </data>
+  <data name="Heal Support" xml:space="preserve">
+    <value>回復サポート</value>
+    <comment>legacy_id=3548</comment>
+  </data>
+  <data name="Buff Support" xml:space="preserve">
+    <value>バフサポート</value>
+    <comment>legacy_id=3549</comment>
+  </data>
+  <data name="HP Status of Party Members" xml:space="preserve">
+    <value>パーティメンバーのHP状態</value>
+    <comment>legacy_id=3550</comment>
+  </data>
+  <data name="Time Space of Casting Buff" xml:space="preserve">
+    <value>バフ詠唱の時間間隔</value>
+    <comment>legacy_id=3551</comment>
+  </data>
+  <data name="Activation Skill" xml:space="preserve">
+    <value>発動スキル</value>
+    <comment>legacy_id=3552</comment>
+  </data>
+  <data name="Auto Recovery" xml:space="preserve">
+    <value>自動回復</value>
+    <comment>legacy_id=3553</comment>
+  </data>
+  <data name="Monster Within Hunting range" xml:space="preserve">
+    <value>狩猟範囲内のモンスター</value>
+    <comment>legacy_id=3555</comment>
+  </data>
+  <data name="Monster Attacking Me" xml:space="preserve">
+    <value>自分を攻撃しているモンスター</value>
+    <comment>legacy_id=3556</comment>
+  </data>
+  <data name="More Than 2 Mobs" xml:space="preserve">
+    <value>2体以上のモンスター</value>
+    <comment>legacy_id=3557</comment>
+  </data>
+  <data name="More Than 3 Mobs" xml:space="preserve">
+    <value>3体以上のモンスター</value>
+    <comment>legacy_id=3558</comment>
+  </data>
+  <data name="More than 4 mobs" xml:space="preserve">
+    <value>4体以上のモンスター</value>
+    <comment>legacy_id=3559</comment>
+  </data>
+  <data name="More than 5 mobs" xml:space="preserve">
+    <value>5体以上のモンスター</value>
+    <comment>legacy_id=3560</comment>
+  </data>
+  <data name="Official MU Helper Setting" xml:space="preserve">
+    <value>公式MUヘルパー設定</value>
+    <comment>legacy_id=3561</comment>
+  </data>
+  <data name="Start Official MU Helper" xml:space="preserve">
+    <value>公式MUヘルパー開始</value>
+    <comment>legacy_id=3562</comment>
+  </data>
+  <data name="Stop Official MU Helper" xml:space="preserve">
+    <value>公式MUヘルパー停止</value>
+    <comment>legacy_id=3563</comment>
+  </data>
+  <data name="InTheCaseOfDeregisteringBasic" xml:space="preserve">
+    <value>基本スキルと発動スキル1・2の登録を解除した場合、コンボスキルは使用できなくなります。</value>
+    <comment>legacy_id=3564</comment>
+  </data>
+  <data name="InOrderToUseComboSkill" xml:space="preserve">
+    <value>コンボスキルを使用するには、基本スキルと発動スキルを先に登録してください。</value>
+    <comment>legacy_id=3565</comment>
+  </data>
+  <data name="DelayAndConditionSettingMenusCan" xml:space="preserve">
+    <value>コンボスキル使用中は、遅延および条件設定メニューは利用できません。</value>
+    <comment>legacy_id=3566</comment>
+  </data>
+  <data name="Please Enter the Item Name for Addition" xml:space="preserve">
+    <value>追加するアイテム名を入力してください</value>
+    <comment>legacy_id=3567</comment>
+  </data>
+  <data name="Same name of the item exists in the list" xml:space="preserve">
+    <value>リストに同名のアイテムが存在します</value>
+    <comment>legacy_id=3568</comment>
+  </data>
+  <data name="ThisSkillWasAlreadyRegisteredRegistered" xml:space="preserve">
+    <value>このスキルは既に登録されています。右クリックで登録を解除できます。</value>
+    <comment>legacy_id=3569</comment>
+  </data>
+  <data name="Selected Item can be added to maximum %d piece(s)" xml:space="preserve">
+    <value>選択したアイテムは最大 %d 個まで追加できます</value>
+    <comment>legacy_id=3570</comment>
+  </data>
+  <data name="The list of Add Selected Items is emptied" xml:space="preserve">
+    <value>選択アイテム追加リストが空になりました</value>
+    <comment>legacy_id=3571</comment>
+  </data>
+  <data name="There is no selected item" xml:space="preserve">
+    <value>選択されたアイテムがありません</value>
+    <comment>legacy_id=3572</comment>
+  </data>
+  <data name="Any characters under level %d can't run Official MU Helper." xml:space="preserve">
+    <value>レベル %d 未満のキャラクターは公式MUヘルパーを使用できません。</value>
+    <comment>legacy_id=3573</comment>
+  </data>
+  <data name="Official MU Helper only runs in filed" xml:space="preserve">
+    <value>公式MUヘルパーはフィールドでのみ動作します</value>
+    <comment>legacy_id=3574</comment>
+  </data>
+  <data name="In order to run Official MU Helper, please close Inventory window" xml:space="preserve">
+    <value>公式MUヘルパーを起動するには、インベントリウィンドウを閉じてください</value>
+    <comment>legacy_id=3575</comment>
+  </data>
+  <data name="In order to run Official MU Helper, please close MU Guide window" xml:space="preserve">
+    <value>公式MUヘルパーを起動するには、MUガイドウィンドウを閉じてください</value>
+    <comment>legacy_id=3576</comment>
+  </data>
+  <data name="InOrderToRunOfficialMU" xml:space="preserve">
+    <value>公式MUヘルパーを正常に使用するには、スキルを登録してください（妖精を除く）</value>
+    <comment>legacy_id=3577</comment>
+  </data>
+  <data name="Official MU Helper is running." xml:space="preserve">
+    <value>公式MUヘルパーが動作中です。</value>
+    <comment>legacy_id=3578</comment>
+  </data>
+  <data name="Official MU Helper is closed" xml:space="preserve">
+    <value>公式MUヘルパーは終了しました</value>
+    <comment>legacy_id=3579</comment>
+  </data>
+  <data name="Official MU Helper Setting has been saved." xml:space="preserve">
+    <value>公式MUヘルパー設定が保存されました。</value>
+    <comment>legacy_id=3580</comment>
+  </data>
+  <data name="Official MU Helper can't be implemented in this region." xml:space="preserve">
+    <value>この地域では公式MUヘルパーは使用できません。</value>
+    <comment>legacy_id=3581</comment>
+  </data>
+  <data name="CertainAmountOfZenIsSpent" xml:space="preserve">
+    <value>公式MUヘルパーの使用中は、5分ごとに一定量のZenが消費されます</value>
+    <comment>legacy_id=3582</comment>
+  </data>
+  <data name="Spent Time %d Minute(s)/" xml:space="preserve">
+    <value>使用時間 %d 分/</value>
+    <comment>legacy_id=3583</comment>
+  </data>
+  <data name="Spent Time %d Minute(s)/ Spent Zen? %d Stage / Cost %d zen(s)" xml:space="preserve">
+    <value>使用時間 %d 分/ 消費Zen %d 段階 / コスト %d Zen</value>
+    <comment>legacy_id=3584</comment>
+  </data>
+  <data name="Spent Time %d hour(s) %d Minute(s)/ Spent Zen  %d Stage / Cost %d zen(s)" xml:space="preserve">
+    <value>使用時間 %d 時間 %d 分/ 消費Zen  %d 段階 / コスト %d Zen</value>
+    <comment>legacy_id=3585</comment>
+  </data>
+  <data name="%d zen(s) have been spent in implementing Official MU Helper" xml:space="preserve">
+    <value>公式MUヘルパーの使用により %d Zen消費されました</value>
+    <comment>legacy_id=3586</comment>
+  </data>
+  <data name="Zen is not sufficient to run Official MU Helper" xml:space="preserve">
+    <value>公式MUヘルパーを使用するためのZenが不足しています</value>
+    <comment>legacy_id=3587</comment>
+  </data>
+  <data name="In order to run Official MU Helper, please install Add-on first" xml:space="preserve">
+    <value>公式MUヘルパーを使用するには、まずアドオンをインストールしてください</value>
+    <comment>legacy_id=3588</comment>
+  </data>
+  <data name="Official MU Helper is closed due to the excess of %d hour(s)" xml:space="preserve">
+    <value>%d 時間を超過したため、公式MUヘルパーは終了しました</value>
+    <comment>legacy_id=3589</comment>
+  </data>
+  <data name="Other Settings" xml:space="preserve">
+    <value>その他の設定</value>
+    <comment>legacy_id=3590</comment>
+  </data>
+  <data name="Auto accept - Friend" xml:space="preserve">
+    <value>自動承認 - フレンド</value>
+    <comment>legacy_id=3591</comment>
+  </data>
+  <data name="Auto accept - Guild Member" xml:space="preserve">
+    <value>自動承認 - ギルドメンバー</value>
+    <comment>legacy_id=3592</comment>
+  </data>
+  <data name="PVP Counterattack" xml:space="preserve">
+    <value>PVPカウンター攻撃</value>
+    <comment>legacy_id=3593</comment>
+  </data>
+  <data name="Use Elite Mana Potion" xml:space="preserve">
+    <value>エリートマナポーション使用</value>
+    <comment>legacy_id=3594</comment>
+  </data>
+  <data name="Unable to use if you have not spent points on your master skill tree." xml:space="preserve">
+    <value>マスタースキルツリーにポイントを割り振っていないと使用できません。</value>
+    <comment>legacy_id=3595</comment>
+  </data>
+  <data name="The master skill point will reset." xml:space="preserve">
+    <value>マスタースキルポイントがリセットされます。</value>
+    <comment>legacy_id=3596</comment>
+  </data>
+  <data name="Do you want to reset?" xml:space="preserve">
+    <value>リセットしますか？</value>
+    <comment>legacy_id=3597</comment>
+  </data>
+  <data name="The first tree" xml:space="preserve">
+    <value>第1ツリー</value>
+    <comment>legacy_id=3598</comment>
+  </data>
+  <data name="ProtectionTranquilityBlessingDivineResilienceConviction" xml:space="preserve">
+    <value>＜守護、静穏、祝福、神威、不屈、信念、決断＞</value>
+    <comment>legacy_id=3599</comment>
+  </data>
+  <data name="The game will restart after reset!" xml:space="preserve">
+    <value>リセット後、ゲームが再起動します！</value>
+    <comment>legacy_id=3600</comment>
+  </data>
+  <data name="The second tree" xml:space="preserve">
+    <value>第2ツリー</value>
+    <comment>legacy_id=3601</comment>
+  </data>
+  <data name="&lt;Valor, Wisdom, Salvation, Chaos, Determination, Justice, Volition&gt;" xml:space="preserve">
+    <value>＜勇猛、英知、救済、混沌、決意、正義、意志＞</value>
+    <comment>legacy_id=3602</comment>
+  </data>
+  <data name="The third tree" xml:space="preserve">
+    <value>第3ツリー</value>
+    <comment>legacy_id=3603</comment>
+  </data>
+  <data name="&lt;Rage, Transcendence, Storm, Honor, Ultimacy, Conquest, Destruction&gt;" xml:space="preserve">
+    <value>＜激憤、超越、疾嵐、栄光、究極、制覇、破滅＞</value>
+    <comment>legacy_id=3604</comment>
+  </data>
+  <data name="Reset all master skill trees" xml:space="preserve">
+    <value>すべてのマスタースキルツリーをリセット</value>
+    <comment>legacy_id=3605</comment>
+  </data>
+  <data name="Help is active" xml:space="preserve">
+    <value>ヘルプは有効です</value>
+    <comment>legacy_id=3606</comment>
+  </data>
+  <data name="Spirit Map Combination" xml:space="preserve">
+    <value>スピリットマップ結合</value>
+    <comment>legacy_id=3607</comment>
+  </data>
+  <data name="Trophies of Battle Combination" xml:space="preserve">
+    <value>戦いの勲章結合</value>
+    <comment>legacy_id=3608</comment>
+  </data>
+  <data name="Combination Available" xml:space="preserve">
+    <value>結合可能</value>
+    <comment>legacy_id=3611</comment>
+  </data>
+  <data name="[Combine] %d Level" xml:space="preserve">
+    <value>[結合] %d レベル</value>
+    <comment>legacy_id=3612</comment>
+  </data>
+  <data name="You need ( %d~%d ) number of Trophies of Battle" xml:space="preserve">
+    <value>戦いの勲章が ( %d~%d ) 個必要です</value>
+    <comment>legacy_id=3613</comment>
+  </data>
+  <data name="Success rate of combination" xml:space="preserve">
+    <value>結合成功率</value>
+    <comment>legacy_id=3614</comment>
+  </data>
+  <data name="Success rate of combination: Minimum %d%%, Increase by %d%%" xml:space="preserve">
+    <value>結合成功率: 最小 %d%%、%d%%ずつ上昇</value>
+    <comment>legacy_id=3615</comment>
+  </data>
+  <data name="Entering Acheron" xml:space="preserve">
+    <value>アケロン入場</value>
+    <comment>legacy_id=3616</comment>
+  </data>
+  <data name="You can enter Acheron or combine Entrance Items." xml:space="preserve">
+    <value>アケロンに入場するか、入場アイテムを結合できます。</value>
+    <comment>legacy_id=3617</comment>
+  </data>
+  <data name="Participating guild member status" xml:space="preserve">
+    <value>参加ギルドメンバー状況</value>
+    <comment>legacy_id=3618</comment>
+  </data>
+  <data name="Currently, %d people are registered to participate." xml:space="preserve">
+    <value>現在、%d 人が参加登録しています。</value>
+    <comment>legacy_id=3619</comment>
+  </data>
+  <data name="You're not in a guild." xml:space="preserve">
+    <value>ギルドに所属していません。</value>
+    <comment>legacy_id=3620</comment>
+  </data>
+  <data name="You can only participate in the Arca War if you're in a guild." xml:space="preserve">
+    <value>アルカ戦争にはギルドに所属していないと参加できません。</value>
+    <comment>legacy_id=3621</comment>
+  </data>
+  <data name="Register to participate in the Arca War (Guild member)" xml:space="preserve">
+    <value>アルカ戦争に参加登録する（ギルドメンバー）</value>
+    <comment>legacy_id=3622</comment>
+  </data>
+  <data name="InOrderToProceedWithThe" xml:space="preserve">
+    <value>アルカ戦争を進めるには、ギルドマスターがアルカ戦争の登録を完了させる必要があります。</value>
+    <comment>legacy_id=3623</comment>
+  </data>
+  <data name="The Arca War is not going on at the moment." xml:space="preserve">
+    <value>現在アルカ戦争は開催されていません。</value>
+    <comment>legacy_id=3624</comment>
+  </data>
+  <data name="Please wait until the next Arca War." xml:space="preserve">
+    <value>次回のアルカ戦争までお待ちください。</value>
+    <comment>legacy_id=3625</comment>
+  </data>
+  <data name="You cannot enter because you don't have a Spirit Map." xml:space="preserve">
+    <value>スピリットマップがないため入場できません。</value>
+    <comment>legacy_id=3626</comment>
+  </data>
+  <data name="You need a Spirit Map to enter Acheron." xml:space="preserve">
+    <value>アケロンに入場するにはスピリットマップが必要です。</value>
+    <comment>legacy_id=3627</comment>
+  </data>
+  <data name="Need more guild members to register for the Arca War." xml:space="preserve">
+    <value>アルカ戦争に登録するには、より多くのギルドメンバーが必要です。</value>
+    <comment>legacy_id=3628</comment>
+  </data>
+  <data name="Minimum participants: %d, Participants: %d" xml:space="preserve">
+    <value>最少参加人数: %d、参加人数: %d</value>
+    <comment>legacy_id=3629</comment>
+  </data>
+  <data name="Cancel participation in the Arca War." xml:space="preserve">
+    <value>アルカ戦争への参加を取り消します。</value>
+    <comment>legacy_id=3630</comment>
+  </data>
+  <data name="YouDonTHaveEnoughPeople" xml:space="preserve">
+    <value>ギルドのアルカ戦争参加人数が十分ではありません。アルカ戦争への参加が取り消されました。</value>
+    <comment>legacy_id=3631</comment>
+  </data>
+  <data name="Acheron" xml:space="preserve">
+    <value>アケロン</value>
+    <comment>legacy_id=3632</comment>
+  </data>
+  <data name="Arca War" xml:space="preserve">
+    <value>アルカ戦争</value>
+    <comment>legacy_id=3633</comment>
+  </data>
+  <data name="Arca War results" xml:space="preserve">
+    <value>アルカ戦争結果</value>
+    <comment>legacy_id=3634</comment>
+  </data>
+  <data name="Are you going to participate in the Arca War?" xml:space="preserve">
+    <value>アルカ戦争に参加しますか？</value>
+    <comment>legacy_id=3635</comment>
+  </data>
+  <data name="Congratulations. You have successfully conquered Obelisk." xml:space="preserve">
+    <value>おめでとうございます。オベリスクの制圧に成功しました。</value>
+    <comment>legacy_id=3636</comment>
+  </data>
+  <data name="Sorry! Please conquer Obelisk on your next try." xml:space="preserve">
+    <value>残念！次はオベリスクを制圧してください。</value>
+    <comment>legacy_id=3637</comment>
+  </data>
+  <data name="Fire Tower" xml:space="preserve">
+    <value>火の塔</value>
+    <comment>legacy_id=3638</comment>
+  </data>
+  <data name="Water Tower" xml:space="preserve">
+    <value>水の塔</value>
+    <comment>legacy_id=3639</comment>
+  </data>
+  <data name="Earth Tower" xml:space="preserve">
+    <value>大地の塔</value>
+    <comment>legacy_id=3640</comment>
+  </data>
+  <data name="Wind Tower" xml:space="preserve">
+    <value>風の塔</value>
+    <comment>legacy_id=3641</comment>
+  </data>
+  <data name="Darkness Tower" xml:space="preserve">
+    <value>闇の塔</value>
+    <comment>legacy_id=3642</comment>
+  </data>
+  <data name="Obtain Trophies of Battle" xml:space="preserve">
+    <value>戦いの勲章を獲得</value>
+    <comment>legacy_id=3645</comment>
+  </data>
+  <data name="Rewarded EXP" xml:space="preserve">
+    <value>報酬経験値</value>
+    <comment>legacy_id=3646</comment>
+  </data>
+  <data name="No conquered guild" xml:space="preserve">
+    <value>制圧ギルドなし</value>
+    <comment>legacy_id=3647</comment>
+  </data>
+  <data name="%s guild conquered" xml:space="preserve">
+    <value>%s ギルドが制圧</value>
+    <comment>legacy_id=3648</comment>
+  </data>
+  <data name="%d points" xml:space="preserve">
+    <value>%d ポイント</value>
+    <comment>legacy_id=3649</comment>
+  </data>
+  <data name="Pentagram item" xml:space="preserve">
+    <value>五芒星アイテム</value>
+    <comment>legacy_id=3661</comment>
+  </data>
+  <data name="Slot of Anger (1)" xml:space="preserve">
+    <value>怒りのスロット (1)</value>
+    <comment>legacy_id=3662</comment>
+  </data>
+  <data name="Slot of Blessing (2)" xml:space="preserve">
+    <value>祝福のスロット (2)</value>
+    <comment>legacy_id=3663</comment>
+  </data>
+  <data name="Slot of Integrity (3)" xml:space="preserve">
+    <value>誠実のスロット (3)</value>
+    <comment>legacy_id=3664</comment>
+  </data>
+  <data name="Slot of Divinity (4)" xml:space="preserve">
+    <value>神威のスロット (4)</value>
+    <comment>legacy_id=3665</comment>
+  </data>
+  <data name="Slot of Gale (5)" xml:space="preserve">
+    <value>疾風のスロット (5)</value>
+    <comment>legacy_id=3666</comment>
+  </data>
+  <data name="No information regarding Errtel. (DB:%d)" xml:space="preserve">
+    <value>エルテルに関する情報がありません。(DB:%d)</value>
+    <comment>legacy_id=3668</comment>
+  </data>
+  <data name="Errtel List does not exist. (DB:%d)" xml:space="preserve">
+    <value>エルテルリストが存在しません。(DB:%d)</value>
+    <comment>legacy_id=3669</comment>
+  </data>
+  <data name="%s-%d Rank" xml:space="preserve">
+    <value>%s-%d ランク</value>
+    <comment>legacy_id=3670</comment>
+  </data>
+  <data name="%d Rank Errtel" xml:space="preserve">
+    <value>%d ランク エルテル</value>
+    <comment>legacy_id=3671</comment>
+  </data>
+  <data name="%d Rank Option +%d" xml:space="preserve">
+    <value>%d ランク オプション +%d</value>
+    <comment>legacy_id=3672</comment>
+  </data>
+  <data name="Option number (%d)" xml:space="preserve">
+    <value>オプション番号 (%d)</value>
+    <comment>legacy_id=3673</comment>
+  </data>
+  <data name="Errtel information does not exist or is incorrect. (%d)" xml:space="preserve">
+    <value>エルテル情報が存在しないか、正しくありません。(%d)</value>
+    <comment>legacy_id=3674</comment>
+  </data>
+  <data name="Element Master Adniel" xml:space="preserve">
+    <value>エレメントマスター アドニエル</value>
+    <comment>legacy_id=3675</comment>
+  </data>
+  <data name="You can refine Pentagram items or upgrade Errtel." xml:space="preserve">
+    <value>五芒星アイテムの精製、またはエルテルの強化ができます。</value>
+    <comment>legacy_id=3676</comment>
+  </data>
+  <data name="Elemental items refinement/combination" xml:space="preserve">
+    <value>エレメンタルアイテム 精製/結合</value>
+    <comment>legacy_id=3677,3682,3697</comment>
+  </data>
+  <data name="Errtel Level up" xml:space="preserve">
+    <value>エルテル レベルアップ</value>
+    <comment>legacy_id=3678</comment>
+  </data>
+  <data name="Errtel Rank up" xml:space="preserve">
+    <value>エルテル ランクアップ</value>
+    <comment>legacy_id=3679</comment>
+  </data>
+  <data name="Pentagram Item %d" xml:space="preserve">
+    <value>五芒星アイテム %d</value>
+    <comment>legacy_id=3680</comment>
+  </data>
+  <data name="Errtel Level Upgrade" xml:space="preserve">
+    <value>エルテル レベルアップ</value>
+    <comment>legacy_id=3683,3699</comment>
+  </data>
+  <data name="Errtel Rank Upgrade" xml:space="preserve">
+    <value>エルテル ランクアップ</value>
+    <comment>legacy_id=3684,3701</comment>
+  </data>
+  <data name="Refinement/Combination" xml:space="preserve">
+    <value>精製/結合</value>
+    <comment>legacy_id=3685</comment>
+  </data>
+  <data name="Move the item in the inventory area and close the combination window." xml:space="preserve">
+    <value>アイテムをインベントリエリアに移動し、結合ウィンドウを閉じてください。</value>
+    <comment>legacy_id=3688</comment>
+  </data>
+  <data name="[Mithril Fragment Refinement]" xml:space="preserve">
+    <value>[ミスリル破片 精製]</value>
+    <comment>legacy_id=3689</comment>
+  </data>
+  <data name="[Elixir Fragment Refinement]" xml:space="preserve">
+    <value>[エリクサー破片 精製]</value>
+    <comment>legacy_id=3690</comment>
+  </data>
+  <data name="[Errtel Combination]" xml:space="preserve">
+    <value>[エルテル 結合]</value>
+    <comment>legacy_id=3691</comment>
+  </data>
+  <data name="[Pentagram item Combination]" xml:space="preserve">
+    <value>[五芒星アイテム 結合]</value>
+    <comment>legacy_id=3692</comment>
+  </data>
+  <data name="1 Errtel" xml:space="preserve">
+    <value>1 エルテル</value>
+    <comment>legacy_id=3693</comment>
+  </data>
+  <data name="1 Errtel (Active rank +7 or more)" xml:space="preserve">
+    <value>1 エルテル（アクティブランク +7以上）</value>
+    <comment>legacy_id=3694</comment>
+  </data>
+  <data name="Set item +7 or more, additional options +4 or more. %d" xml:space="preserve">
+    <value>セットアイテム +7以上、追加オプション +4以上 %d</value>
+    <comment>legacy_id=3695</comment>
+  </data>
+  <data name="Do you want to refine/combine items?" xml:space="preserve">
+    <value>アイテムを精製/結合しますか？</value>
+    <comment>legacy_id=3696</comment>
+  </data>
+  <data name="DoYouWantToUpgradeThe" xml:space="preserve">
+    <value>以下のエルテルをレベルアップしますか？（注意：アイテムが消滅する場合があります。）</value>
+    <comment>legacy_id=3698</comment>
+  </data>
+  <data name="DoYouWantToUpgradeThe3700" xml:space="preserve">
+    <value>以下のエルテルをランクアップしますか？（注意：アイテムが消滅する場合があります。）</value>
+    <comment>legacy_id=3700</comment>
+  </data>
+  <data name="There's not enough materials for item refinement/combination." xml:space="preserve">
+    <value>アイテム精製/結合の素材が足りません。</value>
+    <comment>legacy_id=3702</comment>
+  </data>
+  <data name="You don't have enough materials for an upgrade." xml:space="preserve">
+    <value>強化の素材が足りません。</value>
+    <comment>legacy_id=3703</comment>
+  </data>
+  <data name="Combination window is already open. [0x%02X]" xml:space="preserve">
+    <value>結合ウィンドウが既に開いています。[0x%02X]</value>
+    <comment>legacy_id=3704</comment>
+  </data>
+  <data name="You cannot combine while personal store is open. [0x%02X]" xml:space="preserve">
+    <value>個人商店を開いている間は結合できません。[0x%02X]</value>
+    <comment>legacy_id=3705</comment>
+  </data>
+  <data name="Combination script does not match. [0x%02X]" xml:space="preserve">
+    <value>結合スクリプトが一致しません。[0x%02X]</value>
+    <comment>legacy_id=3706</comment>
+  </data>
+  <data name="The item properties do not match for combination. Cannot combine items." xml:space="preserve">
+    <value>結合するアイテムのプロパティが一致しません。結合できません。</value>
+    <comment>legacy_id=3707</comment>
+  </data>
+  <data name="Not enough material items for combination." xml:space="preserve">
+    <value>結合の素材アイテムが足りません。</value>
+    <comment>legacy_id=3708</comment>
+  </data>
+  <data name="NotEnoughZenToCombineItems3709" xml:space="preserve">
+    <value>結合するためのZenが足りません。</value>
+    <comment>legacy_id=3709</comment>
+  </data>
+  <data name="Combination failed. Item has disappeared." xml:space="preserve">
+    <value>結合に失敗しました。アイテムが消滅しました。</value>
+    <comment>legacy_id=3710</comment>
+  </data>
+  <data name="Upgrade failed." xml:space="preserve">
+    <value>強化に失敗しました。</value>
+    <comment>legacy_id=3711</comment>
+  </data>
+  <data name="Refinement/Combination failed." xml:space="preserve">
+    <value>精製/結合に失敗しました。</value>
+    <comment>legacy_id=3712</comment>
+  </data>
+  <data name="(Fire element)" xml:space="preserve">
+    <value>（火属性）</value>
+    <comment>legacy_id=3713,3737</comment>
+  </data>
+  <data name="(Water element)" xml:space="preserve">
+    <value>（水属性）</value>
+    <comment>legacy_id=3714,3738</comment>
+  </data>
+  <data name="(Earth element)" xml:space="preserve">
+    <value>（大地属性）</value>
+    <comment>legacy_id=3715,3739</comment>
+  </data>
+  <data name="(Wind element)" xml:space="preserve">
+    <value>（風属性）</value>
+    <comment>legacy_id=3716,3740</comment>
+  </data>
+  <data name="(Darkness element)" xml:space="preserve">
+    <value>（闇属性）</value>
+    <comment>legacy_id=3717,3741</comment>
+  </data>
+  <data name="Invalid elements. (%d)" xml:space="preserve">
+    <value>無効な属性です。(%d)</value>
+    <comment>legacy_id=3718</comment>
+  </data>
+  <data name="%d Rank" xml:space="preserve">
+    <value>%d ランク</value>
+    <comment>legacy_id=3719</comment>
+  </data>
+  <data name="Do you want to equip the selected Errtel on the Pentagram?" xml:space="preserve">
+    <value>選択したエルテルを五芒星に装備しますか？</value>
+    <comment>legacy_id=3720</comment>
+  </data>
+  <data name="WhenYouTakeAnErrtelOut" xml:space="preserve">
+    <value>エルテルを五芒星から外すと、消滅する場合があります。それでも外しますか？</value>
+    <comment>legacy_id=3721</comment>
+  </data>
+  <data name="YouCannotEquipTheSelectedItem" xml:space="preserve">
+    <value>選択したアイテムは装備できません。スロットに対応したエルテルを装備してください。</value>
+    <comment>legacy_id=3722</comment>
+  </data>
+  <data name="ThereAlreadyIsAnEquippedErrtel" xml:space="preserve">
+    <value>既に装備されているエルテルがあります。装備中のエルテルを外してからお試しください。</value>
+    <comment>legacy_id=3723</comment>
+  </data>
+  <data name="CannotEquipTheErrtelThatYou" xml:space="preserve">
+    <value>装備できません。装備しようとしているエルテルと五芒星の属性が異なります。正しいエルテルを装備してください。</value>
+    <comment>legacy_id=3724</comment>
+  </data>
+  <data name="YouCanOnlyEquipOrTake" xml:space="preserve">
+    <value>エルテルの装備/取り外しはインベントリ内でのみ行えます。五芒星をインベントリに移動してからお試しください。</value>
+    <comment>legacy_id=3725</comment>
+  </data>
+  <data name="YourInventoryIsFullCannotTake" xml:space="preserve">
+    <value>インベントリがいっぱいです。エルテルを取り出せません。インベントリを空けてからお試しください。</value>
+    <comment>legacy_id=3726</comment>
+  </data>
+  <data name="Pentagram item trade limits have been exceeded. Cannot trade." xml:space="preserve">
+    <value>五芒星アイテムの取引制限を超えています。取引できません。</value>
+    <comment>legacy_id=3727</comment>
+  </data>
+  <data name="You have more than 255 Errtels equipped on the Pentagram item you own." xml:space="preserve">
+    <value>所有している五芒星アイテムに、255個を超えるエルテルが装備されています。</value>
+    <comment>legacy_id=3728</comment>
+  </data>
+  <data name="Errtel has been successfully equipped." xml:space="preserve">
+    <value>エルテルの装備に成功しました。</value>
+    <comment>legacy_id=3729</comment>
+  </data>
+  <data name="Unequip has failed. The Errtel was destroyed." xml:space="preserve">
+    <value>取り外しに失敗しました。エルテルは破壊されました。</value>
+    <comment>legacy_id=3730</comment>
+  </data>
+  <data name="Errtel has been successfully unequipped." xml:space="preserve">
+    <value>エルテルの取り外しに成功しました。</value>
+    <comment>legacy_id=3731</comment>
+  </data>
+  <data name="Confirm equipping of Errtel" xml:space="preserve">
+    <value>エルテル装備の確認</value>
+    <comment>legacy_id=3732</comment>
+  </data>
+  <data name="Confirm unequipping of Errtel" xml:space="preserve">
+    <value>エルテル取り外しの確認</value>
+    <comment>legacy_id=3733</comment>
+  </data>
+  <data name="YouCannotUseTheElementalChaos" xml:space="preserve">
+    <value>エレメンタルカオス集合のお守りと、幸運のエレメンタルお守りを同時に使用することはできません。</value>
+    <comment>legacy_id=3734</comment>
+  </data>
+  <data name="Congratulations. Combination successful." xml:space="preserve">
+    <value>おめでとうございます。結合に成功しました。</value>
+    <comment>legacy_id=3735</comment>
+  </data>
+  <data name="Congratulations. Upgrade successful." xml:space="preserve">
+    <value>おめでとうございます。強化に成功しました。</value>
+    <comment>legacy_id=3736</comment>
+  </data>
+  <data name="You cannot use the following feature in this area." xml:space="preserve">
+    <value>このエリアでは以下の機能は使用できません。</value>
+    <comment>legacy_id=3742</comment>
+  </data>
+  <data name="An error has occurred in the following feature." xml:space="preserve">
+    <value>以下の機能でエラーが発生しました。</value>
+    <comment>legacy_id=3743</comment>
+  </data>
+  <data name="You cannot combine while personal store is open." xml:space="preserve">
+    <value>個人商店を開いている間は結合できません。</value>
+    <comment>legacy_id=3744</comment>
+  </data>
+  <data name="Warning3750" xml:space="preserve">
+    <value>警告</value>
+    <comment>legacy_id=3750</comment>
+  </data>
+  <data name="You cannot restore a deleted character!!" xml:space="preserve">
+    <value>削除したキャラクターは復元できません！！</value>
+    <comment>legacy_id=3751</comment>
+  </data>
+  <data name="(General items and cash items are not recoverable)" xml:space="preserve">
+    <value>（一般アイテムおよびキャッシュアイテムは復元できません）</value>
+    <comment>legacy_id=3752</comment>
+  </data>
+  <data name="You cannot use this while the same buff and seals last for 6 hours or more." xml:space="preserve">
+    <value>同じバフとシールが6時間以上残っている間は使用できません。</value>
+    <comment>legacy_id=3753</comment>
+  </data>
+  <data name="Client file has been corrupted. Please reinstall the client again." xml:space="preserve">
+    <value>クライアントファイルが破損しています。クライアントを再インストールしてください。</value>
+    <comment>legacy_id=3754</comment>
+  </data>
+  <data name="Monster wings" xml:space="preserve">
+    <value>モンスターの翼</value>
+    <comment>legacy_id=3755</comment>
+  </data>
+  <data name="Monster wings ingredient" xml:space="preserve">
+    <value>モンスターの翼の素材</value>
+    <comment>legacy_id=3756</comment>
+  </data>
+  <data name="Socket items" xml:space="preserve">
+    <value>ソケットアイテム</value>
+    <comment>legacy_id=3757</comment>
+  </data>
+  <data name="Item Refinement" xml:space="preserve">
+    <value>アイテム精製</value>
+    <comment>legacy_id=3758</comment>
+  </data>
+  <data name="Sub-materials %d" xml:space="preserve">
+    <value>副素材 %d</value>
+    <comment>legacy_id=3759</comment>
+  </data>
+  <data name="Parent-materials %d" xml:space="preserve">
+    <value>主素材 %d</value>
+    <comment>legacy_id=3760</comment>
+  </data>
+  <data name="ICanFeelThePowerOf" xml:space="preserve">
+    <value>バリアの力を感じる。イダスバリアエリアに入りたいなら、左の入場ボタンを押せ。ピッケの耐久度を修理するには、宝石を使わなければならない。</value>
+    <comment>legacy_id=3761</comment>
+  </data>
+  <data name="IfYouWantToRepairClick" xml:space="preserve">
+    <value>修理したいなら、右のキャンセルボタンを押せ。その後、様々な宝石で強化できる。修理に使える宝石は、祝福の宝石、魂の宝石、創造の宝石、混沌の宝石（束を含む）だ。</value>
+    <comment>legacy_id=3762</comment>
+  </data>
+  <data name="Only Level 170 and above may enter." xml:space="preserve">
+    <value>レベル170以上から入場できます。</value>
+    <comment>legacy_id=3763</comment>
+  </data>
+  <data name="You cannot attack." xml:space="preserve">
+    <value>攻撃できません。</value>
+    <comment>legacy_id=3764</comment>
+  </data>
+  <data name="Use skills closely" xml:space="preserve">
+    <value>間近でスキルを使う</value>
+    <comment>legacy_id=3765</comment>
+  </data>
+  <data name="You can purchase it after a while." xml:space="preserve">
+    <value>しばらくしてから購入できます。</value>
+    <comment>legacy_id=3808</comment>
+  </data>
+  <data name="You can gift it after a while." xml:space="preserve">
+    <value>しばらくしてからギフトできます。</value>
+    <comment>legacy_id=3809</comment>
+  </data>
+  <data name="Level: %u | Resets: %u" xml:space="preserve">
+    <value>レベル: %u | リセット: %u</value>
+    <comment>legacy_id=3810</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>基本攻撃フォールバック</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>接続が切断されました</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>サーバーの状態を確認中</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>ログイン中</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>キャラクターリスト読み込み中</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>ゲームに入場中</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>%d 秒後にリトライします...</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>このサーバーではコマンドリストを提供していません。</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : チャットコマンド ON/OFF</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>スペシャル</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>テンプレート</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>まだテンプレートは保存されていません。</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>テンプレートとして保存</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>お気に入りに追加</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>お気に入りから削除</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>必要な値を先に入力してください。</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>このコマンドは現在利用できません。</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>フレームレート</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>ディスプレイに追従</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>ディスプレイ最大値</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>垂直同期</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>設定フレームレート</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>実効フレームレート</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>ディスプレイリフレッシュレート</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>実測フレームレート</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>平均FPS</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>制限要因</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>ゲームパッド</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>ゲームパッドを有効にする</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>振動</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>振動の強さ</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>戦闘時振動</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>UI振動</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>取引時振動</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>ショート振動テスト</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>ロング振動テスト</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>このコントローラーは振動に対応していません</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>スティックデッドゾーン</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>ポインター速度</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>フレームリミッター</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>垂直同期</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>リフレッシュレートが取得できないため、60Hzにフォールバック</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>バックグラウンド時フレームレート制限</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>VSyncの周期が不均一</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>性能/外部要因による制限</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>コントローラーマッピング</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>汎用コントローラー</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>アクション</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>物理ボタン</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>トリガーデッドゾーン</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>ポインターY軸反転</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>現在のマッピング</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>デフォルトのマッピングに戻す</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>決定 / インタラクト</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>キャンセル / 戻る</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>通常攻撃</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>コンテキストアクション</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>現在のスキルを使用</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>ターゲットロック</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>前のスキル</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>次のスキル</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>クイックアイテム1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>クイックアイテム2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>クイックアイテム3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>クイックアイテム4</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>マップ</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>システムメニュー</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>MUヘルパー</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>次のターゲット</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>この画面設定を維持しますか？ %d 秒後に元に戻ります。</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>維持 (A / Enter)</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>元に戻す (B / Esc)</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>ソロショップ</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>装備</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>素材</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>スキル</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>ペット / チケット</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>消耗品</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>1,000 Zenを100 WCoin(C)に交換</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>1,000 Zenを100 WCoin(C)に交換しました。</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>操作に失敗しました。ゴールド、倉庫、接続状態を確認してください。</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>%ls の入場が開始されました。%ls 分後に閉鎖します。</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>%ls の入場が終了しました。</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>ハッピーアワーイベントが開始されました！</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>ハッピーアワーイベントが終了しました！</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>言語を変更しました</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>ゲーム内の表記（NPC名、クエスト、アイテム、スキルなど）はゲームを再起動するまで反映されません。今すぐ再起動しますか？</value>
+  </data>
+  <data name="/mu" xml:space="preserve">
+    <value>/mu</value>
+    <comment>legacy_id=349</comment>
+  </data>
+  <data name="Valhalla" xml:space="preserve">
+    <value>ヴァルハラ</value>
+    <comment>legacy_id=540</comment>
+  </data>
+  <data name="Helheim" xml:space="preserve">
+    <value>ヘルヘイム</value>
+    <comment>legacy_id=541</comment>
+  </data>
+  <data name="Midgard" xml:space="preserve">
+    <value>ミッドガルド</value>
+    <comment>legacy_id=542</comment>
+  </data>
+  <data name="Kara" xml:space="preserve">
+    <value>カラ</value>
+    <comment>legacy_id=543</comment>
+  </data>
+  <data name="Lamu" xml:space="preserve">
+    <value>ラム</value>
+    <comment>legacy_id=544</comment>
+  </data>
+  <data name="Nacal" xml:space="preserve">
+    <value>ナカル</value>
+    <comment>legacy_id=545</comment>
+  </data>
+  <data name="Rasa" xml:space="preserve">
+    <value>ラサ</value>
+    <comment>legacy_id=546</comment>
+  </data>
+  <data name="Rance" xml:space="preserve">
+    <value>ランス</value>
+    <comment>legacy_id=547</comment>
+  </data>
+  <data name="Tarh" xml:space="preserve">
+    <value>ター</value>
+    <comment>legacy_id=548</comment>
+  </data>
+  <data name="Uz" xml:space="preserve">
+    <value>ウズ</value>
+    <comment>legacy_id=549</comment>
+  </data>
+  <data name="Moz" xml:space="preserve">
+    <value>モズ</value>
+    <comment>legacy_id=550</comment>
+  </data>
+  <data name="Luga(Lamu2)" xml:space="preserve">
+    <value>ルーガ(ラム2)</value>
+    <comment>legacy_id=556</comment>
+  </data>
+  <data name="Titan" xml:space="preserve">
+    <value>タイタン</value>
+    <comment>legacy_id=557</comment>
+  </data>
+  <data name="Elca" xml:space="preserve">
+    <value>エルカ</value>
+    <comment>legacy_id=558</comment>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>テスト</value>
+    <comment>legacy_id=559</comment>
+  </data>
+  <data name=" 2 50-119 30-99 2 131-180 111-160" xml:space="preserve">
+    <value> 2 50-119 30-99 2 131-180 111-160</value>
+    <comment>legacy_id=2449</comment>
+  </data>
+  <data name=" 3 120-179 100-159 3 181-230 161-210" xml:space="preserve">
+    <value> 3 120-179 100-159 3 181-230 161-210</value>
+    <comment>legacy_id=2450</comment>
+  </data>
+  <data name=" 4 180-239 160-219 4 231-280 211-260" xml:space="preserve">
+    <value> 4 180-239 160-219 4 231-280 211-260</value>
+    <comment>legacy_id=2451</comment>
+  </data>
+  <data name=" 5 240-299 220-279 5 281-330 261-310" xml:space="preserve">
+    <value> 5 240-299 220-279 5 281-330 261-310</value>
+    <comment>legacy_id=2452</comment>
+  </data>
+  <data name=" 6 300-400 280-400 6 331-400 311-400" xml:space="preserve">
+    <value> 6 300-400 280-400 6 331-400 311-400</value>
+    <comment>legacy_id=2453</comment>
+  </data>
+  <data name=" 1 15-80 10-60 1 220-270" xml:space="preserve">
+    <value> 1 15-80 10-60 1 220-270</value>
+    <comment>legacy_id=2457</comment>
+  </data>
+  <data name=" 2 81-130 61-110 2 271-320" xml:space="preserve">
+    <value> 2 81-130 61-110 2 271-320</value>
+    <comment>legacy_id=2458</comment>
+  </data>
+  <data name=" 3 131-180 111-160 3 321-350" xml:space="preserve">
+    <value> 3 131-180 111-160 3 321-350</value>
+    <comment>legacy_id=2459</comment>
+  </data>
+  <data name="15#80#81#130#131#180#181#230#231#280#281#330#331#400" xml:space="preserve">
+    <value>15#80#81#130#131#180#181#230#231#280#281#330#331#400</value>
+    <comment>legacy_id=3366</comment>
+  </data>
+  <data name="10#60#61#110#111#160#161#210#211#260#261#310#311#400" xml:space="preserve">
+    <value>10#60#61#110#111#160#161#210#211#260#261#310#311#400</value>
+    <comment>legacy_id=3367</comment>
+  </data>
+  <data name="1#100#101#200" xml:space="preserve">
+    <value>1#100#101#200</value>
+    <comment>legacy_id=3368</comment>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>X</value>
+    <comment>legacy_id=3420</comment>
+  </data>
+  <data name="C" xml:space="preserve">
+    <value>C</value>
+    <comment>legacy_id=3422</comment>
+  </data>
+  <data name="I" xml:space="preserve">
+    <value>I</value>
+    <comment>legacy_id=3424</comment>
+  </data>
+  <data name="T" xml:space="preserve">
+    <value>T</value>
+    <comment>legacy_id=3426</comment>
+  </data>
+  <data name="F1" xml:space="preserve">
+    <value>F1</value>
+    <comment>legacy_id=3441</comment>
+  </data>
+  <data name="M" xml:space="preserve">
+    <value>M</value>
+    <comment>legacy_id=3442</comment>
+  </data>
+  <data name="O" xml:space="preserve">
+    <value>O</value>
+    <comment>legacy_id=3443</comment>
+  </data>
+  <data name="U" xml:space="preserve">
+    <value>U</value>
+    <comment>legacy_id=3444</comment>
+  </data>
+  <data name="F" xml:space="preserve">
+    <value>F</value>
+    <comment>legacy_id=3446</comment>
+  </data>
+  <data name="P" xml:space="preserve">
+    <value>P</value>
+    <comment>legacy_id=3447</comment>
+  </data>
+  <data name="G" xml:space="preserve">
+    <value>G</value>
+    <comment>legacy_id=3448</comment>
+  </data>
+  <data name="B" xml:space="preserve">
+    <value>B</value>
+    <comment>legacy_id=3449</comment>
+  </data>
+  <data name="SD3610" xml:space="preserve">
+    <value>%s : %d%%</value>
+    <comment>legacy_id=3610</comment>
+  </data>
+  <data name="SD3681" xml:space="preserve">
+    <value>%s %d</value>
+    <comment>legacy_id=3681</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½Ä µî·Ï ÇöÈ²" xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½Ä µî·Ï ÇöÈ²</value>
+    <comment>legacy_id=3766</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½Ä µî·Ï ¼øÀ§" xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½Ä µî·Ï ¼øÀ§</value>
+    <comment>legacy_id=3767</comment>
+  </data>
+  <data name="µî·Ï °³¼ö" xml:space="preserve">
+    <value>µî·Ï °³¼ö</value>
+    <comment>legacy_id=3768</comment>
+  </data>
+  <data name="¿ì¸® ±æµå ÇöÈ²" xml:space="preserve">
+    <value>¿ì¸® ±æµå ÇöÈ²</value>
+    <comment>legacy_id=3769</comment>
+  </data>
+  <data name="µÚ·Î°¡±â" xml:space="preserve">
+    <value>µÚ·Î°¡±â</value>
+    <comment>legacy_id=3770</comment>
+  </data>
+  <data name="µî·Ï °¡´É" xml:space="preserve">
+    <value>µî·Ï °¡´É</value>
+    <comment>legacy_id=3771</comment>
+  </data>
+  <data name="µî·Ï ºÒ°¡" xml:space="preserve">
+    <value>µî·Ï ºÒ°¡</value>
+    <comment>legacy_id=3772</comment>
+  </data>
+  <data name="µî·ÏÇÒ ¼ºÁÖÀÇ Ç¥½Ä °³¼ö : %d°³" xml:space="preserve">
+    <value>µî·ÏÇÒ ¼ºÁÖÀÇ Ç¥½Ä °³¼ö : %d°³</value>
+    <comment>legacy_id=3773</comment>
+  </data>
+  <data name="µî·ÏÇÒ ¼ºÁÖÀÇ Ç¥½ÄÀ» Á¶ÇÕÃ¢¿¡ ¿Ã·ÁÁÖ¼¼¿ä." xml:space="preserve">
+    <value>µî·ÏÇÒ ¼ºÁÖÀÇ Ç¥½ÄÀ» Á¶ÇÕÃ¢¿¡ ¿Ã·ÁÁÖ¼¼¿ä.</value>
+    <comment>legacy_id=3774</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½ÄÀº ÇÑ¹ø¿¡ ÃÖ´ë 225°³±îÁö µî·ÏÇÒ ¼ö ÀÖ½À´Ï´Ù." xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½ÄÀº ÇÑ¹ø¿¡ ÃÖ´ë 225°³±îÁö µî·ÏÇÒ ¼ö ÀÖ½À´Ï´Ù.</value>
+    <comment>legacy_id=3775</comment>
+  </data>
+  <data name="µî·ÏµÈ ¼ºÁÖÀÇ Ç¥½Ä °³¼ö: %d°³" xml:space="preserve">
+    <value>µî·ÏµÈ ¼ºÁÖÀÇ Ç¥½Ä °³¼ö: %d°³</value>
+    <comment>legacy_id=3776</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½Ä µî·Ï" xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½Ä µî·Ï</value>
+    <comment>legacy_id=3777</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½ÄÀ» µî·ÏÇÏ½Ã°Ú½À´Ï±î?" xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½ÄÀ» µî·ÏÇÏ½Ã°Ú½À´Ï±î?</value>
+    <comment>legacy_id=3778</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½Ä µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù." xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½Ä µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.</value>
+    <comment>legacy_id=3779</comment>
+  </data>
+  <data name="¼ºÁÖÀÇ Ç¥½Ä µî·ÏÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù." xml:space="preserve">
+    <value>¼ºÁÖÀÇ Ç¥½Ä µî·ÏÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù.</value>
+    <comment>legacy_id=3780</comment>
+  </data>
+  <data name="ｼﾓｼｺ" xml:space="preserve">
+    <value>ｼﾓｼｺ</value>
+    <comment>legacy_id=3781</comment>
+  </data>
+  <data name="ﾆﾇﾅｸｱﾗｷ･ ﾁ､ｺｸ" xml:space="preserve">
+    <value>ﾆﾇﾅｸｱﾗｷ･ ﾁ､ｺｸ</value>
+    <comment>legacy_id=3782</comment>
+  </data>
+  <data name="ﾀ盂ﾝ" xml:space="preserve">
+    <value>ﾀ盂ﾝ</value>
+    <comment>legacy_id=3783</comment>
+  </data>
+  <data name="ﾇﾘﾁｦ" xml:space="preserve">
+    <value>ﾇﾘﾁｦ</value>
+    <comment>legacy_id=3784</comment>
+  </data>
+  <data name="Àû´ë±æµå¸¦ ÇØÁ¦ÇÒ ±æµå¸íÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä" xml:space="preserve">
+    <value>Àû´ë±æµå¸¦ ÇØÁ¦ÇÒ ±æµå¸íÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä</value>
+    <comment>legacy_id=3785</comment>
+  </data>
+  <data name="±æµå¸¦ Àû´ë±æµå¿¡¼­ ÇØÁ¦ÇÏ½Ã°Ú½À´Ï±î?" xml:space="preserve">
+    <value>±æµå¸¦ Àû´ë±æµå¿¡¼­ ÇØÁ¦ÇÏ½Ã°Ú½À´Ï±î?</value>
+    <comment>legacy_id=3786</comment>
+  </data>
+  <data name="¼­¹ö" xml:space="preserve">
+    <value>¼­¹ö</value>
+    <comment>legacy_id=3787</comment>
+  </data>
+  <data name="ESC" xml:space="preserve">
+    <value>ESC</value>
+    <comment>legacy_id=3788</comment>
+  </data>
+  <data name="20¾ïÁ¨ ÀÌ»ó Ãâ±Ý ºÒ°¡" xml:space="preserve">
+    <value>20¾ïÁ¨ ÀÌ»ó Ãâ±Ý ºÒ°¡</value>
+    <comment>legacy_id=3789</comment>
+  </data>
+  <data name="ÀüÃ¼¼ö¸®ºñ¿ë" xml:space="preserve">
+    <value>ÀüÃ¼¼ö¸®ºñ¿ë</value>
+    <comment>legacy_id=3790</comment>
+  </data>
+  <data name="ÇØ´ç ±æµå°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù" xml:space="preserve">
+    <value>ÇØ´ç ±æµå°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù</value>
+    <comment>legacy_id=3791</comment>
+  </data>
+  <data name="°Å·¡ ½ÂÀÎ ´ë±âÁß" xml:space="preserve">
+    <value>°Å·¡ ½ÂÀÎ ´ë±âÁß</value>
+    <comment>legacy_id=3792</comment>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1% Low</value>
   </data>
 </root>

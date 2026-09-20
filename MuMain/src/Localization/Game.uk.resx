@@ -12887,4 +12887,297 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>Запам'ятати ім'я користувача</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>Запам'ятати пароль</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>Зберігайте пароль лише на комп'ютері, якому довіряєте.</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>УВАГА!!!</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>Якщо ви збережете пароль, будь-хто, хто користується цим комп'ютером, зможе увійти до вашого облікового запису. Робіть це лише на надійному ПК. Зберегти пароль?</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>Резервна базова атака</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>З'єднання втрачено</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>Перевірка доступності серверу</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>Вхід у систему</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>Завантаження списку персонажів</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>Вхід у гру</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>Повторна спроба через %d сек...</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>Команди</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>Цей сервер не надає списку команд.</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>Виконати</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : Команди чату ввімкн./вимкн.</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>Особливі</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>Шаблони</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>Шаблонів ще не збережено.</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>Зберегти як шаблон</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>Додати до обраного</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>Видалити з обраного</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>Спочатку введіть обов'язкові значення.</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>Ця команда більше недоступна.</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>Частота кадрів</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>Слідувати за дисплеєм</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>Рідна максимальна частота дисплея</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>Вертикальна синхронізація</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>Запитувана частота кадрів</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>Фактична частота кадрів</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>Частота оновлення дисплея</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>Реальна частота кадрів</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>Середній FPS</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>Причина обмеження</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>Ігровий контролер</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>Увімкнути контролер</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>Вібрація</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>Інтенсивність вібрації</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>Вібрація у бою</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>Вібрація інтерфейсу</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>Вібрація при транзакціях</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>Тест короткої вібрації</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>Тест тривалої вібрації</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>Цей контролер не підтримує вібрацію</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>Мертва зона джойстика</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>Швидкість курсора</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>Обмежувач кадрів</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>Вертикальна синхронізація</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>Частота оновлення недоступна, використовується 60 Гц</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>Обмеження FPS у фоні</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>Нерівний ритм VSync</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>Обмеження продуктивності/зовнішнє</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>Призначення кнопок контролера</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>Універсальний контролер</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>Дія</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>Фізична кнопка</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>Мертва зона курків</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>Інвертувати Y курсора</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>Поточне призначення</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>Відновити типові призначення</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>Підтвердити / взаємодіяти</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>Скасувати / назад</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>Основна атака</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>Контекстна дія</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>Використати поточну скілл</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>Заблокувати ціль</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>Попередня скілл</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>Наступна скілл</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>Швидкий предмет 1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>Швидкий предмет 2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>Швидкий предмет 3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>Швидкий предмет 4</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>Системне меню</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>Наступна ціль</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>Зберегти ці налаштування дисплея? Скасування через %d сек.</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>Зберегти (A / Enter)</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>Скасувати (B / Esc)</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>Магазин Solo Shop</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>Обладнання</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>Матеріали</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>Скілли</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>Пети / Квитки</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>Витратні матеріали</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>Обміняти 1 000 зен на 100 WCoin(C)</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>1 000 зен обмінено на 100 WCoin(C).</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>Операція не вдалася. Перевірте золото, сховище та з'єднання.</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>Вхід на %ls відкритий і закривається через %ls хв.</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>Вхід на %ls закритий.</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>Подія Happy Hour розпочалася!</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>Подія Happy Hour закінчилася!</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>Мову змінено</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>Мова ігрового контенту (імена NPC, квести, предмети та скілли) зміниться лише після перезапуску гри. Перезапустити зараз?</value>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1% мінімум</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>помічник MU</value>
+  </data>
 </root>

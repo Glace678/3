@@ -10,6 +10,7 @@
 #include "UI/NewUI/NewUIManager.h"
 #include "UI/NewUI/Inventory/NewUIMyInventory.h"
 #include "UI/NewUI/Widgets/NewUIComboBox.h"
+#include "Core/Input/GamepadTypes.h"
 
 #include <cstdint>
 
@@ -87,9 +88,16 @@ namespace SEASON3B
         void RegisterFocusNodes();
         void RegisterStandardFocusNodes();
         void RegisterDisplayConfirmationFocusNodes();
+        void RegisterRestartPromptFocusNodes();
         void HandleFocusedAdjustment();
         void RememberCurrentFocus();
         void FocusOptionControl(std::uint32_t focusId);
+        void UpdateMappingCapture();
+        void ApplyCapturedMapping(int row, Core::Input::GamepadControl control);
+        void UpdateRestartPromptMouseEvent();
+        void AcceptRestartForLanguage();
+        void RenderRestartPrompt();
+        void RenderFocusHighlight();
         CNewUIComboBox* FindOpenCombo();
         void HandleCheckboxInputs();
         bool HandleVolumeSlider(int& level, int yOffset);
@@ -148,6 +156,11 @@ namespace SEASON3B
         unsigned int m_uPreviousWindowWidth = 0;
         unsigned int m_uPreviousWindowHeight = 0;
         std::uint64_t m_uDisplayChangeDeadlineMs = 0;
+
+        // Controller-driven Yes/No prompt for the post-language-switch restart.
+        bool m_bRestartPromptPending = false;
+        // >= 0 while waiting for a physical control to bind to this mapping row.
+        int m_iMappingCaptureRow = -1;
 
         // Set when a combo consumes a click; swallows the rest of that mouse-hold
         // so the release can't fall through to the Close button (see UpdateMouseEvent).

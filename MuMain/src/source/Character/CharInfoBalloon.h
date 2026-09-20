@@ -33,6 +33,10 @@ public:
     void SetInfo();
 
 private:
+    void UpdateLayout();
+    void RenderLines();
+    int m_textTop = 0;
+    int m_lineHeight = 0;
     // Re-runs SetInfo() on locale change so the cached guild / class
     // strings displayed over the character flip to the new language
     // without waiting for the next character refresh.

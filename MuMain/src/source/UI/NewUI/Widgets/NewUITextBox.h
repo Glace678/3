@@ -10,6 +10,12 @@ namespace SEASON3B
     {
         typedef std::vector<std::wstring>		type_vector_textbase;
         type_vector_textbase	m_vecText;
+        type_vector_textbase m_sourceText;
+        HFONT m_layoutFont = nullptr;
+        float m_layoutScaleX = 0.f;
+        int m_layoutWidth = 0;
+        bool m_layoutDirty = true;
+        void UpdateTextLayout();
 
     protected:
         int							m_iWidth;
@@ -39,7 +45,7 @@ namespace SEASON3B
         bool Update();
         bool Render();
 
-        void ClearText() { m_vecText.clear(); }
+        void ClearText() { m_vecText.clear(); m_sourceText.clear(); m_iCurLine = 0; }
         void AddText(wchar_t* strText);
         void AddText(const wchar_t* strText);
 

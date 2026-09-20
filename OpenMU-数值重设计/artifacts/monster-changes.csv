@@ -1,0 +1,209 @@
+﻿route,map_id,map_name,monster_id,name,master,content_rank,kind,hp,damage,armor,xp,zen,spawn_count
+start,0,"Lorencia",0,"Bull Fighter",False,7.82,normal,178.93,16.10,15.08,152.47,17,45
+start,0,"Lorencia",3,"Spider",False,1,normal,110.01,10.78,10.65,37.55,9,45
+start,0,"Lorencia",2,"Budge Dragon",False,4.41,normal,144.33,13.44,12.87,88.62,13,60
+start,0,"Lorencia",6,"Lich",False,21.47,normal,320.23,26.75,23.96,536.17,33,20
+start,0,"Lorencia",14,"Skeleton Warrior",False,30,normal,410.80,33.40,29.50,880.00,45,15
+start,0,"Lorencia",1,"Hound",False,12.94,normal,231.41,20.09,18.41,272.37,23,45
+start,0,"Lorencia",4,"Elite Bull Fighter",False,18.06,normal,284.51,24.09,21.74,421.11,29,45
+start,0,"Lorencia",7,"Giant",False,26.59,normal,374.38,30.74,27.28,732.95,40,15
+dungeon,1,"Dungeon",8,"Poison Bull",False,90,normal,1097.20,80.20,68.50,5560.00,139,40
+dungeon,1,"Dungeon",16,"Elite Skeleton",False,85.56,normal,1043.45,76.74,65.61,5078.00,131,44
+dungeon,1,"Dungeon",14,"Skeleton Warrior",False,60,normal,743.20,56.80,49.00,2725.00,88,62
+dungeon,1,"Dungeon",12,"Larva",False,66.67,normal,820.04,62.00,53.34,3269.73,99,44
+dungeon,1,"Dungeon",15,"Skeleton Archer",False,76.67,normal,937.24,69.80,59.84,4178.10,116,36
+dungeon,1,"Dungeon",11,"Ghost",False,74.44,normal,910.90,68.06,58.39,3966.00,112,114
+dungeon,1,"Dungeon",17,"Cyclops",False,70,normal,858.80,64.60,55.50,3560.00,105,62
+dungeon,1,"Dungeon",5,"Hell Hound",False,81.11,normal,990.05,73.27,62.72,4616.68,124,28
+dungeon,1,"Dungeon",13,"Hell Spider",False,83.33,normal,1016.63,75.00,64.16,4844.10,127,18
+dungeon,1,"Dungeon",9,"Thunder Lich",False,87.78,normal,1070.26,78.47,67.06,5316.29,135,42
+dungeon,1,"Dungeon",10,"Dark Knight",False,92.22,normal,1124.25,81.93,69.94,5809.13,143,14
+dungeon,1,"Dungeon",18,"Gorgon",False,100,normal,1220.00,88.00,75.00,6725.00,158,8
+devias,2,"Devias",20,"Elite Yeti",False,45,normal,574.30,45.10,39.25,1678.75,66,235
+devias,2,"Devias",25,"Ice Queen",False,65,normal,800.70,60.70,52.25,3128.75,96,75
+devias,2,"Devias",23,"Hommerd",False,30,normal,410.80,33.40,29.50,880.00,45,75
+devias,2,"Devias",22,"Ice Monster",False,27.5,normal,384.07,31.45,27.88,770.94,41,75
+devias,2,"Devias",24,"Worm",False,25,normal,357.50,29.50,26.25,668.75,38,65
+devias,2,"Devias",21,"Assassin",False,32.5,normal,437.68,35.35,31.12,995.94,48,35
+start,3,"Noria",26,"Goblin",False,1,normal,110.01,10.78,10.65,37.55,9,155
+start,3,"Noria",27,"Chain Scorpion",False,4.87,normal,148.98,13.80,13.17,96.48,13,125
+start,3,"Noria",28,"Beetle Monster",False,14.53,normal,247.83,21.33,19.44,315.48,25,125
+start,3,"Noria",29,"Hunter",False,20.33,normal,308.26,25.86,23.21,496.28,32,125
+start,3,"Noria",30,"Forest Monster",False,24.2,normal,349.03,28.88,25.73,637.50,37,125
+start,3,"Noria",31,"Agon",False,26.13,normal,369.49,30.38,26.98,714.09,39,125
+start,3,"Noria",32,"Stone Golem",False,30,normal,410.80,33.40,29.50,880.00,45,100
+start,3,"Noria",33,"Elite Goblin",False,10.67,normal,208.07,18.32,16.94,215.66,20,125
+lost_tower,4,"Lost Tower",40,"Death Knight",False,138.42,normal,1714.12,117.97,99.97,12224.09,237,72
+lost_tower,4,"Lost Tower",36,"Shadow",False,95,normal,1158.30,84.10,71.75,6128.75,149,72
+lost_tower,4,"Lost Tower",35,"Death Gorgon",False,144.21,normal,1791.66,122.48,103.74,13193.61,250,61
+lost_tower,4,"Lost Tower",39,"Poison Shadow",False,103.68,normal,1265.79,90.87,77.39,7181.41,165,87
+lost_tower,4,"Lost Tower",34,"Cursed Wizard",False,115.26,normal,1412.02,99.90,84.92,8714.80,188,49
+lost_tower,4,"Lost Tower",41,"Death Cow",False,123.95,normal,1523.86,106.68,90.57,9962.38,206,51
+lost_tower,4,"Lost Tower",37,"Devil",False,132.63,normal,1637.39,113.45,96.21,11291.45,224,54
+lost_tower,4,"Lost Tower",38,"Balrog",False,150,boss,48620.00,107.95,118.25,426000.00,7890,2
+atlans,7,"Atlans",48,"Lizard King",False,184.19,normal,2349.01,153.67,129.72,20894.56,346,65
+atlans,7,"Atlans",51,"Great Bahamut",False,178.39,normal,2265.78,149.14,125.95,19668.33,332,65
+atlans,7,"Atlans",45,"Bahamut",False,145,normal,1802.30,123.10,104.25,13328.75,252,29
+atlans,7,"Atlans",46,"Vepar",False,147.9,normal,1841.49,125.36,106.14,13830.73,258,45
+atlans,7,"Atlans",52,"Silver Valkyrie",False,181.29,normal,2307.29,151.41,127.84,20276.82,339,85
+atlans,7,"Atlans",47,"Valkyrie",False,149.35,normal,1861.17,126.49,107.08,14085.18,262,43
+atlans,7,"Atlans",49,"Hydra",False,190,boss,63263.20,134.47,146.85,664800.00,10842,4
+tarkan,8,"Tarkan",61,"Beam Knight",False,210.71,normal,2739.88,174.35,146.96,26972.81,417,56
+tarkan,8,"Tarkan",58,"Tantallos",False,208.57,normal,2707.72,172.68,145.57,26453.63,411,63
+tarkan,8,"Tarkan",59,"Zaikan",False,223.57,normal,2935.50,184.38,155.32,30198.79,454,1
+tarkan,8,"Tarkan",62,"Mutant",False,185,normal,2360.70,154.30,130.25,21068.75,348,41
+tarkan,8,"Tarkan",60,"Bloody Wolf",False,193.57,normal,2485.33,160.98,135.82,22955.98,371,32
+tarkan,8,"Tarkan",57,"Iron Wheel",False,202.14,normal,2611.73,167.67,141.39,24924.00,394,23
+tarkan,8,"Tarkan",63,"Death Beam Knight",False,230,normal,3034.80,189.40,159.50,31880.00,473,1
+icarus,10,"Icarus",70,"Queen Rainer",False,233.48,normal,3088.95,192.11,161.76,32808.86,483,6
+icarus,10,"Icarus",73,"Drakan",False,238.33,normal,3164.91,195.90,164.91,34125.61,497,6
+icarus,10,"Icarus",72,"Phantom Knight",False,250.45,normal,3357.20,205.35,172.79,37529.26,534,12
+icarus,10,"Icarus",74,"Alpha Crust",False,245.61,normal,3279.99,201.58,169.65,36150.67,519,6
+icarus,10,"Icarus",71,"Mega Crust",False,228.64,normal,3013.71,188.34,158.62,31520.62,469,10
+icarus,10,"Icarus",69,"Alquamos",False,225,normal,2957.50,185.50,156.25,30568.75,458,11
+icarus,10,"Icarus",75,"Great Drakan",False,255.3,normal,3435.14,209.13,175.95,38936.55,550,12
+icarus,10,"Icarus",77,"Dark Phoenix",False,265,boss,93410.20,184.20,200.48,1254862.50,17412,1
+aida,33,"Aida",304,"Witch Queen",False,278.33,normal,3812.91,227.10,190.91,45972.13,624,6
+aida,33,"Aida",305,"Blue Golem",False,270,normal,3674.80,220.60,185.50,43360.00,597,38
+aida,33,"Aida",306,"Death Rider",False,265,normal,3592.70,216.70,182.25,41828.75,580,39
+aida,33,"Aida",307,"Forest Orc",False,261.67,normal,3538.35,214.10,180.09,40824.19,570,36
+aida,33,"Aida",308,"Death Tree",False,260,normal,3511.20,212.80,179.00,40325.00,564,29
+aida,33,"Aida",309,"Hell Maine",False,281.67,normal,3868.76,229.70,193.09,47040.93,635,3
+aida,33,"Aida",549,"Bloody Orc",False,295,normal,4094.30,240.10,201.75,51428.75,681,23
+aida,33,"Aida",550,"Bloody Death Rider",False,295.83,normal,4108.48,240.75,202.29,51708.42,683,25
+aida,33,"Aida",551,"Bloody Golem",False,297.5,normal,4137.07,242.05,203.38,52273.44,689,28
+aida,33,"Aida",552,"Bloody Witch Queen",False,300,normal,4180.00,244.00,205.00,53125.00,698,19
+kalima_7,36,"Kalima 7",334,"Death Angel 7",False,370.52,normal,5452.62,299.01,250.84,79978.03,965,9
+kalima_7,36,"Kalima 7",336,"Death Centurion 7",False,384.48,normal,5718.70,309.89,259.91,85942.44,1022,5
+kalima_7,36,"Kalima 7",333,"Blood Soldier 7",False,364.31,normal,5335.76,294.16,246.80,77393.70,940,7
+kalima_7,36,"Kalima 7",331,"Aegis 7",False,355,normal,5162.30,286.90,240.75,73598.75,903,11
+kalima_7,36,"Kalima 7",332,"Rogue Centurion 7",False,359.66,normal,5248.86,290.53,243.78,75486.34,921,10
+kalima_7,36,"Kalima 7",335,"Necron 7",False,376.72,normal,5570.22,303.84,254.87,82600.52,990,8
+kalima_7,36,"Kalima 7",337,"Schriker 7",False,392.24,normal,5868.63,315.95,264.96,89350.60,1055,10
+kalima_7,36,"Kalima 7",275,"Illusion of Kundun 7",False,400,boss,156520.00,273.70,297.00,2784750.00,32640,1
+kanturu,37,"Kanturu_I",350,"Berserker",False,311.33,normal,4376.42,252.84,212.36,57070.46,738,28
+kanturu,37,"Kanturu_I",351,"Splinter Wolf",False,295,normal,4094.30,240.10,201.75,51428.75,681,22
+kanturu,37,"Kanturu_I",352,"Iron Rider",False,296.63,normal,4122.17,241.37,202.81,51978.71,686,21
+kanturu,37,"Kanturu_I",353,"Satyros",False,299.08,normal,4164.19,243.28,204.40,52810.83,695,25
+kanturu,37,"Kanturu_I",354,"Blade Hunter",False,301.53,normal,4206.34,245.19,205.99,53649.55,703,22
+kanturu,37,"Kanturu_I",355,"Kentauros",False,305.61,normal,4276.87,248.38,208.65,55060.93,718,13
+kanturu,37,"Kanturu_I",356,"Gigantis",False,309.69,normal,4347.79,251.56,211.30,56490.62,732,9
+kanturu,37,"Kanturu_I",357,"Genocider",False,315.41,normal,4447.90,256.02,215.02,58525.83,753,11
+kanturu,37,"Kanturu_I",553,"Berserker Warrior",False,330.1,normal,4708.59,267.48,224.57,63917.51,807,12
+kanturu,37,"Kanturu_I",554,"Kentauros Warrior",False,332.55,normal,4752.57,269.39,226.16,64839.83,816,18
+kanturu,37,"Kanturu_I",555,"Gigantis Warrior",False,334.18,normal,4781.92,270.66,227.22,65457.11,822,16
+kanturu,37,"Kanturu_I",556,"Genocider Warrior",False,335,normal,4796.70,271.30,227.75,65768.75,825,13
+master_1,37,"Kanturu_I",350,"Berserker",True,408.16,normal,6180.74,328.36,275.30,96549.94,1123,28
+master_1,37,"Kanturu_I",351,"Splinter Wolf",True,400,normal,6020.00,322.00,270.00,92825.00,1088,22
+master_1,37,"Kanturu_I",352,"Iron Rider",True,400.82,normal,6036.08,322.64,270.53,93196.01,1092,21
+master_1,37,"Kanturu_I",353,"Satyros",True,402.04,normal,6060.03,323.59,271.33,93749.37,1097,25
+master_1,37,"Kanturu_I",354,"Blade Hunter",True,403.27,normal,6084.22,324.55,272.13,94308.92,1102,22
+master_1,37,"Kanturu_I",355,"Kentauros",True,405.31,normal,6124.41,326.14,273.45,95240.63,1111,13
+master_1,37,"Kanturu_I",356,"Gigantis",True,407.35,normal,6164.71,327.73,274.78,96176.91,1120,9
+master_1,37,"Kanturu_I",357,"Genocider",True,410.2,normal,6221.17,329.96,276.63,97492.62,1132,11
+master_1,37,"Kanturu_I",553,"Berserker Warrior",True,417.55,normal,6367.68,335.69,281.41,100927.00,1165,12
+master_1,37,"Kanturu_I",554,"Kentauros Warrior",True,418.78,normal,6392.32,336.65,282.21,101507.54,1170,18
+master_1,37,"Kanturu_I",555,"Gigantis Warrior",True,419.59,normal,6408.57,337.28,282.73,101890.75,1174,16
+master_1,37,"Kanturu_I",556,"Genocider Warrior",True,420,normal,6416.80,337.60,283.00,102085.00,1176,13
+kanturu,38,"Kanturu_III",358,"Persona",False,315,normal,4440.70,255.70,214.75,58378.75,751,27
+kanturu,38,"Kanturu_III",359,"Twin Tale",False,295,normal,4094.30,240.10,201.75,51428.75,681,24
+kanturu,38,"Kanturu_III",360,"Dreadfear",False,335,normal,4796.70,271.30,227.75,65768.75,825,12
+master_1,38,"Kanturu_III",358,"Persona",True,410,normal,6217.20,329.80,276.50,97400.00,1131,27
+master_1,38,"Kanturu_III",359,"Twin Tale",True,400,normal,6020.00,322.00,270.00,92825.00,1088,24
+master_1,38,"Kanturu_III",360,"Dreadfear",True,420,normal,6416.80,337.60,283.00,102085.00,1176,12
+start,51,"Elvenland",418,"Strange Rabbit",False,1,normal,110.01,10.78,10.65,37.55,9,80
+start,51,"Elvenland",419,"Polluted Butterfly",False,6.93,normal,169.88,15.41,14.50,134.57,16,45
+start,51,"Elvenland",420,"Hideous Rabbit",False,10.89,normal,210.32,18.49,17.08,220.91,20,45
+start,51,"Elvenland",421,"Werewolf",False,14.18,normal,244.21,21.06,19.22,305.75,24,30
+start,51,"Elvenland",422,"Cursed Lich",False,18.14,normal,285.35,24.15,21.79,423.66,29,30
+start,51,"Elvenland",423,"Totem Golem",False,22.09,normal,326.76,27.23,24.36,558.46,34,20
+start,51,"Elvenland",424,"Grizzly",False,26.7,normal,375.55,30.83,27.36,737.49,40,20
+start,51,"Elvenland",425,"Captain Grizzly",False,30,normal,410.80,33.40,29.50,880.00,45,20
+swamp,56,"Swamp Of Calmness",443,"Sapi-Tres",False,365,normal,5348.70,294.70,247.25,77678.75,942,27
+swamp,56,"Swamp Of Calmness",448,"Ghost Napin",False,367.86,normal,5402.45,296.93,249.11,78865.86,954,20
+swamp,56,"Swamp Of Calmness",449,"Blaze Napin",False,368.57,normal,5415.83,297.48,249.57,79161.95,957,16
+swamp,56,"Swamp Of Calmness",557,"Sapi Queen",False,385.71,normal,5742.37,310.85,260.71,86478.23,1027,44
+swamp,56,"Swamp Of Calmness",558,"Ice Napin",False,388.57,normal,5797.54,313.08,262.57,87730.49,1039,46
+swamp,56,"Swamp Of Calmness",559,"Shadow Master",False,390,normal,5825.20,314.20,263.50,88360.00,1045,36
+swamp,56,"Swamp Of Calmness",441,"Sapi-Unus",False,360,normal,5255.20,290.80,244.00,75625.00,922,14
+swamp,56,"Swamp Of Calmness",442,"Sapi-Duo",False,360.71,normal,5268.44,291.35,244.46,75914.96,925,14
+swamp,56,"Swamp Of Calmness",447,"Thunder Napin",False,361.43,normal,5281.88,291.92,244.93,76209.56,928,11
+swamp,56,"Swamp Of Calmness",444,"Shadow Pawn",False,362.14,normal,5295.14,292.47,245.39,76500.64,931,16
+swamp,56,"Swamp Of Calmness",445,"Shadow Knight",False,363.57,normal,5321.90,293.58,246.32,77088.57,937,29
+swamp,56,"Swamp Of Calmness",446,"Shadow Look",False,366.43,normal,5375.55,295.82,248.18,78271.18,948,9
+master_1,56,"Swamp Of Calmness",443,"Sapi-Tres",True,403.33,normal,6085.40,324.60,272.16,94336.26,1102,27
+master_1,56,"Swamp Of Calmness",448,"Ghost Napin",True,405.24,normal,6123.03,326.09,273.41,95208.58,1111,20
+master_1,56,"Swamp Of Calmness",449,"Blaze Napin",True,405.71,normal,6132.31,326.45,273.71,95423.85,1113,16
+master_1,56,"Swamp Of Calmness",557,"Sapi Queen",True,417.14,normal,6359.47,335.37,281.14,100733.86,1163,44
+master_1,56,"Swamp Of Calmness",558,"Ice Napin",True,419.05,normal,6397.73,336.86,282.38,101635.20,1171,46
+master_1,56,"Swamp Of Calmness",559,"Shadow Master",True,420,normal,6416.80,337.60,283.00,102085.00,1176,36
+master_1,56,"Swamp Of Calmness",441,"Sapi-Unus",True,400,normal,6020.00,322.00,270.00,92825.00,1088,14
+master_1,56,"Swamp Of Calmness",442,"Sapi-Duo",True,400.48,normal,6029.41,322.37,270.31,93042.09,1090,14
+master_1,56,"Swamp Of Calmness",447,"Thunder Napin",True,400.95,normal,6038.63,322.74,270.62,93254.90,1092,11
+master_1,56,"Swamp Of Calmness",444,"Shadow Pawn",True,401.43,normal,6048.05,323.12,270.93,93472.48,1094,16
+master_1,56,"Swamp Of Calmness",445,"Shadow Knight",True,402.38,normal,6066.72,323.86,271.55,93903.88,1098,29
+master_1,56,"Swamp Of Calmness",446,"Shadow Look",True,404.29,normal,6104.30,325.35,272.79,94774.20,1107,9
+master_2,56,"Swamp Of Calmness",443,"Sapi-Tres",True,420.83,normal,6433.47,338.25,283.54,102478.80,1179,27
+master_2,56,"Swamp Of Calmness",448,"Ghost Napin",True,423.02,normal,6477.55,339.96,284.96,103521.50,1189,20
+master_2,56,"Swamp Of Calmness",449,"Blaze Napin",True,423.57,normal,6488.64,340.38,285.32,103784.19,1192,16
+master_2,56,"Swamp Of Calmness",557,"Sapi Queen",True,436.71,normal,6755.69,350.63,293.86,110159.11,1251,44
+master_2,56,"Swamp Of Calmness",558,"Ice Napin",True,438.9,normal,6800.60,352.34,295.28,111240.07,1261,46
+master_2,56,"Swamp Of Calmness",559,"Shadow Master",True,440,normal,6823.20,353.20,296.00,111785.00,1266,36
+master_2,56,"Swamp Of Calmness",441,"Sapi-Unus",True,417,normal,6356.67,335.26,281.05,100667.95,1162,14
+master_2,56,"Swamp Of Calmness",442,"Sapi-Duo",True,417.55,normal,6367.68,335.69,281.41,100927.00,1165,14
+master_2,56,"Swamp Of Calmness",447,"Thunder Napin",True,418.1,normal,6378.69,336.12,281.77,101186.39,1167,11
+master_2,56,"Swamp Of Calmness",444,"Shadow Pawn",True,418.64,normal,6389.51,336.54,282.12,101441.38,1170,16
+master_2,56,"Swamp Of Calmness",445,"Shadow Knight",True,419.74,normal,6411.58,337.40,282.83,101961.80,1174,29
+master_2,56,"Swamp Of Calmness",446,"Shadow Look",True,421.93,normal,6455.60,339.11,284.25,103001.87,1184,9
+raklion,57,"LaCleon",454,"Ice Walker",False,385,normal,5728.70,310.30,260.25,86168.75,1024,7
+raklion,57,"LaCleon",455,"Giant Mammoth",False,388.26,normal,5791.55,312.84,262.37,87594.33,1038,5
+raklion,57,"LaCleon",456,"Ice Giant",False,391.52,normal,5854.65,315.39,264.49,89031.59,1052,14
+raklion,57,"LaCleon",457,"Coolutin",False,394.78,normal,5918.01,317.93,266.61,90480.55,1066,11
+raklion,57,"LaCleon",458,"Iron Knight",False,398.04,normal,5981.63,320.47,268.73,91941.19,1080,22
+raklion,57,"LaCleon",562,"Dark Mammoth",False,397.39,normal,5968.93,319.96,268.30,91649.03,1077,6
+raklion,57,"LaCleon",563,"Dark Giant",False,398.37,normal,5988.08,320.73,268.94,92089.70,1081,24
+raklion,57,"LaCleon",564,"Dark Coolutin",False,399.02,normal,6000.80,321.24,269.36,92382.57,1084,15
+raklion,57,"LaCleon",565,"Dark Iron Knight",False,400,normal,6020.00,322.00,270.00,92825.00,1088,16
+master_2,57,"LaCleon",454,"Ice Walker",True,417,normal,6356.67,335.26,281.05,100667.95,1162,7
+master_2,57,"LaCleon",455,"Giant Mammoth",True,422,normal,6457.01,339.16,284.30,103035.20,1185,5
+master_2,57,"LaCleon",456,"Ice Giant",True,427,normal,6557.95,343.06,287.55,105429.95,1207,14
+master_2,57,"LaCleon",457,"Coolutin",True,432,normal,6659.49,346.96,290.80,107852.20,1230,11
+master_2,57,"LaCleon",458,"Iron Knight",True,437,normal,6761.63,350.86,294.05,110301.95,1253,22
+master_2,57,"LaCleon",562,"Dark Mammoth",True,436,normal,6741.15,350.08,293.40,109809.80,1248,6
+master_2,57,"LaCleon",563,"Dark Giant",True,437.5,normal,6771.88,351.25,294.38,110548.44,1255,24
+master_2,57,"LaCleon",564,"Dark Coolutin",True,438.5,normal,6792.39,352.03,295.03,111042.24,1259,15
+master_2,57,"LaCleon",565,"Dark Iron Knight",True,440,normal,6823.20,353.20,296.00,111785.00,1266,16
+master_3,57,"LaCleon",454,"Ice Walker",True,437,normal,6761.63,350.86,294.05,110301.95,1253,7
+master_3,57,"LaCleon",455,"Giant Mammoth",True,444.17,normal,6909.14,356.45,298.71,113862.88,1286,5
+master_3,57,"LaCleon",456,"Ice Giant",True,451.35,normal,7058.10,362.05,303.38,117485.45,1319,14
+master_3,57,"LaCleon",457,"Coolutin",True,458.52,normal,7208.09,367.65,308.04,121159.56,1353,11
+master_3,57,"LaCleon",458,"Iron Knight",True,465.7,normal,7359.52,373.25,312.70,124895.47,1388,22
+master_3,57,"LaCleon",562,"Dark Mammoth",True,464.26,normal,7329.05,372.12,311.77,124141.66,1381,6
+master_3,57,"LaCleon",563,"Dark Giant",True,466.41,normal,7374.56,373.80,313.17,125267.98,1391,24
+master_3,57,"LaCleon",564,"Dark Coolutin",True,467.85,normal,7405.10,374.92,314.10,126025.19,1398,15
+master_3,57,"LaCleon",565,"Dark Iron Knight",True,470,normal,7450.80,376.60,315.50,127160.00,1409,16
+selupan,58,"LaCleon Boss",459,"Selupan",True,450,boss,182780.00,306.85,332.75,3504000.00,39390,1
+selupan,58,"LaCleon Boss",457,"Coolutin",True,450,normal,7030.00,361.00,302.50,116800.00,1313,10
+karutan,80,"Karutan 1",569,"Venomous Chain Scorpion",False,330,normal,4706.80,267.40,224.50,63880.00,807,35
+karutan,80,"Karutan 1",570,"Bone Scorpion",False,339.33,normal,4875.04,274.68,230.56,67426.63,842,47
+karutan,80,"Karutan 1",571,"Orcus",False,344,normal,4960.03,278.32,233.60,69237.80,860,10
+karutan,80,"Karutan 1",573,"Crypta",False,358,normal,5217.97,289.24,242.70,74811.20,914,18
+karutan,80,"Karutan 1",574,"Crypos",False,365,normal,5348.70,294.70,247.25,77678.75,942,13
+master_2,80,"Karutan 1",569,"Venomous Chain Scorpion",True,417,normal,6356.67,335.26,281.05,100667.95,1162,35
+master_2,80,"Karutan 1",570,"Bone Scorpion",True,423.13,normal,6479.77,340.04,285.03,103574.01,1190,47
+master_2,80,"Karutan 1",571,"Orcus",True,426.2,normal,6541.76,342.44,287.03,105044.94,1203,10
+master_2,80,"Karutan 1",573,"Crypta",True,435.4,normal,6728.88,349.61,293.01,109515.04,1245,18
+master_2,80,"Karutan 1",574,"Crypos",True,440,normal,6823.20,353.20,296.00,111785.00,1266,13
+master_3,80,"Karutan 1",569,"Venomous Chain Scorpion",True,437,normal,6761.63,350.86,294.05,110301.95,1253,35
+master_3,80,"Karutan 1",570,"Bone Scorpion",True,445.8,normal,6942.85,357.72,299.77,114680.30,1293,47
+master_3,80,"Karutan 1",571,"Orcus",True,450.2,normal,7034.16,361.16,302.63,116901.42,1314,10
+master_3,80,"Karutan 1",573,"Crypta",True,463.4,normal,7310.87,371.45,311.21,123692.56,1377,18
+master_3,80,"Karutan 1",574,"Crypos",True,470,normal,7450.80,376.60,315.50,127160.00,1409,13
+karutan,81,"Karutan 2",571,"Orcus",False,330,normal,4706.80,267.40,224.50,63880.00,807,22
+karutan,81,"Karutan 2",572,"Gollock",False,337,normal,4832.83,272.86,229.05,66531.95,833,15
+karutan,81,"Karutan 2",575,"Condra",False,358,normal,5217.97,289.24,242.70,74811.20,914,62
+karutan,81,"Karutan 2",576,"Narcondra",False,365,normal,5348.70,294.70,247.25,77678.75,942,34
+master_3,81,"Karutan 2",571,"Orcus",True,437,normal,6761.63,350.86,294.05,110301.95,1253,22
+master_3,81,"Karutan 2",572,"Gollock",True,443.6,normal,6897.37,356.01,298.34,113577.73,1283,15
+master_3,81,"Karutan 2",575,"Condra",True,463.4,normal,7310.87,371.45,311.21,123692.56,1377,62
+master_3,81,"Karutan 2",576,"Narcondra",True,470,normal,7450.80,376.60,315.50,127160.00,1409,34

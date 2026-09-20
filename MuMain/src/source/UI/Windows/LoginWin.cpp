@@ -93,6 +93,18 @@ void CLoginWin::Create()
     m_aBtnSavePassword.Create(16, 16, BITMAP_CHECK_BTN, 2, 0, 0, -1, 1, 1, 1);
     CWin::RegisterButton(&m_aBtnSavePassword);
 
+#if defined(_WIN32)
+    {
+        static const DWORD registerBtnColors[3] =
+        {
+            CLRDW_BR_GRAY, CLRDW_BR_GRAY, CLRDW_WHITE
+        };
+        m_aBtnRegister.Create(80, 26, BITMAP_LOG_IN + 1, 3, 2, 1);
+        m_aBtnRegister.SetText(L"\u6CE8\u518C", const_cast<DWORD*>(registerBtnColors));
+        CWin::RegisterButton(&m_aBtnRegister);
+    }
+#endif
+
     SAFE_DELETE(m_pUsernameInputBox);
 
     m_pUsernameInputBox = new CUITextInputBox;
@@ -163,6 +175,9 @@ void CLoginWin::SetPosition(int x, int y)
 	m_aBtnSavePassword.SetPosition(x + 109, y + 176);
 	m_aBtn[LIW_OK].SetPosition(x + 150, y + 200);
 	m_aBtn[LIW_CANCEL].SetPosition(x + 211, y + 200);
+#if defined(_WIN32)
+	m_aBtnRegister.SetPosition(x + 15, y + 202);
+#endif
 }
 
 void CLoginWin::Show(bool bShow)
@@ -176,6 +191,9 @@ void CLoginWin::Show(bool bShow)
     }
     m_aBtnRememberMe.Show(bShow);
     m_aBtnSavePassword.Show(bShow);
+#if defined(_WIN32)
+    m_aBtnRegister.Show(bShow);
+#endif
 
     // Drive the text fields' state so a hidden login screen releases keyboard
     // focus (portable fields stop SDL text input when hidden, #447).
@@ -220,6 +238,15 @@ void CLoginWin::UpdateWhileActive(double)
 		CUIMng::Instance().SetSysMenuWinShow(false);
 		return;
 	}
+
+#if defined(_WIN32)
+	if (m_aBtnRegister.IsClick())
+	{
+		PlayBuffer(SOUND_CLICK01);
+		CUIMng::Instance().m_RegisterWin.Open(1 /*FromLogin*/);
+		return;
+	}
+#endif
 
 	UpdateRememberCheckboxes();
 }

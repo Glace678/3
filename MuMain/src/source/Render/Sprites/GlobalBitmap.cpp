@@ -499,8 +499,11 @@ BITMAP_t* CGlobalBitmap::GetTexture(GLuint uiBitmapIndex)
     }
     if (nullptr == pBitmap)
     {
+        // BITMAP_t holds a std::vector (BufferStorage); memset over it would
+        // destroy the vector's invariants. Value-initialize instead, which
+        // zeroes every scalar member and leaves the vector empty.
         static BITMAP_t s_Error;
-        memset(&s_Error, 0, sizeof(BITMAP_t));
+        s_Error = BITMAP_t{};
         wcscpy(s_Error.FileName, L"CGlobalBitmap::GetTexture Error!!!");
         pBitmap = &s_Error;
     }

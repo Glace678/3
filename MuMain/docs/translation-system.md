@@ -186,6 +186,19 @@ namespace I18N {
 
 ## Locale switching at runtime
 
+With Simplified Chinese selected, stock server announcements for Blood Castle,
+Chaos Castle, Devil Square, and Happy Hour are displayed in Chinese, including
+entrance countdowns and closures. Custom announcements and guild messages keep
+their original wording. Notice wrapping and line spacing follow the current
+font size and window scale. The map/coordinate label stays vertically centered
+inside its visible frame when the window or UI font changes.
+
+Character selection info balloons expand to fit their three text rows. Button
+and radio-button captions stay centered and shrink only when needed to fit the
+button. Scrollable text panels rewrap when the font or window scale changes;
+chat and item tooltip rows use the measured font height rather than fixed pixel
+spacing.
+
 The active locale is selected through the Option window's language dropdown
 (see `src/source/UI/NewUI/Options/NewUIOptionWindow.cpp`). It calls
 `I18N::SetLocale(code)` and persists the choice via `GameConfig.UILocale`

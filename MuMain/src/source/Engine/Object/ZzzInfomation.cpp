@@ -1905,7 +1905,11 @@ static int64_t BaseItemValue(ITEM* ip, int goldType)
         if ((Type == 12 && ip->Type <= ITEM_WINGS_OF_DARKNESS) || ip->Type == ITEM_CAPE_OF_LORD || (ip->Type >= ITEM_WING_OF_STORM && ip->Type <= ITEM_WING_OF_DIMENSION)
             || (ip->Type == ITEM_CAPE_OF_OVERRULE))
         {
-            Gold = (long long)(40000000 + ((40 + Level2) * Level2 * Level2 * 11));
+            // The product must stay in 64-bit: at Level2 = 564 the int
+            // 11 * Level2^2 already overflows INT_MAX, and the cape formula
+            // can push Level2 to ~590 with endgame gear, which wrapped the
+            // total negative and produced a negative sell price.
+            Gold = 40000000 + (40LL + Level2) * Level2 * Level2 * 11;
         }
         else
         {

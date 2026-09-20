@@ -119,7 +119,10 @@ void CSysMenuWin::UpdateWhileActive(double dDeltaTick)
 {
     if (m_aBtn[SMW_BTN_GAME_END].IsClick())
     {
-        CUIMng::Instance().PopUpMsgWin(MESSAGE_GAME_END_COUNTDOWN);
+        // Exit immediately -- the old flow showed a 5-second countdown popup.
+        g_ErrorReport.Write(L"> Menu - Exit game.");
+        g_ErrorReport.WriteCurrentTime();
+        ::PostMessage(g_hWnd, WM_CLOSE, 0, 0);
     }
     else if (m_aBtn[SMW_BTN_SERVER_SEL].IsClick())
     {

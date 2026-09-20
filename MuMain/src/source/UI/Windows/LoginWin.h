@@ -16,6 +16,9 @@ protected:
     CButton		m_aBtn[2];
     CButton     m_aBtnRememberMe;
     CButton     m_aBtnSavePassword;
+#if defined(_WIN32)
+    CButton     m_aBtnRegister;
+#endif
     CUITextInputBox* m_pUsernameInputBox, * m_pPasswordInputBox;
 
     // Snapshot of the field contents, used to detect that the player edited the

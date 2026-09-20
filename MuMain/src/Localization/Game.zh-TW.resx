@@ -12887,4 +12887,297 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>預設</value>
   </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>記住帳號</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>記住密碼</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>請只在您信任的電腦上儲存密碼。</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>警告！！！</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>儲存密碼後，任何使用這台電腦的人都能登入您的帳號。請只在信任的電腦上這麼做。要儲存密碼嗎？</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>基礎攻擊後備</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>連線中斷</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>正在檢查伺服器狀態</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>登入中</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>載入角色清單中</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>進入遊戲中</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>%d 秒後重試…</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>指令</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>此伺服器未提供指令清單。</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>執行</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : 聊天指令 開/關</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>特殊</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>範本</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>尚未儲存任何範本。</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>儲存為範本</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>加入最愛</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>從最愛移除</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>請先輸入必要的數值。</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>此指令已無法使用。</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>畫面幀率</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>跟隨顯示器</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>顯示器原生最大值</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>垂直同步</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>要求幀率</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>實際生效幀率</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>顯示器更新頻率</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>目前幀率</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>平均 FPS</value>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1% 低點</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>限制原因</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>遊戲控制器</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>啟用控制器</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>震動</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>震動強度</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>戰鬥震動</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>介面震動</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>交易震動</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>測試短震動</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>測試長震動</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>此控制器不支援震動功能</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>搖桿死區</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>指標速度</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>幀率限制器</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>垂直同步</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>無法取得更新頻率，已降為 60 Hz</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>背景幀率限制</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>垂直同步節奏不均</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>效能/外部限制</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>控制器對應</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>通用控制器</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>動作</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>實體按鍵</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>扳機死區</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>反轉指標 Y 軸</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>目前對應</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>還原預設對應</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>確認 / 互動</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>取消 / 返回</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>主要攻擊</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>內容動作</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>使用目前技能</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>鎖定目標</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>上一個技能</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>下一個技能</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>快速道具 1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>快速道具 2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>快速道具 3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>快速道具 4</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>地圖</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>系統選單</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>MU 小幫手</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>下一個目標</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>是否保留這些顯示設定？%d 秒後還原。</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>保留（A / Enter）</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>還原（B / Esc）</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>個人商店</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>裝備</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>材料</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>技能</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>寵物 / 入場券</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>消耗品</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>以 1,000 Zen 兌換 100 WCoin(C)</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>已以 1,000 Zen 兌換 100 WCoin(C)。</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>操作失敗。請確認金幣、倉庫與連線狀態。</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>%ls 入口已開啟，將於 %ls 分鐘後關閉。</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>%ls 入口已關閉。</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>歡樂時光活動已開始！</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>歡樂時光活動已結束！</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>語言已變更</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>遊戲內容語言（NPC 名稱、任務、道具與技能）必須重新啟動遊戲後才會變更。是否立即重新啟動？</value>
+  </data>
 </root>

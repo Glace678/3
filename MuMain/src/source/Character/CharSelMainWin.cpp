@@ -198,6 +198,16 @@ void CCharSelMainWin::UpdateWhileActive(double dDeltaTick)
 {
     CUIMng& uiManager = CUIMng::Instance();
 
+    // The world selection is updated on mouse-down, while CButton commits on
+    // mouse-up.  Synchronize here as well so Connect cannot remain disabled
+    // for one frame when the selection and button event arrive in that order.
+    if (SelectedHero < 0 && SelectedCharacter >= 0 && SelectedCharacter < kCharacterSlotCount)
+    {
+        SelectedHero = SelectedCharacter;
+        m_aBtn[CSMW_BTN_CONNECT].SetEnable(true);
+        m_aBtn[CSMW_BTN_DELETE].SetEnable(true);
+    }
+
     if (m_aBtn[CSMW_BTN_CONNECT].IsClick())
     {
         ::StartGame();

@@ -25,7 +25,11 @@ bool ReduceStringByPixel(LPTSTR lpszDst, int nDstSize, LPCTSTR lpszSrc, int nPix
         return false;
     }
 
+    // CutText3/CutStr copy at most nDstSize-2 characters but write no null
+    // terminator; a stale buffer let wcscat scan and append past the buffer.
+    ::wmemset(lpszDst, L'\0', nDstSize);
     ::CutText3(lpszSrc, lpszDst, nPixel - 6, 1, nDstSize);
+    lpszDst[nDstSize - 4] = L'\0'; // reserve room for L"..."
     ::wcscat(lpszDst, L"...");
     return true;
 }

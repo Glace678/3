@@ -1,0 +1,5348 @@
+[
+  {
+    "engineId": 1,
+    "name": "Poison",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 2,
+    "name": "Meteorite",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 3,
+    "name": "Lightning",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 4,
+    "name": "Fire Ball",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 5,
+    "name": "Flame",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 6,
+    "name": "Teleport",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        6,
+        15,
+        63
+      ],
+      "effect": "teleport",
+      "cooldownSeconds": 4,
+      "manaFraction": 0.06,
+      "noDamageIframes": true
+    }
+  },
+  {
+    "engineId": 7,
+    "name": "Ice",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 8,
+    "name": "Twister",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 9,
+    "name": "Evil Spirit",
+    "status": "explicit-whole-cast-budget",
+    "template": "dw_spirit",
+    "coefficient": 1.03,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 10,
+    "name": "Hellfire",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 11,
+    "name": "Power Wave",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 12,
+    "name": "Aqua Beam",
+    "status": "explicit-whole-cast-budget",
+    "template": "dw_beam",
+    "coefficient": 1.27,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 13,
+    "name": "Cometfall",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 14,
+    "name": "Inferno",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 15,
+    "name": "Teleport Ally",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        6,
+        15,
+        63
+      ],
+      "effect": "teleport",
+      "cooldownSeconds": 4,
+      "manaFraction": 0.06,
+      "noDamageIframes": true
+    }
+  },
+  {
+    "engineId": 16,
+    "name": "Soul Barrier",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        16
+      ],
+      "effect": "mana_barrier",
+      "damageReductionCap": 0.15,
+      "manaPaidPerAbsorbedDamage": 0.5,
+      "emptyManaDisablesEffect": true
+    }
+  },
+  {
+    "engineId": 17,
+    "name": "Energy Ball",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 18,
+    "name": "Defense",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        18
+      ],
+      "effect": "guard",
+      "damageReductionCap": 0.20,
+      "moveSpeedMultiplier": 0.70,
+      "durationSeconds": 3,
+      "cooldownSeconds": 8
+    }
+  },
+  {
+    "engineId": 19,
+    "name": "Falling Slash",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 20,
+    "name": "Lunge",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 21,
+    "name": "Uppercut",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 22,
+    "name": "Cyclone",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 23,
+    "name": "Slash",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 24,
+    "name": "Triple Shot",
+    "status": "explicit-whole-cast-budget",
+    "template": "fe_triple",
+    "coefficient": 0.92,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 26,
+    "name": "Heal",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "targetMaxHealthFraction": 0.12,
+      "casterPowerCoefficient": 0.15,
+      "cooldownSeconds": 5,
+      "manaFraction": 0.10
+    },
+    "utilityBudget": {
+      "engineIds": [
+        26,
+        234
+      ],
+      "effect": "heal",
+      "targetMaxHealthFraction": 0.12,
+      "casterPowerCoefficient": 0.15,
+      "cooldownSeconds": 5,
+      "pvpMultiplier": 0.5
+    }
+  },
+  {
+    "engineId": 27,
+    "name": "Greater Defense",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        27,
+        268
+      ],
+      "effect": "defense_buff",
+      "damageReductionCap": 0.12,
+      "stackRule": "strongest-only"
+    }
+  },
+  {
+    "engineId": 28,
+    "name": "Greater Damage",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        28,
+        233
+      ],
+      "effect": "attack_buff",
+      "damageIncreaseCap": 0.12,
+      "stackRule": "strongest-only"
+    }
+  },
+  {
+    "engineId": 30,
+    "name": "Summon Goblin",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 31,
+    "name": "Summon Stone Golem",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 32,
+    "name": "Summon Assassin",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 33,
+    "name": "Summon Elite Yeti",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 34,
+    "name": "Summon Dark Knight",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 35,
+    "name": "Summon Bali",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 36,
+    "name": "Summon Soldier",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "ownerTotalDamageShare": 0.22,
+      "healthOwnerFraction": 0.75,
+      "activeSummonsCap": 1,
+      "resummonSeconds": 20,
+      "manaFraction": 0.15
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 38,
+    "name": "Decay",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 39,
+    "name": "Ice Storm",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 40,
+    "name": "Nova",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 41,
+    "name": "Twisting Slash",
+    "status": "explicit-whole-cast-budget",
+    "template": "dk_twist",
+    "coefficient": 0.96,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 42,
+    "name": "Rageful Blow",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 43,
+    "name": "Death Stab",
+    "status": "explicit-whole-cast-budget",
+    "template": "dk_stab",
+    "coefficient": 1.23,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 44,
+    "name": "Crescent Moon Slash",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 45,
+    "name": "Lance",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 46,
+    "name": "Starfall",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 47,
+    "name": "Impale",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 48,
+    "name": "Swell Life",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        48,
+        267
+      ],
+      "effect": "health_buff",
+      "maximumHealthIncreaseCap": 0.15,
+      "healOnRefresh": false
+    }
+  },
+  {
+    "engineId": 49,
+    "name": "Fire Breath",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 50,
+    "name": "Flame of Evil (Monster)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 51,
+    "name": "Ice Arrow",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 52,
+    "name": "Penetration",
+    "status": "explicit-whole-cast-budget",
+    "template": "fe_penetration",
+    "coefficient": 1.2,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 55,
+    "name": "Fire Slash",
+    "status": "explicit-whole-cast-budget",
+    "template": "mg_fire",
+    "coefficient": 1.22,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 56,
+    "name": "Power Slash",
+    "status": "explicit-whole-cast-budget",
+    "template": "mg_power",
+    "coefficient": 0.94,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 57,
+    "name": "Spiral Slash",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 58,
+    "name": "Nova (Start)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        58
+      ],
+      "effect": "nova_charge",
+      "chargeSecondsCap": 3,
+      "totalCastCoefficientCap": 3.2,
+      "chargeStartDealsDamage": false
+    }
+  },
+  {
+    "engineId": 60,
+    "name": "Force",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 61,
+    "name": "Fire Burst",
+    "status": "explicit-whole-cast-budget",
+    "template": "dl_burst",
+    "coefficient": 1.22,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 62,
+    "name": "Earthshake",
+    "status": "explicit-whole-cast-budget",
+    "template": "dl_quake",
+    "coefficient": 1,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 63,
+    "name": "Summon",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        6,
+        15,
+        63
+      ],
+      "effect": "teleport",
+      "cooldownSeconds": 4,
+      "manaFraction": 0.06,
+      "noDamageIframes": true
+    }
+  },
+  {
+    "engineId": 64,
+    "name": "Increase Critical Damage",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        64
+      ],
+      "effect": "critical_buff",
+      "criticalChanceAddition": 0.05,
+      "respectsGlobalCritCap": true
+    }
+  },
+  {
+    "engineId": 65,
+    "name": "Electric Spike",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 66,
+    "name": "Force Wave",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 67,
+    "name": "Stun",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 68,
+    "name": "Cancel Stun",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        68
+      ],
+      "effect": "cleanse",
+      "cooldownSeconds": 15,
+      "postCleanseImmunitySeconds": 2
+    }
+  },
+  {
+    "engineId": 69,
+    "name": "Swell Mana",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 70,
+    "name": "Invisibility",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 71,
+    "name": "Cancel Invisibility",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 72,
+    "name": "Abolish Magic",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 73,
+    "name": "Mana Rays",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 74,
+    "name": "Fire Blast",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 76,
+    "name": "Plasma Storm",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 77,
+    "name": "Infinity Arrow",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        77
+      ],
+      "effect": "infinite_arrow",
+      "arrowConsumptionMultiplier": 0,
+      "damageIncrease": 0
+    }
+  },
+  {
+    "engineId": 78,
+    "name": "Fire Scream",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 79,
+    "name": "Explosion",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 150,
+    "name": "Generic Monster Skill",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "directDamage": 0,
+      "preserveTargetingAndEventSemantics": true,
+      "requiresExplicitUtilityHandler": true
+    },
+    "utilityBudget": {
+      "engineIds": [
+        150
+      ],
+      "effect": "monster_special",
+      "usesEncounterAttackBudget": true,
+      "requiresTelegraphForDamageAboveNormalAttack": 2
+    }
+  },
+  {
+    "engineId": 200,
+    "name": "Summon Monster",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 201,
+    "name": "Magic Attack Immunity",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 202,
+    "name": "Physical Attack Immunity",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 203,
+    "name": "Potion of Bless",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 204,
+    "name": "Potion of Soul",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 210,
+    "name": "Spell of Protection",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 211,
+    "name": "Spell of Restriction",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 212,
+    "name": "Spell of Pursuit",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 213,
+    "name": "Shield-Burn",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 214,
+    "name": "Drain Life",
+    "status": "explicit-whole-cast-budget",
+    "template": "su_drain",
+    "coefficient": 1.22,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 215,
+    "name": "Chain Lightning",
+    "status": "explicit-whole-cast-budget",
+    "template": "su_chain",
+    "coefficient": 0.93,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 217,
+    "name": "Damage Reflection",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        217
+      ],
+      "effect": "reflection",
+      "reflectedDamageFraction": 0.08,
+      "bossReflectionCapOfTargetHealthPerSecond": 0.001,
+      "canReflectReflectedDamage": false
+    }
+  },
+  {
+    "engineId": 218,
+    "name": "Berserker",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        218
+      ],
+      "effect": "berserker",
+      "damageIncrease": 0.10,
+      "damageTakenIncrease": 0.08,
+      "durationSeconds": 20,
+      "cooldownSeconds": 30
+    }
+  },
+  {
+    "engineId": 219,
+    "name": "Sleep",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        219
+      ],
+      "effect": "sleep",
+      "pvmDurationSeconds": 3,
+      "pvpDurationSeconds": 1.5,
+      "bossDurationSeconds": 0,
+      "breakOnDamage": true
+    }
+  },
+  {
+    "engineId": 221,
+    "name": "Weakness",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        221
+      ],
+      "effect": "weakness",
+      "attackReduction": 0.10,
+      "bossMultiplier": 0.5,
+      "stackRule": "strongest-only"
+    }
+  },
+  {
+    "engineId": 222,
+    "name": "Innovation",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        222,
+        266
+      ],
+      "effect": "armor_break",
+      "armorReduction": 0.15,
+      "bossMultiplier": 0.5,
+      "globalPenetrationCap": 0.25
+    }
+  },
+  {
+    "engineId": 223,
+    "name": "Explosion",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 224,
+    "name": "Requiem",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 225,
+    "name": "Pollution",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 230,
+    "name": "Lightning Shock",
+    "status": "explicit-whole-cast-budget",
+    "template": "su_chain",
+    "coefficient": 0.93,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 232,
+    "name": "Strike of Destruction",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 233,
+    "name": "Expansion of Wizardry",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        28,
+        233
+      ],
+      "effect": "attack_buff",
+      "damageIncreaseCap": 0.12,
+      "stackRule": "strongest-only"
+    }
+  },
+  {
+    "engineId": 234,
+    "name": "Recovery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "targetMaxHealthFraction": 0.12,
+      "casterPowerCoefficient": 0.15,
+      "cooldownSeconds": 5,
+      "manaFraction": 0.10
+    },
+    "utilityBudget": {
+      "engineIds": [
+        26,
+        234
+      ],
+      "effect": "heal",
+      "targetMaxHealthFraction": 0.12,
+      "casterPowerCoefficient": 0.15,
+      "cooldownSeconds": 5,
+      "pvpMultiplier": 0.5
+    }
+  },
+  {
+    "engineId": 235,
+    "name": "Multi-Shot",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 236,
+    "name": "Flame Strike",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 237,
+    "name": "Gigantic Storm",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 238,
+    "name": "Chaotic Diseier",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 239,
+    "name": "Doppelganger Self Explosion",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 260,
+    "name": "Killing Blow",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 261,
+    "name": "Beast Uppercut",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 262,
+    "name": "Chain Drive",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 263,
+    "name": "Dark Side",
+    "status": "explicit-whole-cast-budget",
+    "template": "rf_darkside",
+    "coefficient": 0.95,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 264,
+    "name": "Dragon Roar",
+    "status": "explicit-whole-cast-budget",
+    "template": "rf_darkside",
+    "coefficient": 0.95,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 265,
+    "name": "Dragon Slasher",
+    "status": "explicit-whole-cast-budget",
+    "template": "rf_phoenix",
+    "coefficient": 1.25,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 266,
+    "name": "Ignore Defense",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        222,
+        266
+      ],
+      "effect": "armor_break",
+      "armorReduction": 0.15,
+      "bossMultiplier": 0.5,
+      "globalPenetrationCap": 0.25
+    }
+  },
+  {
+    "engineId": 267,
+    "name": "Increase Health",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        48,
+        267
+      ],
+      "effect": "health_buff",
+      "maximumHealthIncreaseCap": 0.15,
+      "healOnRefresh": false
+    }
+  },
+  {
+    "engineId": 268,
+    "name": "Increase Block",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": {
+      "engineIds": [
+        27,
+        268
+      ],
+      "effect": "defense_buff",
+      "damageReductionCap": 0.12,
+      "stackRule": "strongest-only"
+    }
+  },
+  {
+    "engineId": 269,
+    "name": "Charge",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 270,
+    "name": "Phoenix Shot",
+    "status": "explicit-whole-cast-budget",
+    "template": "rf_phoenix",
+    "coefficient": 1.25,
+    "master": false,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 300,
+    "name": "Durability Reduction (1)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 301,
+    "name": "PvP Defence Rate Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 302,
+    "name": "Maximum SD increase",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 303,
+    "name": "Automatic Mana Rec Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 304,
+    "name": "Poison Resistance Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 305,
+    "name": "Durability Reduction (2)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 306,
+    "name": "SD Recovery Speed Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 307,
+    "name": "Automatic HP Rec Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 308,
+    "name": "Lightning Resistance Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 309,
+    "name": "Defense Increase",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 310,
+    "name": "Automatic AG Rec Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 311,
+    "name": "Ice Resistance Increase",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 312,
+    "name": "Durability Reduction (3)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 313,
+    "name": "Defense Success Rate Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 325,
+    "name": "Attack Succ Rate Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 326,
+    "name": "Cyclone Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 327,
+    "name": "Slash Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 328,
+    "name": "Falling Slash Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 329,
+    "name": "Lunge Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 330,
+    "name": "Twisting Slash Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 331,
+    "name": "Rageful Blow Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 332,
+    "name": "Twisting Slash Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 333,
+    "name": "Rageful Blow Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 334,
+    "name": "Maximum Life Increase",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 335,
+    "name": "Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 336,
+    "name": "Death Stab Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 337,
+    "name": "Strike of Destr Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 338,
+    "name": "Maximum Mana Increase",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 347,
+    "name": "PvP Attack Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 348,
+    "name": "Two-handed Sword Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 349,
+    "name": "One-handed Sword Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 350,
+    "name": "Mace Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 351,
+    "name": "Spear Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 352,
+    "name": "Two-handed Sword Mast",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 353,
+    "name": "One-handed Sword Mast",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 354,
+    "name": "Mace Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 355,
+    "name": "Spear Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 356,
+    "name": "Swell Life Strengt",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 357,
+    "name": "Mana Reduction",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 358,
+    "name": "Monster Attack SD Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 359,
+    "name": "Monster Attack Life Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 360,
+    "name": "Swell Life Proficiency",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 361,
+    "name": "Minimum Attack Power Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 362,
+    "name": "Monster Attack Mana Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 378,
+    "name": "Flame Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 379,
+    "name": "Lightning Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 380,
+    "name": "Expansion of Wiz Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 381,
+    "name": "Inferno Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 382,
+    "name": "Blast Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 383,
+    "name": "Expansion of Wiz Mas",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 384,
+    "name": "Poison Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 385,
+    "name": "Evil Spirit Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 386,
+    "name": "Magic Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 387,
+    "name": "Decay Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 388,
+    "name": "Hellfire Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 389,
+    "name": "Ice Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 397,
+    "name": "One-handed Staff Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 398,
+    "name": "Two-handed Staff Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 399,
+    "name": "Shield Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 400,
+    "name": "One-handed Staff Mast",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 401,
+    "name": "Two-handed Staff Mast",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 402,
+    "name": "Shield Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 403,
+    "name": "Soul Barrier Strength",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 404,
+    "name": "Soul Barrier Proficie",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 405,
+    "name": "Minimum Wizardry Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 413,
+    "name": "Heal Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "targetMaxHealthFraction": 0.12,
+      "casterPowerCoefficient": 0.15,
+      "cooldownSeconds": 5,
+      "manaFraction": 0.10
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 414,
+    "name": "Triple Shot Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 415,
+    "name": "Summoned Monster Str (1)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 416,
+    "name": "Penetration Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 417,
+    "name": "Defense Increase Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 418,
+    "name": "Triple Shot Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 419,
+    "name": "Summoned Monster Str (2)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 420,
+    "name": "Attack Increase Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 421,
+    "name": "Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 422,
+    "name": "Attack Increase Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 423,
+    "name": "Defense Increase Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 424,
+    "name": "Ice Arrow Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 435,
+    "name": "Bow Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 436,
+    "name": "Crossbow Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 437,
+    "name": "Shield Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 438,
+    "name": "Bow Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 439,
+    "name": "Crossbow Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 440,
+    "name": "Shield Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 441,
+    "name": "Infinity Arrow Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 442,
+    "name": "Minimum Att Power Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 448,
+    "name": "Fire Tome Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 449,
+    "name": "Wind Tome Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 450,
+    "name": "Lightning Tome Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 451,
+    "name": "Fire Tome Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 452,
+    "name": "Wind Tome Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 453,
+    "name": "Lightning Tome Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 454,
+    "name": "Sleep Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 455,
+    "name": "Chain Lightning Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 456,
+    "name": "Lightning Shock Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 457,
+    "name": "Magic Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 458,
+    "name": "Drain Life Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 465,
+    "name": "Stick Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 466,
+    "name": "Other World Tome Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 467,
+    "name": "Stick Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 468,
+    "name": "Other World Tome Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 469,
+    "name": "Berserker Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 470,
+    "name": "Berserker Proficiency",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 471,
+    "name": "Minimum Wiz/Curse Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 479,
+    "name": "Cyclone Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 480,
+    "name": "Lightning Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 481,
+    "name": "Twisting Slash Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 482,
+    "name": "Power Slash Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 483,
+    "name": "Flame Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 484,
+    "name": "Blast Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 485,
+    "name": "Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 486,
+    "name": "Inferno Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 487,
+    "name": "Evil Spirit Strengthen",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 488,
+    "name": "Magic Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 489,
+    "name": "Ice Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 490,
+    "name": "Blood Attack Strengthen",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 508,
+    "name": "Fire Burst Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 509,
+    "name": "Force Wave Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 510,
+    "name": "Dark Horse Streng (1)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 511,
+    "name": "Critical DMG Inc PowUp",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 512,
+    "name": "Earthshake Streng",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 513,
+    "name": "Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 514,
+    "name": "Fire Burst Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 515,
+    "name": "Crit DMG Inc PowUp (2)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 516,
+    "name": "Earthshake Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 517,
+    "name": "Crit DMG Inc PowUp (3)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 518,
+    "name": "Fire Scream Stren",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 0.95,
+      "actionSeconds": 1.3,
+      "manaFraction": 0.023,
+      "targetWeights": [
+        1,
+        0.75,
+        0.55,
+        0.35
+      ]
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 526,
+    "name": "Dark Spirit Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 527,
+    "name": "Scepter Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 528,
+    "name": "Shield Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 529,
+    "name": "Use Scepter : Pet Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 530,
+    "name": "Dark Spirit Str (2)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 531,
+    "name": "Scepter Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 532,
+    "name": "Shield Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 533,
+    "name": "Command Attack Inc",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 534,
+    "name": "Dark Spirit Str (3)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 535,
+    "name": "Pet Durability Str",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 551,
+    "name": "Killing Blow Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 552,
+    "name": "Beast Uppercut Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 554,
+    "name": "Killing Blow Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 555,
+    "name": "Beast Uppercut Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 557,
+    "name": "Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 558,
+    "name": "Chain Drive Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 559,
+    "name": "Dark Side Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.012,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 560,
+    "name": "Dragon Roar Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "totalCastCoefficient": 1.15,
+      "actionSeconds": 1.2,
+      "manaFraction": 0.014,
+      "maxTargets": 1
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 568,
+    "name": "Equipped Weapon Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 569,
+    "name": "Def SuccessRate IncPowUp",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 571,
+    "name": "Equipped Weapon Mastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 572,
+    "name": "DefSuccessRate IncMastery",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 573,
+    "name": "Stamina Increase Strengthener",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "durationSeconds": 60,
+      "cooldownSeconds": 12,
+      "manaFraction": 0.08,
+      "sameEffectStacking": "strongest-only"
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 578,
+    "name": "Durability Reduction (1)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 579,
+    "name": "Increase PvP Defense Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 580,
+    "name": "Increase Maximum SD",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 581,
+    "name": "Increase Mana Recovery Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 582,
+    "name": "Increase Poison Resistance",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 583,
+    "name": "Durability Reduction (2)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 584,
+    "name": "Increase SD Recovery Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 585,
+    "name": "Increase HP Recovery Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 586,
+    "name": "Increase Lightning Resistance",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 587,
+    "name": "Increases Defense",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 588,
+    "name": "Increases AG Recovery Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 589,
+    "name": "Increase Ice Resistance",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 590,
+    "name": "Durability Reduction(3)",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 591,
+    "name": "Increase Defense Success Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 599,
+    "name": "Increase Attack Success Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 600,
+    "name": "Increase Maximum HP",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 601,
+    "name": "Increase Maximum Mana",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 603,
+    "name": "Increase PvP Attack Rate",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 604,
+    "name": "Decrease Mana",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 605,
+    "name": "Recover SD from Monster Kills",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 606,
+    "name": "Recover HP from Monster Kills",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 607,
+    "name": "Increase Minimum Attack Power",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  },
+  {
+    "engineId": 608,
+    "name": "Recover Mana Monster Kills",
+    "status": "type-budget-defined-runtime-effect-or-master-node-binding-required",
+    "template": null,
+    "coefficient": null,
+    "master": true,
+    "typeBudget": {
+      "maxNodeRanks": 5,
+      "rankValueFraction": [
+        0,
+        0.005,
+        0.009,
+        0.012,
+        0.014,
+        0.015
+      ],
+      "mustRespectMasterBranchCap": true
+    },
+    "utilityBudget": null
+  }
+]

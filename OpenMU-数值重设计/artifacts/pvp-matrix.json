@@ -1,0 +1,1570 @@
+[
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 511.49530801378893,
+    "noHealingTimeToKillSeconds": 10.337949297195609
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 479.1903411918654,
+    "noHealingTimeToKillSeconds": 12.337887081143785
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 526.1886750176267,
+    "noHealingTimeToKillSeconds": 8.916924865102473
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 481.87804975298445,
+    "noHealingTimeToKillSeconds": 10.875865548734804
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 477.4876889445604,
+    "noHealingTimeToKillSeconds": 10.240079719767824
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 497.49404994926743,
+    "noHealingTimeToKillSeconds": 9.828282369404446
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 517.1671855057004,
+    "noHealingTimeToKillSeconds": 9.538960510760448
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 517.1671855057004,
+    "noHealingTimeToKillSeconds": 9.538960510760448
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 525.7390138022162,
+    "noHealingTimeToKillSeconds": 9.411157152323062
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 525.799778581235,
+    "noHealingTimeToKillSeconds": 9.410069538923498
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 519.3619202767078,
+    "noHealingTimeToKillSeconds": 9.38639644085325
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 525.1112106255273,
+    "noHealingTimeToKillSeconds": 9.980439902924491
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 517.1671855057004,
+    "noHealingTimeToKillSeconds": 10.589023885274402
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "assault",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 506.2794552845278,
+    "noHealingTimeToKillSeconds": 12.447927432603834
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 425.52424177001427,
+    "noHealingTimeToKillSeconds": 12.426583590172841
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 398.6490265003292,
+    "noHealingTimeToKillSeconds": 14.830580101755539
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 437.7479782450086,
+    "noHealingTimeToKillSeconds": 10.718461565055783
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 400.8849906033237,
+    "noHealingTimeToKillSeconds": 13.07317810056356
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 397.2325524971836,
+    "noHealingTimeToKillSeconds": 12.308940869176794
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 413.8762860050493,
+    "noHealingTimeToKillSeconds": 11.813945773980265
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 430.242801904085,
+    "noHealingTimeToKillSeconds": 11.46617058592831
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 430.242801904085,
+    "noHealingTimeToKillSeconds": 11.46617058592831
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 437.3738951503192,
+    "noHealingTimeToKillSeconds": 11.312546393056921
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 437.4244467118159,
+    "noHealingTimeToKillSeconds": 11.31123904297859
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 432.0686502250514,
+    "noHealingTimeToKillSeconds": 11.282783135181859
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 436.8516118242439,
+    "noHealingTimeToKillSeconds": 11.996844553496848
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 430.242801904085,
+    "noHealingTimeToKillSeconds": 12.728384195538133
+  },
+  {
+    "attackerClass": "DK",
+    "attackerBuild": "guard",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 421.18505870610426,
+    "noHealingTimeToKillSeconds": 14.962852527011217
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 549.9354573757508,
+    "noHealingTimeToKillSeconds": 9.615333016047064
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 515.2026916467561,
+    "noHealingTimeToKillSeconds": 11.475476382125816
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 565.7330675923971,
+    "noHealingTimeToKillSeconds": 8.29363731550603
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 518.0923882161953,
+    "noHealingTimeToKillSeconds": 10.115649253300829
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 513.3720808323391,
+    "noHealingTimeToKillSeconds": 9.524304461731829
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 534.8819698130831,
+    "noHealingTimeToKillSeconds": 9.141291492230822
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 556.0335906212068,
+    "noHealingTimeToKillSeconds": 8.872193053100503
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 556.0335906212068,
+    "noHealingTimeToKillSeconds": 8.872193053100503
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 565.2496132140546,
+    "noHealingTimeToKillSeconds": 8.753323070610064
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 565.3149446179181,
+    "noHealingTimeToKillSeconds": 8.75231148071647
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 558.3932651894822,
+    "noHealingTimeToKillSeconds": 8.730293117603708
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 564.5746290613064,
+    "noHealingTimeToKillSeconds": 9.282813307983247
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 556.0335906212068,
+    "noHealingTimeToKillSeconds": 9.848857645240141
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "elemental",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 544.3276202923394,
+    "noHealingTimeToKillSeconds": 11.577824980873368
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 464.223314556528,
+    "noHealingTimeToKillSeconds": 11.390665643433788
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 434.90394732137884,
+    "noHealingTimeToKillSeconds": 13.594257666351076
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 477.5587321559661,
+    "noHealingTimeToKillSeconds": 9.824937885268618
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 437.343259974411,
+    "noHealingTimeToKillSeconds": 11.983358061369556
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 433.3586528535754,
+    "noHealingTimeToKillSeconds": 11.282829978826069
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 451.5160417334149,
+    "noHealingTimeToKillSeconds": 10.829099185997197
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 469.371001598425,
+    "noHealingTimeToKillSeconds": 10.51031559938737
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 469.371001598425,
+    "noHealingTimeToKillSeconds": 10.51031559938737
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 477.1506282758816,
+    "noHealingTimeToKillSeconds": 10.36949798825214
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 477.2057772218886,
+    "noHealingTimeToKillSeconds": 10.36829962286771
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 471.36290071070783,
+    "noHealingTimeToKillSeconds": 10.342215886421492
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 476.5808461742562,
+    "noHealingTimeToKillSeconds": 10.996750964858851
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 469.371001598425,
+    "noHealingTimeToKillSeconds": 11.667307228931238
+  },
+  {
+    "attackerClass": "DW",
+    "attackerBuild": "barrier",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 459.4895068279319,
+    "noHealingTimeToKillSeconds": 13.715503458406506
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 550.6219498862803,
+    "noHealingTimeToKillSeconds": 9.603345019376889
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 515.8458267355679,
+    "noHealingTimeToKillSeconds": 11.461169236192541
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 566.4392804918423,
+    "noHealingTimeToKillSeconds": 8.283297153979019
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 518.7391305556871,
+    "noHealingTimeToKillSeconds": 10.103037483187112
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 514.3228058423933,
+    "noHealingTimeToKillSeconds": 9.506698797833046
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 535.5875144421475,
+    "noHealingTimeToKillSeconds": 9.12924940958113
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 556.767035634467,
+    "noHealingTimeToKillSeconds": 8.860505461459839
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 556.767035634467,
+    "noHealingTimeToKillSeconds": 8.860505461459839
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 565.9150837047445,
+    "noHealingTimeToKillSeconds": 8.743029868738095
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 565.9800836966183,
+    "noHealingTimeToKillSeconds": 8.742025775331292
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 559.1298227692748,
+    "noHealingTimeToKillSeconds": 8.718792454774219
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 565.2793958649146,
+    "noHealingTimeToKillSeconds": 9.271239883033715
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 556.767035634467,
+    "noHealingTimeToKillSeconds": 9.835883465621228
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "marksman",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 545.045624357952,
+    "noHealingTimeToKillSeconds": 11.562573183527025
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 487.60733509366753,
+    "noHealingTimeToKillSeconds": 10.844407332355308
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 456.8110823509095,
+    "noHealingTimeToKillSeconds": 12.942322435729384
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 501.61448905196215,
+    "noHealingTimeToKillSeconds": 9.353766652290536
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 459.37326892127066,
+    "noHealingTimeToKillSeconds": 11.408676199873087
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 455.22339562562485,
+    "noHealingTimeToKillSeconds": 10.740906655907308
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 474.2642961246607,
+    "noHealingTimeToKillSeconds": 10.309677620587294
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 493.01882351687414,
+    "noHealingTimeToKillSeconds": 10.0061846012481
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 493.01882351687414,
+    "noHealingTimeToKillSeconds": 10.0061846012481
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 501.1812363682449,
+    "noHealingTimeToKillSeconds": 9.872301915877342
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 501.23911605555185,
+    "noHealingTimeToKillSeconds": 9.871161929532327
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 495.11107837189854,
+    "noHealingTimeToKillSeconds": 9.8461478503582
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 500.58734465267133,
+    "noHealingTimeToKillSeconds": 10.469383487184073
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 493.01882351687414,
+    "noHealingTimeToKillSeconds": 11.10768071883277
+  },
+  {
+    "attackerClass": "FE",
+    "attackerBuild": "support",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 482.6394798638874,
+    "noHealingTimeToKillSeconds": 13.057634493094739
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 514.1614646476169,
+    "noHealingTimeToKillSeconds": 10.28434241687877
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 481.6881089856622,
+    "noHealingTimeToKillSeconds": 12.27390963096409
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 528.9314204633102,
+    "noHealingTimeToKillSeconds": 8.870686630584585
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 484.38982716113685,
+    "noHealingTimeToKillSeconds": 10.81946933261376
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 480.0139599864123,
+    "noHealingTimeToKillSeconds": 10.186187085347282
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 500.0917902079638,
+    "noHealingTimeToKillSeconds": 9.777229092216631
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 519.86765201058,
+    "noHealingTimeToKillSeconds": 9.48941012375127
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 519.86765201058,
+    "noHealingTimeToKillSeconds": 9.48941012375127
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 528.4745736966804,
+    "noHealingTimeToKillSeconds": 9.362441877553435
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 528.5356053971026,
+    "noHealingTimeToKillSeconds": 9.361360766381253
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 522.0738469204018,
+    "noHealingTimeToKillSeconds": 9.337638552009786
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 527.8483398147337,
+    "noHealingTimeToKillSeconds": 9.928686868352093
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 519.86765201058,
+    "noHealingTimeToKillSeconds": 10.534018915815423
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "blade",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 508.92306986298877,
+    "noHealingTimeToKillSeconds": 12.383266338656343
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 517.1237504052575,
+    "noHealingTimeToKillSeconds": 10.225429707794445
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 484.4633030112413,
+    "noHealingTimeToKillSeconds": 12.203599907881598
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 531.9788017264725,
+    "noHealingTimeToKillSeconds": 8.819871891084256
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 487.1805868442432,
+    "noHealingTimeToKillSeconds": 10.757491208646112
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 482.77950858331263,
+    "noHealingTimeToKillSeconds": 10.127836648137734
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 502.97301505561234,
+    "noHealingTimeToKillSeconds": 9.721221325281993
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 522.8628133505385,
+    "noHealingTimeToKillSeconds": 9.435051095692764
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 522.8628133505385,
+    "noHealingTimeToKillSeconds": 9.435051095692764
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 531.5193228865284,
+    "noHealingTimeToKillSeconds": 9.308810172939443
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 531.5807062145022,
+    "noHealingTimeToKillSeconds": 9.30773525479209
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 525.0817190141008,
+    "noHealingTimeToKillSeconds": 9.28414893048121
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 530.8894810256938,
+    "noHealingTimeToKillSeconds": 9.871811492430671
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 522.8628133505385,
+    "noHealingTimeToKillSeconds": 10.473675962739717
+  },
+  {
+    "attackerClass": "MG",
+    "attackerBuild": "spell",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 511.85517517473784,
+    "noHealingTimeToKillSeconds": 12.312330177864412
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 515.2576189031736,
+    "noHealingTimeToKillSeconds": 10.262463602685083
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 482.71503244613103,
+    "noHealingTimeToKillSeconds": 12.247798230024618
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 530.0590631734382,
+    "noHealingTimeToKillSeconds": 8.851815214533474
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 485.4225104851485,
+    "noHealingTimeToKillSeconds": 10.796452094407647
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 480.9611649921356,
+    "noHealingTimeToKillSeconds": 10.16612640665063
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 501.1486491972841,
+    "noHealingTimeToKillSeconds": 9.756610155154137
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 520.9663039221734,
+    "noHealingTimeToKillSeconds": 9.469398160417244
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 520.9663039221734,
+    "noHealingTimeToKillSeconds": 9.469398160417244
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 529.6111062537834,
+    "noHealingTimeToKillSeconds": 9.342350304921789
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 529.6723695523619,
+    "noHealingTimeToKillSeconds": 9.34126974412788
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 523.1771612499119,
+    "noHealingTimeToKillSeconds": 9.317946655686168
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 528.9736734769383,
+    "noHealingTimeToKillSeconds": 9.907564672457154
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 520.9663039221734,
+    "noHealingTimeToKillSeconds": 10.51180400492485
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "command",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 509.998592260654,
+    "noHealingTimeToKillSeconds": 12.357151599310805
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 472.6449442131653,
+    "noHealingTimeToKillSeconds": 11.187705749826385
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 442.7936845786496,
+    "noHealingTimeToKillSeconds": 13.352033974075045
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 486.22228406169666,
+    "noHealingTimeToKillSeconds": 9.649876268123974
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 445.27724961439594,
+    "noHealingTimeToKillSeconds": 11.769837521540786
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 441.18449853728055,
+    "noHealingTimeToKillSeconds": 11.082692198413293
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 459.70276536883404,
+    "noHealingTimeToKillSeconds": 10.636246654024346
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 477.88146483205463,
+    "noHealingTimeToKillSeconds": 10.323140199073684
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 477.88146483205463,
+    "noHealingTimeToKillSeconds": 10.323140199073684
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 485.8114213942049,
+    "noHealingTimeToKillSeconds": 10.184635976240596
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 485.86761860287334,
+    "noHealingTimeToKillSeconds": 10.183457984352982
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 479.90948033010136,
+    "noHealingTimeToKillSeconds": 10.158034128950357
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 485.2266579249232,
+    "noHealingTimeToKillSeconds": 10.800809878032073
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 477.88146483205463,
+    "noHealingTimeToKillSeconds": 11.459527274037661
+  },
+  {
+    "attackerClass": "DL",
+    "attackerBuild": "force",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 467.8208024145377,
+    "noHealingTimeToKillSeconds": 13.471247724498705
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 504.2129022412614,
+    "noHealingTimeToKillSeconds": 10.487261505001767
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 472.36787683655007,
+    "noHealingTimeToKillSeconds": 12.51608462369204
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 518.6970726815916,
+    "noHealingTimeToKillSeconds": 9.045713051247988
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 475.01731919261556,
+    "noHealingTimeToKillSeconds": 11.032946943719503
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 470.72612111634146,
+    "noHealingTimeToKillSeconds": 10.387169482764993
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 490.41546336149395,
+    "noHealingTimeToKillSeconds": 9.970142390057251
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 509.80868000532195,
+    "noHealingTimeToKillSeconds": 9.676644501126386
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 509.80868000532195,
+    "noHealingTimeToKillSeconds": 9.676644501126386
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 518.2490654894543,
+    "noHealingTimeToKillSeconds": 9.547171060167944
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 518.3089162813055,
+    "noHealingTimeToKillSeconds": 9.54606861772495
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 511.9721870257354,
+    "noHealingTimeToKillSeconds": 9.521878343275999
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 517.6349486705002,
+    "noHealingTimeToKillSeconds": 10.12458856083933
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 509.80868000532195,
+    "noHealingTimeToKillSeconds": 10.74186434005563
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "curse",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 499.07586568942054,
+    "noHealingTimeToKillSeconds": 12.627599035057072
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 455.0974476257717,
+    "noHealingTimeToKillSeconds": 11.619077601042026
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 426.3544509336176,
+    "noHealingTimeToKillSeconds": 13.8668572758034
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 468.17071284582136,
+    "noHealingTimeToKillSeconds": 10.021952999749413
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 428.74581071143643,
+    "noHealingTimeToKillSeconds": 12.223655016718755
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 424.839534413754,
+    "noHealingTimeToKillSeconds": 11.509079555760158
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 442.639978888753,
+    "noHealingTimeToKillSeconds": 11.04625030092201
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 460.143939605998,
+    "noHealingTimeToKillSeconds": 10.721074288676114
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 460.143939605998,
+    "noHealingTimeToKillSeconds": 10.721074288676114
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 467.7706316168766,
+    "noHealingTimeToKillSeconds": 10.577432924545938
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 467.8246964252997,
+    "noHealingTimeToKillSeconds": 10.576210528872851
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 462.0966812574893,
+    "noHealingTimeToKillSeconds": 10.549603746847922
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 467.21205049434013,
+    "noHealingTimeToKillSeconds": 11.217263926422394
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 460.143939605998,
+    "noHealingTimeToKillSeconds": 11.90126655734969
+  },
+  {
+    "attackerClass": "SU",
+    "attackerBuild": "sustain",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 450.4566987721875,
+    "noHealingTimeToKillSeconds": 13.990534355860957
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 504.82295636200854,
+    "noHealingTimeToKillSeconds": 10.4745881568193
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 472.9394012233554,
+    "noHealingTimeToKillSeconds": 12.500959540919794
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 519.3246513992373,
+    "noHealingTimeToKillSeconds": 9.034781744633529
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 475.5920491761436,
+    "noHealingTimeToKillSeconds": 11.01961416108318
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 471.2956591203352,
+    "noHealingTimeToKillSeconds": 10.374617090949204
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 491.0088237712969,
+    "noHealingTimeToKillSeconds": 9.958093955308321
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 510.425504534499,
+    "noHealingTimeToKillSeconds": 9.664950744377565
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 510.425504534499,
+    "noHealingTimeToKillSeconds": 9.664950744377565
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 518.8761021570403,
+    "noHealingTimeToKillSeconds": 9.535633765808933
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 518.9360253631874,
+    "noHealingTimeToKillSeconds": 9.534532655614298
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 512.5916292117934,
+    "noHealingTimeToKillSeconds": 9.510371613941759
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 518.2612423097061,
+    "noHealingTimeToKillSeconds": 10.112353485364709
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 510.425504534499,
+    "noHealingTimeToKillSeconds": 10.728883316664016
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "brawler",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 499.67970443903585,
+    "noHealingTimeToKillSeconds": 12.612339192513472
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DK",
+    "defenderBuild": "assault",
+    "expectedDps": 429.0501371357804,
+    "noHealingTimeToKillSeconds": 12.324463045973994
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DK",
+    "defenderBuild": "guard",
+    "expectedDps": 401.95223373773115,
+    "noHealingTimeToKillSeconds": 14.708703730845874
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DW",
+    "defenderBuild": "elemental",
+    "expectedDps": 441.3751595342517,
+    "noHealingTimeToKillSeconds": 10.630378213742434
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DW",
+    "defenderBuild": "barrier",
+    "expectedDps": 404.2067250471568,
+    "noHealingTimeToKillSeconds": 12.965743900942215
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "FE",
+    "defenderBuild": "marksman",
+    "expectedDps": 400.5552137214485,
+    "noHealingTimeToKillSeconds": 12.206836492210115
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "FE",
+    "defenderBuild": "support",
+    "expectedDps": 417.3094755676752,
+    "noHealingTimeToKillSeconds": 11.716752880697689
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "MG",
+    "defenderBuild": "blade",
+    "expectedDps": 433.8117551078305,
+    "noHealingTimeToKillSeconds": 11.37183882620647
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "MG",
+    "defenderBuild": "spell",
+    "expectedDps": 433.8117551078305,
+    "noHealingTimeToKillSeconds": 11.37183882620647
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DL",
+    "defenderBuild": "command",
+    "expectedDps": 440.99393655013137,
+    "noHealingTimeToKillSeconds": 11.219683696121617
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "DL",
+    "defenderBuild": "force",
+    "expectedDps": 441.04486541438166,
+    "noHealingTimeToKillSeconds": 11.218388123283797
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "SU",
+    "defenderBuild": "curse",
+    "expectedDps": 435.6527492190015,
+    "noHealingTimeToKillSeconds": 11.189960097208937
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "SU",
+    "defenderBuild": "sustain",
+    "expectedDps": 440.4713658181679,
+    "noHealingTimeToKillSeconds": 11.898255565978118
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "RF",
+    "defenderBuild": "brawler",
+    "expectedDps": 433.8117551078305,
+    "noHealingTimeToKillSeconds": 12.623668251310486
+  },
+  {
+    "attackerClass": "RF",
+    "attackerBuild": "vitality",
+    "defenderClass": "RF",
+    "defenderBuild": "vitality",
+    "expectedDps": 424.6788760529289,
+    "noHealingTimeToKillSeconds": 14.839753694776538
+  }
+]

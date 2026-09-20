@@ -13,6 +13,7 @@
 #include "Core/Input/ImeInput.h"
 #include "Core/Input/GamepadService.h"
 #include "UI/NewUI/HUD/Notices.h"
+#include "UI/NewUI/HUD/ServerNoticeLocalization.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "Render/Terrain/ZzzLodTerrain.h"
 #include "Engine/Pathing/ZzzPath.h"
@@ -2042,7 +2043,8 @@ void ReceiveNotice(const BYTE* ReceiveBuffer)
 
     if (Data->Result == 0)
     {
-        UI::Notices::Create(Text, 0);
+        const auto localizedText = UI::Notices::LocalizeServerNotice(Text);
+        UI::Notices::Create(localizedText.c_str(), 0);
     }
     else if (Data->Result == 1)
     {

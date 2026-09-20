@@ -59,6 +59,7 @@ namespace SEASON3B
         // Slots — see CNewUIButton::ChangeText(const wchar_t* const*).
         void SetButtonInfo(CNewUIButton* m_Btn, int imgindex, int x, int y, int sx, int sy, bool overflg, bool isimgwidth, bool bClickEffect, bool MoveTxt, const wchar_t* const* btnameSlot, const wchar_t* const* tooltipSlot, bool istoppos);
     private:
+        void RenderPositionText();
         void LoadImages();
         void UnloadImages();
     };

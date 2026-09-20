@@ -162,6 +162,18 @@
   }
 #endif
 
+// Truncating swprintf for fixed-size buffers: always null-terminates and clips
+// overflow instead of overrunning the buffer (swprintf) or aborting via the
+// invalid parameter handler (swprintf_s).
+template<size_t N, typename... Args>
+inline int mu_swprintf_trunc(wchar_t (&buffer)[N], const wchar_t* format, Args... args) {
+#ifdef _MSC_VER
+    return _snwprintf_s(buffer, N, _TRUNCATE, format, args...);
+#else
+    return std::swprintf(buffer, N, format, args...);
+#endif
+}
+
 //opengl
 #include <gl/glew.h>
 #include <gl/GL.h>

@@ -9,7 +9,7 @@
     <comment>legacy_id=0,18</comment>
   </data>
   <data name="WarningContinuedAttemptsAtHackingWill" xml:space="preserve">
-    <value>警告！ ！ ！继续尝试黑客攻击将导致账号（%s）永久被封锁！</value>
+    <value>警告！！！继续尝试外挂作弊将导致账号（%s）永久被封锁！</value>
     <comment>legacy_id=1</comment>
   </data>
   <data name="FindHack file is damaged. Please reinstall MU client." xml:space="preserve">
@@ -25,11 +25,11 @@
     <comment>legacy_id=4</comment>
   </data>
   <data name="Error1HackingOrComputerVirusTest" xml:space="preserve">
-    <value>[error1] 黑客或电脑病毒测试尚未完全完成。完成测试需要 Hawoori Corp. 的 V3 或 Birobot。</value>
+    <value>[错误1] 外挂或电脑病毒检测尚未完全完成。完成测试需要 Hawoori Corp. 的 V3 或 Birobot。</value>
     <comment>legacy_id=5</comment>
   </data>
   <data name="Error2TheHackingToolCheckingProgram" xml:space="preserve">
-    <value>[error2] 黑客工具检查程序未成功下载。请稍后再尝试连接。 \n\n 如果您仍然遇到相同的问题，请随时通过我们的网站 http://muonline.webzen.com 联系我们的客户服务中心</value>
+    <value>[错误2] 外挂工具检查程序未成功下载。请稍后再尝试连接。 \n\n 如果您仍然遇到相同的问题，请随时通过我们的网站 http://muonline.webzen.com 联系我们的客户服务中心</value>
     <comment>legacy_id=6</comment>
   </data>
   <data name="Error3NPXDLLRegistrationErrorRequired" xml:space="preserve">
@@ -37,15 +37,15 @@
     <comment>legacy_id=7</comment>
   </data>
   <data name="Error4AnErrorHasOccurredIn" xml:space="preserve">
-    <value>[error4] 程序中发生错误。 \n\n 如果您仍然遇到相同的问题，请通过我们的网站 http://muonline.webzen.com 联系我们的客户服务中心</value>
+    <value>[错误4] 程序中发生错误。 \n\n 如果您仍然遇到相同的问题，请通过我们的网站 http://muonline.webzen.com 联系我们的客户服务中心</value>
     <comment>legacy_id=8</comment>
   </data>
   <data name="[error5] User has selected the exit button." xml:space="preserve">
-    <value>[error5] 用户选择了退出按钮。</value>
+    <value>[错误5] 用户选择了退出按钮。</value>
     <comment>legacy_id=9</comment>
   </data>
   <data name="[error6] No.%d error!!! Findhack.zip needs to be installed in MU folder." xml:space="preserve">
-    <value>[错误6]No.%d错误！ ！ ！ Findhack.zip 需要安装在 MU 文件夹中。</value>
+    <value>[错误6] No.%d错误！！！ Findhack.zip 需要安装在 MU 文件夹中。</value>
     <comment>legacy_id=10</comment>
   </data>
   <data name="Data error" xml:space="preserve">
@@ -65,15 +65,15 @@
     <comment>legacy_id=14</comment>
   </data>
   <data name="Error8FailedConnectingToFindhackUpdating" xml:space="preserve">
-    <value>[error8] 无法连接到 Findhack 更新服务器。如果此问题继续出现，请从 Muonline.com 实用程序下载页面安装 findhack.exe。</value>
+    <value>[错误8] 无法连接到 Findhack 更新服务器。如果此问题继续出现，请从 Muonline.com 实用程序下载页面安装 findhack.exe。</value>
     <comment>legacy_id=15</comment>
   </data>
   <data name="Error9AHackingToolHasBeen" xml:space="preserve">
-    <value>[error9] 已发现黑客工具。如果您没有使用黑客工具，请通过我们的网站 support.http://muonline.webzen.com 联系我们的客户服务中心。</value>
+    <value>[错误9] 已发现外挂工具。如果您没有使用外挂工具，请通过我们的网站 support.http://muonline.webzen.com 联系我们的客户服务中心。</value>
     <comment>legacy_id=16</comment>
   </data>
   <data name="Error10CannotBeWrittenOnThe" xml:space="preserve">
-    <value>[error10] 无法写入登录。可能会导致预期的故障。</value>
+    <value>[错误10] 无法写入登录。可能会导致预期的故障。</value>
     <comment>legacy_id=17</comment>
   </data>
   <data name="Event" xml:space="preserve">
@@ -289,7 +289,7 @@
     <comment>legacy_id=72</comment>
   </data>
   <data name="Strength Requirement: %d" xml:space="preserve">
-    <value>强度要求：%d</value>
+    <value>力量需求：%d</value>
     <comment>legacy_id=73</comment>
   </data>
   <data name="(lacking %d)" xml:space="preserve">
@@ -297,7 +297,7 @@
     <comment>legacy_id=74</comment>
   </data>
   <data name="Agility Requirement: %d" xml:space="preserve">
-    <value>敏捷性需求：%d</value>
+    <value>敏捷需求：%d</value>
     <comment>legacy_id=75</comment>
   </data>
   <data name="Minimum Level Requirement: %d" xml:space="preserve">
@@ -305,7 +305,7 @@
     <comment>legacy_id=76</comment>
   </data>
   <data name="Energy Requirement: %d" xml:space="preserve">
-    <value>能量需求：%d</value>
+    <value>智力需求：%d</value>
     <comment>legacy_id=77</comment>
   </data>
   <data name="Increases moving speed" xml:space="preserve">
@@ -552,7 +552,7 @@
     <comment>legacy_id=134</comment>
   </data>
   <data name="Num: Use skill hot keys" xml:space="preserve">
-    <value>Num：使用技能热键</value>
+    <value>Num：使用技能快捷键</value>
     <comment>legacy_id=135</comment>
   </data>
   <data name="Alt: Show dropped items" xml:space="preserve">
@@ -668,27 +668,27 @@
     <comment>legacy_id=163</comment>
   </data>
   <data name="DEF" xml:space="preserve">
-    <value>DEF</value>
+    <value>防御</value>
     <comment>legacy_id=164</comment>
   </data>
   <data name="DEF rate" xml:space="preserve">
-    <value>DEF率</value>
+    <value>防御率</value>
     <comment>legacy_id=165</comment>
   </data>
   <data name="STR" xml:space="preserve">
-    <value>STR</value>
+    <value>力量</value>
     <comment>legacy_id=166</comment>
   </data>
   <data name="AGI" xml:space="preserve">
-    <value>通用人工智能</value>
+    <value>敏捷</value>
     <comment>legacy_id=167</comment>
   </data>
   <data name="ENG" xml:space="preserve">
-    <value>英语</value>
+    <value>智力</value>
     <comment>legacy_id=168</comment>
   </data>
   <data name="STA" xml:space="preserve">
-    <value>史塔</value>
+    <value>体力</value>
     <comment>legacy_id=169</comment>
   </data>
   <data name="Wizardry Dmg:%d~%d" xml:space="preserve">
@@ -820,7 +820,7 @@
     <comment>legacy_id=201</comment>
   </data>
   <data name="Strength : %d" xml:space="preserve">
-    <value>强度 : %d</value>
+    <value>力量：%d</value>
     <comment>legacy_id=202</comment>
   </data>
   <data name="Dmg(rate): %d~%d (%d)" xml:space="preserve">
@@ -848,15 +848,15 @@
     <comment>legacy_id=208</comment>
   </data>
   <data name="Vitality: %d" xml:space="preserve">
-    <value>活力：%d</value>
+    <value>体力：%d</value>
     <comment>legacy_id=210</comment>
   </data>
   <data name="HP: %d / %d" xml:space="preserve">
-    <value>惠普：%d / %d</value>
+    <value>生命值：%d / %d</value>
     <comment>legacy_id=211</comment>
   </data>
   <data name="Energy: %d" xml:space="preserve">
-    <value>能源：%d</value>
+    <value>智力：%d</value>
     <comment>legacy_id=212</comment>
   </data>
   <data name="Mana: %d / %d" xml:space="preserve">
@@ -1810,7 +1810,7 @@
     <comment>legacy_id=479</comment>
   </data>
   <data name="Tied!!!" xml:space="preserve">
-    <value>绑起来！ ！ ！</value>
+    <value>平局！！！</value>
     <comment>legacy_id=480</comment>
   </data>
   <data name="You are connected to the server" xml:space="preserve">
@@ -1846,7 +1846,7 @@
     <comment>legacy_id=488</comment>
   </data>
   <data name="Outlaw Warning" xml:space="preserve">
-    <value>非法警告</value>
+    <value>亡命之徒警告</value>
     <comment>legacy_id=489</comment>
   </data>
   <data name="1st Stage Outlaw" xml:space="preserve">
@@ -1986,27 +1986,27 @@
     <comment>legacy_id=526</comment>
   </data>
   <data name="You have lost the Guild War!!!" xml:space="preserve">
-    <value>战盟战你输了！ ！ ！</value>
+    <value>战盟战你输了！！！</value>
     <comment>legacy_id=527</comment>
   </data>
   <data name="You have won the Guild War!!!" xml:space="preserve">
-    <value>你赢得了战盟战争！ ！ ！</value>
+    <value>你赢得了战盟战争！！！</value>
     <comment>legacy_id=528</comment>
   </data>
   <data name="You have won the Guild War!!!(Opposing guild master left)" xml:space="preserve">
-    <value>你赢得了战盟战！ ！ ！ （对方战盟盟主离开）</value>
+    <value>你赢得了战盟战！！！ （对方战盟盟主离开）</value>
     <comment>legacy_id=529</comment>
   </data>
   <data name="You have lost the Guild War!!!(Guild master left)" xml:space="preserve">
-    <value>战盟战你输了！ ！ ！ （战盟盟主离开）</value>
+    <value>战盟战你输了！！！ （战盟盟主离开）</value>
     <comment>legacy_id=530</comment>
   </data>
   <data name="You have won the Guild War!!!(Opposing guild disbanded)" xml:space="preserve">
-    <value>你赢得了战盟战！ ！ ！ （敌方战盟解散）</value>
+    <value>你赢得了战盟战！！！ （敌方战盟解散）</value>
     <comment>legacy_id=531</comment>
   </data>
   <data name="You have lost the Guild War!!!(Guild disbanded)" xml:space="preserve">
-    <value>战盟战你输了！ ！ ！ （战盟解散）</value>
+    <value>战盟战你输了！！！ （战盟解散）</value>
     <comment>legacy_id=532</comment>
   </data>
   <data name="A Battle Soccer has started with %s guild." xml:space="preserve">
@@ -2442,7 +2442,7 @@
     <comment>legacy_id=642</comment>
   </data>
   <data name="You can enter Devil Square now!!" xml:space="preserve">
-    <value>现在可以进入恶魔广场了！ ！</value>
+    <value>现在可以进入恶魔广场了！！</value>
     <comment>legacy_id=643</comment>
   </data>
   <data name="Devil Square will open in %d minutes." xml:space="preserve">
@@ -2902,27 +2902,27 @@
     <comment>legacy_id=760</comment>
   </data>
   <data name="Error21TryRunningTheGameAgain" xml:space="preserve">
-    <value>[error21] 尝试再次运行游戏。如果再次出现相同的错误，请重新安装游戏。</value>
+    <value>[错误21] 尝试再次运行游戏。如果再次出现相同的错误，请重新安装游戏。</value>
     <comment>legacy_id=761</comment>
   </data>
   <data name="[error22] Try running the game again." xml:space="preserve">
-    <value>[error22] 尝试再次运行游戏。</value>
+    <value>[错误22] 尝试再次运行游戏。</value>
     <comment>legacy_id=762</comment>
   </data>
   <data name="Error23TryRunningTheGameAgain" xml:space="preserve">
-    <value>[error23] 尝试再次运行游戏。如果再次出现相同的错误，请重新安装游戏。</value>
+    <value>[错误23] 尝试再次运行游戏。如果再次出现相同的错误，请重新安装游戏。</value>
     <comment>legacy_id=763</comment>
   </data>
   <data name="[error24] An error has occured. Please reinstall the game." xml:space="preserve">
-    <value>[error24] 发生错误。请重新安装游戏。</value>
+    <value>[错误24] 发生错误。请重新安装游戏。</value>
     <comment>legacy_id=764</comment>
   </data>
   <data name="[error25] A hacking tool (%s) has been detected. The game will shut down." xml:space="preserve">
-    <value>[error25] 检测到黑客工具（%s）。游戏将关闭。</value>
+    <value>[错误25] 检测到外挂工具（%s）。游戏将关闭。</value>
     <comment>legacy_id=765</comment>
   </data>
   <data name="[error26] A hacking tool (%s) has been detected. The game will shut down." xml:space="preserve">
-    <value>[error26] 检测到黑客工具（%s）。游戏将关闭。</value>
+    <value>[错误26] 检测到外挂工具（%s）。游戏将关闭。</value>
     <comment>legacy_id=766</comment>
   </data>
   <data name="[error27] A file is missing. Please reinstall the game." xml:space="preserve">
@@ -2934,7 +2934,7 @@
     <comment>legacy_id=768</comment>
   </data>
   <data name="[error29] An important file has been corrupted. Please reinstall the game." xml:space="preserve">
-    <value>[error29] 重要文件已损坏。请重新安装游戏。</value>
+    <value>[错误29] 重要文件已损坏。请重新安装游戏。</value>
     <comment>legacy_id=769</comment>
   </data>
   <data name="[error30] A file is missing. Please reinstall the game." xml:space="preserve">
@@ -2942,11 +2942,11 @@
     <comment>legacy_id=770</comment>
   </data>
   <data name="[error31] An error has occured. Please restart the game." xml:space="preserve">
-    <value>[error31] 发生错误。请重新启动游戏。</value>
+    <value>[错误31] 发生错误。请重新启动游戏。</value>
     <comment>legacy_id=771</comment>
   </data>
   <data name="[error32] A game file has been corrupted." xml:space="preserve">
-    <value>[error32] 游戏文件已损坏。</value>
+    <value>[错误32] 游戏文件已损坏。</value>
     <comment>legacy_id=772</comment>
   </data>
   <data name="Reserve : MFGS" xml:space="preserve">
@@ -2974,7 +2974,7 @@
     <comment>legacy_id=784,785,786,787,788,789</comment>
   </data>
   <data name="[error1001] : Try restarting the game." xml:space="preserve">
-    <value>[error1001]：尝试重新启动游戏。</value>
+    <value>[错误1001]：尝试重新启动游戏。</value>
     <comment>legacy_id=790</comment>
   </data>
   <data name="[error1002] : Can't connect to nProtect. Please restart the game." xml:space="preserve">
@@ -2982,39 +2982,39 @@
     <comment>legacy_id=791</comment>
   </data>
   <data name="Error1003DIfTheSameError" xml:space="preserve">
-    <value>[error1003-%d]：如果仍然出现相同的错误，请通过我们的网站 http://muonline.webzen.com 联系我们的客户支持，并附上 GameGuard 文件夹中的错误号码和 erl 文件。</value>
+    <value>[错误1003-%d]：如果仍然出现相同的错误，请通过我们的网站 http://muonline.webzen.com 联系我们的客户支持，并附上 GameGuard 文件夹中的错误号码和 erl 文件。</value>
     <comment>legacy_id=792</comment>
   </data>
   <data name="[error1004] : A speed hack has been detected. The game will shut down." xml:space="preserve">
-    <value>[error1004]：检测到速度黑客。游戏将关闭。</value>
+    <value>[错误1004]：检测到加速外挂。游戏将关闭。</value>
     <comment>legacy_id=793</comment>
   </data>
   <data name="[error1005] : Game hack (%d) detected. The game will shut down." xml:space="preserve">
-    <value>[错误1005]：检测到游戏黑客（%d）。游戏将关闭。</value>
+    <value>[错误1005]：检测到游戏外挂（%d）。游戏将关闭。</value>
     <comment>legacy_id=794</comment>
   </data>
   <data name="Error1006EitherYouHaveRunThe" xml:space="preserve">
-    <value>[error1006]：您已多次运行游戏或 GameGuard 已在运行。请关闭游戏并尝试重新启动。</value>
+    <value>[错误1006]：您已多次运行游戏或 GameGuard 已在运行。请关闭游戏并尝试重新启动。</value>
     <comment>legacy_id=795</comment>
   </data>
   <data name="Error1007AnIllegalProgramHasBeen" xml:space="preserve">
-    <value>[error1007]：检测到非法程序。请关闭不必要的程序并重新启动游戏。</value>
+    <value>[错误1007]：检测到非法程序。请关闭不必要的程序并重新启动游戏。</value>
     <comment>legacy_id=796</comment>
   </data>
   <data name="Error1008WindowSSystemFilesHave" xml:space="preserve">
-    <value>[error1008]：Windows 的系统文件已部分损坏。尝试重新安装 Internet Explorer(IE)。</value>
+    <value>[错误1008]：Windows 的系统文件已部分损坏。尝试重新安装 Internet Explorer(IE)。</value>
     <comment>legacy_id=797</comment>
   </data>
   <data name="Error1009GameGuardHasFailedToRun" xml:space="preserve">
-    <value>[error1009]：GameGuard 运行失败。尝试重新安装 GameGuard 安装文件。</value>
+    <value>[错误1009]：GameGuard 运行失败。尝试重新安装 GameGuard 安装文件。</value>
     <comment>legacy_id=798</comment>
   </data>
   <data name="[error1010] : The game or GameGuard has been altered." xml:space="preserve">
-    <value>[error1010]：游戏或GameGuard已被更改。</value>
+    <value>[错误1010]：游戏或GameGuard已被更改。</value>
     <comment>legacy_id=799</comment>
   </data>
   <data name="Error1011DIfTheSameError" xml:space="preserve">
-    <value>[error1011-%d] ：如果仍然出现相同的错误，请发送电子邮件至 gameguard@inca.co.kr，并附上错误号码和 GameGuard 文件夹中的 erl 文件。</value>
+    <value>[错误1011-%d] ：如果仍然出现相同的错误，请发送电子邮件至 gameguard@inca.co.kr，并附上错误号码和 GameGuard 文件夹中的 erl 文件。</value>
     <comment>legacy_id=800</comment>
   </data>
   <data name="Reserve : GameGuard" xml:space="preserve">
@@ -3118,7 +3118,7 @@
     <comment>legacy_id=832</comment>
   </data>
   <data name="AhGreatWarriorThanksToYour" xml:space="preserve">
-    <value>啊!伟大的战士。感谢您的帮助，我们才能够保护这片土地免受昆顿士兵的侵害。为了表达我们的谢意，我将与您分享我的经验。</value>
+    <value>啊！伟大的战士。感谢您的帮助，我们才能够保护这片土地免受昆顿士兵的侵害。为了表达我们的谢意，我将与您分享我的经验。</value>
     <comment>legacy_id=833</comment>
   </data>
   <data name="YouReAWarriorInTraining" xml:space="preserve">
@@ -3278,7 +3278,7 @@
     <comment>legacy_id=872</comment>
   </data>
   <data name="Dinorant, +10, +15 items, Cloak of Invisibility" xml:space="preserve">
-    <value>迪诺兰特, +10, +15 物品, 透明披风</value>
+    <value>迪诺兰特、+10、+15 物品、透明披风</value>
     <comment>legacy_id=873</comment>
   </data>
   <data name="Cape of Lord" xml:space="preserve">
@@ -3386,11 +3386,11 @@
     <comment>legacy_id=903</comment>
   </data>
   <data name="Register the lucky number on the 100%% winning card." xml:space="preserve">
-    <value>将幸运数字登记在100%中奖卡上。</value>
+    <value>将幸运数字登记在100%%中奖卡上。</value>
     <comment>legacy_id=904</comment>
   </data>
   <data name="PleaseCheckOutTheAnnouncementOn" xml:space="preserve">
-    <value>如何获得100%中奖卡请查看官网公告。</value>
+    <value>如何获得100%%中奖卡请查看官网公告。</value>
     <comment>legacy_id=905</comment>
   </data>
   <data name="Ring of Honor" xml:space="preserve">
@@ -3550,15 +3550,15 @@
     <comment>legacy_id=949</comment>
   </data>
   <data name="Increase strength +%d" xml:space="preserve">
-    <value>增加强度+%d</value>
+    <value>增加力量+%d</value>
     <comment>legacy_id=950,985</comment>
   </data>
   <data name="Increase agility +%d" xml:space="preserve">
-    <value>增加敏捷性+%d</value>
+    <value>增加敏捷+%d</value>
     <comment>legacy_id=951,986</comment>
   </data>
   <data name="Increase energy +%d" xml:space="preserve">
-    <value>增加能量+%d</value>
+    <value>增加智力+%d</value>
     <comment>legacy_id=952,988</comment>
   </data>
   <data name="Increase stamina +%d" xml:space="preserve">
@@ -3566,7 +3566,7 @@
     <comment>legacy_id=953,987</comment>
   </data>
   <data name="Increase command +%d" xml:space="preserve">
-    <value>增加指令+%d</value>
+    <value>增加统率+%d</value>
     <comment>legacy_id=954</comment>
   </data>
   <data name="Increase min. damage +%d" xml:space="preserve">
@@ -3742,11 +3742,11 @@
     <comment>legacy_id=1001</comment>
   </data>
   <data name="Prev. Action" xml:space="preserve">
-    <value>上一页行动</value>
+    <value>上一姿势</value>
     <comment>legacy_id=1003</comment>
   </data>
   <data name="Next Action" xml:space="preserve">
-    <value>下一步行动</value>
+    <value>下一姿势</value>
     <comment>legacy_id=1004</comment>
   </data>
   <data name="Title:" xml:space="preserve">
@@ -4298,7 +4298,7 @@
     <comment>legacy_id=1144</comment>
   </data>
   <data name="Feel the new Spirit of Guardian!!" xml:space="preserve">
-    <value>感受新的守护者精神！ ！</value>
+    <value>感受新的守护者精神！！</value>
     <comment>legacy_id=1148</comment>
   </data>
   <data name="Can't be in Chaos Castle" xml:space="preserve">
@@ -4362,7 +4362,7 @@
     <comment>legacy_id=1166</comment>
   </data>
   <data name="Be a first Lord of the castle!!" xml:space="preserve">
-    <value>成为城堡的第一位领主！ ！</value>
+    <value>成为城堡的第一位领主！！</value>
     <comment>legacy_id=1167</comment>
   </data>
   <data name="Join the castle party and get lots of prizes!!" xml:space="preserve">
@@ -4374,7 +4374,7 @@
     <comment>legacy_id=1169</comment>
   </data>
   <data name="CommandD1170" xml:space="preserve">
-    <value>指令：%d</value>
+    <value>统率：%d</value>
     <comment>legacy_id=1170</comment>
   </data>
   <data name="Only level %d above can do cloak combination." xml:space="preserve">
@@ -5818,7 +5818,7 @@
     <comment>legacy_id=1559</comment>
   </data>
   <data name="DUR : %d/%d" xml:space="preserve">
-    <value>DUR：%d/%d</value>
+    <value>耐久度：%d/%d</value>
     <comment>legacy_id=1560</comment>
   </data>
   <data name="DP : %d" xml:space="preserve">
@@ -5830,7 +5830,7 @@
     <comment>legacy_id=1562</comment>
   </data>
   <data name="DUR +%d" xml:space="preserve">
-    <value>DUR +%d</value>
+    <value>耐久度+%d</value>
     <comment>legacy_id=1563</comment>
   </data>
   <data name="DPD1564" xml:space="preserve">
@@ -5842,7 +5842,7 @@
     <comment>legacy_id=1565</comment>
   </data>
   <data name="Chaos combination Goblin tax rate %d%%" xml:space="preserve">
-    <value>混沌组合哥布尔税率%d%%</value>
+    <value>混沌组合哥布林税率%d%%</value>
     <comment>legacy_id=1566</comment>
   </data>
   <data name="Various NPC tax rate %d%%" xml:space="preserve">
@@ -5870,7 +5870,7 @@
     <comment>legacy_id=1572</comment>
   </data>
   <data name="Chaos combination Goblin: %d(%d)%%" xml:space="preserve">
-    <value>混沌组合哥布尔：%d(%d)%%</value>
+    <value>混沌组合哥布林：%d(%d)%%</value>
     <comment>legacy_id=1573</comment>
   </data>
   <data name="NPC: %d(%d)%%" xml:space="preserve">
@@ -6178,7 +6178,7 @@
     <comment>legacy_id=1652</comment>
   </data>
   <data name="Increase stamina" xml:space="preserve">
-    <value>增加耐力</value>
+    <value>增加体力</value>
     <comment>legacy_id=1653</comment>
   </data>
   <data name="You can't delete the character that belongs to the guild" xml:space="preserve">
@@ -6378,11 +6378,11 @@
     <comment>legacy_id=1702</comment>
   </data>
   <data name="Vitality" xml:space="preserve">
-    <value>活力</value>
+    <value>体力</value>
     <comment>legacy_id=1703</comment>
   </data>
   <data name="Energy" xml:space="preserve">
-    <value>活力</value>
+    <value>智力</value>
     <comment>legacy_id=1704</comment>
   </data>
   <data name="KingdomOfWizardsDescendantOfArka" xml:space="preserve">
@@ -6514,7 +6514,7 @@
     <comment>legacy_id=1737</comment>
   </data>
   <data name="Command" xml:space="preserve">
-    <value>命令</value>
+    <value>统率</value>
     <comment>legacy_id=1738,1900</comment>
   </data>
   <data name="Long gmae time may be harmful to your health" xml:space="preserve">
@@ -8002,7 +8002,7 @@
     <comment>legacy_id=2222</comment>
   </data>
   <data name="Warning2223" xml:space="preserve">
-    <value>!!警告 ！ ！</value>
+    <value>警告！！</value>
     <comment>legacy_id=2223</comment>
   </data>
   <data name="RefineryHasStartedRefineryIsA" xml:space="preserve">
@@ -8010,7 +8010,7 @@
     <comment>legacy_id=2224</comment>
   </data>
   <data name="VitalityD2225" xml:space="preserve">
-    <value>活力+%d</value>
+    <value>体力+%d</value>
     <comment>legacy_id=2225</comment>
   </data>
   <data name="This item is not allowed to use the private store." xml:space="preserve">
@@ -8354,7 +8354,7 @@
     <comment>legacy_id=2312</comment>
   </data>
   <data name="PC cafe point (%d/%d)" xml:space="preserve">
-    <value>PC咖啡厅点(%d/%d)</value>
+    <value>网吧点数（%d/%d）</value>
     <comment>legacy_id=2319</comment>
   </data>
   <data name="%d point achieved" xml:space="preserve">
@@ -8378,7 +8378,7 @@
     <comment>legacy_id=2324</comment>
   </data>
   <data name="PC cafe point store" xml:space="preserve">
-    <value>PC咖啡厅积分店</value>
+    <value>网吧点数商店</value>
     <comment>legacy_id=2325</comment>
   </data>
   <data name="Point2326" xml:space="preserve">
@@ -8386,7 +8386,7 @@
     <comment>legacy_id=2326</comment>
   </data>
   <data name="PC cafe point store allows you to only purchase the objects." xml:space="preserve">
-    <value>PC咖啡馆点商店允许您只购买物品。</value>
+    <value>网吧点数商店仅可购买指定物品。</value>
     <comment>legacy_id=2327</comment>
   </data>
   <data name="Seals applicable immediately after the purchase." xml:space="preserve">
@@ -8938,11 +8938,11 @@
     <comment>legacy_id=2511</comment>
   </data>
   <data name="Strength increment +%d" xml:space="preserve">
-    <value>强度增量+%d</value>
+    <value>力量增量+%d</value>
     <comment>legacy_id=2512</comment>
   </data>
   <data name="Quickness increment +%d" xml:space="preserve">
-    <value>速度增量+%d</value>
+    <value>敏捷增量+%d</value>
     <comment>legacy_id=2513</comment>
   </data>
   <data name="stamina increment +%d" xml:space="preserve">
@@ -8950,11 +8950,11 @@
     <comment>legacy_id=2514</comment>
   </data>
   <data name="Energy increment +%d" xml:space="preserve">
-    <value>能量增量+%d</value>
+    <value>智力增量+%d</value>
     <comment>legacy_id=2515</comment>
   </data>
   <data name="Control increment +%d" xml:space="preserve">
-    <value>控制增量+%d</value>
+    <value>统率增量+%d</value>
     <comment>legacy_id=2516</comment>
   </data>
   <data name="Status for the set period" xml:space="preserve">
@@ -8982,7 +8982,7 @@
     <comment>legacy_id=2522</comment>
   </data>
   <data name="%s Status has been reset at %d." xml:space="preserve">
-    <value>%s 状态已在 %d 处重设。</value>
+    <value>%s 状态已在 %d 处重置。</value>
     <comment>legacy_id=2523</comment>
   </data>
   <data name="This is more than the value of your resettable points." xml:space="preserve">
@@ -9458,7 +9458,7 @@
     <comment>legacy_id=2687</comment>
   </data>
   <data name="Duel Start!!" xml:space="preserve">
-    <value>决斗开始！ ！</value>
+    <value>决斗开始！！</value>
     <comment>legacy_id=2688</comment>
   </data>
   <data name="Duel Finished. You will be warped back to the viallage in %d seconds." xml:space="preserve">
@@ -10026,35 +10026,35 @@
     <comment>legacy_id=2870</comment>
   </data>
   <data name="The Minimum Vitality potion has negated the Fatigue Level penalty." xml:space="preserve">
-    <value>最低活力药水抵消了疲劳度惩罚。</value>
+    <value>最低体力药水抵消了疲劳度惩罚。</value>
     <comment>legacy_id=2871</comment>
   </data>
   <data name="The Low Vitality potion has negated the Fatigue Level penalty." xml:space="preserve">
-    <value>低活力药水抵消了疲劳度惩罚。</value>
+    <value>低体力药水抵消了疲劳度惩罚。</value>
     <comment>legacy_id=2872</comment>
   </data>
   <data name="The Medium Vitality potion has negated the Fatigue Level penalty." xml:space="preserve">
-    <value>中等活力药水抵消了疲劳度惩罚。</value>
+    <value>中等体力药水抵消了疲劳度惩罚。</value>
     <comment>legacy_id=2873</comment>
   </data>
   <data name="The High Vitality potion has negated the Fatigue Level penalty." xml:space="preserve">
-    <value>高活力药水抵消了疲劳度惩罚。</value>
+    <value>高体力药水抵消了疲劳度惩罚。</value>
     <comment>legacy_id=2874</comment>
   </data>
   <data name="YouCanDoAGoblinCombination" xml:space="preserve">
-    <value>您可以将哥布尔与密封金盒进行组合来创建金盒。</value>
+    <value>您可以将哥布林与密封金盒进行组合来创建金盒。</value>
     <comment>legacy_id=2875</comment>
   </data>
   <data name="YouCanDoAGoblinCombination2876" xml:space="preserve">
-    <value>您可以将哥布尔与密封银盒进行组合来创建银盒。</value>
+    <value>您可以将哥布林与密封银盒进行组合来创建银盒。</value>
     <comment>legacy_id=2876</comment>
   </data>
   <data name="You can do a Goblin combination with a Gold Key to create a Golden Box." xml:space="preserve">
-    <value>您可以将哥布尔与密钥匙组合来创建金盒子。</value>
+    <value>您可以将哥布林与金钥匙组合来创建金盒。</value>
     <comment>legacy_id=2877</comment>
   </data>
   <data name="You can do a Goblin combination with a Silver Key to create a Silver Box." xml:space="preserve">
-    <value>您可以将哥布尔与银钥匙组合来创建银盒子。</value>
+    <value>您可以将哥布林与银钥匙组合来创建银盒。</value>
     <comment>legacy_id=2878</comment>
   </data>
   <data name="You can drop it with a fixed probability of it turning into a rare item." xml:space="preserve">
@@ -10074,7 +10074,7 @@
     <comment>legacy_id=2883</comment>
   </data>
   <data name="Goblin Points : %s" xml:space="preserve">
-    <value>哥布尔点数：%s</value>
+    <value>哥布林点数：%s</value>
     <comment>legacy_id=2884</comment>
   </data>
   <data name="Bonus Points : %s" xml:space="preserve">
@@ -10710,7 +10710,7 @@
     <comment>legacy_id=3061</comment>
   </data>
   <data name=" PC Cafe" xml:space="preserve">
-    <value>电脑咖啡馆</value>
+    <value>网吧</value>
     <comment>legacy_id=3062</comment>
   </data>
   <data name="You cannot engage in duels while in Loren Market." xml:space="preserve">
@@ -11362,7 +11362,7 @@
     <comment>legacy_id=3323,3451</comment>
   </data>
   <data name="You can't buy W coin while in full screen mode." xml:space="preserve">
-    <value>全屏幕模式下无法购买W币。</value>
+    <value>全屏模式下无法购买W币。</value>
     <comment>legacy_id=3324</comment>
   </data>
   <data name="You lack %d points." xml:space="preserve">
@@ -11694,11 +11694,11 @@
     <comment>legacy_id=3415</comment>
   </data>
   <data name="Hot Key" xml:space="preserve">
-    <value>热键</value>
+    <value>快捷键</value>
     <comment>legacy_id=3416</comment>
   </data>
   <data name="Chatting Mode Hot Key" xml:space="preserve">
-    <value>聊天模式热键</value>
+    <value>聊天模式快捷键</value>
     <comment>legacy_id=3417</comment>
   </data>
   <data name="Feature" xml:space="preserve">
@@ -11734,7 +11734,7 @@
     <comment>legacy_id=3430</comment>
   </data>
   <data name="Etc." xml:space="preserve">
-    <value>ETC。</value>
+    <value>其他</value>
     <comment>legacy_id=3431</comment>
   </data>
   <data name="Guild Mark" xml:space="preserve">
@@ -12034,7 +12034,7 @@
     <comment>legacy_id=3545</comment>
   </data>
   <data name="HP Status" xml:space="preserve">
-    <value>惠普状态</value>
+    <value>生命值状态</value>
     <comment>legacy_id=3547</comment>
   </data>
   <data name="Heal Support" xml:space="preserve">
@@ -13147,4 +13147,22 @@
   <data name="SoloShopExchange" xml:space="preserve"><value>1,000 金币兑换 100 商城点数</value></data>
   <data name="SoloShopExchangeSucceeded" xml:space="preserve"><value>已消耗 1,000 金币，获得 100 商城点数。</value></data>
   <data name="SoloShopOperationFailed" xml:space="preserve"><value>操作失败，请检查金币、仓库和连接状态。</value></data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>%ls入口已开放，将于 %ls 分钟后关闭。</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>%ls入口已关闭。</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>欢乐时光活动已开始！</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>欢乐时光活动已结束！</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>语言已更改</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>游戏内容语言（NPC名称、任务、物品和技能）需要重启游戏后才会生效。是否立即重启？</value>
+  </data>
 </root>

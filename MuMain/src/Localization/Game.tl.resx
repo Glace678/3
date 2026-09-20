@@ -12887,4 +12887,297 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="LoginRememberUsername" xml:space="preserve">
+    <value>Tandaan ang Username</value>
+    <comment>Login screen: remember-username checkbox label.</comment>
+  </data>
+  <data name="LoginRememberPassword" xml:space="preserve">
+    <value>Tandaan ang Password</value>
+    <comment>Login screen: remember-password checkbox label.</comment>
+  </data>
+  <data name="LoginTrustWarning" xml:space="preserve">
+    <value>Itago lamang ang password sa PC na pinagkakatiwalaan mo.</value>
+    <comment>Login screen: warning under the remember-password checkbox.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningTitle" xml:space="preserve">
+    <value>BABALA!!!</value>
+    <comment>Remember-password confirmation dialog: header.</comment>
+  </data>
+  <data name="LoginSavePasswordWarningBody" xml:space="preserve">
+    <value>Ang pagtatago ng password ay nagpapahintulot sa sinumang gumagamit ng computer na ito na mag-log in sa iyong account. Gawin lamang ito sa PC na pinagkakatiwalaan mo. Itatago ang password?</value>
+    <comment>Remember-password confirmation dialog: body.</comment>
+  </data>
+  <data name="BasicAttackFallback" xml:space="preserve">
+    <value>Pangunahing Atake (Fallback)</value>
+  </data>
+  <data name="Connection lost" xml:space="preserve">
+    <value>Nawala ang koneksyon</value>
+  </data>
+  <data name="Checking server availability" xml:space="preserve">
+    <value>Sinusuri ang availability ng server</value>
+  </data>
+  <data name="Logging in" xml:space="preserve">
+    <value>Nagla-log in</value>
+  </data>
+  <data name="Loading character list" xml:space="preserve">
+    <value>Ikinakarga ang listahan ng karakter</value>
+  </data>
+  <data name="Entering the game" xml:space="preserve">
+    <value>Pumapasok sa laro</value>
+  </data>
+  <data name="Retrying in seconds" xml:space="preserve">
+    <value>Muling susubok sa loob ng %d segundo...</value>
+  </data>
+  <data name="ChatCommandsTitle" xml:space="preserve">
+    <value>Mga Utos</value>
+  </data>
+  <data name="ChatCommandsNotSupported" xml:space="preserve">
+    <value>Ang server na ito ay walang listahan ng mga utos.</value>
+  </data>
+  <data name="ChatCommandsExecute" xml:space="preserve">
+    <value>Isagawa</value>
+  </data>
+  <data name="SpecialCommands" xml:space="preserve">
+    <value>Espesyal</value>
+  </data>
+  <data name="ChatCommandsBack" xml:space="preserve">
+    <value>Bumalik</value>
+  </data>
+  <data name="ChatCommandsTemplates" xml:space="preserve">
+    <value>Mga Template</value>
+  </data>
+  <data name="ChatCommandsNoTemplates" xml:space="preserve">
+    <value>Wala pang nai-save na template.</value>
+  </data>
+  <data name="ChatCommandsSaveTemplate" xml:space="preserve">
+    <value>I-save bilang template</value>
+  </data>
+  <data name="ChatCommandsAddFavourite" xml:space="preserve">
+    <value>Idagdag sa mga paborito</value>
+  </data>
+  <data name="ChatCommandsRemoveFavourite" xml:space="preserve">
+    <value>Alisin sa mga paborito</value>
+  </data>
+  <data name="ChatCommandsFillRequired" xml:space="preserve">
+    <value>Mangyaring punan muna ang mga kinakailangang halaga.</value>
+  </data>
+  <data name="ChatCommandsUnknownCommand" xml:space="preserve">
+    <value>Ang utos na ito ay hindi na available.</value>
+  </data>
+  <data name="FrameRate" xml:space="preserve">
+    <value>Bilis ng frame</value>
+  </data>
+  <data name="FollowDisplay" xml:space="preserve">
+    <value>Sundin ang display</value>
+  </data>
+  <data name="DisplayNativeMaximum" xml:space="preserve">
+    <value>Katas ng native ng display</value>
+  </data>
+  <data name="RequestedFrameRate" xml:space="preserve">
+    <value>Hininging bilis ng frame</value>
+  </data>
+  <data name="EffectiveFrameRate" xml:space="preserve">
+    <value>Epektibong bilis ng frame</value>
+  </data>
+  <data name="DisplayRefreshRate" xml:space="preserve">
+    <value>Refresh rate ng display</value>
+  </data>
+  <data name="ActualFrameRate" xml:space="preserve">
+    <value>Tunay na bilis ng frame</value>
+  </data>
+  <data name="LimitReason" xml:space="preserve">
+    <value>Dahilan ng limitasyon</value>
+  </data>
+  <data name="GamepadEnabled" xml:space="preserve">
+    <value>Paganahin ang gamepad</value>
+  </data>
+  <data name="HapticIntensity" xml:space="preserve">
+    <value>Tindi ng vibration</value>
+  </data>
+  <data name="CombatHaptics" xml:space="preserve">
+    <value>Vibration sa laban</value>
+  </data>
+  <data name="UIHaptics" xml:space="preserve">
+    <value>Vibration sa UI</value>
+  </data>
+  <data name="TransactionHaptics" xml:space="preserve">
+    <value>Vibration sa transaksyon</value>
+  </data>
+  <data name="ShortRumbleTest" xml:space="preserve">
+    <value>Subukan ang maikling vibration</value>
+  </data>
+  <data name="LongRumbleTest" xml:space="preserve">
+    <value>Subukan ang mahabang vibration</value>
+  </data>
+  <data name="RumbleUnsupported" xml:space="preserve">
+    <value>Hindi suportado ng controller na ito ang vibration</value>
+  </data>
+  <data name="StickDeadZone" xml:space="preserve">
+    <value>Dead zone ng stick</value>
+  </data>
+  <data name="PointerSpeed" xml:space="preserve">
+    <value>Bilis ng pointer</value>
+  </data>
+  <data name="FrameLimitDisplayFallback" xml:space="preserve">
+    <value>Hindi available ang refresh rate, gagamit ng 60 Hz</value>
+  </data>
+  <data name="FrameLimitBackground" xml:space="preserve">
+    <value>Limitasyon ng frame rate sa background</value>
+  </data>
+  <data name="FrameLimitUnevenVSync" xml:space="preserve">
+    <value>Hindi pantay na cadence ng VSync</value>
+  </data>
+  <data name="FrameLimitPerformanceOrExternal" xml:space="preserve">
+    <value>Limitasyon ng performance/external</value>
+  </data>
+  <data name="ControllerMapping" xml:space="preserve">
+    <value>Mapping ng controller</value>
+  </data>
+  <data name="GenericController" xml:space="preserve">
+    <value>Generic na controller</value>
+  </data>
+  <data name="GamepadAction" xml:space="preserve">
+    <value>Aksyon</value>
+  </data>
+  <data name="PhysicalControl" xml:space="preserve">
+    <value>Pisikal na kontrol</value>
+  </data>
+  <data name="TriggerDeadZone" xml:space="preserve">
+    <value>Dead zone ng trigger</value>
+  </data>
+  <data name="InvertPointerY" xml:space="preserve">
+    <value>Baligtarin ang pointer Y</value>
+  </data>
+  <data name="CurrentMapping" xml:space="preserve">
+    <value>Kasalukuyang mapping</value>
+  </data>
+  <data name="RestoreDefaultMapping" xml:space="preserve">
+    <value>Ibalik ang default na mapping</value>
+  </data>
+  <data name="GamepadActionConfirm" xml:space="preserve">
+    <value>Kumpirmahin / makipag-ugnayan</value>
+  </data>
+  <data name="GamepadActionCancel" xml:space="preserve">
+    <value>Kanselahin / bumalik</value>
+  </data>
+  <data name="GamepadActionPrimaryAttack" xml:space="preserve">
+    <value>Pangunahing atake</value>
+  </data>
+  <data name="GamepadActionContext" xml:space="preserve">
+    <value>Aksyon sa konteksto</value>
+  </data>
+  <data name="GamepadActionUseSkill" xml:space="preserve">
+    <value>Gamitin ang kasalukuyang skill</value>
+  </data>
+  <data name="GamepadActionLockTarget" xml:space="preserve">
+    <value>I-lock ang target</value>
+  </data>
+  <data name="GamepadActionPreviousSkill" xml:space="preserve">
+    <value>Nakaraang skill</value>
+  </data>
+  <data name="GamepadActionNextSkill" xml:space="preserve">
+    <value>Susunod na skill</value>
+  </data>
+  <data name="GamepadActionMap" xml:space="preserve">
+    <value>Mapa</value>
+  </data>
+  <data name="GamepadActionNextTarget" xml:space="preserve">
+    <value>Susunod na target</value>
+  </data>
+  <data name="DisplaySettingsConfirmation" xml:space="preserve">
+    <value>Itatago ang mga display settings na ito? Ibabalik sa dati sa loob ng %d segundo.</value>
+  </data>
+  <data name="KeepDisplaySettings" xml:space="preserve">
+    <value>Itago (A / Enter)</value>
+  </data>
+  <data name="RevertDisplaySettings" xml:space="preserve">
+    <value>Ibalik sa dati (B / Esc)</value>
+  </data>
+  <data name="SoloShopEquipment" xml:space="preserve">
+    <value>Kagamitan</value>
+  </data>
+  <data name="SoloShopMaterials" xml:space="preserve">
+    <value>Mga Materyales</value>
+  </data>
+  <data name="SoloShopSkills" xml:space="preserve">
+    <value>Mga Skill</value>
+  </data>
+  <data name="SoloShopPets" xml:space="preserve">
+    <value>Mga Alaga / Ticket</value>
+  </data>
+  <data name="SoloShopConsumables" xml:space="preserve">
+    <value>Mga Consumable</value>
+  </data>
+  <data name="SoloShopExchange" xml:space="preserve">
+    <value>Ipagpalit ang 1,000 Zen para sa 100 WCoin(C)</value>
+  </data>
+  <data name="SoloShopExchangeSucceeded" xml:space="preserve">
+    <value>Ang 1,000 Zen ay naipalit na sa 100 WCoin(C).</value>
+  </data>
+  <data name="SoloShopOperationFailed" xml:space="preserve">
+    <value>Nabigo ang operasyon. Suriin ang ginto, imbakan, at koneksyon.</value>
+  </data>
+  <data name="EventEntranceOpenedNotice" xml:space="preserve">
+    <value>Ang pasukan ng %ls ay bukas na at magsasara sa loob ng %ls minuto.</value>
+  </data>
+  <data name="EventEntranceClosedNotice" xml:space="preserve">
+    <value>Sarado na ang pasukan ng %ls.</value>
+  </data>
+  <data name="HappyHourStartedNotice" xml:space="preserve">
+    <value>Nagsimula na ang Happy Hour event!</value>
+  </data>
+  <data name="HappyHourEndedNotice" xml:space="preserve">
+    <value>Tapos na ang Happy Hour event!</value>
+  </data>
+  <data name="RestartRequiredTitle" xml:space="preserve">
+    <value>Nabago ang wika</value>
+  </data>
+  <data name="RestartLanguageMessage" xml:space="preserve">
+    <value>Ang wika ng nilalaman ng laro (pangalan ng NPC, mga quest, item, at skill) ay magbabago lamang matapos i-restart ang laro. I-restart na ba ngayon?</value>
+  </data>
+  <data name="JToggleChatCommands" xml:space="preserve">
+    <value>J : I-on/I-off ang mga chat command</value>
+  </data>
+  <data name="VerticalSync" xml:space="preserve">
+    <value>Vertical sync</value>
+  </data>
+  <data name="AverageFrameRate" xml:space="preserve">
+    <value>Average FPS</value>
+  </data>
+  <data name="OnePercentLow" xml:space="preserve">
+    <value>1% Mababa</value>
+  </data>
+  <data name="Gamepad" xml:space="preserve">
+    <value>Gamepad</value>
+  </data>
+  <data name="Haptics" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="FrameLimitFrameLimiter" xml:space="preserve">
+    <value>Frame limiter</value>
+  </data>
+  <data name="FrameLimitVerticalSync" xml:space="preserve">
+    <value>Vertical sync</value>
+  </data>
+  <data name="GamepadActionQuickItem1" xml:space="preserve">
+    <value>Quick item 1</value>
+  </data>
+  <data name="GamepadActionQuickItem2" xml:space="preserve">
+    <value>Quick item 2</value>
+  </data>
+  <data name="GamepadActionQuickItem3" xml:space="preserve">
+    <value>Quick item 3</value>
+  </data>
+  <data name="GamepadActionQuickItem4" xml:space="preserve">
+    <value>Quick item 4</value>
+  </data>
+  <data name="GamepadActionMenu" xml:space="preserve">
+    <value>System menu</value>
+  </data>
+  <data name="GamepadActionHelper" xml:space="preserve">
+    <value>Katulong ng MU</value>
+  </data>
+  <data name="SoloShopTitle" xml:space="preserve">
+    <value>Solo Shop</value>
+  </data>
 </root>

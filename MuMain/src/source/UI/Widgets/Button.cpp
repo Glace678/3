@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <vector>
 
 #include "UI/Widgets/Button.h"
@@ -204,6 +205,11 @@ void CButton::Render()
 
     CSprite::Render();
 
+    RenderLabel();
+}
+
+void CButton::RenderLabel()
+{
     if (m_text.empty())
     {
         return;
@@ -213,18 +219,18 @@ void CButton::Render()
     g_pRenderText->SetBgColor(0);
     g_pRenderText->SetFont(g_hFixFont);
 
-    SIZE size{};
-    const int textLength = static_cast<int>(m_text.length());
-    GetTextExtentPoint32(g_pRenderText->GetFontDC(), m_text.c_str(), textLength, &size);
-
-    const float textRelativeYPos = (static_cast<float>(CSprite::GetHeight()) - size.cy) * 0.5f;
+    constexpr int padding = 2;
+    const int verticalInset = padding + static_cast<int>(std::ceil(std::abs(m_fTextAddYPos)));
+    const int width = static_cast<int>(CSprite::GetWidth() / g_fScreenRate_x) - padding * 2;
+    const int height = static_cast<int>(CSprite::GetHeight() / g_fScreenRate_y) - verticalInset * 2;
+    if (width <= 0 || height <= 0)
+        return;
     g_pRenderText->RenderText(
-        static_cast<int>(CSprite::GetXPos() / g_fScreenRate_x),
-        static_cast<int>((static_cast<float>(CSprite::GetYPos()) + textRelativeYPos) / g_fScreenRate_y + m_fTextAddYPos),
+        static_cast<int>(CSprite::GetXPos() / g_fScreenRate_x) + padding,
+        static_cast<int>(CSprite::GetYPos() / g_fScreenRate_y + m_fTextAddYPos) + verticalInset,
         m_text.c_str(),
-        CSprite::GetWidth() / g_fScreenRate_x,
-        0,
-        RT3_SORT_CENTER);
+        width, height,
+        RT3_SORT_CENTER_FIT);
 }
 
 void CButton::ReleaseText()

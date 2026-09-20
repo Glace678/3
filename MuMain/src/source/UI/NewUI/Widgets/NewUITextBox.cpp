@@ -5,11 +5,13 @@
 #include "UI/NewUI/Widgets/NewUITextBox.h"
 #include "UI/Legacy/UIControls.h"
 #include "Core/Utilities/UsefulDef.h"
+#include "Core/Text/TextLineWrap.h"
+#include <algorithm>
+#include <cmath>
 
 
 using namespace SEASON3B;
 
-const int iMAX_TEXT_LINE = 512;
 const int iLINE_INTERVAL = 2;
 
 CNewUITextBox::CNewUITextBox()
@@ -46,20 +48,40 @@ void CNewUITextBox::SetPos(int iX, int iY, int iWidth, int iHeight)
     m_iWidth = iWidth;
     m_iHeight = iHeight;
 
-    SIZE Fontsize;
-    g_pRenderText->SetFont(g_hFont);
-
-    std::wstring strTemp = L"A";
-
-    GetTextExtentPoint32(g_pRenderText->GetFontDC(), strTemp.c_str(), strTemp.size(), &Fontsize);
-
-    m_iTextHeight = Fontsize.cy;
-    m_iTextLineHeight = m_iTextHeight + iLINE_INTERVAL;
-
-    m_iLimitLine = m_iHeight / m_iTextLineHeight;
-
     m_iMaxLine = 0;
     m_iCurLine = 0;
+    UpdateTextLayout();
+}
+
+void CNewUITextBox::UpdateTextLayout()
+{
+    g_pRenderText->SetFont(g_hFont);
+    SIZE size{};
+    GetTextExtentPoint32(g_pRenderText->GetFontDC(), L"Ag", 2, &size);
+    m_iTextHeight = static_cast<int>(std::ceil(size.cy / g_fScreenRate_y));
+    m_iTextLineHeight = std::max(1, m_iTextHeight + iLINE_INTERVAL);
+    m_iLimitLine = std::max(0, (m_iHeight + iLINE_INTERVAL) / m_iTextLineHeight);
+    if (!m_layoutDirty && m_layoutFont == g_hFont && m_layoutScaleX == g_fScreenRate_x && m_layoutWidth == m_iWidth)
+        return;
+
+    m_vecText.clear();
+    const auto measure = [](const wchar_t* text, size_t length)
+    {
+        SIZE measured{};
+        GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, static_cast<int>(length), &measured);
+        return static_cast<int>(measured.cx);
+    };
+    for (auto text : m_sourceText)
+    {
+        std::replace(text.begin(), text.end(), L'#', L'\n');
+        const auto lines = WrapTextToWidth(text, static_cast<int>(m_iWidth * g_fScreenRate_x), measure);
+        m_vecText.insert(m_vecText.end(), lines.begin(), lines.end());
+    }
+    m_iCurLine = std::clamp(m_iCurLine, 0, GetMoveableLine());
+    m_layoutFont = g_hFont;
+    m_layoutScaleX = g_fScreenRate_x;
+    m_layoutWidth = m_iWidth;
+    m_layoutDirty = false;
 }
 
 void CNewUITextBox::Release()
@@ -88,6 +110,7 @@ bool CNewUITextBox::Update()
 
 bool CNewUITextBox::Render()
 {
+    UpdateTextLayout();
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     for (int iIndex = 0; iIndex < m_iLimitLine; iIndex++)
@@ -109,23 +132,16 @@ bool CNewUITextBox::Render()
 
 void CNewUITextBox::AddText(wchar_t* strText)
 {
-    wchar_t strTemp[iMAX_TEXT_LINE][iMAX_TEXT_LINE];
-    ::memset(strTemp[0], 0, sizeof(char) * iMAX_TEXT_LINE * iMAX_TEXT_LINE);
-
-    int iTextLine = ::DivideStringByPixel(&strTemp[0][0], iMAX_TEXT_LINE, iMAX_TEXT_LINE, strText, m_iWidth, true, '#');
-
-    for (int iIndex = 0; iIndex < iTextLine; iIndex++)
-    {
-        m_vecText.push_back(strTemp[iIndex]);
-    }
+    AddText(static_cast<const wchar_t*>(strText));
 }
 
 void CNewUITextBox::AddText(const wchar_t* strText)
 {
-    wchar_t strTempText[iMAX_TEXT_LINE] = { 0, };
-    mu_swprintf(strTempText, strText);
-
-    AddText(strTempText);
+    if (strText == nullptr)
+        return;
+    m_sourceText.emplace_back(strText);
+    m_layoutDirty = true;
+    UpdateTextLayout();
 }
 
 std::wstring CNewUITextBox::GetFullText()

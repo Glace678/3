@@ -98,6 +98,7 @@ namespace SEASON3B
             int iNumTab;
             BYTE class_character[MAX_CLASS];
             CNewUIButton* btn;
+            int x, y, width, height;
         } CButtonTap;
 
         typedef struct
@@ -105,6 +106,7 @@ namespace SEASON3B
             int iNumTab;
             BYTE class_character[MAX_CLASS];
             CNewUICheckBox* box;
+            int x, y, width, height;
         } CheckBoxTap;
 
         typedef struct
@@ -166,6 +168,12 @@ namespace SEASON3B
         void InitTextboxInput();
         void SetPos(int x, int y);
         void RenderBack(int x, int y, int width, int height);
+
+        // Controller focus: RegisterFocusNodes() publishes every visible,
+        // clickable control (except the numeric edit boxes) to the global
+        // focus navigator; RenderFocusHighlight() outlines the current one.
+        void RegisterFocusNodes();
+        void RenderFocusHighlight();
 
         int GetSkillIndex(int iSkill);
         bool IsSkillAssigned(int iSkill);
@@ -229,6 +237,8 @@ namespace SEASON3B
         int UpdateMouseSkillList();
         void FilterByAttackSkills();
         void FilterByBuffSkills();
+        void RegisterFocusNodes();
+        void RenderFocusHighlight();
 
         static void UI2DEffectCallback(LPVOID pClass, DWORD dwParamA, DWORD dwParamB);
 
@@ -366,6 +376,9 @@ namespace SEASON3B
         void RenderHpLevel(int x, int y, int width, int height, int level, const wchar_t* pszLabel);
         void LoadImages();
         void UnloadImages();
+
+        void RegisterFocusNodes();
+        void RenderFocusHighlight();
 
     private:
         CNewUIManager* m_pNewUIMng;

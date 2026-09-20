@@ -59,7 +59,9 @@ CMonkSystem::~CMonkSystem()
 void CMonkSystem::Init()
 {
     m_mapItemEqualType.clear();
-    memset(&m_cItemEqualType, 0, sizeof(CItemEqualType));
+    // CItemEqualType's own constructor zeroes its three members; the memset was
+    // redundant with it.
+    m_cItemEqualType = CItemEqualType{};
     m_listGloveformSword.clear();
 
     InitEffectOnce();
@@ -848,8 +850,11 @@ void CMonkSystem::DarksideRendering(CHARACTER* pCha, PART_t* pPart, bool Transla
 
 void CMonkSystem::InitDummyCal()
 {
+    // clear() is the reset for the std::map; the memset below it was dead code
+    // (size() is already 0) and would have been undefined behaviour over a
+    // non-trivial map had it ever run on a populated one. DestroyDummy() does
+    // the same with clear() alone.
     m_tmDummyUnit.clear();
-    memset(&m_tmDummyUnit, 0, sizeof(CDummyUnit) * m_tmDummyUnit.size());
     m_nDummyIndex = 0;
 }
 

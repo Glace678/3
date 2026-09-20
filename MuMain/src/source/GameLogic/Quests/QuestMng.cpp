@@ -122,6 +122,12 @@ void CQuestMng::LoadQuestWordsScript()
 
     int nSize = sizeof(SQuestWordsHeader);
     SQuestWordsHeader sQuestWordsHeader;
+
+    // Both buffers are reused for every record and must be cleared each time:
+    // a short record following a longer one would otherwise keep the previous
+    // record's tail bytes, and converting with a fixed 1024-byte source length
+    // spliced that stale data onto the new string (invalid UTF-8 -> U+FFFD,
+    // producing arbitrarily long strings that later overran UI stack buffers).
     char rawWords[1024] { };
     wchar_t szWords[1024] { };
 
@@ -129,9 +135,22 @@ void CQuestMng::LoadQuestWordsScript()
     {
         ::BuxConvert((BYTE*)&sQuestWordsHeader, nSize);
 
-        ::fread(rawWords, sQuestWordsHeader.m_nWordsLen, 1, fp);
-        ::BuxConvert((BYTE*)rawWords, sQuestWordsHeader.m_nWordsLen);
-        CMultiLanguage::ConvertFromUtf8(szWords, rawWords, 1024);
+        const int nWordsLen = sQuestWordsHeader.m_nWordsLen;
+        if (nWordsLen <= 0 || nWordsLen >= static_cast<int>(sizeof(rawWords)))
+            break;
+
+        ::memset(rawWords, 0, sizeof(rawWords));
+        ::memset(szWords, 0, sizeof(szWords));
+
+        if (1 != ::fread(rawWords, nWordsLen, 1, fp))
+            break;
+
+        ::BuxConvert((BYTE*)rawWords, nWordsLen);
+        rawWords[nWordsLen] = '\0';
+        // Convert exactly this record's bytes plus the explicit terminator,
+        // never whatever stale bytes happen to follow in the reuse buffer.
+        CMultiLanguage::ConvertFromUtf8(szWords, rawWords, nWordsLen + 1);
+        szWords[1023] = L'\0';
 
         std::wstring strWords = szWords;
         m_mapQuestWords.insert(std::make_pair(sQuestWordsHeader.m_nIndex, strWords));

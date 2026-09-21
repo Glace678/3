@@ -1,7 +1,8 @@
 ﻿param(
     [string]$ServerAddress = '192.168.215.56',
     [switch]$RebuildGameData,
-    [string]$OutputDirectory = (Join-Path $PSScriptRoot '..\OpenMU-安卓手机版-可安装')
+    [string]$OutputDirectory = (Join-Path $PSScriptRoot '..\OpenMU-安卓手机版-可安装'),
+    [string]$NdkPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -13,7 +14,18 @@ $nativeRoot = Join-Path $projectRoot 'native\arm64-v8a'
 $nativeBuildDirectory = Join-Path $muMainRoot 'out\build\android-arm64-release'
 $builtMainLibrary = Join-Path $nativeBuildDirectory 'src\libmain.so'
 $builtGlLibrary = Join-Path $nativeBuildDirectory 'src\ThirdParty\gl4es\libGL.so'
-$androidNdkRoot = 'C:\Program Files (x86)\Android\AndroidNDK\android-ndk-r27c'
+# NDK 根目录解析顺序：-NdkPath 参数 > OPENMU_ANDROID_NDK_PATH / ANDROID_NDK_HOME /
+# ANDROID_NDK_ROOT 环境变量 > 原开发机默认路径。找不到时明确报错而不是静默用错工具链。
+$androidNdkRoot = $NdkPath
+foreach ($candidate in @($env:OPENMU_ANDROID_NDK_PATH, $env:ANDROID_NDK_HOME, $env:ANDROID_NDK_ROOT)) {
+    if (-not $androidNdkRoot -and $candidate) { $androidNdkRoot = $candidate }
+}
+if (-not $androidNdkRoot) {
+    $androidNdkRoot = 'C:\Program Files (x86)\Android\AndroidNDK\android-ndk-r27c'
+}
+if (-not (Test-Path -LiteralPath $androidNdkRoot)) {
+    throw "Android NDK not found at '$androidNdkRoot'. Pass -NdkPath <ndk-root> or set ANDROID_NDK_HOME."
+}
 $serverPackage = Join-Path $projectRoot 'server-build\OpenMU-Local'
 $mobileServerSettings = Join-Path $projectRoot 'mobile-server-settings.json'
 $outputRoot = [IO.Path]::GetFullPath($OutputDirectory)
@@ -166,7 +178,10 @@ if ($LASTEXITCODE -ne 0) {
     throw 'Android native client build failed.'
 }
 
-$llvmStrip = Join-Path $androidNdkRoot 'toolchains\llvm\prebuilt\windows-x86_64\bin\llvm-strip.exe'
+# llvm-strip 位于 NDK 按宿主平台命名的 prebuilt 目录，Windows/macOS/Linux 通用。
+$ndkPrebuiltHost = if ($IsMacOS) { 'darwin-x86_64' } elseif ($IsLinux) { 'linux-x86_64' } else { 'windows-x86_64' }
+$llvmStripName = if ($IsWindows) { 'llvm-strip.exe' } else { 'llvm-strip' }
+$llvmStrip = Join-Path $androidNdkRoot "toolchains/llvm/prebuilt/$ndkPrebuiltHost/bin/$llvmStripName"
 if (-not (Test-Path -LiteralPath $llvmStrip -PathType Leaf)) {
     throw "NDK llvm-strip was not found: $llvmStrip"
 }

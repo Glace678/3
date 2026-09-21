@@ -31,10 +31,14 @@ Linux/WSL with MinGW-w64.
 | Rider | [windows/rider.md](windows/rider.md) |
 | VS Code | [windows/vscode.md](windows/vscode.md) |
 
-### Planned
+### Mobile
 
-`android/` and `iOS/` are placeholders for future ports; the engine is not yet
-buildable for them. See the per-platform notes when that work lands.
+`android/` documents a source-level supported target (entry + CMake wiring +
+Gradle delivery project in `OpenMU-Android/`; device validation pending).
+`iOS/` documents a preview scaffold: entry + opt-in CMake branch + Xcode
+project generator in `OpenMU-iOS/`; the renderer port is the remaining
+blocker. The HarmonyOS/OpenHarmony port shares the Android mobile path
+(`MU_MOBILE`) and lives in `OpenMU-HarmonyOS/` (see its `BUILD-鸿蒙构建说明.md`).
 
 ## Supported targets
 

@@ -31,12 +31,22 @@ gameDataArchive.withInputStream { input ->
 }
 def gameDataVersion = gameDataDigest.digest().collect { String.format('%02x', it & 0xff) }.join()
 
+// NDK 路径不再硬编码到某台开发机：优先 -POPENMU_ANDROID_NDK_PATH，其次环境
+// 变量 ANDROID_NDK_HOME / ANDROID_NDK_ROOT；都未设置时留给 AGP 按 ndkVersion
+// 在 Android SDK 目录内自动解析（sdkmanager 安装的 NDK 即可被找到）。
+def ndkPathOverride = providers.gradleProperty('OPENMU_ANDROID_NDK_PATH').getOrElse('')
+if (!ndkPathOverride) {
+    ndkPathOverride = System.getenv('ANDROID_NDK_HOME') ?: System.getenv('ANDROID_NDK_ROOT') ?: ''
+}
+
 android {
     namespace 'net.munique.openmu.game'
     compileSdk 36
     buildToolsVersion '36.0.0'
     ndkVersion '27.2.12479018'
-    ndkPath 'C:/Program Files (x86)/Android/AndroidNDK/android-ndk-r27c'
+    if (ndkPathOverride) {
+        ndkPath ndkPathOverride
+    }
 
     defaultConfig {
         applicationId 'net.munique.openmu.game'

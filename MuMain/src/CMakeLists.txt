@@ -116,6 +116,11 @@ endif()
 option(ENABLE_EDITOR "Enable editor features for admin builds" OFF)
 option(ENABLE_VIRTUAL_GAMEPAD_TESTS "Enable the SDL virtual-gamepad acceptance-test bridge" OFF)
 option(ENABLE_FRAMEBUFFER_CAPTURE_TESTS "Enable opt-in framebuffer capture for native acceptance tests" OFF)
+# iOS 预览脚手架开关：默认关闭时 configure 仍然明确报"暂不支持"，避免把未完成
+# 的移动端渲染路径误当成可用目标；打开后走 source/App/Platform/iOS/ 入口，
+# 供 OpenMU-iOS/build-ios.sh 生成 Xcode 工程做移植开发（详见
+# OpenMU-iOS/BUILD-iOS构建说明.md）。
+option(MU_IOS_PREVIEW "Enable the experimental iOS application scaffold" OFF)
 
 # ---------------------------------------------------------------------------
 # Engine/game code -> static library (libMuClient); MuMain -> thin executable.
@@ -331,10 +336,22 @@ add_library(MuClient::MuClient ALIAS MuClient_whole)
 if (WIN32)
   set(MU_APP_ENTRY "source/App/Platform/Windows/Winmain.cpp")
 elseif (CMAKE_SYSTEM_NAME STREQUAL "iOS")
-  message(FATAL_ERROR "iOS is not a supported build target yet: it needs an "
-    "OpenGL ES/Metal renderer port and a touch UI, and distribution is App "
-    "Store restricted. When that work starts, add source/App/Platform/iOS/ "
-    "and replace this branch.")
+  # iOS 预览脚手架（opt-in）。入口与数据根已就位（source/App/Platform/iOS/），
+  # 但渲染层（固定功能桌面 GL → gl4es/GLES2 或 Metal）与触摸 UI 尚未在真机
+  # 验证，App Store 分发也需要 Apple 签名。默认仍然明确失败；显式
+  # -DMU_IOS_PREVIEW=ON 才生成工程（OpenMU-iOS/build-ios.sh 会自动带上）。
+  if(NOT MU_IOS_PREVIEW)
+    message(FATAL_ERROR "iOS is a preview scaffold, not a supported build "
+      "target yet: configure with -DMU_IOS_PREVIEW=ON to generate the Xcode "
+      "project for porting work (see OpenMU-iOS/BUILD-iOS构建说明.md). The "
+      "renderer still needs an OpenGL ES/Metal port validated on device, and "
+      "distribution is App Store restricted.")
+  endif()
+  message(WARNING "MU_IOS_PREVIEW=ON: experimental iOS scaffold. The renderer "
+    "and input layers are not device-verified; expect porting work.")
+  set(MU_APP_ENTRY
+    "source/App/Platform/iOS/main.mm"
+    "source/App/Platform/Windows/Winmain.cpp")
 elseif (APPLE)
   set(MU_APP_ENTRY
     "source/App/Platform/macOS/main.mm"

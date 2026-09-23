@@ -1,5 +1,5 @@
 // No model SDK/API is used here. All inference happens in the configured Zap.
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawn} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
@@ -100,34 +100,85 @@ export function encodeEdit(text,encoding){
   return bytes;
 }
 
-function snapshot(){
+export function streamReader(stream){
+  const iterator=stream[Symbol.asyncIterator]();let data=Buffer.alloc(0),offset=0;
+  async function fill(){if(offset<data.length)return;const next=await iterator.next();if(next.done)throw new Error('Unexpected end of Git blob stream');data=next.value;offset=0;}
+  return {
+    async line(){const pieces=[];for(;;){await fill();const end=data.indexOf(10,offset);if(end>=0){pieces.push(data.subarray(offset,end));offset=end+1;return Buffer.concat(pieces).toString('ascii');}pieces.push(data.subarray(offset));offset=data.length;}},
+    async bytes(size){if(!Number.isSafeInteger(size)||size<0||size>512*1024*1024)throw new Error('Blob exceeds the explicit 512 MiB processing limit');const out=Buffer.allocUnsafe(size);let at=0;while(at<size){await fill();const n=Math.min(size-at,data.length-offset);data.copy(out,at,offset,offset+n);at+=n;offset+=n;}return out;}
+  };
+}
+
+async function snapshot(){
   const files=new Map(),inventory=[],errors=[];
   const entries=git('ls-tree','-rz','HEAD').toString('utf8').split('\0').filter(Boolean);
   const paths=entries.map(e=>e.slice(e.indexOf('\t')+1));
   const attributes=execFileSync('git',['check-attr','--cached','-z','--stdin','text'],{input:paths.join('\0')+'\0',maxBuffer:64*1024*1024}).toString('utf8').split('\0');
   const declaredBinary=new Set();
   for(let i=0;i<attributes.length-2;i+=3)if(attributes[i+2]==='unset')declaredBinary.add(attributes[i]);
-  for(const entry of entries){
+  const blobs=entries.filter(e=>e.split('\t',1)[0].split(' ')[1]==='blob');
+  const child=spawn('git',['cat-file','--batch'],{stdio:['pipe','pipe','pipe']});
+  let stderr='';child.stderr.on('data',b=>{stderr=(stderr+b.toString()).slice(-2000);});
+  const done=new Promise((resolve,reject)=>{child.on('error',reject);child.on('close',code=>code===0?resolve():reject(new Error(`Git blob stream failed: ${stderr}`)));});
+  done.catch(()=>{});
+  child.stdin.on('error',()=>{});
+  child.stdin.end(blobs.map(e=>e.split('\t',1)[0].split(' ')[2]).join('\n')+'\n');
+  const reader=streamReader(child.stdout);
+  try { for(const entry of entries){
     const tab=entry.indexOf('\t'),header=entry.slice(0,tab),path=entry.slice(tab+1); const [mode,type,oid]=header.split(' ');
-    if(type!=='blob'||mode==='120000'){errors.push(`${path}: ${type==='commit'?'submodule':'symlink'} requires an explicit audit`);continue;}
-    const bytes=git('cat-file','blob',oid); const sha256=hash(bytes);
+    if(type!=='blob'){errors.push(`${path}: submodule requires an explicit audit`);continue;}
+    const [returned,typeReturned,size]= (await reader.line()).split(' ');
+    if(returned!==oid||typeReturned!=='blob')throw new Error('Git blob stream lost alignment');
+    const bytes=await reader.bytes(Number(size));await reader.bytes(1);
+    if(mode==='120000'){errors.push(`${path}: symlink requires an explicit audit`);continue;}
+    const sha256=hash(bytes);
     try {
       const data=decodeFile(path,bytes,declaredBinary.has(path));
       inventory.push({path,sha256,bytes:bytes.length,kind:data?'text':'binary',encoding:data?.encoding});
       if(data)files.set(path,{path,sha256,...data});
     }catch(e){errors.push(e.message);}
-  }
+  } await done; } finally { if(child.exitCode===null)child.kill(); }
   return {files,inventory,errors};
 }
 
-function pack(parts,limit,maxBytes){
-  const chunks=[];let current=[],cost=0,bytes=0;
-  for(const p of parts){
-    const t=tokens(p.text)+100, b=Buffer.byteLength(JSON.stringify(p))+100;
-    if(current.length&&(cost+t>limit||bytes+b>maxBytes)){chunks.push(current);current=[];cost=0;bytes=0;}
-    current.push(p);cost+=t;bytes+=b;
+export function renderParts(parts){
+  const seen=new Map();
+  return parts.map(p=>{
+    const digest=hash(p.text), first=seen.get(digest);
+    const header=`\n===== ${JSON.stringify(p.file)} lines ${p.start_line}-${p.end_line} SHA256 ${p.sha256} =====\n`;
+    if(first&&first.text===p.text)return header+`[Exact content duplicate of ${JSON.stringify(first.file)} lines ${first.start_line}-${first.end_line}. Review this path's usage/dependencies separately; its complete content is the referenced text.]\n`;
+    seen.set(digest,p);return header+p.text;
+  }).join('');
+}
+
+export function pack(parts,limit,maxBytes){
+  const bins=[];
+  const items=parts.map(p=>{
+    const {text,...metadata}=p,source=renderParts([p]);
+    return {p,digest:hash(text),t:tokens(source)+tokens(JSON.stringify(metadata))+16,b:Buffer.byteLength(JSON.stringify(source))+Buffer.byteLength(JSON.stringify(metadata))+32};
+  }).sort((a,b)=>b.t-a.t||a.p.file.localeCompare(b.p.file));
+  for(const item of items){
+    const {p,digest}=item;let best=null,bestSize=null,bestRemaining=Infinity;
+    for(const bin of bins){
+      let t=item.t,b=item.b;
+      const first=bin.seen.get(digest);
+      if(first&&first.text===p.text){
+        const source=renderParts([first,p]).slice(renderParts([first]).length),{text,...metadata}=p;
+        t=tokens(source)+tokens(JSON.stringify(metadata))+16;
+        b=Buffer.byteLength(JSON.stringify(source))+Buffer.byteLength(JSON.stringify(metadata))+32;
+      }
+      if(bin.cost+t>limit||bin.bytes+b>maxBytes)continue;
+      // Prefer reusing exact contents, then fill the fullest compatible chunk.
+      const remaining=first?-limit+limit-bin.cost-t:limit-bin.cost-t;
+      if(remaining<bestRemaining){best=bin;bestSize=[t,b];bestRemaining=remaining;}
+    }
+    if(!best){
+      if(item.t>limit||item.b>maxBytes)throw new Error(`Chunk metadata/input exceeds limit: ${p.file}`);
+      best={parts:[],cost:0,bytes:0,seen:new Map()};bestSize=[item.t,item.b];bins.push(best);
+    }
+    best.parts.push(p);best.cost+=bestSize[0];best.bytes+=bestSize[1];best.seen.set(digest,p);
   }
-  if(current.length)chunks.push(current);return chunks;
+  return bins.map(bin=>bin.parts);
 }
 
 export async function main(){
@@ -140,20 +191,27 @@ export async function main(){
   const commit=git('rev-parse','HEAD').toString().trim();
   const mode=/\[review\]/i.test(issue.title)?'review':'fix';
   const promptHash=hash(JSON.stringify([issue.title,issue.body,mode]));
-  const job=hash(`${repo}:${commit}:${issue.number}:${promptHash}:v1`);
+  const job=hash(`${repo}:${commit}:${issue.number}:${promptHash}:v2`);
   const cap=Number(process.env.LUNA_MAX_TASKS||100);
   const tokenLimit=Number(process.env.LUNA_CHUNK_TOKENS||650000);
   if(!Number.isSafeInteger(cap)||cap<1||cap>1000)throw new Error('Invalid task ceiling');
   if(!Number.isSafeInteger(tokenLimit)||tokenLimit<1000||tokenLimit>650000)throw new Error('Invalid input limit');
-  const {files,inventory,errors}=snapshot();
+  const {files,inventory,errors}=await snapshot();
+  console.log(`Inventoried ${inventory.length} files; unresolved entries: ${errors.length}. Estimating chunks locally.`);
   writeFileSync('.luna-output/inventory.json',JSON.stringify({repo,commit,inventory,errors},null,2));
   if(errors.length)throw new Error(`Coverage blocked before any AI call (${errors.length} unresolved entries). See inventory artifact.`);
-  const chunks=pack([...files.values()].flatMap(f=>splitFile(f,tokenLimit-2000)),tokenLimit,4000000);
-  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,initialCalls:chunks.length,maxCalls:cap,chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
+  // Group equal contents together, but retain every path/range in the manifest.
+  const groups=new Map();
+  for(const f of files.values()){const key=hash(f.text);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(f);}
+  const promptReserve=tokens(issue.title+'\n'+(issue.body||''))+8192;
+  const contentLimit=tokenLimit-promptReserve;
+  if(contentLimit<3000)throw new Error('Issue prompt leaves insufficient source context');
+  const chunks=pack([...groups.values()].flat().flatMap(f=>splitFile(f,contentLimit-2000)),contentLimit,4000000);
+  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,distinctTextContents:groups.size,initialCalls:chunks.length,maxCalls:cap,chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
   writeFileSync('.luna-output/plan.json',JSON.stringify(plan,null,2));
   console.log(JSON.stringify(plan));
-  if(chunks.length>cap)throw new Error(`Initial ${chunks.length} calls exceed the ${cap}-task ceiling. No model invoked.`);
   if(process.env.LUNA_PLAN_ONLY==='true')return;
+  if(chunks.length>cap)throw new Error(`Initial ${chunks.length} calls exceed the ${cap}-task ceiling. No model invoked.`);
   for(const key of ['ZAPIER_HOOK_URL','ZAPIER_CALLBACK_AUTH','ZAPIER_SDK_CLIENT_ID','ZAPIER_SDK_CLIENT_SECRET','ZAPIER_TABLE_ID','GITHUB_TOKEN'])if(!process.env[key])throw new Error(`Missing configuration: ${key}`);
   const hook=new URL(process.env.ZAPIER_HOOK_URL);
   if(hook.protocol!=='https:'||hook.hostname!=='hooks.zapier.com')throw new Error('Unexpected Zapier hook host');
@@ -171,8 +229,8 @@ export async function main(){
   async function invoke(parts,depth=0){
     if(depth>8)throw new Error('Split/context depth exceeded');
     const manifest=parts.map(({text,...r})=>r);
-    const source=parts.map(p=>`\n===== ${JSON.stringify(p.file)} lines ${p.start_line}-${p.end_line} SHA256 ${p.sha256} =====\n${p.text}`).join('');
-    if(tokens(source)>tokenLimit+10000)throw new Error('Context exceeds configured input ceiling');
+    const source=renderParts(parts);
+    if(tokens(source)+tokens(JSON.stringify(manifest))+promptReserve>tokenLimit)throw new Error('Context exceeds configured input ceiling');
     const chunk=hash(JSON.stringify(manifest)+source),key=`${job}:${chunk}`;
     const metadata={job_id:job,chunk_id:chunk,attempt_id:'1',dedupe_key:key,repo,commit_sha:commit,issue_number:issue.number,expected_chunks:chunks.length};
     let result=await find(key);
@@ -216,7 +274,7 @@ export async function main(){
       const names=parsed.needs_context_json.files;
       if(!Array.isArray(names)||!names.length)throw new Error('Missing context paths');
       const more=[];
-      for(const name of names){const file=files.get(name);if(!file)throw new Error(`Unknown context file: ${name}`);more.push(...splitFile(file,tokenLimit-2000));}
+      for(const name of names){const file=files.get(name);if(!file)throw new Error(`Unknown context file: ${name}`);more.push(...splitFile(file,contentLimit-2000));}
       const unique=[...new Map([...parts,...more].map(p=>[`${p.file}:${p.start_line}:${p.end_line}`,p])).values()];
       if(unique.length===parts.length)throw new Error('Model requested no new context');
       await invoke(unique,depth+1);return;

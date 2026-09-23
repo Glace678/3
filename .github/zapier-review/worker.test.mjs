@@ -1,6 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit} from './worker.mjs';
+import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader,renderParts,pack} from './worker.mjs';
+import {Readable} from 'node:stream';
+test('batch Git stream preserves headers and binary bodies across arbitrary chunks',async()=>{
+  const source=Buffer.from('abc blob 5\na\n\0xy\nxyz blob 0\n\n');
+  const reader=streamReader(Readable.from([...source].map(x=>Buffer.from([x]))));
+  assert.equal(await reader.line(),'abc blob 5');
+  assert.deepEqual(await reader.bytes(5),Buffer.from('a\n\0xy'));
+  assert.deepEqual(await reader.bytes(1),Buffer.from('\n'));
+  assert.equal(await reader.line(),'xyz blob 0');
+  assert.equal((await reader.bytes(0)).length,0);
+  await reader.bytes(1);
+  await assert.rejects(reader.line(),/Unexpected end/);
+});
 test('all lines survive chunking, including CRLF and last line',()=>{
   const text=Array.from({length:31},(_,i)=>`line ${i}\r\n`).join('')+'last';
   const parts=splitFile({path:'src/x.cpp',sha256:'x',text},20,100);
@@ -52,4 +64,17 @@ test('conflicts, ambiguous originals and unsafe paths are rejected',()=>{
   assert.throws(()=>applyEdits(files,[{path:'.github/workflows/x.yml',old_text:'x',new_text:'y'}]));
   assert.throws(()=>applyEdits(files,[{path:'src/x.js',old_text:'missing',new_text:'y'}]));
   assert.throws(()=>applyEdits(new Map([['x',{text:'aa aa',encoding:'utf-8'}]]),[{path:'x',old_text:'aa',new_text:'b'}]));
+});
+
+test('identical content is sent once while all file paths remain auditable',()=>{
+  const text='function example() { return 12345; }\n'.repeat(100);
+  const parts=['first.js','copy.js'].map(file=>({file,start_line:1,end_line:100,sha256:'same',encoding:'utf-8',text}));
+  const chunks=pack(parts,3000,100000);
+  assert.equal(chunks.length,1);
+  assert.deepEqual(chunks[0].map(p=>p.file).sort(),['copy.js','first.js']);
+  const rendered=renderParts(chunks[0]);
+  assert.equal(rendered.split(text).length,2);
+  assert.ok(rendered.includes(`Exact content duplicate of ${JSON.stringify(chunks[0][0].file)}`));
+  assert.match(rendered,/"copy.js" lines 1-100/);
+  assert.throws(()=>validateCoverage(chunks[0],[{file:'first.js',start_line:1,end_line:100}]));
 });

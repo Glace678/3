@@ -2,7 +2,7 @@
 
 > 费用结论更正（2026-09-23）：已将 `LUNA_ENABLED=false`，暂停新 Issue 的模型执行。官方写明 SDK Beta 动作免费，也另列原生 AI 步骤 1/3/5 tasks；尚未找到明确说明经 SDK 调用 Zapier 托管模型是否免除模型 task 费用的条款。因此不能承诺 0 tasks 或全仓低于 50 tasks。设置时账号 0/1,000 仅证明尚未扣任务，不能证明模型免费。`plan.json` 中 `expectedZapierTasks: 0` 是此前推算，不是账单实测；价格页面文本检查也不能证实具体 AI 动作获豁免。实际费用确认前保持停用。
 
-2026-09-24 更新：已去除长报告的 9,000 字符人工限制，改为免费 Tables 分段保存；相同提交与相同提示词的只读审查可跨 Issue 复用。新计划的 `expectedZapierTasks` 为 null，执行还要求 `LUNA_NATIVE_AI_BILLING_VERIFIED=true`。详见 [无损分块测量、费用情景与单次验证计划](COST-RESEARCH.md)。没有执行真实模型验证。
+2026-09-24 更新：已去除长报告的 9,000 字符人工限制，改为免费 Tables 分段保存；相同提交与相同提示词的只读审查可跨 Issue 复用。新计划的 `expectedZapierTasks` 为 null，执行还要求 `LUNA_NATIVE_AI_BILLING_VERIFIED=true`。详见 [无损分块测量、费用情景与单次验证计划](COST-RESEARCH.md)。已在授权后执行有界验证；一次成功、一次提交状态不明，现已停止新增请求。累计预留 2/80 tasks，刷新账单仍显示 0/1,000，不能保证无延迟计费。详见 [逐次账本与反思](VALIDATION.md)。
 
 模型固定为 Zapier 托管的 `openai/gpt-5.6-luna`，通过官方 SDK 的 `AI by Zapier / Analyze and Return Data` 动作调用，`authentication_id=0`。GitHub Actions 只运行清单、分块、SDK 调度、校验和提交程序，不运行本地模型，不调用外部模型供应商 API。
 
@@ -21,7 +21,7 @@ GitHub Issue → GitHub Actions 全量清单和分块 → 本 Zap 的 Catch Hook
 
 Zap 只有触发器、Filter、普通 Tables，已移除 Zap 中的 AI 节点。官方计费页写明 **SDK 动作在 Beta 期间免费**，但另有 AI 模型档位计费规则；两者在 SDK 调用原生托管 AI 时如何组合，当前证据不足。此前预计 0 tasks 的推断不能作为运行预算。试用账户结束后仍需具备所用 Zap 功能与原生模型的访问权限。
 
-每个任务及每次新模型派发前读取官方计费页；无法确认 SDK 仍处于免费 Beta 就停止。此外，原生 AI 计费验证开关默认关闭，即使营销页仍写 SDK 免费也不会派发模型。没有 BYOK、外部模型或付费自动降级路线。`LUNA_MAX_TASKS` 默认 49，程序拒绝配置成 50 及以上；**它不是 Zapier 平台的实际账单硬限额**。账号总用量受其他自动化影响，不能用这个变量约束整个账号。
+每个任务及每次新模型派发前读取官方计费页；无法确认 SDK 仍处于免费 Beta 就停止。此外，原生 AI 计费验证开关默认关闭，即使营销页仍写 SDK 免费也不会派发模型。没有 BYOK、外部模型或付费自动降级路线。`LUNA_MAX_TASKS` 默认 49，程序拒绝配置成 50 及以上；**它现在按固定 Standard Luna 每次预留 1 task 约束累计新请求数量，但不是 Zapier 平台的实际账单硬限额**。账号总用量受其他自动化影响，不能用这个变量约束整个账号。
 
 - 官方计费：https://zapier.com/pricing/rates
 - SDK 免费 Beta 说明：https://zapier.com/sdk
@@ -35,8 +35,8 @@ GitHub 无模型验证清单（提交 `a9fb4263`）：42,337 个文件，其中 
 
 - `LUNA_ENABLED=true` 才处理新 Issue；免费 plan_only 手动验证不受该开关影响。
 - `LUNA_NATIVE_AI_BILLING_VERIFIED=true` 才允许真实模型请求；默认 false，不因网页写 Free 自动启用。
-- `LUNA_MAX_TASKS=49`：仅作为低于 50 的策略门槛，不启用任何收费备用通道。
-- `LUNA_MAX_MODEL_CALLS=1000`：免费 SDK 调用的防循环上限，包含追加分块；不是 task 预算。
+- `LUNA_MAX_TASKS=49`：生产任务最多预留 49 次固定 Standard Luna 请求；全量初始请求超过预留则在模型前停止。与用户单独授权的累计 80 tasks 验证账本分开。
+- `LUNA_MAX_MODEL_CALLS=1000`：防循环上限；有效请求上限还取它与生产 task 预留的较小值。SDK 显示零用量也不自动放大预算。
 - `LUNA_CHUNK_TOKENS=650000`：初始输入上限，可调小；追加上下文总输入超过 900000 tokens 时停止。这些不是已实测的 Zapier 输入上限。
 - 同一提交、Issue 内容和代码块复用结果。SDK 执行 ID 先持久化再轮询，超时可恢复同一个执行；提交状态不明确时停止，禁止自动创建另一个模型执行。
 - 同一提交、完全相同的标题/正文和 review 模式可跨 Issue 复用，fix 模式仍绑定原 Issue。跨提交及不同提示词不使用该复用。
@@ -53,7 +53,7 @@ GitHub 无模型验证清单（提交 `a9fb4263`）：42,337 个文件，其中 
 
 ## 设置验证
 
-18 项本地工作器检查通过，包括分块、编码、覆盖、补丁、免费条款失效、SDK 执行 ID 恢复、禁止重复提交，以及新增的长结果分段完整性与中断恢复。[此前 GitHub Actions 无模型验证](https://github.com/Glace678/3/actions/runs/35882289525) 已成功完成全仓库清单和分块，并保存 artifact。SDK 表读写、字段映射、已发布 Zap 的认证队列及重复请求去重已实际验证，测试记录已清理。设置期间没有调用模型；没有完成实际仓库代码审查，也没有模型端到端或账单实测。
+22 项本地工作器检查通过，包括分块、编码、覆盖、补丁、免费条款失效、SDK 执行 ID 恢复、禁止重复提交，以及新增的长结果分段完整性与中断恢复。[此前 GitHub Actions 无模型验证](https://github.com/Glace678/3/actions/runs/35882289525) 已成功完成全仓库清单和分块，并保存 artifact。SDK 表读写、字段映射、已发布 Zap 的认证队列及重复请求去重已实际验证，测试记录已清理。初始设置期间没有调用模型。授权后的单文件模型验证已成功；大输入提交状态不明，已暂停进一步验证。没有完成全仓库代码审查或端到端 Issue 修复验证。
 
 ```sh
 cd .github/zapier-review

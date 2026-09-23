@@ -1,10 +1,11 @@
 // One model submission per command. Subsequent probes require a recorded UI
 // observation and reflection. No parallel execution or automatic model retries.
-import {readFileSync,writeFileSync,existsSync,renameSync,unlinkSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,appendFileSync,existsSync,renameSync,unlinkSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createZapierSdk} from '@zapier/zapier-sdk';
 import {APP,MODEL,requireFreeSdk} from './native-sdk.mjs';
 import {reserve,reconcile} from './validation-budget.mjs';
+import {journalFetch} from './request-journal.mjs';
 const root='.luna-output/validation',file=`${root}/ledger.json`,lock=`${root}/active.lock`;
 const digest=x=>createHash('sha256').update(x).digest('hex');
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
@@ -31,7 +32,9 @@ if(command==='init'){
       ledger=reserve(ledger,{...plan,id,model:MODEL,reserveTasks:1,baseline:Number(value)});save(ledger);entry=ledger.runs.at(-1);
     }else if(!entry?.runId)throw Error('No known run ID; uncertain submissions must never be repeated');
     const update=patch=>{ledger={...ledger,runs:ledger.runs.map(r=>r.id===id?{...r,...patch}:r)};save(ledger);entry=ledger.runs.find(r=>r.id===id);};
-    const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
+    for(const name of ['ZAPIER_SDK_CLIENT_ID','ZAPIER_SDK_CLIENT_SECRET'])if(!process.env[name])throw Error('Missing SDK credentials');
+    const transport=journalFetch(event=>appendFileSync(`${dir}/transport.jsonl`,JSON.stringify(event)+'\n'));
+    const sdk=createZapierSdk({maxNetworkRetries:0,fetch:transport,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
     if(!entry.runId){
       await requireFreeSdk();
       update({status:'starting',startedAt:new Date().toISOString()});
@@ -49,5 +52,11 @@ if(command==='init'){
       console.log(JSON.stringify({id,status:entry.status,newModelRequests:command==='execute'?1:0,nextProbeBlockedUntilReflectionAndUsage:true}));break;
     }
     if(entry.status==='running')console.log('Still pending. Only resume this same run ID; do not submit another model request.');
+  }catch(error){
+    // SDK 0.112.3 installs uncaught-exception telemetry listeners. Catch here
+    // explicitly so a rejected action cannot disappear with an apparent exit 0.
+    const ledger=read(file),failure={type:error.name,code:error.code,status:error.statusCode,at:new Date().toISOString()};
+    save({...ledger,halted:`Probe ${id} failed or has uncertain submission; inspect saved transport facts without resubmitting`,runs:ledger.runs.map(r=>r.id===id?{...r,failure}:r)});
+    console.error(JSON.stringify({id,stopped:true,...failure}));process.exitCode=1;
   }finally{unlinkSync(lock);}
 }else throw Error('Use init, observe ID TASKS REFLECTION, execute ID BASELINE, or resume ID');

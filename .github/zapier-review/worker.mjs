@@ -1,7 +1,7 @@
 // All inference uses Zapier-managed Luna through the official Zapier SDK.
 // No local model or external model-provider API is used.
 import {execFileSync,spawn} from 'node:child_process';
-import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,appendFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {getEncoding} from 'js-tiktoken';
@@ -9,6 +9,15 @@ import {createZapierSdk} from '@zapier/zapier-sdk';
 import iconv from 'iconv-lite';
 import {requireFreeSdk,nativeInputs,executeNative,validateCompactCoverage} from './native-sdk.mjs';
 import {storeResult,loadResult} from './result-store.mjs';
+import {journalFetch} from './request-journal.mjs';
+
+export function conservativeCallCap(configuredCalls,taskCeiling){
+  if(!Number.isSafeInteger(configuredCalls)||configuredCalls<1||configuredCalls>1000)throw new Error('Invalid model-call ceiling');
+  if(!Number.isSafeInteger(taskCeiling)||taskCeiling<0||taskCeiling>49)throw new Error('Production task reservation must remain below 50');
+  // This worker is fixed to native Standard Luna: reserve 1 task per call.
+  // SDK beta observations never reduce that reservation to zero.
+  return Math.min(configuredCalls,taskCeiling);
+}
 
 export const hash = s => createHash('sha256').update(s).digest('hex');
 const git = (...args) => execFileSync('git',args,{maxBuffer:512*1024*1024});
@@ -204,11 +213,10 @@ export async function main(){
   // An identical read-only audit at the identical commit may reuse its evidence
   // even when requested in a different Issue. Fix jobs retain Issue identity.
   const job=hash(`${repo}:${commit}:${mode==='review'?'shared-review':issue.number}:${promptHash}:sdk-native-v4`);
-  const cap=Number(process.env.LUNA_MAX_MODEL_CALLS||1000);
+  const configuredCalls=Number(process.env.LUNA_MAX_MODEL_CALLS||1000);
   const taskCeiling=Number(process.env.LUNA_MAX_TASKS||49);
-  if(!Number.isSafeInteger(taskCeiling)||taskCeiling<0||taskCeiling>49)throw new Error('Task ceiling must be below 50; paid fallback is disabled');
+  const cap=conservativeCallCap(configuredCalls,taskCeiling);
   const tokenLimit=Number(process.env.LUNA_CHUNK_TOKENS||650000);
-  if(!Number.isSafeInteger(cap)||cap<1||cap>1000)throw new Error('Invalid model-call ceiling');
   if(!Number.isSafeInteger(tokenLimit)||tokenLimit<1000||tokenLimit>650000)throw new Error('Invalid input limit');
   const {files,inventory,errors}=await snapshot();
   console.log(`Inventoried ${inventory.length} files; unresolved entries: ${errors.length}. Estimating chunks locally.`);
@@ -231,7 +239,8 @@ export async function main(){
   const hook=new URL(process.env.ZAPIER_HOOK_URL);
   if(hook.protocol!=='https:'||hook.hostname!=='hooks.zapier.com')throw new Error('Unexpected Zapier hook host');
   await requireFreeSdk();
-  const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
+  const transport=journalFetch(row=>appendFileSync('.luna-output/transport.jsonl',JSON.stringify(row)+'\n'));
+  const sdk=createZapierSdk({maxNetworkRetries:0,fetch:transport,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
   const table=process.env.ZAPIER_TABLE_ID;
   const find=async key=>{
     const rows=[];

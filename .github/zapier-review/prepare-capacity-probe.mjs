@@ -9,14 +9,15 @@ const id=process.argv[2],target=Number(process.argv[3]||650000);
 if(!/^[0-9]{3}-[a-z0-9-]+$/.test(id||'')||target<10000||target>1600000)throw Error('Invalid probe ID or target');
 const dir=`.luna-output/validation/${id}`;
 if(existsSync(`${dir}/inputs.json`))throw Error('Prepared inputs cannot be overwritten');
-const count=s=>getEncoding('o200k_base').encode(s,[],[]).length;
+const encoder=getEncoding('o200k_base');
+const count=s=>encoder.encode(s,[],[]).length;
 const {files,errors}=await snapshot();if(errors.length)throw Error(errors.join('\n'));
 const score=p=>p.startsWith('.github/zapier-review/')?0:p.startsWith('MuMain/src/source/')?1:p.startsWith('MuMain/src/ThirdParty/')?2:3;
 const candidates=[...files.values()].sort((a,b)=>score(a.path)-score(b.path)||a.path.localeCompare(b.path));
 const parts=[];let estimated=0;
 for(const f of candidates){
   if(!f.text||f.path.endsWith('.json'))continue; // Bounded source-code sample, not a whole-repository coverage claim.
-  const n=count(f.text)+count(f.path)+140;
+  const n=count(JSON.stringify(f.text))+count(f.path)+180;
   if(n>target-12000-estimated)continue;
   parts.push({file:f.path,start_line:1,end_line:(f.text.match(/[^\n]*\n|[^\n]+$/g)||[]).length,sha256:f.sha256,encoding:f.encoding,text:f.text});estimated+=n;
   if(estimated>target-16000)break;

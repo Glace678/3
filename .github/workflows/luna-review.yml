@@ -33,19 +33,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Load selected Issue for manual runs
-        if: github.event_name == 'workflow_dispatch'
+      - name: Prepare stable Issue event
         uses: actions/github-script@v7
         env:
           ISSUE_NUMBER: ${{ inputs.issue_number }}
         with:
           script: |
             const fs=require('fs');
-            const {data:issue}=await github.rest.issues.get({...context.repo,issue_number:Number(process.env.ISSUE_NUMBER)});
-            if(issue.user.login !== context.repo.owner) throw new Error('Only repository-owner issues may run');
             const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
-            event.issue=issue;
-            fs.writeFileSync(process.env.GITHUB_EVENT_PATH,JSON.stringify(event));
+            if(context.eventName === 'workflow_dispatch') {
+              const {data:issue}=await github.rest.issues.get({...context.repo,issue_number:Number(process.env.ISSUE_NUMBER)});
+              event.issue=issue;
+            }
+            if(event.issue?.user.login !== context.repo.owner) throw new Error('Only repository-owner issues may run');
+            const path=require('path').join(process.env.RUNNER_TEMP,'luna-event.json');
+            fs.writeFileSync(path,JSON.stringify(event));
+            core.exportVariable('LUNA_EVENT_PATH',path);
       - name: Install pinned worker dependencies
         working-directory: .github/zapier-review
         run: npm ci --ignore-scripts --no-audit --no-fund
@@ -72,10 +75,11 @@ jobs:
           name: luna-review
           path: .luna-output/
           retention-days: 7
+          include-hidden-files: true
       - name: Explain stopped jobs
         if: failure()
         uses: actions/github-script@v7
         with:
           script: |
-            const event=JSON.parse(require('fs').readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
+            const event=JSON.parse(require('fs').readFileSync(process.env.LUNA_EVENT_PATH || process.env.GITHUB_EVENT_PATH,'utf8'));
             if(event.issue) await github.rest.issues.createComment({...context.repo,issue_number:event.issue.number,body:`Luna 自动处理已停止，未声称全量审查完成。请查看 [运行日志](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) 与 luna-review artifact。预算、编码、上下文、补丁冲突或结果超时均会停止；不自动重发状态不明的模型请求。`});

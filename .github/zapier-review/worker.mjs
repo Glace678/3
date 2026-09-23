@@ -185,7 +185,7 @@ export function pack(parts,limit,maxBytes){
 
 export async function main(){
   mkdirSync('.luna-output',{recursive:true});
-  const event=JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
+  const event=JSON.parse(readFileSync(process.env.LUNA_EVENT_PATH||process.env.GITHUB_EVENT_PATH,'utf8'));
   const repo=process.env.GITHUB_REPOSITORY;
   if(repo!=='Glace678/3')throw new Error('Repository mismatch');
   const issue=event.issue;

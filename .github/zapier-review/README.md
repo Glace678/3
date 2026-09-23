@@ -1,5 +1,7 @@
 # Zapier 内置 Luna：全仓库审查与 Issue 修复
 
+> 费用结论更正（2026-09-23）：已将 `LUNA_ENABLED=false`，暂停新 Issue 的模型执行。官方写明 SDK Beta 动作免费，也另列原生 AI 步骤 1/3/5 tasks；尚未找到明确说明经 SDK 调用 Zapier 托管模型是否免除模型 task 费用的条款。因此不能承诺 0 tasks 或全仓低于 50 tasks。设置时账号 0/1,000 仅证明尚未扣任务，不能证明模型免费。`plan.json` 中 `expectedZapierTasks: 0` 是此前推算，不是账单实测；价格页面文本检查也不能证实具体 AI 动作获豁免。实际费用确认前保持停用。
+
 模型固定为 Zapier 托管的 `openai/gpt-5.6-luna`，通过官方 SDK 的 `AI by Zapier / Analyze and Return Data` 动作调用，`authentication_id=0`。GitHub Actions 只运行清单、分块、SDK 调度、校验和提交程序，不运行本地模型，不调用外部模型供应商 API。
 
 ## 使用
@@ -15,7 +17,7 @@
 
 GitHub Issue → GitHub Actions 全量清单和分块 → 本 Zap 的 Catch Hook → 仓库/内容/密钥过滤 → Tables 查重 → 未重复才写入 queued 记录 → GitHub Actions 通过官方 SDK 调用 Zapier 内置 Luna → SDK 保存结果 → 校验全部覆盖 → 报告或草稿 PR。
 
-Zap 只有触发器、Filter、普通 Tables，已移除每块收费的 AI 节点。官方计费页目前明确写明 **SDK 动作在 Beta 期间免费**，所以按当前公开规则，这条路径的预计 Zapier task 用量为 **0**，而不是将每次模型调用算为一个 Zap AI step。此推算**没有通过真实模型调用核实账单**，也不是永久免费的保证。试用账户结束后仍需具备所用 Zap 功能与原生模型的访问权限。
+Zap 只有触发器、Filter、普通 Tables，已移除 Zap 中的 AI 节点。官方计费页写明 **SDK 动作在 Beta 期间免费**，但另有 AI 模型档位计费规则；两者在 SDK 调用原生托管 AI 时如何组合，当前证据不足。此前预计 0 tasks 的推断不能作为运行预算。试用账户结束后仍需具备所用 Zap 功能与原生模型的访问权限。
 
 每个任务及每次新模型派发前读取官方计费页；无法确认 SDK 仍处于免费 Beta 就停止。没有收费模型步骤、BYOK、外部模型或付费自动降级路线。`LUNA_MAX_TASKS` 默认 49，程序拒绝配置成 50 及以上；**它不是 Zapier 平台的实际账单硬限额**，避免收费的措施是仅允许免费 SDK 路线、条款不明即停止。账号总用量受其他自动化影响，不能用这个变量约束整个账号。
 

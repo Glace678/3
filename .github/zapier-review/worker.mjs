@@ -79,6 +79,7 @@ export function validateCoverage(expected,reported){
 
 export function applyEdits(files,edits){
   const changed=new Map();
+  const spans=new Map();
   const seen=new Set();
   for(const edit of edits){
     const p=edit.path;
@@ -88,10 +89,16 @@ export function applyEdits(files,edits){
     if(typeof edit.old_text!=='string'||!edit.old_text||typeof edit.new_text!=='string')throw new Error(`Invalid edit: ${p}`);
     const signature=hash(JSON.stringify([p,edit.old_text,edit.new_text]));
     if(seen.has(signature))continue;seen.add(signature);
-    const current=changed.get(p)??original.text;
-    const at=current.indexOf(edit.old_text);
-    if(at<0 || current.indexOf(edit.old_text,at+1)>=0)throw new Error(`Missing/ambiguous/conflicting old_text: ${p}`);
-    changed.set(p,current.slice(0,at)+edit.new_text+current.slice(at+edit.old_text.length));
+    const at=original.text.indexOf(edit.old_text),end=at+edit.old_text.length;
+    if(at<0 || original.text.indexOf(edit.old_text,at+1)>=0)throw new Error(`Missing/ambiguous/conflicting old_text: ${p}`);
+    const ranges=spans.get(p)||[];
+    if(ranges.some(r=>at<r.end&&end>r.at))throw new Error(`Overlapping edits: ${p}`);
+    ranges.push({at,end,text:edit.new_text});spans.set(p,ranges);
+  }
+  for(const [p,ranges] of spans){
+    let current=files.get(p).text;
+    for(const r of ranges.sort((a,b)=>b.at-a.at))current=current.slice(0,r.at)+r.text+current.slice(r.end);
+    changed.set(p,current);
   }
   return changed;
 }

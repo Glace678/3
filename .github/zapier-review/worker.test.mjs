@@ -1,6 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader,renderParts,pack} from './worker.mjs';
+import {reserve,reconcile} from './validation-budget.mjs';
+
+test('validation budget refuses unreviewed probes, retries, overruns and abnormal account deltas',()=>{
+  const first={id:'one',model:'openai/gpt-5.6-luna',reserveTasks:1,baseline:0};
+  let ledger=reserve({limitTasks:2,halted:null,runs:[]},first);
+  assert.throws(()=>reserve(ledger,{...first,id:'two'}));
+  ledger.runs[0].status='finished';
+  ledger=reconcile(ledger,'one',0,'Native call succeeded; zero observed, reserve retained.');
+  assert.throws(()=>reserve(ledger,first));
+  assert.throws(()=>reserve(ledger,{...first,id:'two',baseline:1}));
+  ledger=reserve(ledger,{...first,id:'two'});ledger.runs[1].status='finished';
+  const normal=reconcile(ledger,'two',1,'Expected single task.');
+  assert.throws(()=>reserve(normal,{...first,id:'three',baseline:1}));
+  const abnormal=reconcile(ledger,'two',3,'Unexpected debit; stop.');
+  assert.match(abnormal.halted,/Unexpected task delta/);
+  assert.throws(()=>reserve({...abnormal,limitTasks:80},{...first,id:'three',baseline:3}));
+});
 import {Readable} from 'node:stream';
 import {confirmsFreeSdk,requireFreeSdk,nativeInputs,validateCompactCoverage,executeNative} from './native-sdk.mjs';
 import {storeResult,loadResult} from './result-store.mjs';
@@ -79,6 +96,15 @@ test('identical content is sent once while all file paths remain auditable',()=>
   assert.ok(rendered.includes(`Exact content duplicate of ${JSON.stringify(chunks[0][0].file)}`));
   assert.match(rendered,/"copy.js" lines 1-100/);
   assert.throws(()=>validateCoverage(chunks[0],[{file:'first.js',start_line:1,end_line:100}]));
+});
+
+test('patches resolve against original positions and reject chained or overlapping edits',()=>{
+  const source=new Map([['x',{text:'alpha beta gamma',encoding:'utf-8'}]]);
+  const edits=[{path:'x',old_text:'alpha',new_text:'beta'},{path:'x',old_text:'beta',new_text:'delta'}];
+  assert.equal(applyEdits(source,edits).get('x'),'beta delta gamma');
+  assert.equal(applyEdits(source,[...edits].reverse()).get('x'),'beta delta gamma');
+  assert.throws(()=>applyEdits(source,[{path:'x',old_text:'alpha',new_text:'created'},{path:'x',old_text:'created',new_text:'chain'}]));
+  assert.throws(()=>applyEdits(source,[{path:'x',old_text:'alpha beta',new_text:'first'},{path:'x',old_text:'beta gamma',new_text:'second'}]));
 });
 
 test('billing guard requires the SDK section itself to remain free',async()=>{

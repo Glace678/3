@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader,renderParts,pack} from './worker.mjs';
 import {Readable} from 'node:stream';
 import {confirmsFreeSdk,requireFreeSdk,nativeInputs,validateCompactCoverage,executeNative} from './native-sdk.mjs';
+import {storeResult,loadResult} from './result-store.mjs';
 test('batch Git stream preserves headers and binary bodies across arbitrary chunks',async()=>{
   const source=Buffer.from('abc blob 5\na\n\0xy\nxyz blob 0\n\n');
   const reader=streamReader(Readable.from([...source].map(x=>Buffer.from([x]))));
@@ -118,4 +119,30 @@ test('pricing uncertainty prevents SDK model submission',async()=>{
   let creates=0,saves=0;
   await assert.rejects(executeNative({sdk:{createActionRun:async()=>{creates++;}},record:{status:'queued'},save:async()=>{saves++;},inputs:{},assertFree:async()=>{throw Error('pricing changed');}}),/pricing changed/);
   assert.equal(creates,0);assert.equal(saves,0);
+});
+
+test('long model reports roundtrip through bounded table fields without another inference',async()=>{
+  const rows=new Map();let record,creates=0,modelCalls=0;
+  const output={status:'completed',review_json:JSON.stringify([{description:'完整报告😀'.repeat(6000)}]),patch_json:'[]',needs_context_json:'{"files":[]}',covered_ranges_json:'{}'};
+  const find=async key=>rows.get(key);
+  const save=data=>storeResult({output:data,key:'job:chunk',metadata:{job_id:'job'},find,create:async row=>{creates++;assert.ok(row.review_json.length<=8000);assert.equal(Buffer.from(row.review_json).toString(),row.review_json);rows.set(row.dedupe_key,row);},update:async data=>{record=data;}});
+  const sdk={createActionRun:async()=>{modelCalls++;return {data:{id:'run-long'}};},getActionRun:async()=>({data:{status:'success',results:[output],errors:[]}})};
+  await executeNative({sdk,record:{status:'queued'},save:async data=>['completed','incomplete','needs_context'].includes(data.status)?save(data):undefined,inputs:{},assertFree:async()=>{}});
+  assert.equal(modelCalls,1);assert.ok(creates>1);
+  const before=creates;await save(output);assert.equal(creates,before);
+  assert.deepEqual(await loadResult(record,'job:chunk',find),output);
+  const first=rows.keys().next().value;rows.get(first).review_json+='corrupted';
+  await assert.rejects(loadResult(record,'job:chunk',find),/integrity/);
+});
+
+test('interrupted result storage resumes from existing segments before finalizing',async()=>{
+  const rows=new Map();let fail=true,record={status:'running',review_json:'{"sdk_run_id":"same-run"}'};
+  const output={status:'completed',review_json:JSON.stringify([{description:'a'.repeat(20000)}]),patch_json:'[]',needs_context_json:'{"files":[]}',covered_ranges_json:'{}'};
+  const args={output,key:'j:c',metadata:{},find:async key=>rows.get(key),create:async row=>{if(rows.size===1&&fail)throw Error('temporary storage failure');rows.set(row.dedupe_key,row);},update:async data=>{record=data;}};
+  await assert.rejects(storeResult(args),/storage failure/);
+  assert.equal(record.status,'running');assert.equal(rows.size,1);
+  fail=false;await storeResult(args);assert.equal(record.status,'completed');
+  assert.deepEqual(await loadResult(record,'j:c',args.find),output);
+  rows.delete(rows.keys().next().value);
+  await assert.rejects(loadResult(record,'j:c',args.find),/missing/);
 });

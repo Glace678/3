@@ -64,6 +64,7 @@ jobs:
           ZAPIER_SDK_CLIENT_SECRET: ${{ secrets.ZAPIER_SDK_CLIENT_SECRET }}
           ZAPIER_TABLE_ID: '01M36XPZ65N821F3AN8FZCW045'
           LUNA_MAX_TASKS: ${{ vars.LUNA_MAX_TASKS || '49' }}
+          LUNA_NATIVE_AI_BILLING_VERIFIED: ${{ vars.LUNA_NATIVE_AI_BILLING_VERIFIED || 'false' }}
           LUNA_MAX_MODEL_CALLS: ${{ vars.LUNA_MAX_MODEL_CALLS || '1000' }}
           LUNA_CHUNK_TOKENS: ${{ vars.LUNA_CHUNK_TOKENS || '650000' }}
           LUNA_PLAN_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.plan_only && 'true' || 'false' }}

@@ -8,6 +8,7 @@ import {getEncoding} from 'js-tiktoken';
 import {createZapierSdk} from '@zapier/zapier-sdk';
 import iconv from 'iconv-lite';
 import {requireFreeSdk,nativeInputs,executeNative,validateCompactCoverage} from './native-sdk.mjs';
+import {storeResult,loadResult} from './result-store.mjs';
 
 export const hash = s => createHash('sha256').update(s).digest('hex');
 const git = (...args) => execFileSync('git',args,{maxBuffer:512*1024*1024});
@@ -111,7 +112,7 @@ export function streamReader(stream){
   };
 }
 
-async function snapshot(){
+export async function snapshot(){
   const files=new Map(),inventory=[],errors=[];
   const entries=git('ls-tree','-rz','HEAD').toString('utf8').split('\0').filter(Boolean);
   const paths=entries.map(e=>e.slice(e.indexOf('\t')+1));
@@ -193,7 +194,9 @@ export async function main(){
   const commit=git('rev-parse','HEAD').toString().trim();
   const mode=/\[review\]/i.test(issue.title)?'review':'fix';
   const promptHash=hash(JSON.stringify([issue.title,issue.body,mode]));
-  const job=hash(`${repo}:${commit}:${issue.number}:${promptHash}:sdk-native-v3`);
+  // An identical read-only audit at the identical commit may reuse its evidence
+  // even when requested in a different Issue. Fix jobs retain Issue identity.
+  const job=hash(`${repo}:${commit}:${mode==='review'?'shared-review':issue.number}:${promptHash}:sdk-native-v4`);
   const cap=Number(process.env.LUNA_MAX_MODEL_CALLS||1000);
   const taskCeiling=Number(process.env.LUNA_MAX_TASKS||49);
   if(!Number.isSafeInteger(taskCeiling)||taskCeiling<0||taskCeiling>49)throw new Error('Task ceiling must be below 50; paid fallback is disabled');
@@ -211,10 +214,11 @@ export async function main(){
   const contentLimit=tokenLimit-promptReserve;
   if(contentLimit<3000)throw new Error('Issue prompt leaves insufficient source context');
   const chunks=pack([...groups.values()].flat().flatMap(f=>splitFile(f,contentLimit-2000)),contentLimit,4000000);
-  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,distinctTextContents:groups.size,initialCalls:chunks.length,maxCalls:cap,expectedZapierTasks:0,taskCeiling,pricing:'SDK free beta; checked before execution; not billing-tested',chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
+  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,distinctTextContents:groups.size,initialCalls:chunks.length,maxCalls:cap,expectedZapierTasks:null,taskScenarios:{ifOneTaskPerCall:chunks.length,ifThreeTasksPerCall:3*chunks.length,ifFiveTasksPerCall:5*chunks.length},taskCeiling,pricing:'Native AI via SDK billing unverified; SDK marketing pricing is not proof of model exemption',chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
   writeFileSync('.luna-output/plan.json',JSON.stringify(plan,null,2));
   console.log(JSON.stringify(plan));
   if(process.env.LUNA_PLAN_ONLY==='true')return;
+  if(process.env.LUNA_NATIVE_AI_BILLING_VERIFIED!=='true')throw new Error('Native AI billing has not been verified; no model invoked. A free SDK marketing notice alone is insufficient.');
   if(chunks.length>cap)throw new Error(`Initial ${chunks.length} calls exceed the ${cap}-model-call ceiling. No model invoked.`);
   for(const key of ['ZAPIER_HOOK_URL','ZAPIER_CALLBACK_AUTH','ZAPIER_SDK_CLIENT_ID','ZAPIER_SDK_CLIENT_SECRET','ZAPIER_TABLE_ID','GITHUB_TOKEN'])if(!process.env[key])throw new Error(`Missing configuration: ${key}`);
   const hook=new URL(process.env.ZAPIER_HOOK_URL);
@@ -244,7 +248,7 @@ export async function main(){
       if(!marker){
         // Count persistent markers, including earlier workflow attempts, against the job ceiling.
         let reserved=0;
-        for await(const row of sdk.listTableRecords({table,keyMode:'names',filters:[{fieldKey:'job_id',operator:'exact',value:job}],maxItems:3000}).items())if(row.data.status==='dispatched')reserved++;
+        for await(const row of sdk.listTableRecords({table,keyMode:'names',filters:[{fieldKey:'job_id',operator:'exact',value:job},{fieldKey:'status',operator:'exact',value:'dispatched'}],maxItems:cap+1}).items())reserved++;
         if(reserved>=cap)throw new Error('Model-call budget exhausted; no further dispatch');
         await sdk.createTableRecords({table,keyMode:'names',records:[{data:{...metadata,dedupe_key:`dispatch:${key}`,status:'dispatched'}}]});
         const body=JSON.stringify({...metadata,mode,issue_title:issue.title,issue_body:issue.body||'',source_text:'native SDK queue request',manifest_json:'[]',callback_auth:process.env.ZAPIER_CALLBACK_AUTH});
@@ -260,15 +264,20 @@ export async function main(){
     if(result.commit_sha!==commit)throw new Error('Result commit mismatch');
     if(['queued','running','starting'].includes(result.status)){
       const existing=result;
-      const save=async data=>{await sdk.updateTableRecords({table,keyMode:'names',records:[{id:existing._recordId,data}]});};
+      const update=async data=>{await sdk.updateTableRecords({table,keyMode:'names',records:[{id:existing._recordId,data}]});};
+      const save=async data=>{
+        if(!['completed','incomplete','needs_context'].includes(data.status))return update(data);
+        return storeResult({output:data,key,metadata,find,update,create:async data=>sdk.createTableRecords({table,keyMode:'names',records:[{data}]})});
+      };
       const wasQueued=result.status==='queued';
       const output=await executeNative({sdk,record:result,save,inputs:nativeInputs({mode,issue,repo,commit,manifest,source})});
       if(wasQueued)calls++;
       result={...existing,...output};
     }
+    result=await loadResult(result,key,find);
     const parsed={};
     for(const name of ['review_json','patch_json','needs_context_json','covered_ranges_json']){
-      if(typeof result[name]!=='string'||result[name].length>10000)throw new Error(`Invalid/oversized ${name}`);
+      if(typeof result[name]!=='string')throw new Error(`Invalid ${name}`);
       parsed[name]=JSON.parse(result[name]);
     }
     if(result.status==='incomplete'){

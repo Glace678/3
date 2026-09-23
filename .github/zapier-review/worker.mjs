@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {getEncoding} from 'js-tiktoken';
 import {createZapierSdk} from '@zapier/zapier-sdk';
+import iconv from 'iconv-lite';
 
 export const hash = s => createHash('sha256').update(s).digest('hex');
 const git = (...args) => execFileSync('git',args,{maxBuffer:512*1024*1024});
@@ -13,7 +14,14 @@ const tokens = s => enc.encode(s,[],[]).length;
 const sleep = ms => new Promise(r=>setTimeout(r,ms));
 const sourceExtension = /\.(?:[cm]?[jt]sx?|[ch](?:pp|xx|h)?|cs|fs|vb|java|kt|kts|py|pyw|rs|go|rb|php|swift|m|mm|lua|sql|sh|bash|ps1|bat|cmd|vue|svelte|html?|css|scss|sass|less|xml|json|ya?ml|toml|ini|conf|config|cmake|gradle|proto|asm|s|r|jl|pl|exs?|erl|hrl|clj|dart|pas|dpr|dfm)$/i;
 
-export function decodeFile(path, bytes) {
+export function decodeFile(path, bytes, declaredBinary=false) {
+  // This repository documents BMD as encrypted game assets in MuMain/.gitattributes.
+  // Localisation build copies outside MuMain retain the same binary format.
+  if(/\.bmd$/i.test(path))return null;
+  if(declaredBinary){
+    if(sourceExtension.test(path))throw new Error(`Source file declared binary requires inspection: ${path}`);
+    return null;
+  }
   if (bytes.subarray(0,100).toString().startsWith('version https://git-lfs.github.com/spec/'))
     throw new Error(`LFS pointer requires materialization: ${path}`);
   let text, encoding='utf-8';
@@ -21,11 +29,19 @@ export function decodeFile(path, bytes) {
     if(bytes[0]===255 && bytes[1]===254){encoding='utf-16le';text=new TextDecoder(encoding,{fatal:true}).decode(bytes);}
     else if(bytes[0]===254 && bytes[1]===255){encoding='utf-16be';text=new TextDecoder(encoding,{fatal:true}).decode(bytes);}
     else if(bytes.includes(0)) {if(sourceExtension.test(path)) throw new Error('binary source'); return null;}
-    else text=new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+    else text=new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(bytes);
   } catch {
-    // Unknown encodings must never be silently skipped as though reviewed.
-    if(sourceExtension.test(path) || !bytes.includes(0)) throw new Error(`Unresolved encoding: ${path}`);
-    return null;
+    // Confirmed legacy Korean source and Western upstream author/UI strings.
+    const candidate=/\.html?$/i.test(path)&&/charset\s*=\s*["']?iso-8859-1/i.test(bytes.subarray(0,2048).toString('ascii'))?'iso-8859-1':path.startsWith('MuMain/src/source/')?'cp949':
+      /MuMain\/src\/ThirdParty\/SDL_mixer\/external\/(flac\/src\/(plugin_common\/replaygain\.[ch]|plugin_xmms\/fileinfo\.c)|libxmp\/src\/mkstemp\.c|wavpack\/xmms\/src\/ui\.cpp)$/.test(path)?'windows1252':null;
+    if(candidate){
+      const decoded=iconv.decode(bytes,candidate);
+      if(iconv.encode(decoded,candidate).equals(bytes))return {text:decoded,encoding:candidate};
+    }
+    if(sourceExtension.test(path))throw new Error(`Unresolved source encoding: ${path}`);
+    if(bytes.includes(0))return null;
+    // Preserve every non-ASCII byte in non-source fixtures/docs; never silently discard it.
+    return {text:[...bytes].map(b=>b>=128?'\\x'+b.toString(16).padStart(2,'0'):String.fromCharCode(b)).join(''),encoding:'byte-escaped-unknown'};
   }
   return {text,encoding};
 }
@@ -40,7 +56,7 @@ export function splitFile(file,maxTokens=650000,maxBytes=4000000) {
       if(hi-lo===1)throw new Error(`A single line exceeds the input limit: ${file.path}:${lo+1}`);
       const mid=lo+Math.floor((hi-lo)/2);split(lo,mid);split(mid,hi);return;
     }
-    output.push({file:file.path,start_line:lo+1,end_line:hi,sha256:file.sha256,text});
+    output.push({file:file.path,start_line:lo+1,end_line:hi,sha256:file.sha256,encoding:file.encoding,text});
   }
   split(0,lines.length);return output;
 }
@@ -65,7 +81,7 @@ export function applyEdits(files,edits){
     const p=edit.path;
     if(typeof p!=='string'||p.startsWith('/')||p.includes('\\')||p.split('/').some(x=>x==='..'||x==='.git')||p.startsWith('.github/'))throw new Error(`Forbidden patch path: ${p}`);
     const original=files.get(p);
-    if(!original || original.encoding!=='utf-8')throw new Error(`Patch requires an existing UTF-8 file: ${p}`);
+    if(!original || !['utf-8','cp949','windows1252','iso-8859-1'].includes(original.encoding))throw new Error(`Unsupported patch encoding/path: ${p}`);
     if(typeof edit.old_text!=='string'||!edit.old_text||typeof edit.new_text!=='string')throw new Error(`Invalid edit: ${p}`);
     const signature=hash(JSON.stringify([p,edit.old_text,edit.new_text]));
     if(seen.has(signature))continue;seen.add(signature);
@@ -77,15 +93,26 @@ export function applyEdits(files,edits){
   return changed;
 }
 
+export function encodeEdit(text,encoding){
+  if(encoding==='utf-8')return Buffer.from(text,'utf8');
+  const bytes=iconv.encode(text,encoding);
+  if(iconv.decode(bytes,encoding)!==text)throw new Error(`Edit is not representable in ${encoding}`);
+  return bytes;
+}
+
 function snapshot(){
   const files=new Map(),inventory=[],errors=[];
   const entries=git('ls-tree','-rz','HEAD').toString('utf8').split('\0').filter(Boolean);
+  const paths=entries.map(e=>e.slice(e.indexOf('\t')+1));
+  const attributes=execFileSync('git',['check-attr','--cached','-z','--stdin','text'],{input:paths.join('\0')+'\0',maxBuffer:64*1024*1024}).toString('utf8').split('\0');
+  const declaredBinary=new Set();
+  for(let i=0;i<attributes.length-2;i+=3)if(attributes[i+2]==='unset')declaredBinary.add(attributes[i]);
   for(const entry of entries){
     const tab=entry.indexOf('\t'),header=entry.slice(0,tab),path=entry.slice(tab+1); const [mode,type,oid]=header.split(' ');
     if(type!=='blob'||mode==='120000'){errors.push(`${path}: ${type==='commit'?'submodule':'symlink'} requires an explicit audit`);continue;}
     const bytes=git('cat-file','blob',oid); const sha256=hash(bytes);
     try {
-      const data=decodeFile(path,bytes);
+      const data=decodeFile(path,bytes,declaredBinary.has(path));
       inventory.push({path,sha256,bytes:bytes.length,kind:data?'text':'binary',encoding:data?.encoding});
       if(data)files.set(path,{path,sha256,...data});
     }catch(e){errors.push(e.message);}
@@ -213,7 +240,7 @@ export async function main(){
     // Git data API publishes file contents without executing model-produced code or repository scripts.
     const base=await gh(`/git/commits/${commit}`);const tree=[];
     for(const [path,text]of changed){
-      const blob=await gh('/git/blobs','POST',{content:text,encoding:'utf-8'});
+      const blob=await gh('/git/blobs','POST',{content:encodeEdit(text,files.get(path).encoding).toString('base64'),encoding:'base64'});
       const mode=git('ls-tree','HEAD','--',path).toString().split(' ')[0];
       tree.push({path,mode,type:'blob',sha:blob.sha});
     }

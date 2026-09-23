@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {decodeFile,splitFile,validateCoverage,applyEdits} from './worker.mjs';
+import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit} from './worker.mjs';
 test('all lines survive chunking, including CRLF and last line',()=>{
   const text=Array.from({length:31},(_,i)=>`line ${i}\r\n`).join('')+'last';
   const parts=splitFile({path:'src/x.cpp',sha256:'x',text},20,100);
@@ -21,6 +21,26 @@ test('unresolved source encodings and LFS pointers fail explicitly',()=>{
 });
 test('UTF-16 source is covered, never silently classified binary',()=>{
   assert.equal(decodeFile('x.cs',Buffer.concat([Buffer.from([255,254]),Buffer.from('hello','utf16le')])).text,'hello');
+});
+test('Git-declared binary assets are classified while UTF-8 BOM is preserved',()=>{
+  assert.equal(decodeFile('Data/asset.bmd',Buffer.from([255,1,2]),true),null);
+  assert.throws(()=>decodeFile('source.cpp',Buffer.from([255,1,2]),true));
+  assert.equal(decodeFile('x.js',Buffer.from('\uFEFFconst x=1;')).text,'\uFEFFconst x=1;');
+});
+test('legacy Korean source roundtrips; fixtures retain non-ASCII bytes',()=>{
+  const bytes=Buffer.from([47,47,32,0xb0,0xb3,10]);
+  const decoded=decodeFile('MuMain/src/source/test.h',bytes);
+  assert.equal(decoded.encoding,'cp949');
+  assert.equal(decoded.text,'// 개\n');
+  assert.deepEqual(encodeEdit(decoded.text,decoded.encoding),bytes);
+  assert.throws(()=>encodeEdit('😀','cp949'));
+  assert.equal(decodeFile('fixture.txt',Buffer.from([255,10])).text,'\\xff\n');
+});
+test('declared HTML charset is respected without losing bytes',()=>{
+  const bytes=Buffer.concat([Buffer.from('<meta charset=iso-8859-1>Fr'),Buffer.from([252]),Buffer.from('vous')]);
+  const decoded=decodeFile('spec.html',bytes);
+  assert.equal(decoded.encoding,'iso-8859-1');
+  assert.deepEqual(encodeEdit(decoded.text,decoded.encoding),bytes);
 });
 const files=new Map([['src/x.js',{text:'const n = 1;\n',encoding:'utf-8'}]]);
 test('exact patch works and identical patches deduplicate',()=>{

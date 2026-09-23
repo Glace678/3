@@ -1,4 +1,5 @@
-// No model SDK/API is used here. All inference happens in the configured Zap.
+// All inference uses Zapier-managed Luna through the official Zapier SDK.
+// No local model or external model-provider API is used.
 import {execFileSync,spawn} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -6,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {getEncoding} from 'js-tiktoken';
 import {createZapierSdk} from '@zapier/zapier-sdk';
 import iconv from 'iconv-lite';
+import {requireFreeSdk,nativeInputs,executeNative,validateCompactCoverage} from './native-sdk.mjs';
 
 export const hash = s => createHash('sha256').update(s).digest('hex');
 const git = (...args) => execFileSync('git',args,{maxBuffer:512*1024*1024});
@@ -191,10 +193,12 @@ export async function main(){
   const commit=git('rev-parse','HEAD').toString().trim();
   const mode=/\[review\]/i.test(issue.title)?'review':'fix';
   const promptHash=hash(JSON.stringify([issue.title,issue.body,mode]));
-  const job=hash(`${repo}:${commit}:${issue.number}:${promptHash}:v2`);
-  const cap=Number(process.env.LUNA_MAX_TASKS||100);
+  const job=hash(`${repo}:${commit}:${issue.number}:${promptHash}:sdk-native-v3`);
+  const cap=Number(process.env.LUNA_MAX_MODEL_CALLS||1000);
+  const taskCeiling=Number(process.env.LUNA_MAX_TASKS||49);
+  if(!Number.isSafeInteger(taskCeiling)||taskCeiling<0||taskCeiling>49)throw new Error('Task ceiling must be below 50; paid fallback is disabled');
   const tokenLimit=Number(process.env.LUNA_CHUNK_TOKENS||650000);
-  if(!Number.isSafeInteger(cap)||cap<1||cap>1000)throw new Error('Invalid task ceiling');
+  if(!Number.isSafeInteger(cap)||cap<1||cap>1000)throw new Error('Invalid model-call ceiling');
   if(!Number.isSafeInteger(tokenLimit)||tokenLimit<1000||tokenLimit>650000)throw new Error('Invalid input limit');
   const {files,inventory,errors}=await snapshot();
   console.log(`Inventoried ${inventory.length} files; unresolved entries: ${errors.length}. Estimating chunks locally.`);
@@ -207,19 +211,20 @@ export async function main(){
   const contentLimit=tokenLimit-promptReserve;
   if(contentLimit<3000)throw new Error('Issue prompt leaves insufficient source context');
   const chunks=pack([...groups.values()].flat().flatMap(f=>splitFile(f,contentLimit-2000)),contentLimit,4000000);
-  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,distinctTextContents:groups.size,initialCalls:chunks.length,maxCalls:cap,chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
+  const plan={repo,commit,job,textFiles:files.size,binaryFiles:inventory.filter(x=>x.kind==='binary').length,distinctTextContents:groups.size,initialCalls:chunks.length,maxCalls:cap,expectedZapierTasks:0,taskCeiling,pricing:'SDK free beta; checked before execution; not billing-tested',chunkTokens:tokenLimit,model:'Zapier native GPT-5.6 Luna'};
   writeFileSync('.luna-output/plan.json',JSON.stringify(plan,null,2));
   console.log(JSON.stringify(plan));
   if(process.env.LUNA_PLAN_ONLY==='true')return;
-  if(chunks.length>cap)throw new Error(`Initial ${chunks.length} calls exceed the ${cap}-task ceiling. No model invoked.`);
+  if(chunks.length>cap)throw new Error(`Initial ${chunks.length} calls exceed the ${cap}-model-call ceiling. No model invoked.`);
   for(const key of ['ZAPIER_HOOK_URL','ZAPIER_CALLBACK_AUTH','ZAPIER_SDK_CLIENT_ID','ZAPIER_SDK_CLIENT_SECRET','ZAPIER_TABLE_ID','GITHUB_TOKEN'])if(!process.env[key])throw new Error(`Missing configuration: ${key}`);
   const hook=new URL(process.env.ZAPIER_HOOK_URL);
   if(hook.protocol!=='https:'||hook.hostname!=='hooks.zapier.com')throw new Error('Unexpected Zapier hook host');
-  const sdk=createZapierSdk({credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
+  await requireFreeSdk();
+  const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET}});
   const table=process.env.ZAPIER_TABLE_ID;
   const find=async key=>{
     const rows=[];
-    for await(const row of sdk.listTableRecords({table,keyMode:'names',filters:[{fieldKey:'dedupe_key',operator:'exact',value:key}],maxItems:2}).items())rows.push(row.data);
+    for await(const row of sdk.listTableRecords({table,keyMode:'names',filters:[{fieldKey:'dedupe_key',operator:'exact',value:key}],maxItems:2}).items())rows.push({...row.data,_recordId:row.id});
     if(rows.length>1)throw new Error('Duplicate results detected');
     return rows[0];
   };
@@ -230,7 +235,7 @@ export async function main(){
     if(depth>8)throw new Error('Split/context depth exceeded');
     const manifest=parts.map(({text,...r})=>r);
     const source=renderParts(parts);
-    if(tokens(source)+tokens(JSON.stringify(manifest))+promptReserve>tokenLimit)throw new Error('Context exceeds configured input ceiling');
+    if(tokens(source)+tokens(JSON.stringify(manifest))+promptReserve>900000)throw new Error('Context exceeds configured input ceiling');
     const chunk=hash(JSON.stringify(manifest)+source),key=`${job}:${chunk}`;
     const metadata={job_id:job,chunk_id:chunk,attempt_id:'1',dedupe_key:key,repo,commit_sha:commit,issue_number:issue.number,expected_chunks:chunks.length};
     let result=await find(key);
@@ -240,20 +245,27 @@ export async function main(){
         // Count persistent markers, including earlier workflow attempts, against the job ceiling.
         let reserved=0;
         for await(const row of sdk.listTableRecords({table,keyMode:'names',filters:[{fieldKey:'job_id',operator:'exact',value:job}],maxItems:3000}).items())if(row.data.status==='dispatched')reserved++;
-        if(reserved>=cap)throw new Error('Task budget exhausted; no further dispatch');
+        if(reserved>=cap)throw new Error('Model-call budget exhausted; no further dispatch');
         await sdk.createTableRecords({table,keyMode:'names',records:[{data:{...metadata,dedupe_key:`dispatch:${key}`,status:'dispatched'}}]});
-        const body=JSON.stringify({...metadata,mode,issue_title:issue.title,issue_body:issue.body||'',source_text:source,manifest_json:JSON.stringify(manifest),callback_auth:process.env.ZAPIER_CALLBACK_AUTH});
+        const body=JSON.stringify({...metadata,mode,issue_title:issue.title,issue_body:issue.body||'',source_text:'native SDK queue request',manifest_json:'[]',callback_auth:process.env.ZAPIER_CALLBACK_AUTH});
         if(Buffer.byteLength(body)>9000000)throw new Error('Webhook payload too large');
         // Deliberately no automatic retry of this POST: an ambiguous response can otherwise double-charge.
         const response=await fetch(hook,{method:'POST',headers:{'content-type':'application/json'},body,redirect:'error',signal:AbortSignal.timeout(60000)});
         if(!response.ok)throw new Error(`Dispatch returned HTTP ${response.status}; inspect Zap history before retrying`);
-        calls++;
       }
       const until=Date.now()+20*60*1000;
       while(!result&&Date.now()<until){await sleep(15000);result=await find(key);}
       if(!result)throw new Error('Result pending/failed; preserved dispatch marker prevents duplicate AI charges. Inspect Zap history.');
     }
     if(result.commit_sha!==commit)throw new Error('Result commit mismatch');
+    if(['queued','running','starting'].includes(result.status)){
+      const existing=result;
+      const save=async data=>{await sdk.updateTableRecords({table,keyMode:'names',records:[{id:existing._recordId,data}]});};
+      const wasQueued=result.status==='queued';
+      const output=await executeNative({sdk,record:result,save,inputs:nativeInputs({mode,issue,repo,commit,manifest,source})});
+      if(wasQueued)calls++;
+      result={...existing,...output};
+    }
     const parsed={};
     for(const name of ['review_json','patch_json','needs_context_json','covered_ranges_json']){
       if(typeof result[name]!=='string'||result[name].length>10000)throw new Error(`Invalid/oversized ${name}`);
@@ -280,7 +292,7 @@ export async function main(){
       await invoke(unique,depth+1);return;
     }
     if(result.status!=='completed')throw new Error('Invalid model status');
-    validateCoverage(manifest,parsed.covered_ranges_json);
+    validateCompactCoverage(manifest,parsed.covered_ranges_json);
     if(!Array.isArray(parsed.review_json)||!Array.isArray(parsed.patch_json))throw new Error('Invalid structured result');
     answers.push({manifest,...parsed});allEdits.push(...parsed.patch_json);
     writeFileSync('.luna-output/review.json',JSON.stringify(answers,null,2));
@@ -290,7 +302,7 @@ export async function main(){
   const changed=mode==='fix'?applyEdits(files,allEdits):new Map();
   writeFileSync('.luna-output/proposed-changes.json',JSON.stringify([...changed].map(([path,text])=>({path,text})),null,2));
   const gh=async(path,method='GET',body)=>{
-    const response=await fetch(`https://api.github.com/repos/${repo}${path}`,{method,headers:{authorization:`Bearer ${process.env.GITHUB_TOKEN}`,accept:'application/vnd.github+json','content-type':'application/json'},body:body?JSON.stringify(body):undefined,redirect:'error'});
+    const response=await fetch(`https://api.github.com/repos/${repo}${path}`,{method,headers:{authorization:`Bearer ${process.env.GITHUB_TOKEN}`,accept:'application/vnd.github+json','content-type':'application/json','user-agent':'luna-review-worker','x-github-api-version':'2022-11-28'},body:body?JSON.stringify(body):undefined,redirect:'error'});
     if(!response.ok)throw new Error(`GitHub API ${method} ${path}: HTTP ${response.status}`);return response.status===204?null:response.json();
   };
   let pr;

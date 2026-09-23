@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   review:
-    if: vars.LUNA_ENABLED == 'true' && (github.event_name == 'workflow_dispatch' || github.event.issue.user.login == github.repository_owner)
+    if: (github.event_name == 'workflow_dispatch' && inputs.plan_only) || (vars.LUNA_ENABLED == 'true' && (github.event_name == 'workflow_dispatch' || github.event.issue.user.login == github.repository_owner))
     runs-on: ubuntu-latest
     timeout-minutes: 330
     steps:
@@ -60,7 +60,8 @@ jobs:
           ZAPIER_SDK_CLIENT_ID: ${{ secrets.ZAPIER_SDK_CLIENT_ID }}
           ZAPIER_SDK_CLIENT_SECRET: ${{ secrets.ZAPIER_SDK_CLIENT_SECRET }}
           ZAPIER_TABLE_ID: '01M36XPZ65N821F3AN8FZCW045'
-          LUNA_MAX_TASKS: ${{ vars.LUNA_MAX_TASKS || '100' }}
+          LUNA_MAX_TASKS: ${{ vars.LUNA_MAX_TASKS || '49' }}
+          LUNA_MAX_MODEL_CALLS: ${{ vars.LUNA_MAX_MODEL_CALLS || '1000' }}
           LUNA_CHUNK_TOKENS: ${{ vars.LUNA_CHUNK_TOKENS || '650000' }}
           LUNA_PLAN_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.plan_only && 'true' || 'false' }}
         run: node .github/zapier-review/worker.mjs

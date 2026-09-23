@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader,renderParts,pack} from './worker.mjs';
 import {Readable} from 'node:stream';
+import {confirmsFreeSdk,requireFreeSdk,nativeInputs,validateCompactCoverage,executeNative} from './native-sdk.mjs';
 test('batch Git stream preserves headers and binary bodies across arbitrary chunks',async()=>{
   const source=Buffer.from('abc blob 5\na\n\0xy\nxyz blob 0\n\n');
   const reader=streamReader(Readable.from([...source].map(x=>Buffer.from([x]))));
@@ -77,4 +78,44 @@ test('identical content is sent once while all file paths remain auditable',()=>
   assert.ok(rendered.includes(`Exact content duplicate of ${JSON.stringify(chunks[0][0].file)}`));
   assert.match(rendered,/"copy.js" lines 1-100/);
   assert.throws(()=>validateCoverage(chunks[0],[{file:'first.js',start_line:1,end_line:100}]));
+});
+
+test('billing guard requires the SDK section itself to remain free',async()=>{
+  assert.equal(confirmsFreeSdk('<h3>SDK <span>Beta</span></h3><p>Actions</p><p>Free in beta</p><h2>Automation tools</h2>'),true);
+  assert.equal(confirmsFreeSdk('Other product Free in beta SDK Beta Actions 1 task per call Automation tools'),false);
+  assert.equal(confirmsFreeSdk('<script>SDK Beta Actions Free in beta Automation tools</script>'),false);
+  await assert.rejects(requireFreeSdk(async()=>({ok:true,text:async()=>'<h1>Sign in</h1>'})),/Stopped before model/);
+});
+
+test('compact coverage binds all file ranges to the exact manifest',()=>{
+  const manifest=[{file:'a',start_line:1,end_line:8},{file:'b',start_line:1,end_line:4}];
+  const inputs=nativeInputs({mode:'review',issue:{title:'review'},repo:'Glace678/3',commit:'abc',manifest,source:'data'});
+  const report={manifest_sha256:inputs.inputFields.manifest_sha256,ranges:[[0,1]]};
+  validateCompactCoverage(manifest,report);
+  assert.throws(()=>validateCompactCoverage(manifest,{...report,ranges:[[0,0]]}));
+  assert.throws(()=>validateCompactCoverage(manifest,{...report,ranges:[[0,2]]}));
+  assert.throws(()=>validateCompactCoverage([...manifest,{file:'c'}],report));
+  assert.equal(inputs.authentication_id,'0');
+  assert.equal(inputs.model_id,'openai/gpt-5.6-luna');
+  assert.equal(inputs.includeWorkflowData,false);
+  assert.equal(inputs.tools,undefined);
+});
+
+test('native SDK execution persists its ID and resumes without a second creation',async()=>{
+  let creates=0,checks=0;const saves=[];
+  const output={status:'completed',review_json:'[]',patch_json:'[]',needs_context_json:'{"files":[]}',covered_ranges_json:'{}'};
+  const sdk={createActionRun:async()=>{creates++;return {data:{id:'run-1'}};},getActionRun:async()=>({data:{status:'success',results:[output],errors:[]}})};
+  const save=async x=>saves.push(x);
+  await executeNative({sdk,record:{status:'queued'},save,inputs:{},assertFree:async()=>{checks++;}});
+  assert.equal(creates,1);assert.equal(checks,1);
+  assert.equal(saves[0].status,'starting');assert.deepEqual(JSON.parse(saves[1].review_json),{sdk_run_id:'run-1'});
+  await executeNative({sdk,record:{status:'running',review_json:saves[1].review_json},save,inputs:{}});
+  assert.equal(creates,1);
+  await assert.rejects(executeNative({sdk,record:{status:'starting'},save,inputs:{}}),/uncertain/);
+});
+
+test('pricing uncertainty prevents SDK model submission',async()=>{
+  let creates=0,saves=0;
+  await assert.rejects(executeNative({sdk:{createActionRun:async()=>{creates++;}},record:{status:'queued'},save:async()=>{saves++;},inputs:{},assertFree:async()=>{throw Error('pricing changed');}}),/pricing changed/);
+  assert.equal(creates,0);assert.equal(saves,0);
 });

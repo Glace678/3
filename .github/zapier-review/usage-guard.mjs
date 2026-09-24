@@ -8,8 +8,8 @@ export function checkUsage(state, usage, ceiling) {
   const base = state.usageBaseline;
   if (usage.start_period !== base.start_period || usage.count < base.count)
     throw Error('Usage period/counter changed unexpectedly');
-  // At most the single dispatch Code step may post after this baseline.
-  if (usage.count > base.count + 1)
+  // Baseline is established after inventory preparation. Any later debit stops inference.
+  if (usage.count > base.count)
     throw Error('Unexpected task usage increase: stopped without another model request');
   state.lastUsage = usage;
 }

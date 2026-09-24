@@ -171,7 +171,16 @@ try{
       batch.inputs.inputFields.mode=config.mode;
       batch.inputs.instructions=batch.inputs.instructions.replace('No new/deleted files, .github edits, or invented contents.','Never invent contents.')+' '+operationInstructions;
       if(state.modelRequests>=600)throw Error('Unusual model request count: stopped');
-      if(q.source){const source=await raw(state.assetCommit,q.source);if(hash(source)!==batch.sourceHash)throw Error('Attachment hash mismatch');batch.inputs.inputFields.source_text=`https://raw.githubusercontent.com/${repo}/${state.assetCommit}/${q.source}`;batch.inputs.inputFieldConfig_source_text_isFileUrl=true;batch.inputs.instructions+=' source_text is a file attachment. Read its entire content; a URL is not the source. Return incomplete if unavailable.';}
+      if(q.source){
+        const source=await raw(state.assetCommit,q.source);
+        if(hash(source)!==batch.sourceHash)throw Error('Source hash mismatch');
+        // Do not send a GitHub URL as a file attachment. Zapier's provider rejects
+        // some repository extensions/content types even when the URL is .txt.
+        // Inline the lossless rendered source so every path is handled as data.
+        batch.inputs.inputFields.source_text=source;
+        delete batch.inputs.inputFieldConfig_source_text_isFileUrl;
+        batch.inputs.instructions+=' source_text is an inline lossless text representation, not a file attachment. Read every rendered block exactly; byte-encoded blocks use the declared encoding. Return incomplete only if the inline field itself is truncated.';
+      }
       await requireFreeSdk();await usageGuard();await ownerStopGuard();q.status='starting';state.modelRequests++;await save();
       const r=await sdk.createActionRun({app:APP,action:'get_completion',actionType:'write',inputs:batch.inputs});
       if(!r.data.id)throw Error('SDK execution identifier missing');q.runId=r.data.id;q.status='running';await save();

@@ -128,9 +128,9 @@ test('coverage gaps cannot be reported as complete',()=>{
   validateCoverage(expected,[{file:'x',start_line:1,end_line:5},{file:'x',start_line:6,end_line:10}]);
 });
 test('oversized single line fails without truncation',()=>assert.throws(()=>splitFile({path:'x',text:'x'.repeat(100)},20,50)));
-test('unresolved source encodings and LFS pointers fail explicitly',()=>{
-  assert.throws(()=>decodeFile('x.cpp',Buffer.from([255,254,255])));
-  assert.throws(()=>decodeFile('x.cpp',Buffer.from('version https://git-lfs.github.com/spec/v1\noid sha256:123')));
+test('unresolved source encodings remain addressable and LFS pointers are tracked text',()=>{
+  assert.equal(decodeFile('x.cpp',Buffer.from([255,254,255])).encoding,'byte-escaped-unknown');
+  assert.equal(decodeFile('x.cpp',Buffer.from('version https://git-lfs.github.com/spec/v1\noid sha256:123')).text,'version https://git-lfs.github.com/spec/v1\noid sha256:123');
   assert.equal(decodeFile('image.png',Buffer.from([0,1,2])),null);
 });
 test('UTF-16 source is covered, never silently classified binary',()=>{
@@ -138,7 +138,7 @@ test('UTF-16 source is covered, never silently classified binary',()=>{
 });
 test('Git-declared binary assets are classified while UTF-8 BOM is preserved',()=>{
   assert.equal(decodeFile('Data/asset.bmd',Buffer.from([255,1,2]),true),null);
-  assert.throws(()=>decodeFile('source.cpp',Buffer.from([255,1,2]),true));
+  assert.equal(decodeFile('source.cpp',Buffer.from([255,1,2]),true),null);
   assert.equal(decodeFile('x.js',Buffer.from('\uFEFFconst x=1;')).text,'\uFEFFconst x=1;');
 });
 test('legacy Korean source roundtrips; fixtures retain non-ASCII bytes',()=>{

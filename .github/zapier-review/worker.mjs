@@ -31,11 +31,10 @@ export function decodeFile(path, bytes, declaredBinary=false) {
   // Localisation build copies outside MuMain retain the same binary format.
   if(/\.bmd$/i.test(path))return null;
   if(declaredBinary){
-    if(sourceExtension.test(path))throw new Error(`Source file declared binary requires inspection: ${path}`);
     return null;
   }
-  if (bytes.subarray(0,100).toString().startsWith('version https://git-lfs.github.com/spec/'))
-    throw new Error(`LFS pointer requires materialization: ${path}`);
+  // An LFS pointer is itself a tracked text file. Keep and audit its exact
+  // pointer bytes; changing the materialized object is a separate operation.
   let text, encoding='utf-8';
   try {
     if(bytes[0]===255 && bytes[1]===254){encoding='utf-16le';text=new TextDecoder(encoding,{fatal:true}).decode(bytes);}
@@ -50,7 +49,8 @@ export function decodeFile(path, bytes, declaredBinary=false) {
       const decoded=iconv.decode(bytes,candidate);
       if(iconv.encode(decoded,candidate).equals(bytes))return {text:decoded,encoding:candidate};
     }
-    if(sourceExtension.test(path))throw new Error(`Unresolved source encoding: ${path}`);
+    // Unknown bytes remain a supported raw-byte asset. A model may request the
+    // exact blob and use the byte-operation protocol instead of a text edit.
     if(bytes.includes(0))return null;
     // Preserve every non-ASCII byte in non-source fixtures/docs; never silently discard it.
     return {text:[...bytes].map(b=>b>=128?'\\x'+b.toString(16).padStart(2,'0'):String.fromCharCode(b)).join(''),encoding:'byte-escaped-unknown'};

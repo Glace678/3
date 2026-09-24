@@ -78,6 +78,7 @@ if(!state){
 if(!state.assetCommit){state.assetCommit=(await gh(`/git/ref/heads/${branch}`)).object.sha;state.status='running';await save();}
 const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET},fetch:journalFetch(()=>{})});
 async function usageGuard(){checkUsage(state,await readUsage(sdk),Math.min(config.maxTasks,state.config.maxTasks));}
+async function ownerStopGuard(){const current=await gh(`/issues/${issue.number}`);if(!current||current.state!=='open')throw Error('Owner closed the Issue; no more model requests will be submitted');}
 async function continueJob(){
   state.status='continuing';state.continuations=(state.continuations||0)+1;
   if(state.continuations>48)throw Error('Cloud continuation limit exceeded');
@@ -134,7 +135,7 @@ try{
     if(!q.runId){
       if(state.modelRequests>=600)throw Error('Unusual model request count: stopped');
       if(q.source){const source=await raw(state.assetCommit,q.source);if(hash(source)!==batch.sourceHash)throw Error('Attachment hash mismatch');batch.inputs.inputFields.source_text=`https://raw.githubusercontent.com/${repo}/${state.assetCommit}/${q.source}`;batch.inputs.inputFieldConfig_source_text_isFileUrl=true;batch.inputs.instructions+=' source_text is a file attachment. Read its entire content; a URL is not the source. Return incomplete if unavailable.';}
-      await requireFreeSdk();await usageGuard();q.status='starting';state.modelRequests++;await save();
+      await requireFreeSdk();await usageGuard();await ownerStopGuard();q.status='starting';state.modelRequests++;await save();
       const r=await sdk.createActionRun({app:APP,action:'get_completion',actionType:'write',inputs:batch.inputs});
       if(!r.data.id)throw Error('SDK execution identifier missing');q.runId=r.data.id;q.status='running';await save();
     }

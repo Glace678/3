@@ -1,7 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseReview,validateAnswer,checkConfig} from './autonomous-core.mjs';
+import {parseReview,validateAnswer,checkConfig,issueMode,resolveContext} from './autonomous-core.mjs';
 import {hash} from './worker.mjs';
+test('negated partial-review wording does not disable repairs',()=>{
+  assert.equal(issueMode({title:'全仓审核并修复',body:'不得只审核下面的文件；其它输入不修改无关代码'}),'fix');
+  assert.equal(issueMode({title:'[review] full audit',body:''}),'review');
+  assert.equal(issueMode({title:'全仓',body:'模式：只审核'}),'review');
+});
+test('context resolves project bundles only when the fixed snapshot is unambiguous',()=>{
+  const map=new Map([['SDL/Xcode/SDL/SDL.xcodeproj/project.pbxproj',{}],['main.c',{}]]);
+  assert.deepEqual(resolveContext(['SDL/SDL.xcodeproj'],map).files,['SDL/Xcode/SDL/SDL.xcodeproj/project.pbxproj']);
+  assert.deepEqual(resolveContext(['main.c'],map).files,['main.c']);
+  assert.throws(()=>resolveContext(['../secret'],map));
+  assert.throws(()=>resolveContext(['absent.c'],map));
+  map.set('SDL/Other/SDL.xcodeproj/project.pbxproj',{});
+  assert.throws(()=>resolveContext(['SDL/SDL.xcodeproj'],map));
+});
 test('formatting repairs preserve approximate line uncertainty and reject invented structure',()=>{
   assert.equal(parseReview('[{"line":~780,"description":"approximate line"}]').value[0].line,'~780');
   assert.throws(()=>parseReview('[{"file":"missing-end"}'),/substantive/);

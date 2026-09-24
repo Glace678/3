@@ -5,9 +5,11 @@ import {createZapierSdk} from '@zapier/zapier-sdk';
 import {randomBytes} from 'node:crypto';
 import {snapshot,hash,applyEdits,encodeEdit,renderParts,pack} from './worker.mjs';
 import {APP,MODEL,nativeInputs,requireFreeSdk} from './native-sdk.mjs';
-import {checkConfig,validateAnswer} from './autonomous-core.mjs';
+import {checkConfig,validateAnswer,issueMode,resolveContext} from './autonomous-core.mjs';
 import {journalFetch} from './request-journal.mjs';
 import {checkUsage,readUsage} from './usage-guard.mjs';
+// SDK telemetry installs exception handlers; never let a halted job appear green.
+process.on('uncaughtExceptionMonitor',()=>{process.exitCode=1;});
 const root='.luna-output',jobPath='.github/zapier-review/cloud-job.json';
 mkdirSync(root,{recursive:true});
 const input=JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH,'utf8')).inputs;
@@ -22,7 +24,7 @@ const gh=async(path,method='GET',body)=>{
 const git=(...args)=>execFileSync('git',args,{maxBuffer:512*1024*1024}).toString().trim();
 const sourceCommit=git('rev-parse','HEAD');
 const issue=await gh(`/issues/${Number(input.issue_number)}`);
-const config=checkConfig({repo,model:input.model_id,maxTasks:Number(input.max_tasks),policy:input.policy,issue,mode:/\[review\]|不修改|只审查|只审核/i.test(issue.title+' '+issue.body)?'review':'fix'});
+const config=checkConfig({repo,model:input.model_id,maxTasks:Number(input.max_tasks),policy:input.policy,issue,mode:issueMode(issue)});
 const key=hash(JSON.stringify([issue.number,issue.title,issue.body,config.model,config.policy]));
 const branch=`codex/luna-job-${issue.number}-${key.slice(0,12)}`;
 if(input.job_branch&&input.job_branch!==branch)throw Error('Continuation does not match the unchanged Issue/configuration');
@@ -34,7 +36,13 @@ if(saved){
   else {const head=await gh(`/git/ref/heads/${branch}`);const r=await fetch(`https://raw.githubusercontent.com/${repo}/${head.object.sha}/${jobPath}`,{redirect:'error'});if(!r.ok)throw Error('Cannot load durable job');state=await r.json();}
   if(state.sourceCommit!==sourceCommit)throw Error('Resume must check out the original source commit');
   if(state.status==='completed'){console.log(JSON.stringify({status:'already-completed',pr:state.pr}));process.exit(0);}
+  // Resume only this identified executor defect; billing and other stops remain locked.
+  if(state.halted==='Requested context does not exist in fixed snapshot'){
+    state.migrations=[...(state.migrations||[]),{at:new Date().toISOString(),reason:state.halted,oldMode:state.config.mode,newMode:config.mode}];
+    delete state.halted;state.status='running';state.config.mode=config.mode;
+  }
   if(state.halted)throw Error(state.halted);
+  if(state.config.mode!==config.mode)throw Error('Saved job mode differs; explicit migration required');
 }
 async function save(){
   state.updatedAt=new Date().toISOString();
@@ -113,8 +121,8 @@ async function recover(q,batch,reason){
     for(let at=0;at<text.length;){let end=Math.min(text.length,at+span);if(end<text.length&&/[\uD800-\uDBFF]/.test(text[end-1]))end--;const segment=text.slice(at,end);const {block_ids,...base}=m;parts.push({...base,text:segment,start_char:m.start_char+at,end_char:m.start_char+end,start_line:m.start_line+(text.slice(0,at).match(/\n/g)||[]).length,end_line:m.start_line+(text.slice(0,end).match(/\n/g)||[]).length});at=end;}
   }
   const requested=JSON.parse(q.raw?.results?.[0]?.needs_context_json||'{"files":[]}').files||[];
-  if(!Array.isArray(requested)||requested.some(p=>typeof p!=='string'||!map.has(p)))throw Error('Requested context does not exist in fixed snapshot');
-  const context=[...new Set(requested)].filter(p=>!originals.some(m=>m.file===p&&m.start_char===0&&m.end_char===map.get(p).text.length)).map(file=>{
+  const resolved=resolveContext(requested,map);q.contextResolutions=resolved.resolutions;
+  const context=resolved.files.filter(p=>!originals.some(m=>m.file===p&&m.start_char===0&&m.end_char===map.get(p).text.length)).map(file=>{
     const f=map.get(file);return {file,text:f.text,sha256:f.sha256,encoding:f.encoding,start_char:0,end_char:f.text.length,start_line:1,end_line:f.text.split('\n').length};
   });
   const contextBytes=context.reduce((n,f)=>n+Buffer.byteLength(JSON.stringify(f)),0);
@@ -128,6 +136,7 @@ async function recover(q,batch,reason){
     const source=mark('begin')+renderParts(entries.slice(0,mid))+mark('middle')+renderParts(entries.slice(mid))+mark('end');
     const inputs={...nativeInputs({mode:config.mode,issue:config.issue,repo,commit:sourceCommit,manifest,source}),tools:'[]',knowledgeSources:'[]'};
     inputs.instructions+=` ${config.policy} Respond in Chinese. Each finding needs a separate exact evidence string. Return transport_checks_json with begin,middle,end markers. The manifest has ${manifest.length} entries; its last inclusive index is ${manifest.length-1}. Validation fixtures are isolated and must not be patched. Valid JSON only, with escaped embedded quotation marks.`;
+    inputs.instructions+=' Context path resolution against the fixed snapshot: '+JSON.stringify(resolved.resolutions)+'. Use only the actual paths provided.';
     inputs.outputFields=JSON.stringify([...JSON.parse(inputs.outputFields),{name:'transport_checks_json',type:'text',isRequired:true,description:'Valid JSON containing exact begin,middle,end transport markers.'}]);
     if(Buffer.byteLength(JSON.stringify(inputs))>900000)throw Error('Recovery input too large');
     children.push({id,status:'queued',inline:{id,inputs,checks,fixtures,depth:batch.depth+1}});
@@ -149,6 +158,7 @@ try{
     const batch=JSON.parse(await raw(q.assetCommit||state.assetCommit,q.asset));
     const manifest=JSON.parse(batch.inputs.inputFields.manifest_json);
     if(!q.runId){
+      batch.inputs.inputFields.mode=config.mode;
       if(state.modelRequests>=600)throw Error('Unusual model request count: stopped');
       if(q.source){const source=await raw(state.assetCommit,q.source);if(hash(source)!==batch.sourceHash)throw Error('Attachment hash mismatch');batch.inputs.inputFields.source_text=`https://raw.githubusercontent.com/${repo}/${state.assetCommit}/${q.source}`;batch.inputs.inputFieldConfig_source_text_isFileUrl=true;batch.inputs.instructions+=' source_text is a file attachment. Read its entire content; a URL is not the source. Return incomplete if unavailable.';}
       await requireFreeSdk();await usageGuard();await ownerStopGuard();q.status='starting';state.modelRequests++;await save();
@@ -193,4 +203,4 @@ try{
   try {await gh(`/issues/${issue.number}/comments`,'POST',{body:`Zapier整仓流程完成：${map.size}个文本文件覆盖已核验，已上传草稿PR：${pr.html_url}\n\n[完整运行与报告](https://github.com/${repo}/actions/runs/${process.env.GITHUB_RUN_ID})。二进制仅登记；尚未进行项目完整构建和运行测试。`});}
   catch(error){console.warn('PR and complete report were saved; final Issue notification failed: '+error.message);}
   console.log(JSON.stringify({status:state.status,pr:state.pr,textFiles:map.size,changedFiles:changes.size}));
-}catch(error){state.status='stopped';state.halted=error.message;await save();throw error;}
+}catch(error){process.exitCode=1;state.status='stopped';state.halted=error.message;await save();throw error;}

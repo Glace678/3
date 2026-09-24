@@ -2,6 +2,29 @@ import {jsonrepair} from 'jsonrepair';
 import {validateCompactCoverage} from './native-sdk.mjs';
 import {repairExclusiveEnd} from './coverage-repair.mjs';
 
+// Read-only mode must be an explicit directive, not a substring in a negation.
+export function issueMode(issue){
+  if(/^\s*\[review\]/i.test(issue.title||''))return 'review';
+  return /^\s*(?:模式|mode)\s*[:：]\s*(?:review|只审核|只审查)\s*$/im.test(issue.body||'')?'review':'fix';
+}
+
+export function resolveContext(requested,map){
+  if(!Array.isArray(requested)||requested.some(p=>typeof p!=='string'||p.includes('..')||p.startsWith('/')||p.includes('\\')))throw Error('Invalid requested context paths');
+  const files=[],resolutions=[];
+  for(const path of requested){
+    let matches=map.has(path)?[path]:[...map.keys()].filter(p=>p.startsWith(path.replace(/\/$/,'')+'/'));
+    if(!matches.length){
+      const leaf=path.split('/').at(-1),parent=path.split('/').slice(0,-1).join('/')+'/';
+      const candidates=[...map.keys()].filter(p=>p.startsWith(parent)&&(p.endsWith('/'+leaf)||p.includes('/'+leaf+'/')));
+      const roots=new Set(candidates.map(p=>p.slice(0,p.indexOf('/'+leaf)+leaf.length+1)));
+      if(roots.size===1)matches=candidates;
+    }
+    if(!matches.length)throw Error(`Requested context not found or ambiguous: ${path}`);
+    files.push(...matches);resolutions.push({requested:path,actual:matches});
+  }
+  return {files:[...new Set(files)],resolutions};
+}
+
 export function parseReview(raw){
   try{return {value:JSON.parse(raw),normalized:false};}catch{}
   // Preserve approximate line values, never pretend they were exact numbers.

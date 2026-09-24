@@ -7,7 +7,6 @@ import {snapshot,hash,applyEdits,encodeEdit,renderParts,pack} from './worker.mjs
 import {APP,MODEL,nativeInputs,requireFreeSdk} from './native-sdk.mjs';
 import {checkConfig,validateAnswer,issueMode,resolveContext} from './autonomous-core.mjs';
 import {journalFetch} from './request-journal.mjs';
-import {compressedActionFetch} from './compressed-transport.mjs';
 import {planOperations,operationInstructions} from './file-operations.mjs';
 import {checkUsage,readUsage} from './usage-guard.mjs';
 // SDK telemetry installs exception handlers; never let a halted job appear green.
@@ -65,7 +64,7 @@ if(!state){
     const record={id:p.id,inputs,checks:JSON.parse(readFileSync(`${dir}/expected-transport.json`)),fixtures:JSON.parse(readFileSync(`${dir}/expected-quality.json`)),sourceHash:p.attachmentSha256,depth:0};
     record.inputs.inputFields.source_text='';
     writeFileSync(`${dir}/cloud-input.json`,JSON.stringify(record));
-    state.queue.push({id:p.id,status:'queued',asset:`.github/zapier-review/cloud-inputs/${p.id}.json`,source:`.github/zapier-review/cloud-inputs/${p.id}.txt`});
+    state.queue.push({id:p.id,status:'queued',asset:`.github/zapier-review/cloud-inputs/${p.id}.json`,source:`.github/zapier-review/cloud-inputs/${p.id}.md`});
   }
   writeFileSync(`${root}/cloud-job.json`,JSON.stringify(state));
   if(input.plan_only==='true'){console.log(JSON.stringify({status:'plan-only',batches:state.queue.length,textFiles:state.textFiles,modelRequests:0}));process.exit(0);}
@@ -78,7 +77,7 @@ if(!state){
   run(['read-tree',sourceCommit]);
   const add=(path,body)=>{const blob=run(['hash-object','-w','--stdin'],body);run(['update-index','--add','--cacheinfo','100644',blob,path]);};
   add(jobPath,readFileSync(`${root}/cloud-job.json`));
-  for(const q of state.queue){add(q.asset,readFileSync(`${root}/validation/${q.id}/cloud-input.json`));add(q.source,readFileSync(`${root}/validation/${q.id}/source.txt`));}
+  for(const q of state.queue){add(q.asset,readFileSync(`${root}/validation/${q.id}/cloud-input.json`));add(q.source,readFileSync(`${root}/validation/${q.id}/source.md`));}
   const tree=run(['write-tree']),commit=run(['commit-tree',tree,'-p',sourceCommit],`Luna #${issue.number}: complete source inventory and resumable job\n`);
   const pushEnv={...env,GIT_CONFIG_COUNT:'1',GIT_CONFIG_KEY_0:'http.https://github.com/.extraheader',GIT_CONFIG_VALUE_0:'AUTHORIZATION: basic '+Buffer.from('x-access-token:'+token).toString('base64')};
   execFileSync('git',['push','--quiet','origin',`${commit}:refs/heads/${branch}`],{env:pushEnv,stdio:['ignore','pipe','pipe']});
@@ -86,8 +85,7 @@ if(!state){
   contentSha=(await gh(`/contents/${jobPath}?ref=${encodeURIComponent(branch)}`)).sha;await save();
 }
 if(!state.assetCommit){state.assetCommit=(await gh(`/git/ref/heads/${branch}`)).object.sha;state.status='running';await save();}
-const sdkTransport=compressedActionFetch(fetch,()=>{});
-const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET},fetch:journalFetch(()=>{},sdkTransport)});
+const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET},fetch:journalFetch(()=>{},fetch)});
 async function usageGuard(){checkUsage(state,await readUsage(sdk),Math.min(config.maxTasks,state.config.maxTasks));}
 async function ownerStopGuard(){const current=await gh(`/issues/${issue.number}`);if(!current||current.state!=='open')throw Error('Owner closed the Issue; no more model requests will be submitted');}
 async function continueJob(){
@@ -176,12 +174,13 @@ try{
       if(q.source){
         const source=await raw(state.assetCommit,q.source);
         if(hash(source)!==batch.sourceHash)throw Error('Source hash mismatch');
-        // Do not send a GitHub URL as a file attachment. Zapier's provider rejects
-        // some repository extensions/content types even when the URL is .txt.
-        // Inline the lossless rendered source so every path is handled as data.
-        batch.inputs.inputFields.source_text=source;
-        delete batch.inputs.inputFieldConfig_source_text_isFileUrl;
-        batch.inputs.instructions+=' source_text is an inline lossless text representation, not a file attachment. Read every rendered block exactly; byte-encoded blocks use the declared encoding. Return incomplete only if the inline field itself is truncated.';
+        // Send the exact batch as a Markdown file attachment (same bytes as the
+        // original content, only the tracked path suffix changed). The SDK
+        // request body stays small; the provider downloads the raw URL.
+        const sourceUrl=`https://raw.githubusercontent.com/${repo}/${state.assetCommit}/${q.source}`;
+        batch.inputs.inputFields.source_text=sourceUrl;
+        batch.inputs.inputFieldConfig_source_text_isFileUrl=true;
+        batch.inputs.instructions+=' source_text is a complete Markdown file attachment downloaded from the raw URL, not inline text. Inside it, every rendered block still maps to its original file path; do not treat the attachment as one Markdown document. Read every block exactly; return incomplete only if the attachment itself is truncated.';
       }
       await requireFreeSdk();await usageGuard();await ownerStopGuard();q.status='starting';state.modelRequests++;await save();
       const r=await sdk.createActionRun({app:APP,action:'get_completion',actionType:'write',inputs:batch.inputs});

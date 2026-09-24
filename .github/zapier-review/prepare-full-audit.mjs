@@ -63,7 +63,7 @@ const controlEntries=controls.map(f=>({file:f.file,start_line:1,end_line:(f.text
 const schedule=[];
 for(let i=0;i<bins.length;i++){
   const id=String(start+i).padStart(3,'0')+'-audit',dir=`${root}/${id}`;
-  if(existsSync(`${dir}/inputs.json`)||existsSync(`${dir}/source.txt`))throw Error('Existing audit batch');
+  if(existsSync(`${dir}/inputs.json`)||existsSync(`${dir}/source.md`))throw Error('Existing audit batch');
   const original=bins[i].entries,mid=Math.floor(original.length/2),entries=[controlEntries[0],...original.slice(0,mid),controlEntries[1],...original.slice(mid),controlEntries[2]];
   const view=renderCompactBlocks(entries,blocks);
   const inputs={...nativeInputs({mode:'review',repo:'Glace678/3',commit,manifest:entries,source:view.source,issue:{title:'[review] Complete repository audit, fixed snapshot batch '+(i+1),body:'Audit all supplied original code including third-party, generated source, tests and config. Do not omit any supplied file or line. Report independently actionable correctness/security defects with exact evidence; do not invent caller behavior. This is one batch of a larger full repository audit. Request exact missing paths if needed. validation-fixtures are isolated quality checks, not repository changes. In transport_checks_json return the exact begin/middle/end values read in the attachment. If input or findings cannot be processed completely return incomplete.'}}),tools:'[]',knowledgeSources:'[]'};
@@ -77,9 +77,9 @@ for(let i=0;i<bins.length;i++){
   inputs.outputFields=JSON.stringify([...JSON.parse(inputs.outputFields),{name:'transport_checks_json',type:'text',isRequired:true,description:'JSON object with exact begin, middle, end transport markers.'}]);
   const rawInputTokens=count(view.source)+count(inputs.inputFields.manifest_json)+count(inputs.instructions)+count(inputs.inputFields.issue_title+inputs.inputFields.issue_body)+5000;
   if(rawInputTokens>target)throw Error(`Exact rendered input exceeds target: ${id} ${rawInputTokens}`);
-  mkdirSync(dir,{recursive:true});writeFileSync(`${dir}/source.txt`,view.source);writeFileSync(`${dir}/pending-inputs.json`,JSON.stringify(inputs));
+  mkdirSync(dir,{recursive:true});writeFileSync(`${dir}/source.md`,view.source);writeFileSync(`${dir}/pending-inputs.json`,JSON.stringify(inputs));
   writeFileSync(`${dir}/expected-transport.json`,JSON.stringify(view.checks));writeFileSync(`${dir}/expected-quality.json`,JSON.stringify(controls));
-  const plan={id,model:MODEL,commit,files:entries.length,repositorySegments:original.length,rawInputTokens,estimatedInputTokens:rawInputTokens,targetTokens:target,representation:'compact lossless source block dictionary',attachmentBytes:Buffer.byteLength(view.source),attachmentSha256:hash(view.source),purpose:'Review a complete nonoverlapping fixed-snapshot repository batch while checking compact lossless transport and simple defect recall.',scope:'Full text inventory partition; no text file types excluded',batchIndex:i+1,batchCount:bins.length};
+  const plan={id,model:MODEL,commit,files:entries.length,repositorySegments:original.length,rawInputTokens,estimatedInputTokens:rawInputTokens,targetTokens:target,representation:'compact lossless source block dictionary',attachmentPath:'source.md',attachmentBytes:Buffer.byteLength(view.source),attachmentSha256:hash(view.source),manifestSha256:inputs.inputFields.manifest_sha256,purpose:'Review a complete nonoverlapping fixed-snapshot repository batch while checking compact lossless transport and simple defect recall.',scope:'Full text inventory partition; no text file types excluded',batchIndex:i+1,batchCount:bins.length};
   writeFileSync(`${dir}/plan.json`,JSON.stringify(plan,null,2));schedule.push({id,...plan});
   console.log(JSON.stringify({phase:'rendered',id,rawInputTokens,segments:original.length}));
 }

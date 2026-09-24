@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zapier 最低 Task 消耗方案研究 — Glace678/3 全仓审核</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --border: #2a2d3a;
+    --text: #e4e6ed; --muted: #8b8fa3; --accent: #4f8cff;
+    --green: #34d399; --red: #f87171; --yellow: #fbbf24; --orange: #fb923c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7; padding: 24px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.8em; margin-bottom: 8px; }
+  h2 { font-size: 1.4em; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.15em; margin: 20px 0 10px; color: var(--accent); }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.95em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .highlight { background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(79,140,255,0.1));
+    border: 1px solid rgba(52,211,153,0.3); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8em; font-weight: 600; }
+  .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+  .badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .badge-blue { background: rgba(79,140,255,0.15); color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: rgba(79,140,255,0.08); color: var(--accent); font-weight: 600; white-space: nowrap; }
+  tr:hover { background: rgba(255,255,255,0.02); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .best { color: var(--green); font-weight: 700; }
+  .worst { color: var(--red); font-weight: 600; }
+  code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.88em; }
+  pre { background: #0d0f14; border: 1px solid var(--border); border-radius: 8px; padding: 16px;
+    overflow-x: auto; font-size: 0.85em; line-height: 1.5; margin: 10px 0; }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 4px 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .grid2 { grid-template-columns: 1fr; } }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+    background: var(--accent); color: white; border-radius: 50%; font-weight: 700; font-size: 0.85em; margin-right: 8px; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<h1>🔬 Zapier 最低 Task 消耗方案研究</h1>
+<p class="subtitle">Glace678/3 全仓代码审核 · 高级模型（GPT-5.6 Sol / Claude Fable 5）· 2026-09-25 实测</p>
+
+<!-- ===== 核心结论 ===== -->
+<div class="card highlight">
+  <h3 style="color:var(--green);margin-top:0;">🏆 核心结论：最低 0 Zapier Tasks</h3>
+  <p style="font-size:1.1em;margin:12px 0;">
+    通过 <strong>GitHub Actions 内直接调用 provider 原生 API</strong>（OpenAI / Anthropic），全仓审核的 Zapier task 消耗可降至 <span class="best">0</span>。
+    用户仅需按 token 向 provider 付费，完全绕过 Zapier 的 AI 步骤计费（Premium 5x、Advanced 3x）。
+  </p>
+  <p>
+    <span class="badge badge-green">推荐方案</span>
+    <strong>provider-review.yml + provider-autonomous.mjs + provider-api.mjs</strong>
+    — 已写入仓库，配置 API Key 后即可运行。
+  </p>
+</div>
+
+<!-- ===== 当前用量实测 ===== -->
+<h2>📊 当前账户用量实测</h2>
+<div class="card">
+  <p>计费周期：2026-09-23 至 2026-10-23 · 计划上限 1,000 tasks</p>
+  <table>
+    <tr><th>类型</th><th class="num">已用 Tasks</th><th>说明</th></tr>
+    <tr><td>Code by Zapier</td><td class="num">2</td><td>Code 步骤（每次 dispatch = 1 task）</td></tr>
+    <tr><td>AI by Zapier (Standard)</td><td class="num">1</td><td>测试用 Standard 层级 AI 步骤</td></tr>
+    <tr><td><strong>合计</strong></td><td class="num"><strong>3</strong></td><td>SDK Beta 调用未计入（免费）</td></tr>
+  </table>
+  <p style="margin-top:10px;color:var(--muted);font-size:0.9em;">
+    证实：当前架构（Code dispatch + GitHub Actions + SDK Beta）每次 Issue 仅消耗 <strong>1 Zapier task</strong>。
+  </p>
+</div>
+
+<!-- ===== Zapier 官方费率 ===== -->
+<h2>💰 Zapier 官方 Task 费率（已核实）</h2>
+<div class="card">
+  <h3>AI by Zapier 模型层级</h3>
+  <table>
+    <tr><th>模型层级</th><th class="num">每 AI 步骤</th><th class="num">每次工具调用</th><th>适用模型</th></tr>
+    <tr><td>Standard</td><td class="num">1 task</td><td class="num">不可用</td><td>GPT-5.6 Luna 等标准模型</td></tr>
+    <tr><td><span class="badge badge-green">Bring Your Own Key</span></td><td class="num best">1 task</td><td class="num best">1 task</td><td>可用 Advanced/Premium 模型，用户自带 API Key</td></tr>
+    <tr><td>Advanced</td><td class="num">3 tasks</td><td class="num">3 tasks</td><td>中等模型</td></tr>
+    <tr class="worst"><td>Premium</td><td class="num">5 tasks</td><td class="num">5 tasks</td><td>GPT-5.6 Sol、Claude Fable 5 等高级模型</td></tr>
+  </table>
+
+  <h3>其他步骤费率</h3>
+  <table>
+    <tr><th>步骤类型</th><th class="num">费率</th><th>说明</th></tr>
+    <tr><td>标准 App 步骤</td><td class="num">1 task/步</td><td>大多数应用动作</td></tr>
+    <tr><td>Code by Zapier</td><td class="num">1 task/步</td><td>标准运行时 30 秒；超时 1 task/30秒</td></tr>
+    <tr><td>Webhooks by Zapier</td><td class="num">1 task/步</td><td>POST/GET 等</td></tr>
+    <tr><td>内置工具（Filter/Formatter/Paths/Looping）</td><td class="num best">0 tasks</td><td>完全免费</td></tr>
+    <tr><td>触发器</td><td class="num best">0 tasks</td><td>免费</td></tr>
+    <tr><td>Zapier MCP 工具调用</td><td class="num">2 tasks/次</td><td>AI 客户端调用 Zapier</td></tr>
+    <tr><td>Zapier SDK (Beta)</td><td class="num best">0 tasks</td><td>Beta 期间免费；结束后另行通知</td></tr>
+    <tr><td>Lead Router</td><td class="num">5 tasks/步</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- ===== 全路径对比 ===== -->
+<h2>⚖️ 全路径对比：全仓审核（72 批次）的 Zapier Tasks + Provider 费用</h2>
+<div class="card">
+  <p style="color:var(--muted);font-size:0.9em;margin-bottom:12px;">
+    基准：18,908 文本文件 · ~6,840 万输入 tokens · ~108 万输出 tokens · 72 批次（950K/批）· 汇率 1 USD = 7.2 CNY
+  </p>
+  <table>
+    <tr>
+      <th>方案</th>
+      <th class="num">Zapier Tasks/次</th>
+      <th class="num">Provider 费用 (Sol)</th>
+      <th class="num">Provider 费用 (Luna)</th>
+      <th>高级模型可用</th>
+      <th>评价</th>
+    </tr>
+    <tr class="worst">
+      <td>① AI by Zapier Premium（Zap 内直接调用）</td>
+      <td class="num worst">~360</td>
+      <td class="num">包含在计划内</td>
+      <td class="num">包含在计划内</td>
+      <td>✅</td>
+      <td><span class="badge badge-red">最贵</span> 5 task/步 × 72 批</td>
+    </tr>
+    <tr>
+      <td>② AI by Zapier BYOK（Zap 内直接调用）</td>
+      <td class="num">~72</td>
+      <td class="num">~¥2,125</td>
+      <td class="num">~¥108</td>
+      <td>✅</td>
+      <td><span class="badge badge-yellow">中等</span> 1 task/步 × 72 批 + token 费</td>
+    </tr>
+    <tr>
+      <td>③ Code + GitHub Actions + SDK（当前架构）</td>
+      <td class="num">1</td>
+      <td class="num">❌ 不可用</td>
+      <td class="num">Zapier 承担</td>
+      <td>❌ 仅 Luna</td>
+      <td><span class="badge badge-blue">当前</span> SDK Beta 免费；仅限托管 Luna</td>
+    </tr>
+    <tr>
+      <td>④ Code + GitHub Actions + SDK + BYOK（Beta 结束后）</td>
+      <td class="num">~73</td>
+      <td class="num">~¥2,125</td>
+      <td class="num">~¥108</td>
+      <td>✅</td>
+      <td><span class="badge badge-yellow">中等</span> 1 Code + 72 SDK action × 1 task</td>
+    </tr>
+    <tr class="best">
+      <td>⑤ <strong>GitHub Actions 直连 Provider API（新方案）</strong></td>
+      <td class="num best">0</td>
+      <td class="num">~¥2,125</td>
+      <td class="num best">~¥108</td>
+      <td>✅ 任意模型</td>
+      <td><span class="badge badge-green">最低</span> 0 Zapier task，仅 token 费</td>
+    </tr>
+  </table>
+
+  <div style="margin-top:16px;padding:12px;background:rgba(52,211,153,0.06);border-radius:8px;">
+    <strong>💡 关键洞察：</strong>
+    方案⑤比方案②少 72 个 Zapier tasks，provider token 费用完全相同。
+    因为两者都调用同一个 provider API，区别仅在于是否经过 Zapier 的 AI 步骤计费层。
+    直连方案把 Zapier 从 AI 调用链路中完全移除。
+  </div>
+</div>
+
+<!-- ===== Provider 模型费率 ===== -->
+<h2>🤖 高级模型 Provider 原生 API 费率</h2>
+<div class="card">
+  <table>
+    <tr><th>模型</th><th class="num">输入 $/M</th><th class="num">输出 $/M</th><th class="num">输入 ¥/M</th><th class="num">输出 ¥/M</th><th class="num">上下文窗口</th><th>备注</th></tr>
+    <tr><td><strong>GPT-5.6 Sol</strong></td><td class="num">$4.00</td><td class="num">$20.00</td><td class="num">¥28.80</td><td class="num">¥144.00</td><td class="num">1.05M</td><td>促销价至 2026-11-21；缓存输入 $0.40</td></tr>
+    <tr><td><strong>Claude Fable 5</strong></td><td class="num">$10.00</td><td class="num">$50.00</td><td class="num">¥72.00</td><td class="num">¥360.00</td><td class="num">1M</td><td>最贵；缓存读取 $1.00；Batch 5折</td></tr>
+    <tr style="background:rgba(52,211,153,0.05);"><td><strong>GPT-5.6 Luna</strong> ⭐</td><td class="num">$0.20</td><td class="num">$1.20</td><td class="num">¥1.44</td><td class="num">¥8.64</td><td class="num">1.05M</td><td>极便宜；公开 API 可用；缓存 $0.02</td></tr>
+    <tr><td>GPT-4.1（参照）</td><td class="num">$2.00</td><td class="num">$8.00</td><td class="num">¥14.40</td><td class="num">¥57.60</td><td class="num">1M</td><td>—</td></tr>
+    <tr><td>Claude Opus 4（参照）</td><td class="num">$15.00</td><td class="num">$75.00</td><td class="num">¥108.00</td><td class="num">¥540.00</td><td class="num">200K</td><td>—</td></tr>
+  </table>
+  <p style="margin-top:10px;color:var(--muted);font-size:0.88em;">
+    来源：OpenAI 官方定价页 openai.com/api/pricing、Anthropic 官方文档 · 访问日期 2026-09-25
+  </p>
+</div>
+
+<!-- ===== 全仓费用详算 ===== -->
+<h2>🧮 全仓审核费用详算（72 批次）</h2>
+<div class="card">
+  <div class="grid2">
+    <div>
+      <h3>输入/输出估算</h3>
+      <ul>
+        <li>每批输入：~950K tokens（源码 + 指令 + 清单）</li>
+        <li>每批输出：~15K tokens（发现 + 补丁 + 覆盖范围 JSON）</li>
+        <li>总输入：72 × 950K = <strong>6,840 万 tokens</strong></li>
+        <li>总输出：72 × 15K = <strong>108 万 tokens</strong></li>
+      </ul>
+    </div>
+    <div>
+      <h3>各模型总费用（标准费率）</h3>
+      <table>
+        <tr><th>模型</th><th class="num">USD</th><th class="num">CNY</th></tr>
+        <tr><td>GPT-5.6 Luna ⭐</td><td class="num">$14.98</td><td class="num best">¥108</td></tr>
+        <tr><td>GPT-5.6 Sol</td><td class="num">$295.20</td><td class="num">¥2,125</td></tr>
+        <tr><td>Claude Fable 5</td><td class="num">$738.00</td><td class="num">¥5,314</td></tr>
+      </table>
+    </div>
+  </div>
+  <div style="margin-top:16px;padding:12px;background:rgba(251,191,36,0.06);border-radius:8px;">
+    <strong>💡 降本提示：</strong>
+    使用 Prompt Caching 可进一步降低输入费用。OpenAI 缓存输入价为标准价的 10%（Sol $0.40、Luna $0.02）。
+    若 80% 输入可缓存（系统指令 + 重复清单结构），Sol 全仓费用可降至 ~¥707，Luna 降至 ~¥37。
+    Batch API 另享 5 折（异步 24 小时内完成）。
+  </div>
+</div>
+
+<!-- ===== 推荐方案落地 ===== -->
+<h2>🚀 推荐方案：0 Task 直连部署指南</h2>
+
+<div class="card">
+  <h3>已创建的文件</h3>
+  <table>
+    <tr><th>文件</th><th>作用</th></tr>
+    <tr><td><code>.github/workflows/provider-review.yml</code></td><td>GitHub Actions workflow（替代 Zap 触发）</td></tr>
+    <tr><td><code>.github/zapier-review/provider-autonomous.mjs</code></td><td>主流程：分批 → 直连 API → 校验 → 报告 → 草稿 PR</td></tr>
+    <tr><td><code>.github/zapier-review/provider-api.mjs</code></td><td>Provider API 调用器（OpenAI / Anthropic 双支持）</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>部署步骤</h3>
+  <p><span class="step-num">1</span><strong>添加 API Key 到 GitHub Secrets</strong></p>
+  <ul>
+    <li>打开 <code>https://github.com/Glace678/3/settings/secrets/actions</code></li>
+    <li>添加 <code>OPENAI_API_KEY</code>（用 GPT 系列模型时）</li>
+    <li>和/或添加 <code>ANTHROPIC_API_KEY</code>（用 Claude 系列模型时）</li>
+    <li>Key 仅存储在 GitHub Secrets，脚本不记录、不输出</li>
+  </ul>
+
+  <p style="margin-top:16px;"><span class="step-num">2</span><strong>提交新文件到仓库</strong></p>
+  <pre><code>git add .github/workflows/provider-review.yml \
+        .github/zapier-review/provider-autonomous.mjs \
+        .github/zapier-review/provider-api.mjs
+git commit -m "feat: provider API direct review (0 Zapier tasks)"
+git push origin main</code></pre>
+
+  <p style="margin-top:16px;"><span class="step-num">3</span><strong>试运行（plan_only，不调用模型）</strong></p>
+  <ul>
+    <li>打开 <code>https://github.com/Glace678/3/actions/workflows/provider-review.yml</code></li>
+    <li>点击 "Run workflow"，<code>plan_only</code> 选 <code>true</code></li>
+    <li>验证分批准备正常（~72 批，不消耗任何费用）</li>
+  </ul>
+
+  <p style="margin-top:16px;"><span class="step-num">4</span><strong>正式运行</strong></p>
+  <ul>
+    <li>创建一个 Issue（标题以 <code>[review]</code> 开头 = 只审核模式）</li>
+    <li>手动 Run workflow，填入 Issue 编号，<code>plan_only</code> 选 <code>false</code></li>
+    <li><code>model_id</code> 可选：<code>openai/gpt-5.6-luna</code>（最便宜）/ <code>openai/gpt-5.6-sol</code> / <code>anthropic/claude-fable-5</code></li>
+    <li>全仓审核约 2-5 小时（取决于模型速度），完成后自动创建草稿 PR</li>
+  </ul>
+</div>
+
+<!-- ===== 是否保留 Zapier ===== -->
+<h2>🔄 是否还需要 Zapier？</h2>
+<div class="card">
+  <div class="grid2">
+    <div>
+      <h3>完全移除 Zapier（0 tasks）</h3>
+      <p>GitHub Actions 可直接监听 Issue 创建事件：</p>
+      <pre><code>on:
+  issues:
+    types: [opened]</code></pre>
+      <p>在 workflow 中验证 Issue 所有者、过滤 PR，然后直接运行审核。
+      完全不需要 Zapier。</p>
+      <p><span class="badge badge-green">推荐</span> 最简单、最省</p>
+    </div>
+    <div>
+      <h3>保留 Zapier 触发（1 task）</h3>
+      <p>如果想保留 Zapier 的可视化触发和过滤：</p>
+      <ul>
+        <li>GitHub trigger（免费）→ Filter（免费）→ Code（1 task）</li>
+        <li>Code 步骤 dispatch <code>provider-review.yml</code></li>
+        <li>AI 调用仍在 Actions 内直连 provider（0 tasks）</li>
+      </ul>
+      <p><span class="badge badge-blue">可选</span> 每次 Issue 多花 1 task</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Zapier 全功能调研 ===== -->
+<h2>📋 Zapier 全功能调研摘要</h2>
+<div class="card">
+  <table>
+    <tr><th>功能</th><th>Task 消耗</th><th>对降本的作用</th></tr>
+    <tr><td><strong>Zaps（标准工作流）</strong></td><td>1 task/步</td><td>基础构建块；触发器和内置工具免费</td></tr>
+    <tr><td><strong>AI by Zapier</strong></td><td>1-5 task/步 + 工具调用</td><td>Premium 太贵（5x）；BYOK 可降到 1x 但仍按次收费</td></tr>
+    <tr><td><strong>AI by Zapier BYOK</strong></td><td>1 task/步 + 1 task/工具</td><td>用户自带 Key，可用高级模型；但每次调用仍计 1 task</td></tr>
+    <tr><td><strong>Code by Zapier</strong></td><td>1 task/步（+超时费）</td><td>可 call API，但 30 秒运行时不足以完成大上下文模型调用</td></tr>
+    <tr><td><strong>Webhooks by Zapier</strong></td><td>1 task/步</td><td>可 POST provider API，但单次等待超时有限，无法循环 72 批</td></tr>
+    <tr><td><strong>Zapier Agents</strong></td><td>已并入 AI by Zapier</td><td>旧独立 Agents 按 activity 计费（免费 400/月、Pro $33/月 1500）</td></tr>
+    <tr><td><strong>Zapier Canvas</strong></td><td>—</td><td>可视化工作流设计器，不直接影响计费</td></tr>
+    <tr><td><strong>Developer Platform（自定义集成）</strong></td><td>1 task/action</td><td>可封装 provider API，但通过 Zap 调用仍计 task；通过 SDK 调用 Beta 免费</td></tr>
+    <tr><td><strong>Zapier SDK</strong></td><td class="best">0 tasks（Beta）</td><td>当前架构的关键；Beta 结束后可能按 action 计费</td></tr>
+    <tr><td><strong>Zapier MCP</strong></td><td>2 tasks/次</td><td>AI 客户端调用 Zapier 工具，不适合本场景</td></tr>
+    <tr><td><strong>Tables / Interfaces / Chatbots</strong></td><td>独立计费</td><td>与本场景无关</td></tr>
+  </table>
+</div>
+
+<!-- ===== 风险与注意事项 ===== -->
+<h2>⚠️ 风险与注意事项</h2>
+<div class="card">
+  <ul>
+    <li><strong>SDK Beta 免费不永久</strong>：当前架构依赖 SDK Beta 免费。官方明确"Beta 结束前会通知"。一旦结束，每个 SDK action 可能计 1 task，72 批 = 72 tasks/issue。直连 provider API 方案不受此影响。</li>
+    <li><strong>Provider API Key 安全</strong>：Key 存储在 GitHub Secrets，脚本仅从环境变量读取，不记录不输出。请勿将 Key 写入代码或日志。</li>
+    <li><strong>Token 预算保护</strong>：provider-autonomous.mjs 内置 token 预算（默认 1 亿），超出自动停止，防止 runaway 费用。</li>
+    <li><strong>GPT-5.6 Sol 促销价</strong>：$4/$20 为促销价，至少维持至 2026-11-21，之后可能回调至 $5/$30。长期预算建议预留上浮空间。</li>
+    <li><strong>不自动合并 PR</strong>：所有方案均创建草稿 PR（draft），需人工审查后合并。不执行模型生成的脚本。</li>
+    <li><strong>覆盖验证</strong>：每批结果通过 SHA256 清单 + 覆盖范围校验，确保不遗漏文件。</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>研究日期：2026-09-25 · 数据来源：Zapier 官方费率页、OpenAI 定价页、Anthropic 文档、账户实测用量</p>
+  <p>仓库：Glace678/3 · 交付文件：provider-review.yml / provider-autonomous.mjs / provider-api.mjs</p>
+</div>
+
+</body>
+</html>

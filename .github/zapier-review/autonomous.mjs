@@ -56,7 +56,7 @@ const raw=async(commit,path)=>{
 };
 if(!state){
   writeFileSync(`${root}/job-config.json`,JSON.stringify(config));
-  execFileSync(process.execPath,['.github/zapier-review/prepare-full-audit.mjs','850000','18'],{stdio:'inherit',env:{...process.env,LUNA_JOB_CONFIG:`${root}/job-config.json`},maxBuffer:32*1024*1024});
+  execFileSync(process.execPath,['.github/zapier-review/prepare-full-audit.mjs','950000','18'],{stdio:'inherit',env:{...process.env,LUNA_JOB_CONFIG:`${root}/job-config.json`},maxBuffer:32*1024*1024});
   const schedule=JSON.parse(readFileSync(`${root}/full-audit/schedule.json`)),inventory=JSON.parse(readFileSync(`${root}/full-audit/inventory.json`));
   state={version:1,key,config,sourceCommit,status:'preparing',modelRequests:0,expectedZapierTasks:1,billingBasis:'One standard-runtime Zap dispatch; SDK actions must remain explicitly free in beta. No paid model fallback.',queue:[],createdAt:new Date().toISOString(),textFiles:inventory.inventory.filter(x=>x.kind==='text').length,binaryFiles:inventory.inventory.filter(x=>x.kind==='binary').length,emptyFiles:inventory.emptyTextFiles};
   for(const p of schedule.schedule){

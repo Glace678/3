@@ -56,7 +56,7 @@ export function validateAnswer({output,manifest,checks,fixtures,mode}){
     if(!expected.test(found.description))throw Error(`Control explanation failed: ${fixture.category}`);
   }
   if(mode==='review'&&patches.length)throw Error('Read-only audit returned edits');
-  for(const edit of patches)if(!allowed.has(edit.path)||edit.path.startsWith('validation-fixtures/'))throw Error('Patch outside supplied source');
+  for(const edit of patches)if((edit.op!=='create'&&!allowed.has(edit.path))||edit.path.startsWith('validation-fixtures/')||edit.to?.startsWith('validation-fixtures/'))throw Error('Patch outside supplied source');
   return {findings:review.value.filter(f=>!f.file.startsWith('validation-fixtures/')),patches,normalization:{review:review.normalized,coverage:boundaryNormalized}};
 }
 

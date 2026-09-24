@@ -7,6 +7,7 @@ import {snapshot,hash,applyEdits,encodeEdit,renderParts,pack} from './worker.mjs
 import {APP,MODEL,nativeInputs,requireFreeSdk} from './native-sdk.mjs';
 import {checkConfig,validateAnswer,issueMode,resolveContext} from './autonomous-core.mjs';
 import {journalFetch} from './request-journal.mjs';
+import {planOperations,operationInstructions} from './file-operations.mjs';
 import {checkUsage,readUsage} from './usage-guard.mjs';
 // SDK telemetry installs exception handlers; never let a halted job appear green.
 process.on('uncaughtExceptionMonitor',()=>{process.exitCode=1;});
@@ -95,7 +96,12 @@ async function continueJob(){
   console.log('Saved job continues automatically in the next cloud run.');
   process.exit(0);
 }
-let files;
+let files,entryCache;
+function treeEntries(){
+  if(!entryCache)entryCache=new Map(execFileSync('git',['ls-tree','-rz',sourceCommit],{maxBuffer:64*1024*1024}).toString('utf8').split('\0').filter(Boolean).map(line=>{const at=line.indexOf('\t');const [mode,type,oid]=line.slice(0,at).split(' ');return [line.slice(at+1),{mode,type,oid}];}));
+  return entryCache;
+}
+const readTreeBlob=entry=>execFileSync('git',['cat-file','blob',entry.oid],{maxBuffer:512*1024*1024});
 async function getFiles(){if(!files){const s=await snapshot();if(s.errors.length)throw Error(s.errors.join('\n'));files=s.files;}return files;}
 // Large recovery inputs live in immutable Git blobs, never accumulate in the state file.
 async function persistRecoveryInputs(children){
@@ -114,7 +120,11 @@ async function persistRecoveryInputs(children){
 async function recover(q,batch,reason){
   if(batch.depth>=6)throw Error(`Recovery depth exhausted: ${q.id}: ${reason}`);
   const originals=JSON.parse(batch.inputs.inputFields.manifest_json).filter(m=>!m.file.startsWith('validation-fixtures/'));
-  const map=await getFiles(),parts=[];
+  const map=new Map(await getFiles()),parts=[];
+  for(const path of new Set([...originals.map(m=>m.file),...(JSON.parse(q.raw?.results?.[0]?.needs_context_json||'{"files":[]}').files||[])])){
+    const entry=treeEntries().get(path);
+    if(!map.has(path)&&entry?.type==='blob'){const bytes=readTreeBlob(entry);map.set(path,{text:bytes.toString('base64'),encoding:'base64',sha256:hash(bytes)});}
+  }
   for(const m of originals){
     const source=map.get(m.file);if(!source||source.sha256!==m.sha256)throw Error('Recovery source changed');
     const text=source.text.slice(m.start_char,m.end_char),span=Math.max(1,Math.floor(120000/2**batch.depth));
@@ -159,6 +169,7 @@ try{
     const manifest=JSON.parse(batch.inputs.inputFields.manifest_json);
     if(!q.runId){
       batch.inputs.inputFields.mode=config.mode;
+      batch.inputs.instructions=batch.inputs.instructions.replace('No new/deleted files, .github edits, or invented contents.','Never invent contents.')+' '+operationInstructions;
       if(state.modelRequests>=600)throw Error('Unusual model request count: stopped');
       if(q.source){const source=await raw(state.assetCommit,q.source);if(hash(source)!==batch.sourceHash)throw Error('Attachment hash mismatch');batch.inputs.inputFields.source_text=`https://raw.githubusercontent.com/${repo}/${state.assetCommit}/${q.source}`;batch.inputs.inputFieldConfig_source_text_isFileUrl=true;batch.inputs.instructions+=' source_text is a file attachment. Read its entire content; a URL is not the source. Return incomplete if unavailable.';}
       await requireFreeSdk();await usageGuard();await ownerStopGuard();q.status='starting';state.modelRequests++;await save();
@@ -187,8 +198,9 @@ try{
   for(const [path,file] of map){let next=0;for(const [a,b]of(spans.get(path)||[]).sort((x,y)=>x[0]-y[0])){if(a>next)throw Error(`Unreviewed source: ${path}:${next}`);next=Math.max(next,b);}if(next!==file.text.length)throw Error(`Unreviewed end of source: ${path}`);coverage.push({path,sha256:file.sha256,characters:next,status:file.text.length?'reviewed':'empty'});}
   writeFileSync(`${root}/full-coverage.json`,JSON.stringify(coverage,null,2));writeFileSync(`${root}/findings.json`,JSON.stringify(findings,null,2));
   const uniqueEdits=[...new Map(edits.map(e=>[JSON.stringify(e),e])).values()];
-  const changes=applyEdits(map,uniqueEdits),base=await gh(`/git/commits/${sourceCommit}`),tree=[];
-  for(const [path,text]of changes){const blob=await gh('/git/blobs','POST',{content:encodeEdit(text,map.get(path).encoding).toString('base64'),encoding:'base64'});tree.push({path,mode:git('ls-tree',sourceCommit,'--',path).split(' ')[0],type:'blob',sha:blob.sha});}
+  const changes=planOperations(treeEntries(),map,uniqueEdits,readTreeBlob),base=await gh(`/git/commits/${sourceCommit}`),tree=[];
+  for(const [path,change]of changes){if(change===null){tree.push({path,mode:treeEntries().get(path).mode,type:'blob',sha:null});continue;}const blob=await gh('/git/blobs','POST',{content:change.bytes.toString('base64'),encoding:'base64'});tree.push({path,mode:change.mode,type:'blob',sha:blob.sha});}
+  writeFileSync(`${root}/file-operations.json`,JSON.stringify([...changes].map(([path,c])=>({path,operation:c===null?'delete':'write',mode:c?.mode,sha256:c?hash(c.bytes):null,bytes:c?.bytes.length})),null,2));
   const report=`# 全仓审核报告\n\n基准：${sourceCommit}\n\n文本文件 ${map.size} 个全部通过覆盖检查；二进制 ${state.binaryFiles} 个仅登记。\n\nZapier 托管 Luna 模型请求 ${state.modelRequests} 次。SDK 当前免费 Beta；主 Zap 启动步骤预期1 task。SDK不返回实际计费，不能把请求数当作账单。\n\n问题记录 ${findings.length} 条；修改文件 ${changes.size} 个。报告中的发现是模型意见；引用匹配和覆盖检查不证明找出了所有缺陷。未执行项目完整构建或运行测试。\n\n完整覆盖与原始响应见 Actions artifact 和工作状态分支 ${branch}。\n`;
   const details=findings.map((f,i)=>`## ${i+1}. ${f.file}:${f.line ?? '?'}\n\n${f.severity || ''} ${f.description}\n\n${f.evidence ? '证据：'+JSON.stringify(f.evidence) : '未返回独立证据字段'}\n`).join('\n');
   const reportBlob=await gh('/git/blobs','POST',{content:report+'\n'+details,encoding:'utf-8'});tree.push({path:`luna-reviews/issue-${issue.number}.md`,mode:'100644',type:'blob',sha:reportBlob.sha});

@@ -72,7 +72,7 @@ jobs:
         working-directory: .github/zapier-review
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify guards before inference
-        run: node --test .github/zapier-review/worker.test.mjs .github/zapier-review/coverage-repair.test.mjs .github/zapier-review/autonomous-core.test.mjs .github/zapier-review/usage-guard.test.mjs
+        run: node --test .github/zapier-review/file-operations.test.mjs .github/zapier-review/worker.test.mjs .github/zapier-review/coverage-repair.test.mjs .github/zapier-review/autonomous-core.test.mjs .github/zapier-review/usage-guard.test.mjs
       - name: Automatically review, fix, validate coverage and upload
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

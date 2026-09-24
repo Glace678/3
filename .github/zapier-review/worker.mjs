@@ -92,7 +92,7 @@ export function applyEdits(files,edits){
   const seen=new Set();
   for(const edit of edits){
     const p=edit.path;
-    if(typeof p!=='string'||p.startsWith('/')||p.includes('\\')||p.split('/').some(x=>x==='..'||x==='.git')||p.startsWith('.github/'))throw new Error(`Forbidden patch path: ${p}`);
+    if(typeof p!=='string'||p.startsWith('/')||p.includes('\\')||p.split('/').some(x=>x==='..'||x==='.git'))throw new Error(`Forbidden patch path: ${p}`);
     const original=files.get(p);
     if(!original || !['utf-8','cp949','windows1252','iso-8859-1'].includes(original.encoding))throw new Error(`Unsupported patch encoding/path: ${p}`);
     if(typeof edit.old_text!=='string'||!edit.old_text||typeof edit.new_text!=='string')throw new Error(`Invalid edit: ${p}`);
@@ -149,7 +149,6 @@ export async function snapshot(){
     const [returned,typeReturned,size]= (await reader.line()).split(' ');
     if(returned!==oid||typeReturned!=='blob')throw new Error('Git blob stream lost alignment');
     const bytes=await reader.bytes(Number(size));await reader.bytes(1);
-    if(mode==='120000'){errors.push(`${path}: symlink requires an explicit audit`);continue;}
     const sha256=hash(bytes);
     try {
       const data=decodeFile(path,bytes,declaredBinary.has(path));

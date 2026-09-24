@@ -4,6 +4,22 @@ import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader
 import {reserve,reconcile} from './validation-budget.mjs';
 import {journalFetch} from './request-journal.mjs';
 import {validateAttachmentReceipt} from './attachment-preflight.mjs';
+import {compressedActionFetch} from './compressed-transport.mjs';
+import {gunzipSync} from 'node:zlib';
+
+test('experimental HTTP gzip preserves exact JSON and leaves OAuth requests alone',async()=>{
+  const calls=[],events=[],body=JSON.stringify({input:'原文\n'.repeat(100)});
+  const wrapped=compressedActionFetch(async(url,init)=>{calls.push({url,init});return new Response('{}');},e=>events.push(e));
+  await wrapped('https://sdkapi.zapier.com/api/v0/sdk/zapier/api/actions/v1/runs',{method:'POST',headers:{'content-type':'application/json','content-length':'999'},body});
+  assert.equal(gunzipSync(calls[0].init.body).toString(),body);
+  assert.equal(calls[0].init.headers.get('content-encoding'),'gzip');
+  assert.equal(calls[0].init.headers.has('content-length'),false);
+  assert.equal(events.length,1);
+  await wrapped('https://zapier.com/oauth/token',{method:'POST',body:'credential-placeholder'});
+  assert.equal(calls[1].init.body,'credential-placeholder');assert.equal(events.length,1);
+  await assert.rejects(()=>wrapped(new Request('https://sdkapi.zapier.com/api/v0/sdk/zapier/api/actions/v1/runs',{method:'POST',body})),/Only JSON string/);
+  assert.equal(calls.length,2);
+});
 
 test('file-input dispatch rejects stale, changed, partial and future download receipts',()=>{
   const now=Date.parse('2026-09-24T01:00:00Z');
@@ -46,6 +62,8 @@ test('validation budget refuses unreviewed probes, retries, overruns and abnorma
   assert.throws(()=>reserve(ledger,{...first,id:'two'}));
   ledger.runs[0].status='finished';
   ledger=reconcile(ledger,'one',0,'Native call succeeded; zero observed, reserve retained.');
+  assert.throws(()=>reserve({...ledger,limitTasks:80,checkpointTasks:1},{...first,id:'two'}),/checkpoint reached/);
+  assert.throws(()=>reserve({...ledger,checkpointTasks:81},{...first,id:'two'}),/Invalid report checkpoint/);
   assert.throws(()=>reserve(ledger,first));
   assert.throws(()=>reserve(ledger,{...first,id:'two',baseline:1}));
   ledger=reserve(ledger,{...first,id:'two'});ledger.runs[1].status='finished';
@@ -54,6 +72,34 @@ test('validation budget refuses unreviewed probes, retries, overruns and abnorma
   const abnormal=reconcile(ledger,'two',3,'Unexpected debit; stop.');
   assert.match(abnormal.halted,/Unexpected task delta/);
   assert.throws(()=>reserve({...abnormal,limitTasks:80},{...first,id:'three',baseline:3}));
+});
+
+test('actual-debit mode counts observed usage, blocks unresolved bills and stops if a free route charges',()=>{
+  const probe={id:'next',model:'openai/gpt-5.6-luna',reserveTasks:1,expectedTasks:0,pricingBasis:'sdk-free-beta-confirmed',baseline:1};
+  const past=Array.from({length:90},(_,i)=>({id:String(i),reserveTasks:1,reflection:'reconciled',observation:{tasks:1}}));
+  const base={budgetMode:'actual-debits',limitTasks:75,checkpointTasks:50,halted:null,runs:past};
+  let ledger=reserve(base,probe);
+  assert.equal(ledger.runs.length,91);
+  assert.throws(()=>reserve({...base,billingReconciliationPending:true},probe),/Reconcile known run/);
+  assert.throws(()=>reserve(base,{...probe,pricingBasis:'assumed'}),/Unverified/);
+  ledger.runs.at(-1).status='finished';
+  assert.equal(reconcile(ledger,'next',1,'No charge observed.').halted,null);
+  assert.match(reconcile(ledger,'next',2,'SDK rate unexpectedly changed; stop.').halted,/Unexpected task delta/);
+  const atLimit={...base,checkpointTasks:75,runs:past.map(r=>({...r,observation:{tasks:75}}))};
+  assert.throws(()=>reserve(atLimit,{...probe,baseline:75,expectedTasks:1}),/budget exhausted/);
+});
+
+test('only the fixed native file utility is allowed and rejection reflection cannot clear a billing anomaly',()=>{
+  const probe={id:'store',kind:'native-file-store',model:null,app:'FilesByZapierCLIAPI@1.3.5',action:'file_from_text',reserveTasks:1,baseline:0};
+  const base={limitTasks:80,checkpointTasks:50,halted:null,runs:[]};
+  const ledger=reserve(base,probe);
+  assert.throws(()=>reserve(base,{...probe,app:'AnotherApp'}));
+  ledger.runs[0].status='failed';ledger.runs[0].failure={definitiveRejection:true};
+  ledger.halted='Probe store failed or has uncertain submission; inspect saved transport facts without resubmitting';
+  assert.equal(reconcile(ledger,'store',0,'HTTP 400 rejected; no repeat.').halted,null);
+  assert.match(reconcile(ledger,'store',2,'Unexpected charge.').halted,/Unexpected task delta/);
+  ledger.halted='Unexpected task delta 2 for earlier';
+  assert.equal(reconcile(ledger,'store',0,'Still preserve anomaly.').halted,ledger.halted);
 });
 import {Readable} from 'node:stream';
 import {confirmsFreeSdk,requireFreeSdk,nativeInputs,validateCompactCoverage,executeNative} from './native-sdk.mjs';

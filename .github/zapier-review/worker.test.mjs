@@ -3,6 +3,21 @@ import assert from 'node:assert/strict';
 import {decodeFile,splitFile,validateCoverage,applyEdits,encodeEdit,streamReader,renderParts,pack,conservativeCallCap} from './worker.mjs';
 import {reserve,reconcile} from './validation-budget.mjs';
 import {journalFetch} from './request-journal.mjs';
+import {validateAttachmentReceipt} from './attachment-preflight.mjs';
+
+test('file-input dispatch rejects stale, changed, partial and future download receipts',()=>{
+  const now=Date.parse('2026-09-24T01:00:00Z');
+  const attachments=[{url:'https://raw.githubusercontent.com/a',sha256:'hash-a',bytes:123},{url:'https://raw.githubusercontent.com/b',sha256:'hash-b',bytes:456}];
+  const plan={inputSha256:'payload-hash',attachments};
+  const receipt={inputSha256:'payload-hash',verifiedAt:new Date(now-1000).toISOString(),attachments};
+  assert.doesNotThrow(()=>validateAttachmentReceipt(plan,receipt,now));
+  assert.throws(()=>validateAttachmentReceipt(plan,{...receipt,verifiedAt:new Date(now-900001).toISOString()},now));
+  assert.throws(()=>validateAttachmentReceipt(plan,{...receipt,verifiedAt:new Date(now+1).toISOString()},now));
+  assert.throws(()=>validateAttachmentReceipt(plan,{...receipt,inputSha256:'changed-payload'},now));
+  assert.throws(()=>validateAttachmentReceipt(plan,{...receipt,attachments:attachments.slice(0,1)},now));
+  assert.throws(()=>validateAttachmentReceipt(plan,{...receipt,attachments:attachments.map(a=>({...a,sha256:'changed-source'}))},now));
+  assert.throws(()=>validateAttachmentReceipt(plan,null,now));
+});
 
 test('production task reservation limits model calls even when the loop ceiling is higher',()=>{
   assert.equal(conservativeCallCap(1000,49),49);
@@ -17,6 +32,8 @@ test('transport journal recovers the action ID without persisting credentials or
   const wrapped=journalFetch(row=>events.push(row),async()=>new Response(JSON.stringify({data:{id:'1234-abcd',private:'secret-output'}}),{status:201}));
   const response=await wrapped('https://zapier.com/zapier/api/actions/v1/runs?private=secret-query',{method:'POST',headers:{Authorization:'secret-token'},body:'secret-source'});
   assert.equal(response.status,201);assert.equal(events[1].runId,'1234-abcd');
+  await wrapped('https://sdkapi.zapier.com/api/v0/sdk/zapier/api/actions/v1/runs',{method:'POST'});
+  assert.equal(events.at(-1).runId,'1234-abcd');
   assert.equal(JSON.stringify(events).includes('secret'),false);
   const rejected=journalFetch(row=>events.push(row),async()=>{throw new TypeError('private-secret-error');});
   await assert.rejects(()=>rejected('https://zapier.com/zapier/api/actions/v1/runs',{method:'POST'}));

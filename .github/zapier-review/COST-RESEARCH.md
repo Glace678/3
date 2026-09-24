@@ -46,7 +46,7 @@
 
 `billing-probe.mjs` 默认只准备，不访问网络。已准备一个约 7,340 tokens 的真实单文件审查，固定原生 GPT-5.6 Luna、托管认证、无工具，只允许新建一个 SDK 模型执行；保存执行 ID 后可继续查询同一个执行，不重复提交。验证不会自动启用全仓审查，也不创建 PR 或 Issue 评论。
 
-用户先批准一次、后将累计验证上限扩大至 80 tasks。首次 7,340 tokens 调用已成功，SDK 结果没有 task 费用字段，账单刷新仍为 0。第二次 620,547 tokens / 261 个完整文件的容量验证未取得执行编号，不能确认是否被服务端受理，因此停止新增请求，不自动重发。每次仍保守预留 1 task，详见 [验证记录](VALIDATION.md)。
+用户先批准一次、后将累计验证上限扩大至 80 tasks。首次 7,340 tokens 调用成功。用户再次明确授权后，保留第二次提交的不确定状态及预留，继续执行 003–007，累计预留 7/80。43 文件直接输入、232 文件原生 TXT 文件输入成功，后者约 484,138 个估算 tokens。1.64MB 正文返回 HTTP 413；1.47M tokens 单附件及同内容三附件均返回不支持文件类型的错误。008 下载预检失败，未提交模型。SDK 结果没有费用字段，用户指定 Home 页面仍为 0/1,000。每次仍保守预留 1 task，详见 [验证记录](VALIDATION.md)。
 
 若 SDK 的该原生模型动作确实免 tasks，则可以按正常可读分块覆盖全仓，没有必要为了假定的单次计费强行塞超大上下文。若实际按调用计费，再做有界的输入容量验证，选用每 task 可可靠审查内容最多的方案。
 
@@ -69,3 +69,9 @@
 - SDK 与 Code：https://help.zapier.com/hc/en-us/articles/44955499643917-Use-the-Zapier-SDK-in-Code-steps
 - Tables 字段限制：https://help.zapier.com/hc/en-us/articles/15721386410765-Zapier-Tables-usage-limits
 - Tables AI Fields：https://help.zapier.com/hc/en-us/articles/17710260699533-Generate-content-with-AI-Fields-in-Zapier-Tables
+
+## 本轮新增的实际进展
+
+原生动作动态 schema 的 `inputFieldConfig_<字段名>_isFileUrl` 可让模型接收文件输入。005 已验证真实源码、随机标记和输出，SDK 正文从 1,643,500 bytes 降到 51,289 bytes。没有使用检索片段或额外模型工具。文件下载及哈希验证在模型提交前完成；失败不会发出模型请求。
+
+要求发现附带精确原文证据后，005 的 12 段证据均在源码，11 段唯一；程序自动修正行号，不额外花一次模型调用。定位唯一性与缺陷真实性是不同的检查。更大容量依旧未验证成功，46 次的离线数字不能作为可交付成本。

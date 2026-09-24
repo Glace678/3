@@ -5,7 +5,9 @@ export function journalFetch(append,fetchImpl=fetch){
     const url=new URL(typeof input==='string'||input instanceof URL?input:input.url);
     const method=(init?.method||input?.method||'GET').toUpperCase();
     const row={at:new Date().toISOString(),host:url.hostname,path:url.pathname,method};
-    const actionSubmission=url.hostname==='zapier.com'&&url.pathname==='/zapier/api/actions/v1/runs'&&method==='POST';
+    const actionSubmission=method==='POST'&&(
+      (url.hostname==='zapier.com'&&url.pathname==='/zapier/api/actions/v1/runs')||
+      (url.hostname==='sdkapi.zapier.com'&&url.pathname==='/api/v0/sdk/zapier/api/actions/v1/runs'));
     if(actionSubmission)append({...row,phase:'sending'});
     try{
       const response=await fetchImpl(input,init);

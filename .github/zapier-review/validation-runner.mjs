@@ -6,6 +6,7 @@ import {createZapierSdk} from '@zapier/zapier-sdk';
 import {APP,MODEL,requireFreeSdk} from './native-sdk.mjs';
 import {reserve,reconcile} from './validation-budget.mjs';
 import {journalFetch} from './request-journal.mjs';
+import {validateAttachmentReceipt} from './attachment-preflight.mjs';
 const root='.luna-output/validation',file=`${root}/ledger.json`,lock=`${root}/active.lock`;
 const digest=x=>createHash('sha256').update(x).digest('hex');
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
@@ -29,6 +30,10 @@ if(command==='init'){
     if(digest(payload)!==plan.inputSha256||inputs.model_id!==MODEL||inputs.authentication_id!=='0'||inputs.tools!=='[]'||inputs.knowledgeSources!=='[]'||inputs.includeWorkflowData!==false)throw Error('Prepared native Luna payload changed or enabled tools');
     if(command==='execute'){
       if(process.env.LUNA_VALIDATION_APPROVED!=='80-task-cumulative-limit')throw Error('Validation authorization missing');
+      if(plan.attachmentUrl||plan.attachments){
+        const receipt=read(`${dir}/attachment-verification.json`);
+        validateAttachmentReceipt(plan,receipt);
+      }
       ledger=reserve(ledger,{...plan,id,model:MODEL,reserveTasks:1,baseline:Number(value)});save(ledger);entry=ledger.runs.at(-1);
     }else if(!entry?.runId)throw Error('No known run ID; uncertain submissions must never be repeated');
     const update=patch=>{ledger={...ledger,runs:ledger.runs.map(r=>r.id===id?{...r,...patch}:r)};save(ledger);entry=ledger.runs.find(r=>r.id===id);};
@@ -56,7 +61,7 @@ if(command==='init'){
     // SDK 0.112.3 installs uncaught-exception telemetry listeners. Catch here
     // explicitly so a rejected action cannot disappear with an apparent exit 0.
     const ledger=read(file),failure={type:error.name,code:error.code,status:error.statusCode,at:new Date().toISOString()};
-    save({...ledger,halted:`Probe ${id} failed or has uncertain submission; inspect saved transport facts without resubmitting`,runs:ledger.runs.map(r=>r.id===id?{...r,failure}:r)});
+    if(ledger.runs.some(r=>r.id===id))save({...ledger,halted:`Probe ${id} failed or has uncertain submission; inspect saved transport facts without resubmitting`,runs:ledger.runs.map(r=>r.id===id?{...r,failure}:r)});
     console.error(JSON.stringify({id,stopped:true,...failure}));process.exitCode=1;
   }finally{unlinkSync(lock);}
 }else throw Error('Use init, observe ID TASKS REFLECTION, execute ID BASELINE, or resume ID');

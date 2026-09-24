@@ -13,7 +13,7 @@ test('experimental HTTP gzip preserves exact JSON and leaves OAuth requests alon
   await wrapped('https://sdkapi.zapier.com/api/v0/sdk/zapier/api/actions/v1/runs',{method:'POST',headers:{'content-type':'application/json','content-length':'999'},body});
   assert.equal(gunzipSync(calls[0].init.body).toString(),body);
   assert.equal(calls[0].init.headers.get('content-encoding'),'gzip');
-  assert.equal(calls[0].init.headers.has('content-length'),false);
+  assert.equal(calls[0].init.headers.get('content-length'),String(calls[0].init.body.length));
   assert.equal(events.length,1);
   await wrapped('https://zapier.com/oauth/token',{method:'POST',body:'credential-placeholder'});
   assert.equal(calls[1].init.body,'credential-placeholder');assert.equal(events.length,1);

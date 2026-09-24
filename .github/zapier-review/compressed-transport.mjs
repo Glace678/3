@@ -8,8 +8,11 @@ export function compressedActionFetch(fetchImpl=fetch,onCompressed=()=>{}){
     if(!isAction)return fetchImpl(input,init);
     if(typeof init?.body!=='string')throw Error('Only JSON string action bodies support this experiment');
     JSON.parse(init.body);
-    const headers=new Headers(init.headers);headers.set('content-encoding','gzip');headers.delete('content-length');
+    const headers=new Headers(init.headers);headers.set('content-encoding','gzip');
     const body=gzipSync(Buffer.from(init.body),{level:6});
+    // Some SDK transport paths preserve a stale uncompressed Content-Length;
+    // send the exact compressed length explicitly so the gateway can read it.
+    headers.set('content-length',String(body.length));
     onCompressed({phase:'http-gzip',rawBytes:Buffer.byteLength(init.body),compressedBytes:body.length});
     return fetchImpl(input,{...init,headers,body});
   };

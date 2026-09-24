@@ -37,3 +37,9 @@ test('conflicts, overwrites, invalid bytes and traversal cannot publish a tree',
   assert.throws(()=>plan([create('new',binary),create('new',Buffer.from('other'))]),/Conflicting/);
   assert.throws(()=>plan([create('link',Buffer.from([0]),'120000')]),/symlink/);
 });
+
+test('hexadecimal binary content is exact and cannot conflict with base64',()=>{
+  assert.deepEqual(plan([{op:'create',path:'bom.txt',content_hex:'FFFE4200'}]).get('bom.txt').bytes,Buffer.from([255,254,66,0]));
+  for(const content_hex of ['F','0xFF','FF FE','xx'])assert.throws(()=>plan([{op:'create',path:'bad',content_hex}]));
+  assert.throws(()=>plan([{op:'create',path:'bad',content_hex:'00',content_base64:'AA=='}]));
+});

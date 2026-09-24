@@ -89,6 +89,20 @@ async function continueJob(){
 }
 let files;
 async function getFiles(){if(!files){const s=await snapshot();if(s.errors.length)throw Error(s.errors.join('\n'));files=s.files;}return files;}
+// Large recovery inputs live in immutable Git blobs, never accumulate in the state file.
+async function persistRecoveryInputs(children){
+  if(!children.length)return;
+  const head=await gh(`/git/ref/heads/${branch}`),base=await gh(`/git/commits/${head.object.sha}`),tree=[];
+  for(const child of children){
+    child.asset=`.github/zapier-review/cloud-inputs/${child.id}.json`;
+    const blob=await gh('/git/blobs','POST',{content:Buffer.from(JSON.stringify(child.inline)).toString('base64'),encoding:'base64'});
+    tree.push({path:child.asset,mode:'100644',type:'blob',sha:blob.sha});
+  }
+  const newTree=await gh('/git/trees','POST',{base_tree:base.tree.sha,tree});
+  const commit=await gh('/git/commits','POST',{message:`Luna #${issue.number}: automatic recovery source`,tree:newTree.sha,parents:[head.object.sha]});
+  await gh(`/git/refs/heads/${branch}`,'PATCH',{sha:commit.sha,force:false});
+  for(const child of children){child.assetCommit=commit.sha;delete child.inline;}
+}
 async function recover(q,batch,reason){
   if(batch.depth>=6)throw Error(`Recovery depth exhausted: ${q.id}: ${reason}`);
   const originals=JSON.parse(batch.inputs.inputFields.manifest_json).filter(m=>!m.file.startsWith('validation-fixtures/'));
@@ -119,18 +133,20 @@ async function recover(q,batch,reason){
     children.push({id,status:'queued',inline:{id,inputs,checks,fixtures,depth:batch.depth+1}});
   }
   if(!children.length)throw Error('Empty recovery scope');
+  await persistRecoveryInputs(children);
   q.status='superseded';q.reason=reason;q.children=children.map(c=>c.id);state.queue.push(...children);await save();
 }
 const started=Date.now();
 try{
   await requireFreeSdk();await usageGuard();await save();
+  await persistRecoveryInputs(state.queue.filter(q=>q.inline));await save();
   for(let i=0;i<state.queue.length;i++){
     const q=state.queue[i];if(['completed','superseded'].includes(q.status))continue;
     if(Date.now()-started>245*60*1000){
       await continueJob();
     }
     if(q.status==='starting'&&!q.runId)throw Error(`Submission is uncertain: ${q.id}; automatic duplicate dispatch is disabled`);
-    const batch=q.inline||JSON.parse(await raw(state.assetCommit,q.asset));
+    const batch=JSON.parse(await raw(q.assetCommit||state.assetCommit,q.asset));
     const manifest=JSON.parse(batch.inputs.inputFields.manifest_json);
     if(!q.runId){
       if(state.modelRequests>=600)throw Error('Unusual model request count: stopped');

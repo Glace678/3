@@ -62,6 +62,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Load executor from this workflow revision without changing source snapshot
+        env:
+          EXECUTOR_SHA: ${{ github.sha }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$EXECUTOR_SHA"
+          git restore --source="$EXECUTOR_SHA" --worktree -- .github/zapier-review
       - name: Install fixed dependencies
         working-directory: .github/zapier-review
         run: npm ci --ignore-scripts --no-audit --no-fund

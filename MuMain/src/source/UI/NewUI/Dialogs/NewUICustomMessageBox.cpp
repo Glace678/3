@@ -644,12 +644,12 @@ const wchar_t* SEASON3B::CNewUIKeyPadMsgBox::GetInputText()
 
 void SEASON3B::CNewUIKeyPadMsgBox::SetCheckInputText(const wchar_t* strInput)
 {
-    memcpy(m_strCheckKeyPadInput, strInput, m_iInputLimit);
+    memcpy(m_strCheckKeyPadInput, strInput, m_iInputLimit * sizeof(wchar_t));
 }
 
 bool SEASON3B::CNewUIKeyPadMsgBox::IsCheckInput()
 {
-    return (0 == memcmp(m_strCheckKeyPadInput, m_strKeyPadInput, m_iInputLimit));
+    return (0 == memcmp(m_strCheckKeyPadInput, m_strKeyPadInput, m_iInputLimit * sizeof(wchar_t)));
 }
 
 void SEASON3B::CNewUIKeyPadMsgBox::SetStoragePassword(WORD wPassword)

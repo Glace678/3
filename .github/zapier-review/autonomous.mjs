@@ -7,6 +7,7 @@ import {snapshot,hash,applyEdits,encodeEdit,renderParts,pack} from './worker.mjs
 import {APP,MODEL,nativeInputs,requireFreeSdk} from './native-sdk.mjs';
 import {checkConfig,validateAnswer,issueMode,resolveContext} from './autonomous-core.mjs';
 import {journalFetch} from './request-journal.mjs';
+import {compressedActionFetch} from './compressed-transport.mjs';
 import {planOperations,operationInstructions} from './file-operations.mjs';
 import {checkUsage,readUsage} from './usage-guard.mjs';
 // SDK telemetry installs exception handlers; never let a halted job appear green.
@@ -85,7 +86,8 @@ if(!state){
   contentSha=(await gh(`/contents/${jobPath}?ref=${encodeURIComponent(branch)}`)).sha;await save();
 }
 if(!state.assetCommit){state.assetCommit=(await gh(`/git/ref/heads/${branch}`)).object.sha;state.status='running';await save();}
-const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET},fetch:journalFetch(()=>{})});
+const sdkTransport=compressedActionFetch(fetch,()=>{});
+const sdk=createZapierSdk({maxNetworkRetries:0,credentials:{clientId:process.env.ZAPIER_SDK_CLIENT_ID,clientSecret:process.env.ZAPIER_SDK_CLIENT_SECRET},fetch:journalFetch(()=>{},sdkTransport)});
 async function usageGuard(){checkUsage(state,await readUsage(sdk),Math.min(config.maxTasks,state.config.maxTasks));}
 async function ownerStopGuard(){const current=await gh(`/issues/${issue.number}`);if(!current||current.state!=='open')throw Error('Owner closed the Issue; no more model requests will be submitted');}
 async function continueJob(){

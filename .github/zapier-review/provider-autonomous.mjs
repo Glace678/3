@@ -37,9 +37,7 @@ if (!['openai', 'anthropic'].includes(provider)) {
   throw Error(`model_id must start with openai/ or anthropic/, got: ${modelId}`);
 }
 const apiKeyEnv = provider === 'openai' ? 'OPENAI_API_KEY' : 'ANTHROPIC_API_KEY';
-if (!process.env[apiKeyEnv]) {
-  throw Error(`${apiKeyEnv} is not set. Add it to GitHub Secrets for this repository.`);
-}
+// API key check deferred until after plan_only exit (plan_only doesn't call the model)
 // Token budget: stop if cumulative input+output tokens exceed this (default 100M)
 const tokenBudget = Number(input.max_tasks || 100000000);
 
@@ -449,6 +447,9 @@ function validateAnswerProvider({output, manifest, checks, fixtures, mode}) {
 }
 
 // ---- Main loop ----
+if (!process.env[apiKeyEnv]) {
+  throw Error(`${apiKeyEnv} is not set. Add it to GitHub Secrets for this repository.`);
+}
 const started = Date.now();
 try {
   checkTokenBudget();

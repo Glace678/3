@@ -1,0 +1,44 @@
+name: GitHub Models probe
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe GitHub Models
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          probe() {
+            local name="$1" url="$2" data="$3"
+            echo "===== $name ====="
+            if [ -z "$data" ]; then
+              code=$(curl -sS --max-time 40 -o /tmp/body -w "%{http_code}" \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H "X-GitHub-Api-Version: 2026-03-10" \
+                -H "Accept: application/json" "$url")
+            else
+              code=$(curl -sS --max-time 60 -o /tmp/body -w "%{http_code}" \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H "X-GitHub-Api-Version: 2026-03-10" \
+                -H "Content-Type: application/json" -H "Accept: application/json" \
+                "$url" -d "$data")
+            fi
+            echo "HTTP $code"
+            head -c 2500 /tmp/body; echo; echo
+          }
+          # 1) Azure-compatible endpoint: list models
+          probe "azure list models" "https://models.inference.ai.azure.com/models" ""
+          # 2) Azure-compatible endpoint: tiny chat (gpt-4.1)
+          probe "azure chat gpt-4.1" "https://models.inference.ai.azure.com/chat/completions" \
+            '{"model":"gpt-4.1","messages":[{"role":"user","content":"Reply with the single word OK"}],"max_tokens":10}'
+          # 3) GitHub-native endpoint: list models
+          probe "github list models" "https://models.github.ai/models" ""
+          # 4) GitHub-native endpoint: tiny chat (openai/gpt-4.1)
+          probe "github chat openai/gpt-4.1" "https://models.github.ai/inference/chat/completions" \
+            '{"model":"openai/gpt-4.1","messages":[{"role":"user","content":"Reply with the single word OK"}],"max_tokens":10}'

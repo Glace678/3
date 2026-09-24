@@ -1,5 +1,10 @@
 # Build Guide
 
+Incremental builds preserve unchanged generated translation files. Editing a
+translation only recompiles outputs whose contents changed; rebuilding the
+translation generator itself no longer forces every translated UI source to
+recompile. Generated `bin/` and `obj/` files are not generator inputs.
+
 How to build the MU client on each platform, with one file per setup (terminal,
 WSL, and the common IDEs). Pick the guide that matches your environment.
 

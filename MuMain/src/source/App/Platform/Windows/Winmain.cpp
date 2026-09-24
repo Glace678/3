@@ -1,4 +1,4 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "Core/Input/FocusNavigator.h"
@@ -1884,6 +1884,8 @@ namespace
 
     void HandleFocusChange(bool active)
     {
+        if (!active)
+            Core::Input::ClearKeyboardPresses();
         Core::Input::GamepadService::Instance().OnFocusChanged(active);
         if (!active)
         {
@@ -2096,6 +2098,40 @@ void MuApplyWindowResolution(unsigned int width, unsigned int height, bool windo
     HandleWindowResize(actualW, actualH);
 }
 
+namespace
+{
+    void HandleKeyboardDown(const SDL_KeyboardEvent& key)
+    {
+        if (!key.repeat)
+            Core::Input::RecordKeyboardPress(key.scancode);
+#ifndef _WIN32
+        // These mirror what WndProc does from Win32 messages, for the
+        // SDL-only input path. On Windows WndProc is still driven (via
+        // SDL_SetWindowsMessageHook), so doing them here too would
+        // double-fire - guard them off there.
+        //
+        // Enter is gated through SetEnterPressed: ScanAsyncKeyState
+        // suppresses a VK_RETURN press unless this fired that frame
+        // (WM_CHAR does it on Windows). Without it Enter never reaches
+        // the game (login submit, chat open).
+        if (key.scancode == SDL_SCANCODE_RETURN ||
+            key.scancode == SDL_SCANCODE_KP_ENTER)
+        {
+            SetEnterPressed(true);
+        }
+        // F10 toggles the camera zoom lock (WM_SYSKEYDOWN on Windows,
+        // where F10 is a reserved system key). Without it the zoom stays
+        // locked and the mouse wheel can never zoom. Edge-triggered.
+        if (key.scancode == SDL_SCANCODE_F10 && !key.repeat)
+        {
+            CameraManager::Instance().ToggleZoomLock();
+        }
+#endif
+        // Navigation/erase/clipboard for the focused portable field (#447).
+        FeedPortableKey(key);
+    }
+}
+
 MSG MainLoop()
 {
     constexpr auto target_resolution = 1;
@@ -2180,31 +2216,7 @@ MSG MainLoop()
                     box->OnTextEditing(Utf8ToWide(event.edit.text).c_str());
                 break;
             case SDL_EVENT_KEY_DOWN:
-#ifndef _WIN32
-                // These mirror what WndProc does from Win32 messages, for the
-                // SDL-only input path. On Windows WndProc is still driven (via
-                // SDL_SetWindowsMessageHook), so doing them here too would
-                // double-fire - guard them off there.
-                //
-                // Enter is gated through SetEnterPressed: ScanAsyncKeyState
-                // suppresses a VK_RETURN press unless this fired that frame
-                // (WM_CHAR does it on Windows). Without it Enter never reaches
-                // the game (login submit, chat open).
-                if (event.key.scancode == SDL_SCANCODE_RETURN ||
-                    event.key.scancode == SDL_SCANCODE_KP_ENTER)
-                {
-                    SetEnterPressed(true);
-                }
-                // F10 toggles the camera zoom lock (WM_SYSKEYDOWN on Windows,
-                // where F10 is a reserved system key). Without it the zoom stays
-                // locked and the mouse wheel can never zoom. Edge-triggered.
-                if (event.key.scancode == SDL_SCANCODE_F10 && !event.key.repeat)
-                {
-                    CameraManager::Instance().ToggleZoomLock();
-                }
-#endif
-                // Navigation/erase/clipboard for the focused portable field (#447).
-                FeedPortableKey(event.key);
+                HandleKeyboardDown(event.key);
                 break;
             default:
                 break;
@@ -2301,6 +2313,7 @@ MSG MainLoop()
                 focusNavigator.EndFrame(
                     static_cast<float>(MouseX),
                     static_cast<float>(MouseY));
+                Core::Input::ClearKeyboardPresses();
 #if defined(MU_ENABLE_VIRTUAL_GAMEPAD_TESTS)
                 WriteVirtualGamepadAcceptanceState();
 #endif

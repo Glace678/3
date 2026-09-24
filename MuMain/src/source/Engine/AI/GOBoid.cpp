@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 //  GOBoid.cpp
 //
@@ -150,20 +150,31 @@ void CreateMount(int Type, vec3_t Position, OBJECT* Owner, int SubType, int Link
     }
 }
 
+namespace
+{
+    bool HasActiveMountOwner(const OBJECT* mount)
+    {
+        if (mount->Owner == nullptr)
+            return false;
+        const bool isDoppelgangerMap = gMapManager.WorldActive >= WD_65DOPPLEGANGER1
+            && gMapManager.WorldActive <= WD_68DOPPLEGANGER4;
+        return SceneFlag != MAIN_SCENE || isDoppelgangerMap
+            || (mount->Owner->Live && mount->Owner->Kind == KIND_PLAYER);
+    }
+}
+
 bool MoveMount(OBJECT* o, bool bForceRender)
 {
-    if (o->Live)
+    if (o == nullptr || !o->Live)
+        return TRUE;
+    if (!HasActiveMountOwner(o))
     {
-        if (SceneFlag == MAIN_SCENE)
-        {
-            if (gMapManager.WorldActive >= WD_65DOPPLEGANGER1 && gMapManager.WorldActive <= WD_68DOPPLEGANGER4);
-            else
-                if (!o->Owner->Live || o->Owner->Kind != KIND_PLAYER)
-                {
-                    o->Live = false;
-                    return TRUE;
-                }
-        }
+        o->Live = false;
+        return TRUE;
+    }
+
+    OBJECT* const owner = o->Owner;
+    {
 
         Alpha(o);
 
@@ -173,20 +184,20 @@ bool MoveMount(OBJECT* o, bool bForceRender)
         vec3_t  TargetPosition;
         BMD* b = &Models[o->Type];
 
-        VectorCopy(o->Owner->Position, TargetPosition);
+        VectorCopy(owner->Position, TargetPosition);
         switch (o->Type)
         {
         case MODEL_FENRIR_BLACK:
         case MODEL_FENRIR_BLUE:
         case MODEL_FENRIR_RED:
         case MODEL_FENRIR_GOLD:
-            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(o->Owner->Position[0] / TERRAIN_SCALE), (int)(o->Owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE && bForceRender == FALSE)
+            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(owner->Position[0] / TERRAIN_SCALE), (int)(owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE && bForceRender == FALSE)
             {
                 o->Alpha = 0.f;
                 break;
             }
 
-            if (o->Owner->Teleport == TELEPORT_BEGIN || o->Owner->Teleport == TELEPORT)
+            if (owner->Teleport == TELEPORT_BEGIN || owner->Teleport == TELEPORT)
             {
                 o->Alpha -= 0.1f * FPS_ANIMATION_FACTOR;
                 if (o->Alpha < 0) o->Alpha = 0.f;
@@ -196,75 +207,75 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 o->Alpha = 1.f;
             }
 
-            VectorCopy(o->Owner->HeadAngle, o->HeadAngle);
-            VectorCopy(o->Owner->Position, o->Position);
-            VectorCopy(o->Owner->Angle, o->Angle);
+            VectorCopy(owner->HeadAngle, o->HeadAngle);
+            VectorCopy(owner->Position, o->Position);
+            VectorCopy(owner->Angle, o->Angle);
 
-            if ((o->Owner->CurrentAction >= PLAYER_FENRIR_ATTACK && o->Owner->CurrentAction <= PLAYER_FENRIR_ATTACK_BOW)
-                || IsAliceRideAction_Fenrir(o->Owner->CurrentAction) == true
-                || o->Owner->CurrentAction == PLAYER_RAGE_FENRIR_ATTACK_RIGHT)
+            if ((owner->CurrentAction >= PLAYER_FENRIR_ATTACK && owner->CurrentAction <= PLAYER_FENRIR_ATTACK_BOW)
+                || IsAliceRideAction_Fenrir(owner->CurrentAction) == true
+                || owner->CurrentAction == PLAYER_RAGE_FENRIR_ATTACK_RIGHT)
             {
                 SetAction(o, FENRIR_ATTACK);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_FENRIR_SKILL && o->Owner->CurrentAction <= PLAYER_FENRIR_SKILL_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_FENRIR_SKILL && owner->CurrentAction <= PLAYER_FENRIR_SKILL_ONE_LEFT)
             {
                 SetAction(o, FENRIR_ATTACK_SKILL);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_FENRIR_DAMAGE && o->Owner->CurrentAction <= PLAYER_FENRIR_DAMAGE_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_FENRIR_DAMAGE && owner->CurrentAction <= PLAYER_FENRIR_DAMAGE_ONE_LEFT)
             {
                 SetAction(o, FENRIR_DAMAGE);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_FENRIR_STAND && o->Owner->CurrentAction <= PLAYER_FENRIR_STAND_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_FENRIR_STAND && owner->CurrentAction <= PLAYER_FENRIR_STAND_ONE_LEFT)
             {
                 SetAction(o, FENRIR_STAND);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction == PLAYER_DIE1)
+            else if (owner->CurrentAction == PLAYER_DIE1)
             {
                 SetAction(o, FENRIR_STAND);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_DAMAGE && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_DAMAGE_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_RAGE_FENRIR_DAMAGE && owner->CurrentAction <= PLAYER_RAGE_FENRIR_DAMAGE_ONE_LEFT)
             {
                 SetAction(o, FENRIR_DAMAGE);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_RAGE_FENRIR && owner->CurrentAction <= PLAYER_RAGE_FENRIR_ONE_LEFT)
             {
                 SetAction(o, FENRIR_ATTACK_SKILL);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_STAND && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_STAND_ONE_LEFT)
+            else if (owner->CurrentAction >= PLAYER_RAGE_FENRIR_STAND && owner->CurrentAction <= PLAYER_RAGE_FENRIR_STAND_ONE_LEFT)
             {
                 SetAction(o, FENRIR_STAND);
                 o->Velocity = 0.4f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_SKILL_THRUST && o->Owner->CurrentAction <= PLAYER_SKILL_HP_UP_OURFORCES)
+            else if (owner->CurrentAction >= PLAYER_SKILL_THRUST && owner->CurrentAction <= PLAYER_SKILL_HP_UP_OURFORCES)
             {
                 SetAction(o, FENRIR_STAND);
                 o->Velocity = 0.4f;
             }
             else
             {
-                if (o->Owner->CurrentAction >= PLAYER_FENRIR_WALK && o->Owner->CurrentAction <= PLAYER_FENRIR_WALK_ONE_LEFT)
+                if (owner->CurrentAction >= PLAYER_FENRIR_WALK && owner->CurrentAction <= PLAYER_FENRIR_WALK_ONE_LEFT)
                 {
                     SetAction(o, FENRIR_WALK);
                     o->Velocity = 1.0f;
                 }
-                else if (o->Owner->CurrentAction >= PLAYER_FENRIR_RUN && o->Owner->CurrentAction <= PLAYER_FENRIR_RUN_ONE_LEFT_ELF)
+                else if (owner->CurrentAction >= PLAYER_FENRIR_RUN && owner->CurrentAction <= PLAYER_FENRIR_RUN_ONE_LEFT_ELF)
                 {
                     SetAction(o, FENRIR_RUN);
                     o->Velocity = 0.6f;
                 }
-                else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_RUN && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_RUN_ONE_LEFT)
+                else if (owner->CurrentAction >= PLAYER_RAGE_FENRIR_RUN && owner->CurrentAction <= PLAYER_RAGE_FENRIR_RUN_ONE_LEFT)
                 {
                     SetAction(o, FENRIR_RUN);
                     o->Velocity = 0.6f;
                 }
-                else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_WALK && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_WALK_TWO_SWORD)
+                else if (owner->CurrentAction >= PLAYER_RAGE_FENRIR_WALK && owner->CurrentAction <= PLAYER_RAGE_FENRIR_WALK_TWO_SWORD)
                 {
                     SetAction(o, FENRIR_WALK);
                     o->Velocity = 1.0f;
@@ -306,7 +317,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 }
                 else if (rand_fps_check(3) && !gMapManager.InHellas())
                 {
-                    if (o->Owner && !g_isCharacterBuff(o->Owner, eBuff_Cloaking))
+                    if (owner && !g_isCharacterBuff(owner, eBuff_Cloaking))
                     {
                         Vector(o->Position[0] + (float)(rand() % 64 - 32),
                             o->Position[1] + (float)(rand() % 64 - 32),
@@ -321,7 +332,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
             }
             break;
         case MODEL_DARK_HORSE:
-            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(o->Owner->Position[0] / TERRAIN_SCALE), (int)(o->Owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE
+            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(owner->Position[0] / TERRAIN_SCALE), (int)(owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE
                 && bForceRender == FALSE)
             {
                 o->Alpha = 0.f;
@@ -331,16 +342,16 @@ bool MoveMount(OBJECT* o, bool bForceRender)
             b->BoneHead = 7;
 
             // Take riders position and angle:
-            VectorCopy(o->Owner->HeadAngle, o->HeadAngle);
-            VectorCopy(o->Owner->Position, o->Position);
-            VectorCopy(o->Owner->Angle, o->Angle);
+            VectorCopy(owner->HeadAngle, o->HeadAngle);
+            VectorCopy(owner->Position, o->Position);
+            VectorCopy(owner->Angle, o->Angle);
 
-            if (o->Owner->CurrentAction == PLAYER_ATTACK_DARKHORSE)
+            if (owner->CurrentAction == PLAYER_ATTACK_DARKHORSE)
             {
                 SetAction(o, 3);
                 o->Velocity = 0.34f;
             }
-            else if (o->Owner->CurrentAction == PLAYER_RUN_RIDE_HORSE)
+            else if (owner->CurrentAction == PLAYER_RUN_RIDE_HORSE)
             {
                 Vector(1.f, 1.f, 1.f, Light);
 
@@ -389,7 +400,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 }
                 else if (rand_fps_check(2) && !gMapManager.InHellas())
                 {
-                    if (o->Owner && !g_isCharacterBuff(o->Owner, eBuff_Cloaking))
+                    if (owner && !g_isCharacterBuff(owner, eBuff_Cloaking))
                     {
                         // Smoke at the back feet of the horse.
                         Vector(o->Position[0] + (float)(rand() % 64 - 32),
@@ -405,17 +416,17 @@ bool MoveMount(OBJECT* o, bool bForceRender)
 
                 o->Velocity = 0.34f;
             }
-            else if (o->Owner->CurrentAction >= PLAYER_ATTACK_RIDE_STRIKE && o->Owner->CurrentAction <= PLAYER_ATTACK_RIDE_ATTACK_MAGIC)
+            else if (owner->CurrentAction >= PLAYER_ATTACK_RIDE_STRIKE && owner->CurrentAction <= PLAYER_ATTACK_RIDE_ATTACK_MAGIC)
             {
                 SetAction(o, 2);
                 o->Velocity = 0.34f;
             }
-            else if (o->Owner->CurrentAction == PLAYER_IDLE1_DARKHORSE)
+            else if (owner->CurrentAction == PLAYER_IDLE1_DARKHORSE)
             {
                 SetAction(o, 5);
                 o->Velocity = 1.0f;
             }
-            else if (o->Owner->CurrentAction == PLAYER_IDLE2_DARKHORSE)
+            else if (owner->CurrentAction == PLAYER_IDLE2_DARKHORSE)
             {
                 SetAction(o, 6);
                 o->Velocity = 1.0f;
@@ -430,7 +441,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
             // Breathing smoke/bubbles:
             //if (o->CurrentAction != 1)
             {
-                if (o->Owner && !g_isCharacterBuff(o->Owner, eBuff_Cloaking))
+                if (owner && !g_isCharacterBuff(owner, eBuff_Cloaking))
                 {
                     if (rand_fps_check(3))
                     {
@@ -466,7 +477,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 RenderDarkHorseSkill(o, b);
             }
 
-            if (o->Owner->ExtState == 1)
+            if (owner->ExtState == 1)
             {
                 vec3_t p;
                 vec3_t Angle = { 0.f, 0.f, 0.f };
@@ -486,23 +497,23 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                     }
                 }
             }
-            else if (o->Owner->ExtState == 2)
+            else if (owner->ExtState == 2)
             {
             }
-            o->Owner->ExtState = 0;
+            owner->ExtState = 0;
 
-            o->Live = o->Owner->Live;
+            o->Live = owner->Live;
             break;
         case MODEL_PEGASUS:
         case MODEL_UNICON:
-            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(o->Owner->Position[0] / TERRAIN_SCALE), (int)(o->Owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE
+            if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(owner->Position[0] / TERRAIN_SCALE), (int)(owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE
                 && bForceRender == FALSE)
             {
                 o->Alpha = 0.f;
                 break;
             }
 
-            if (o->Owner->Teleport == TELEPORT_BEGIN || o->Owner->Teleport == TELEPORT)
+            if (owner->Teleport == TELEPORT_BEGIN || owner->Teleport == TELEPORT)
             {
                 o->Alpha -= 0.1f * FPS_ANIMATION_FACTOR;
                 if (o->Alpha < 0) o->Alpha = 0.f;
@@ -512,7 +523,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 o->Alpha = 1.f;
             }
 
-            VectorCopy(o->Owner->Position, o->Position);
+            VectorCopy(owner->Position, o->Position);
 
             if (o->Type == MODEL_PEGASUS)
             {
@@ -521,10 +532,10 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 else if (gMapManager.WorldActive != -1)
                     o->Position[2] -= 30.f;
             }
-            VectorCopy(o->Owner->Angle, o->Angle);
-            if (o->Owner->CurrentAction >= PLAYER_WALK_MALE && o->Owner->CurrentAction <= PLAYER_RUN_RIDE_WEAPON
-                || o->Owner->CurrentAction == PLAYER_FLY_RIDE || o->Owner->CurrentAction == PLAYER_FLY_RIDE_WEAPON
-                || o->Owner->CurrentAction == PLAYER_RAGE_UNI_RUN || o->Owner->CurrentAction == PLAYER_RAGE_UNI_RUN_ONE_RIGHT)
+            VectorCopy(owner->Angle, o->Angle);
+            if (owner->CurrentAction >= PLAYER_WALK_MALE && owner->CurrentAction <= PLAYER_RUN_RIDE_WEAPON
+                || owner->CurrentAction == PLAYER_FLY_RIDE || owner->CurrentAction == PLAYER_FLY_RIDE_WEAPON
+                || owner->CurrentAction == PLAYER_RAGE_UNI_RUN || owner->CurrentAction == PLAYER_RAGE_UNI_RUN_ONE_RIGHT)
             {
                 //  페가수스.
                 if (o->Type == MODEL_PEGASUS)
@@ -543,7 +554,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 {
                     if (!g_Direction.m_CKanturu.IsMayaScene())
 
-                        if (o->Owner && !g_isCharacterBuff(o->Owner, eBuff_Cloaking))
+                        if (owner && !g_isCharacterBuff(owner, eBuff_Cloaking))
                         {
                             Vector(1.f, 1.f, 1.f, Light);
                             Vector(o->Position[0] + (float)(rand() % 64 - 32),
@@ -556,15 +567,15 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                         }
                 }
             }
-            else if (o->Owner->CurrentAction == PLAYER_SKILL_RIDER || o->Owner->CurrentAction == PLAYER_SKILL_RIDER_FLY)
+            else if (owner->CurrentAction == PLAYER_SKILL_RIDER || owner->CurrentAction == PLAYER_SKILL_RIDER_FLY)
             {
                 if (gMapManager.WorldActive == WD_8TARKAN || gMapManager.WorldActive == WD_10HEAVEN || g_Direction.m_CKanturu.IsMayaScene())
                     SetAction(o, 7);
                 else
                     SetAction(o, 6);
             }
-            else if ((o->Owner->CurrentAction >= PLAYER_ATTACK_FIST && o->Owner->CurrentAction <= PLAYER_ATTACK_RIDE_CROSSBOW)
-                || IsAliceRideAction_UniDino(o->Owner->CurrentAction) == true
+            else if ((owner->CurrentAction >= PLAYER_ATTACK_FIST && owner->CurrentAction <= PLAYER_ATTACK_RIDE_CROSSBOW)
+                || IsAliceRideAction_UniDino(owner->CurrentAction) == true
                 )
             {
                 if (o->Type == MODEL_PEGASUS)
@@ -594,7 +605,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 }
             }
             o->Velocity = 0.34f;
-            o->Live = o->Owner->Live;
+            o->Live = owner->Live;
             break;
         case MODEL_BUTTERFLY01:
             FlyRange = 100.f;
@@ -603,7 +614,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 CreateParticle(BITMAP_SMOKE, o->Position, o->Angle, Light, 1);
             break;
         case MODEL_HELPER:
-            if (o->Owner && !g_isCharacterBuff(o->Owner, eBuff_Cloaking))
+            if (owner && !g_isCharacterBuff(owner, eBuff_Cloaking))
             {
                 FlyRange = 150.f;
                 vec3_t Position, Light;
@@ -655,8 +666,8 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 o->Direction[1] = Speed;
                 o->Direction[2] = (float)(rand() % 64 - 32) * 0.1f;
             }
-            if (o->Position[2] < o->Owner->Position[2] + 100.f) o->Direction[2] += 1.5f;
-            if (o->Position[2] > o->Owner->Position[2] + 200.f) o->Direction[2] -= 1.5f;
+            if (o->Position[2] < owner->Position[2] + 100.f) o->Direction[2] += 1.5f;
+            if (o->Position[2] > owner->Position[2] + 200.f) o->Direction[2] -= 1.5f;
         }
     }
     return TRUE;

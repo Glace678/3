@@ -281,6 +281,31 @@ public sealed class MobileGmService
     private static int CountExcellentOptions(ItemDefinition definition) =>
         OptionsOfType(definition, ItemOptionTypes.Excellent).Count();
 
+    /// <summary>Checks that every requested bit names an available excellent option.</summary>
+    /// <param name="mask">The requested option mask.</param>
+    /// <param name="options">The definition's available excellent options.</param>
+    /// <returns>Whether all requested options exist.</returns>
+    internal static bool HasValidExcellentOptions(int mask, IEnumerable<IncreasableItemOption> options)
+    {
+        if (mask < 0)
+        {
+            return false;
+        }
+
+        var allowedMask = 0;
+        foreach (var option in options)
+        {
+            // The request uses a nonnegative signed 32-bit mask. Invalid option
+            // numbers must not wrap around C#'s masked shift count.
+            if (option.Number is >= 1 and <= 31)
+            {
+                allowedMask |= 1 << (option.Number - 1);
+            }
+        }
+
+        return (mask & ~allowedMask) == 0;
+    }
+
     private static void AddOptionLink(Player player, Item item, IncreasableItemOption option, int level)
     {
         var link = player.PersistenceContext.CreateNew<ItemOptionLink>();
@@ -410,9 +435,7 @@ public sealed class MobileGmService
                     return new MobileGmGrantResponse(false, "该物品没有卓越属性。");
                 }
 
-                // A set bit must correspond to an existing excellent option Number.
-                var highestBit = (int)Math.Floor(Math.Log(request.ExcellentMask, 2)) + 1;
-                if (highestBit > excellentOptions.Max(option => option.Number))
+                if (!HasValidExcellentOptions(request.ExcellentMask, excellentOptions))
                 {
                     return new MobileGmGrantResponse(false, "所选卓越属性超出该物品可用范围。");
                 }

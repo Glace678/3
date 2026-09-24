@@ -38,8 +38,15 @@ static inline bool IsValidJointPosition(const vec3_t pos)
     return (pos[0] != 0.f || pos[1] != 0.f || pos[2] != 0.f);
 }
 
-static inline void UpdateJointTargetPosition(JOINT* o, const vec3_t eyePos)
+static inline void UpdateJointTargetPosition(JOINT* o, vec3_t OBJECT::* eye)
 {
+    if (o->Target == nullptr)
+    {
+        o->Live = false;
+        return;
+    }
+
+    const auto& eyePos = o->Target->*eye;
     if (IsValidJointPosition(eyePos))
     {
         VectorCopy(eyePos, o->Position);
@@ -47,6 +54,53 @@ static inline void UpdateJointTargetPosition(JOINT* o, const vec3_t eyePos)
     else if (o->Target != NULL && IsValidJointPosition(o->Target->Position))
     {
         VectorCopy(o->Target->Position, o->Position);
+    }
+}
+
+namespace
+{
+    bool CopyJointTargetTransform(JOINT* joint)
+    {
+        if (joint->Target == nullptr)
+        {
+            joint->Live = false;
+            return false;
+        }
+        VectorCopy(joint->Target->Position, joint->Position);
+        VectorCopy(joint->Target->Angle, joint->Angle);
+        return true;
+    }
+
+    void MoveAttachedJointTrail(JOINT* joint, bool rotate)
+    {
+        if (joint->Target == nullptr)
+        {
+            joint->Live = false;
+            return;
+        }
+        constexpr int SegmentCount = 3;
+        constexpr float SegmentRotation = 30.f;
+        vec3_t step, angle;
+        float tailMatrix[3][4];
+        VectorSubtract(joint->Target->Position, joint->Target->StartPosition, step);
+        VectorScale(step, 1.f / SegmentCount, step);
+        VectorCopy(joint->Target->StartPosition, joint->TargetPosition);
+        VectorCopy(joint->Angle, angle);
+        AngleMatrix(joint->Angle, tailMatrix);
+
+        for (int segment = 0; segment < SegmentCount; ++segment)
+        {
+            if (rotate)
+                angle[1] += SegmentRotation * FPS_ANIMATION_FACTOR;
+            VectorAdd(joint->TargetPosition, step, joint->TargetPosition);
+            float matrix[3][4];
+            vec3_t offset;
+            AngleMatrix(angle, matrix);
+            VectorRotate(joint->Direction, matrix, offset);
+            VectorAdd(joint->TargetPosition, offset, joint->Position);
+            if (joint->NumTails < joint->MaxTails - 1 || joint->Skill != 0)
+                CreateTail(joint, tailMatrix);
+        }
     }
 }
 
@@ -289,41 +343,41 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     if (o->SubType == 3 || o->SubType == 11 || o->SubType == 15)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeRight);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeRight);
                     }
                     else if (o->SubType == 18 || o->SubType == 28)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                     }
                     else if (o->SubType == 19 || o->SubType == 29)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeRight);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeRight);
                     }
                     else if (o->SubType == 20 || o->SubType == 30)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeLeft2);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeLeft2);
                     }
                     else if (o->SubType == 21 || o->SubType == 31)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeRight2);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeRight2);
                     }
                     else if (o->SubType == 26 || o->SubType == 32)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeLeft3);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeLeft3);
                     }
                     else if (o->SubType == 27 || o->SubType == 33)
                     {
                         o->MaxTails = 8;
-                        UpdateJointTargetPosition(o, o->Target->EyeRight3);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeRight3);
                     }
                     else
                     {
-                        UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                        UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                     }
                     o->TexType = BITMAP_JOINT_ENERGY;
                     if ((o->SubType >= 28 && o->SubType <= 33)
@@ -336,19 +390,19 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     o->Velocity = 0.f;
                     o->LifeTime = 999999999;
                     o->MaxTails = 10;
-                    UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                     break;
                 case 23:
                     o->Velocity = 0.f;
                     o->LifeTime = 999999999;
                     o->MaxTails = 10;
-                    UpdateJointTargetPosition(o, o->Target->EyeRight);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeRight);
                     break;
                 case 24:
                     o->Velocity = 0.f;
                     o->LifeTime = 999999999;
                     o->MaxTails = 10;
-                    UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                     break;
                 case 25:
                     o->Velocity = 0.f;
@@ -419,8 +473,8 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
 
                     switch (o->SubType)
                     {
-                    case 55: UpdateJointTargetPosition(o, o->Target->EyeLeft); break; //left
-                    case 56: UpdateJointTargetPosition(o, o->Target->EyeRight); break; //rifht
+                    case 55: UpdateJointTargetPosition(o, &OBJECT::EyeLeft); break; //left
+                    case 56: UpdateJointTargetPosition(o, &OBJECT::EyeRight); break; //rifht
                     }
                 }
                 break;
@@ -1356,7 +1410,6 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                 case 28:
                 {
                     o->LifeTime = 2;
-                    VectorCopy(vPriorColor, o->Light);
                 }
                 break;
                 case 33:
@@ -1536,6 +1589,12 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                 VectorCopy(o->Position, o->TargetPosition);
                 break;
             case MODEL_SPEARSKILL:
+                if (o->Target == nullptr ||
+                    ((o->SubType == 15 || o->SubType == 17) && o->Target->Owner == nullptr))
+                {
+                    o->Live = false;
+                    return;
+                }
                 VectorCopy(o->Target->Position, o->TargetPosition);
                 switch (o->SubType)
                 {
@@ -1638,7 +1697,6 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     VectorAdd(o->StartPosition, Position, o->Position);
                     break;
                 case 14:
-                    VectorCopy(vPriorColor, o->Light);
                     o->LifeTime = 100;
                     o->MaxTails = 30;
                     o->TexType = BITMAP_LIGHT;
@@ -2075,7 +2133,8 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     break;
                 case 3:
                     o->Scale = 20.f;
-                    VectorCopy(Target->Light, o->Light);
+                    if (Target != nullptr)
+                        VectorCopy(Target->Light, o->Light);
                     break;
                 }
                 switch (o->SubType)
@@ -2178,12 +2237,8 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     }
                     Vector(0.f, 0.f, 0.f, o->Direction);
 
-                    if (o->Target == NULL)
-                    {
-                        o->Live = false;
-                    }
-                    VectorCopy(o->Target->Position, o->Position);
-                    VectorCopy(o->Target->Angle, o->Angle);
+                    if (!CopyJointTargetTransform(o))
+                        return;
                     if (o->SubType == 8)
                     {
                         o->Position[2] = 300.f;
@@ -2306,12 +2361,8 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     Vector(1.f, 1.f, 1.f, o->Light);
                     Vector(0.f, 0.f, 0.f, o->Direction);
 
-                    if (o->Target == NULL)
-                    {
-                        o->Live = false;
-                    }
-                    VectorCopy(o->Target->Position, o->Position);
-                    VectorCopy(o->Target->Angle, o->Angle);
+                    if (!CopyJointTargetTransform(o))
+                        return;
                 }
                 else if (o->SubType >= 2 && o->SubType <= 6)
                 {
@@ -2617,12 +2668,8 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
                     Vector(1.f, 1.f, 1.f, o->Light);
                     Vector(0.f, 0.f, 0.f, o->Direction);
 
-                    if (o->Target == NULL)
-                    {
-                        o->Live = false;
-                    }
-                    VectorCopy(o->Target->Position, o->Position);
-                    VectorCopy(o->Target->Angle, o->Angle);
+                    if (!CopyJointTargetTransform(o))
+                        return;
                 }
                 else if (o->SubType == 6)
                 {
@@ -3088,7 +3135,7 @@ void MoveJoint(JOINT* o, int iIndex)
             case 28:
             case 22:
             case 24:
-                UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                 if (o->SubType == 8)
                 {
                     o->Scale += (10.1f) * FPS_ANIMATION_FACTOR;
@@ -3096,11 +3143,11 @@ void MoveJoint(JOINT* o, int iIndex)
                 break;
             case 20:
             case 30:
-                UpdateJointTargetPosition(o, o->Target->EyeLeft2);
+                UpdateJointTargetPosition(o, &OBJECT::EyeLeft2);
                 break;
             case 26:
             case 32:
-                UpdateJointTargetPosition(o, o->Target->EyeLeft3);
+                UpdateJointTargetPosition(o, &OBJECT::EyeLeft3);
                 break;
                 //. Right
             case 3:
@@ -3111,38 +3158,38 @@ void MoveJoint(JOINT* o, int iIndex)
             case 23:
             case 25:
             case 47:
-                UpdateJointTargetPosition(o, o->Target->EyeRight);
+                UpdateJointTargetPosition(o, &OBJECT::EyeRight);
                 break;
             case 21:
             case 31:
-                UpdateJointTargetPosition(o, o->Target->EyeRight2);
+                UpdateJointTargetPosition(o, &OBJECT::EyeRight2);
                 break;
             case 54:
                 switch (o->PKKey)
                 {
                 case 0:
-                    UpdateJointTargetPosition(o, o->Target->EyeRight2);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeRight2);
                     break;
                 case 1:
-                    UpdateJointTargetPosition(o, o->Target->EyeLeft2);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeLeft2);
                     break;
                 case 2:
-                    UpdateJointTargetPosition(o, o->Target->EyeRight3);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeRight3);
                     break;
                 case 3:
-                    UpdateJointTargetPosition(o, o->Target->EyeLeft3);
+                    UpdateJointTargetPosition(o, &OBJECT::EyeLeft3);
                     break;
                 }
                 break;
             case 27:
             case 33:
-                UpdateJointTargetPosition(o, o->Target->EyeRight3);
+                UpdateJointTargetPosition(o, &OBJECT::EyeRight3);
                 break;
             case 55:
-                UpdateJointTargetPosition(o, o->Target->EyeLeft);
+                UpdateJointTargetPosition(o, &OBJECT::EyeLeft);
                 break;
             case 56:
-                UpdateJointTargetPosition(o, o->Target->EyeRight);
+                UpdateJointTargetPosition(o, &OBJECT::EyeRight);
                 break;
             case 57:
                 Models[o->Target->Type].Animation(BoneTransform, o->Target->AnimationFrame,
@@ -6127,65 +6174,9 @@ void MoveJoint(JOINT* o, int iIndex)
                 o->Live = false;
             }
         }
-        else if (o->SubType == 19)
+        else if (o->SubType == 19 || o->SubType == 20)
         {
-            vec3_t  pos;
-            float   Mat[3][4];
-
-            vec3_t  Angle;
-            VectorSubtract(o->Target->Position, o->Target->StartPosition, pos);
-            VectorCopy(o->Target->StartPosition, o->TargetPosition);
-            //VectorCopy( o->Target->HeadAngle, Angle );
-            AngleMatrix(o->Angle, Mat);
-
-            pos[0] /= 3.f;
-            pos[1] /= 3.f;
-            pos[2] /= 3.f;
-            //Angle[1] += (o->Velocity - 90) * FPS_ANIMATION_FACTOR;
-
-            for (int j = 0; j < 3; j++)
-            {
-                Angle[1] += (30.f) * FPS_ANIMATION_FACTOR;
-
-                VectorAdd(o->TargetPosition, pos, o->TargetPosition);
-
-                vec3_t  position;
-                AngleMatrix(Angle, Matrix);
-                VectorRotate(o->Direction, Matrix, position);
-                VectorAdd(o->TargetPosition, position, o->Position);
-
-                if ((int)o->NumTails < (o->MaxTails - 1) || o->Skill != 0)
-                    CreateTail(o, Mat);
-            }
-        }
-        else if (o->SubType == 20)
-        {
-            vec3_t  pos;
-            float   Mat[3][4];
-
-            vec3_t  Angle;
-            VectorSubtract(o->Target->Position, o->Target->StartPosition, pos);
-            VectorCopy(o->Target->StartPosition, o->TargetPosition);
-            //VectorCopy( o->Target->HeadAngle, Angle );
-            AngleMatrix(o->Angle, Mat);
-
-            pos[0] /= 3.f;
-            pos[1] /= 3.f;
-            pos[2] /= 3.f;
-            //Angle[1] += (o->Velocity - 90) * FPS_ANIMATION_FACTOR;
-
-            for (int j = 0; j < 3; j++)
-            {
-                VectorAdd(o->TargetPosition, pos, o->TargetPosition);
-
-                vec3_t  position;
-                AngleMatrix(Angle, Matrix);
-                VectorRotate(o->Direction, Matrix, position);
-                VectorAdd(o->TargetPosition, position, o->Position);
-
-                if ((int)o->NumTails < (o->MaxTails - 1) || o->Skill != 0)
-                    CreateTail(o, Mat);
-            }
+            MoveAttachedJointTrail(o, o->SubType == 19);
         }
         else
         {

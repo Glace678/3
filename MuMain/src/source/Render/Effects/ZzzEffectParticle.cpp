@@ -55,6 +55,40 @@ int CreateParticleFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Lig
     }
 }
 
+namespace
+{
+    bool InitializeAgAdditionParticle(PARTICLE* particle, vec3_t light)
+    {
+        constexpr int BaseLifetimes[] = { 33, 27, 38 };
+        constexpr float RotationOffsets[] = { 270.f, 0.f, 135.f };
+        constexpr float ScaleFactors[] = { 0.5f, 1.5f, 1.f };
+        constexpr int SubtypeCount = 3;
+        constexpr int LifetimeVariation = 5;
+        constexpr int RotationVariation = 90;
+        constexpr int ScaleVariation = 20;
+        constexpr float ScaleDivisor = 50.f;
+        constexpr int GravityVariation = 16;
+        constexpr int GravityOffset = 12;
+        constexpr float GravityScale = 0.1f;
+        const int subtype = particle->SubType;
+        if (subtype < 0 || subtype >= SubtypeCount)
+        {
+            particle->Live = false;
+            return false;
+        }
+        particle->LifeTime = BaseLifetimes[subtype] + rand() % LifetimeVariation;
+        particle->Rotation = rand() % RotationVariation + RotationOffsets[subtype];
+        particle->Scale = (rand() % ScaleVariation + static_cast<float>(ScaleVariation)) /
+            ScaleDivisor * ScaleFactors[subtype];
+        particle->Gravity = (rand() % GravityVariation + GravityOffset) * GravityScale;
+        particle->Alpha = 0.f;
+        Vector(1.f, 0.f, 0.6f, light);
+        VectorCopy(light, particle->TurningForce);
+        Vector(0.f, 0.f, 0.f, particle->Light);
+        return true;
+    }
+}
+
 int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, float Scale, OBJECT* Owner)
 {
     if (!g_pOption->GetRenderAllEffects())
@@ -3777,34 +3811,9 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
             }
             break;
             case BITMAP_AG_ADDITION_EFFECT:
-            {
-                float _Scale;
-                if (o->SubType == 0)
-                {
-                    o->LifeTime = 33 + rand() % 5;
-                    o->Rotation = (float)(rand() % 90) + 270;
-                    _Scale = (rand() % 20 + 20.0f) / 50.0f * 0.5f;
-                }
-                else if (o->SubType == 1)
-                {
-                    o->LifeTime = 27 + rand() % 5;
-                    o->Rotation = (float)(rand() % 90);
-                    _Scale = (rand() % 20 + 20.0f) / 50.0f * 1.5f;
-                }
-                else if (o->SubType == 2)
-                {
-                    o->LifeTime = 38 + rand() % 5;
-                    o->Rotation = (float)(rand() % 90) + 135;
-                    _Scale = (rand() % 20 + 20.0f) / 50.0f * 1.0f;
-                }
-                o->Scale = _Scale;
-                o->Gravity = (float)(rand() % 16 + 12) * 0.1f;
-                o->Alpha = 0;
-                Vector(1.0f, 0.0f, 0.6f, Light);
-                VectorCopy(Light, o->TurningForce);
-                Vector(0, 0, 0, o->Light);
-            }
-            break;
+                if (!InitializeAgAdditionParticle(o, Light))
+                    return -1;
+                break;
             case BITMAP_SBUMB:
             {
                 o->LifeTime = 4;

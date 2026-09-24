@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include <memory>
 #include "ServerListManager.h"
 #include "I18N/All.h"
 
@@ -96,40 +97,30 @@ const SServerGroupInfo* CServerListManager::GetServerGroupInfoInScript(WORD wSer
     return &(iter->second);
 }
 
+CServerGroup* CServerListManager::GetOrCreateServerGroup(int serverGroupIndex)
+{
+    const auto existing = std::find_if(m_mapServerGroup.begin(), m_mapServerGroup.end(),
+        [serverGroupIndex](const auto& entry) { return entry.second->m_iServerIndex == serverGroupIndex; });
+    if (existing != m_mapServerGroup.end())
+        return existing->second;
+
+    auto group = std::make_unique<CServerGroup>();
+    if (!MakeServerGroup(serverGroupIndex, group.get()))
+        return nullptr;
+    const auto [entry, inserted] = m_mapServerGroup.emplace(group->m_iSequence, group.get());
+    if (!inserted)
+        return nullptr;
+    return group.release(); // The map owns groups until Release().
+}
+
 void CServerListManager::InsertServerGroup(int iConnectIndex, int iServerPercent)
 {
-    CServerGroup* pServerGroup = NULL;
-
-    auto iterServerGroup = m_mapServerGroup.begin();
-
-    bool bEqual = false;
-    while (iterServerGroup != m_mapServerGroup.end())
-    {
-        if ((iterServerGroup->second)->m_iServerIndex == iConnectIndex / MAX_SERVER_PER_GROUP)
-        {
-            bEqual = true;
-            break;
-        }
-
-        iterServerGroup++;
-    }
-
-    if (bEqual == true)
-    {
-        pServerGroup = iterServerGroup->second;
-    }
-    else
-    {
-        pServerGroup = new CServerGroup;
-
-        if (MakeServerGroup(iConnectIndex / MAX_SERVER_PER_GROUP, pServerGroup) == false)
-            return;
-
-        m_mapServerGroup.insert(type_mapServerGroup::value_type(pServerGroup->m_iSequence, pServerGroup));
-    }
-
-    InsertServer(pServerGroup, iConnectIndex, iServerPercent);
-
+    if (iConnectIndex < 0)
+        return;
+    auto* group = GetOrCreateServerGroup(iConnectIndex / MAX_SERVER_PER_GROUP);
+    if (group == nullptr)
+        return;
+    InsertServer(group, iConnectIndex, iServerPercent);
     m_iterServerGroup = m_mapServerGroup.begin();
 }
 

@@ -14,6 +14,8 @@
 #include "Render/Models/ZzzBMD.h"
 #include "ZzzLodTerrain.h"
 #include "TerrainLightRows.h"
+#include "Core/IO/BinaryFile.h"
+#include "Data/World/TerrainData.h"
 #include "Engine/Pathing/ZzzPath.h"
 #include "Render/Textures/ZzzTexture.h"
 #include "Engine/Object/ZzzInfomation.h"
@@ -130,76 +132,41 @@ void ExitProgram()
 }
 
 
+namespace
+{
+    std::optional<std::vector<std::uint8_t>> ReadEncryptedTerrainFile(const wchar_t* path)
+    {
+        // Fixed 256x256 files use at most 192 KiB; leave room for padding.
+        constexpr std::size_t MaximumTerrainFileSize = 1024 * 1024;
+        auto encrypted = Core::IO::ReadBinaryFile(path, MaximumTerrainFileSize);
+        if (!encrypted || encrypted->empty())
+            return std::nullopt;
+        std::vector<std::uint8_t> decoded(encrypted->size());
+        MapFileDecrypt(decoded.data(), encrypted->data(), static_cast<int>(encrypted->size()));
+        return decoded;
+    }
+}
+
 int OpenTerrainAttribute(wchar_t* FileName)
 {
-    FILE* fp = _wfopen(FileName, L"rb");
-    if (fp == NULL)
+    auto bytes = ReadEncryptedTerrainFile(FileName);
+    if (!bytes)
     {
-        wchar_t Text[256];
-        mu_swprintf(Text, L"%ls file not found.", FileName);
-        g_ErrorReport.Write(Text);
+        wchar_t text[256];
+        mu_swprintf(text, L"%ls could not be read.", FileName);
+        g_ErrorReport.Write(text);
         g_ErrorReport.Write(L"\r\n");
-        MessageBox(g_hWnd, Text, NULL, MB_OK);
+        MessageBox(g_hWnd, text, NULL, MB_OK);
         SendMessage(g_hWnd, WM_DESTROY, 0, 0);
-        return (-1);
-    }
-    // Read file data
-    fseek(fp, 0, SEEK_END);
-    long file_size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    auto* file_data = new unsigned char[file_size];
-    fread(file_data, file_size, 1, fp);
-
-    // Decrypt file data
-    int iSize = MapFileDecrypt(NULL, file_data, file_size);
-    auto* decrypted_data = new unsigned char[iSize];
-    MapFileDecrypt(decrypted_data, file_data, file_size);
-    delete[] file_data;
-
-    // Check file size
-    bool extAtt = false;
-    if (iSize != (TERRAIN_SIZE * TERRAIN_SIZE + 4) && iSize != (TERRAIN_SIZE * TERRAIN_SIZE * sizeof(WORD) + 4))
-    {
-        delete[] decrypted_data;
-        return (-1);
-    }
-    if (iSize == (TERRAIN_SIZE * TERRAIN_SIZE * sizeof(WORD) + 4))
-    {
-        extAtt = true;
+        return -1;
     }
 
-    // Extract file header
-    BuxConvert(decrypted_data, iSize);
-    BYTE Version = decrypted_data[0];
-    int iMap = decrypted_data[1];
-    BYTE Width = decrypted_data[2];
-    BYTE Height = decrypted_data[3];
+    BuxConvert(bytes->data(), static_cast<int>(bytes->size()));
+    const int iMap = Data::Terrain::ParseAttributes(*bytes, TerrainWall);
+    if (iMap < 0)
+        return -1;
 
-    // Extract terrain attribute data
-    if (!extAtt)
-    {
-        unsigned char TWall[TERRAIN_SIZE * TERRAIN_SIZE];
-        memcpy(TWall, &decrypted_data[4], TERRAIN_SIZE * TERRAIN_SIZE);
-
-        for (int i = 0; i < TERRAIN_SIZE * TERRAIN_SIZE; ++i)
-        {
-            TerrainWall[i] = TWall[i];
-        }
-    }
-    else
-    {
-        memcpy(TerrainWall, &decrypted_data[4], TERRAIN_SIZE * TERRAIN_SIZE * sizeof(WORD));
-    }
-
-    delete[] decrypted_data;
-
-    // Check file header
     bool Error = false;
-    if (Version != 0 || Width != 255 || Height != 255)
-    {
-        Error = true;
-    }
-
     // Check active world
     switch (gMapManager.WorldActive)
     {
@@ -233,7 +200,6 @@ int OpenTerrainAttribute(wchar_t* FileName)
         return (-1);
     }
 
-    fclose(fp);
     return iMap;
 }
 
@@ -321,45 +287,16 @@ void SetTerrainWaterState(std::list<int>& terrainIndex, int state)
     }
 }
 
-int OpenTerrainMapping(wchar_t* FileName) {
+int OpenTerrainMapping(wchar_t* FileName)
+{
     InitTerrainMappingLayer();
-    FILE* fp = _wfopen(FileName, L"rb");
-    if (fp == NULL) {
+    auto bytes = ReadEncryptedTerrainFile(FileName);
+    if (!bytes)
         return -1;
-    }
-
-    fseek(fp, 0, SEEK_END);
-    int EncBytes = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-
-    auto* EncData = new unsigned char[EncBytes];
-    fread(EncData, 1, EncBytes, fp);
-    fclose(fp);
-
-    int DataBytes = MapFileDecrypt(NULL, EncData, EncBytes);
-    auto* Data = new unsigned char[DataBytes];
-    MapFileDecrypt(Data, EncData, EncBytes);
-    delete[] EncData;
-
-    int DataPtr = 0;
-    DataPtr += 1;
-
-    int iMapNumber = static_cast<int>(*reinterpret_cast<BYTE*>(Data + DataPtr));
-    DataPtr += 1;
-
-    memcpy(TerrainMappingLayer1, Data + DataPtr, 256 * 256);
-    DataPtr += 256 * 256;
-
-    memcpy(TerrainMappingLayer2, Data + DataPtr, 256 * 256);
-    DataPtr += 256 * 256;
-
-    for (int i = 0; i < TERRAIN_SIZE * TERRAIN_SIZE; i++) {
-        BYTE Alpha = *(Data + DataPtr);
-        DataPtr += 1;
-        TerrainMappingAlpha[i] = static_cast<float>(Alpha) / 255.f;
-    }
-
-    delete[] Data;
+    const int iMapNumber = Data::Terrain::ParseMapping(*bytes,
+        TerrainMappingLayer1, TerrainMappingLayer2, TerrainMappingAlpha);
+    if (iMapNumber < 0)
+        return -1;
 
     TerrainGrassEnable = true;
 

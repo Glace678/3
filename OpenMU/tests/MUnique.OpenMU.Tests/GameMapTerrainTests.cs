@@ -4,7 +4,9 @@
 
 namespace MUnique.OpenMU.Tests;
 
+using Moq;
 using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.Pathfinding;
 
 /// <summary>
 /// Tests for the terrain lookups which are used to get a player off a tile it cannot stand on.
@@ -15,6 +17,40 @@ public class GameMapTerrainTests
     private const byte Walkable = 0;
     private const byte Safezone = 1;
     private const byte Blocked = 4;
+
+    /// <summary>The documented fallback terrain covers all 256 by 256 coordinates.</summary>
+    [Test]
+    public void DefaultTerrainIncludesTheEntireMap()
+    {
+        var terrain = new GameMapTerrain((byte[]?)null);
+
+        Assert.That(terrain.WalkMap.Cast<bool>().All(walkable => walkable), Is.True);
+        Assert.That(terrain.AIgrid[255, 255], Is.EqualTo(1));
+    }
+
+    /// <summary>Random coordinates include the last row and column at the map edge.</summary>
+    [Test]
+    public void RandomDropCanReachTheLastMapCoordinate()
+    {
+        var terrain = new GameMapTerrain(CreateTerrainData(null, (255, 255)));
+        var randomizer = new Mock<IRandomizer>();
+        randomizer.Setup(random => random.NextInt(It.IsAny<int>(), It.IsAny<int>()))
+            .Returns((int min, int max) => max - 1);
+
+        Assert.That(terrain.GetRandomCoordinate(new Point(254, 254), 1, randomizer.Object), Is.EqualTo(new Point(255, 255)));
+    }
+
+    /// <summary>A walkable result on the final permitted attempt is still used.</summary>
+    [Test]
+    public void FinalRandomAttemptIsNotDiscarded()
+    {
+        var terrain = new GameMapTerrain(CreateTerrainData(null, (1, 1)));
+        var randomizer = new Mock<IRandomizer>();
+        var calls = 0;
+        randomizer.Setup(random => random.NextInt(0, 2)).Returns(() => ++calls <= 40 ? 0 : 1);
+
+        Assert.That(terrain.GetRandomCoordinate(new Point(0, 0), 1, randomizer.Object), Is.EqualTo(new Point(1, 1)));
+    }
 
     /// <summary>
     /// Tests that a map whose walkable tiles are all safezone still yields a coordinate.
@@ -64,8 +100,8 @@ public class GameMapTerrainTests
     /// <returns>The terrain data, including its three byte header.</returns>
     private static byte[] CreateTerrainData((byte X, byte Y)? safezoneAt, (byte X, byte Y)? walkableAt)
     {
-        var data = new byte[ushort.MaxValue + 3];
-        Array.Fill(data, Blocked, 3, ushort.MaxValue);
+        var data = new byte[(256 * 256) + 3];
+        Array.Fill(data, Blocked, 3, 256 * 256);
 
         if (safezoneAt is { } safezone)
         {

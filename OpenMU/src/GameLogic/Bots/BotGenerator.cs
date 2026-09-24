@@ -341,9 +341,9 @@ internal sealed class BotGenerator
     /// finished cycles were invested and wiped again at each reset, so only the current cycle's count;
     /// without it every cycle's investment survived and still counts.
     /// </summary>
-    private static int CalculateLevelUpPoints(CharacterClass characterClass, int level, int seededResets, ResetConfiguration? resetConfiguration)
+    private static int CalculateLevelUpPoints(CharacterClass characterClass, int level, int seededResets, ResetConfiguration? resetConfiguration, int bonusPerLevel)
     {
-        var pointsPerLevel = (int)characterClass.StatAttributes.First(a => a.Attribute == Stats.PointsPerLevelUp).BaseValue;
+        var pointsPerLevel = (int)characterClass.StatAttributes.First(a => a.Attribute == Stats.PointsPerLevelUp).BaseValue + bonusPerLevel;
         if (seededResets <= 0 || resetConfiguration is null)
         {
             return (level - 1) * pointsPerLevel;
@@ -416,7 +416,8 @@ internal sealed class BotGenerator
         }
 
         character.Experience = experienceTable[Math.Min(level, experienceTable.Length - 1)];
-        character.LevelUpPoints = CalculateLevelUpPoints(characterClass, level, seededResets, resetConfiguration);
+        character.LevelUpPoints = CalculateLevelUpPoints(characterClass, level, seededResets, resetConfiguration,
+            SoloBalance.GetLevelUpPointBonus(this._gameContext.Configuration));
         character.InventoryExtensions = BotInventoryExtensions;
         DistributeStatPoints(character, characterClass, resetConfiguration is not null);
 

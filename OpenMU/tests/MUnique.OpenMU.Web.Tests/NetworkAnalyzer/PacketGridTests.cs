@@ -8,6 +8,7 @@ using Bunit;
 using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Network.PlugIns;
 using MUnique.OpenMU.Web.AdminPanel.Components.NetworkAnalyzer;
+using MUnique.OpenMU.Web.AdminPanel.Properties;
 
 /// <summary>
 /// Tests for the <see cref="PacketGrid"/>.
@@ -30,7 +31,7 @@ public class PacketGridTests
         var component = context.Render<PacketGrid>(parameters => parameters
             .Add(grid => grid.Packets, []));
 
-        Assert.That(component.Markup, Does.Contain("No packets captured yet"));
+        Assert.That(component.Find("em").TextContent, Is.EqualTo(Resources.NoPacketsCaptured));
     }
 
     /// <summary>

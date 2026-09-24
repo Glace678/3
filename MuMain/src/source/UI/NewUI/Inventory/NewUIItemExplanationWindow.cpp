@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "UI/NewUI/Inventory/NewUIItemExplanationWindow.h"
+#include "UI/NewUI/Inventory/ItemExplanationLayout.h"
 #include "UI/NewUI/NewUISystem.h"
 #include "Audio/DSPlaySound.h"
 #include "Engine/Object/ZzzInventory.h"
@@ -96,33 +97,10 @@ bool SEASON3B::CNewUIItemExplanationWindow::Render()
     extern int TextNum;
     extern int g_iItemInfo[12][17];
 
-    int iInfoWidth = 0;
-    int iLabelHeight = 0;
-    int iDataHeight = 0;
-
-    switch (WindowWidth)
-    {
-    case REFERENCE_WIDTH:
-        iInfoWidth = 90;
-        iLabelHeight = 38;
-        iDataHeight = 52;
-        break;
-    case 800:
-        iInfoWidth = 90;
-        iLabelHeight = 33;
-        iDataHeight = 47;
-        break;
-    case 1024:
-        iInfoWidth = 103;
-        iLabelHeight = 28;
-        iDataHeight = 40;
-        break;
-    case 1280:
-        iInfoWidth = 123;
-        iLabelHeight = 22;
-        iDataHeight = 32;
-        break;
-    }
+    const auto layout = UI::Items::ItemExplanationLayout::ForWidth(WindowWidth);
+    int iInfoWidth = layout.infoWidth;
+    const int iLabelHeight = layout.labelHeight;
+    const int iDataHeight = layout.dataHeight;
 
     int iType = 0;
     int TabSpace = 0;

@@ -3,6 +3,8 @@ mu_add_test(
     SOURCES
         test_text_line_wrap.cpp
         test_text_box_layout.cpp
+        test_text_buffer_wrap.cpp
+        test_item_explanation_layout.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Core/Text/TextLineWrap.cpp
 )
 

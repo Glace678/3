@@ -223,6 +223,8 @@ if(MSVC)
   # source encodings.
   set(MU_UTF8_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/source/Engine/Object/ZzzCharacter.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/source/Render/Effects/ZzzEffectJoint.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/source/UI/Legacy/UIWindows.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/source/Scenes/SceneCommon.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/source/UI/Chat/ChatInput.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/source/UI/ControllerKeyboard/ControllerKeyboard.cpp"
@@ -809,18 +811,21 @@ endif()
 
 set(WIRE_SIZES_GEN_SCRIPT "${REPO_ROOT}/tools/gen_wire_sizes.py")
 set(WIRE_SIZES_GEN_HEADER "${CMAKE_BINARY_DIR}/generated/Network/Server/wire_sizes.generated.h")
+set(WIRE_SIZES_GEN_STAMP "${CMAKE_BINARY_DIR}/generated/Network/Server/wire_sizes.stamp")
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 add_custom_command(
-  OUTPUT "${WIRE_SIZES_GEN_HEADER}"
+  OUTPUT "${WIRE_SIZES_GEN_STAMP}"
+  BYPRODUCTS "${WIRE_SIZES_GEN_HEADER}"
   COMMAND "${Python3_EXECUTABLE}" "${WIRE_SIZES_GEN_SCRIPT}"
           --xml "${OPENMU_PACKETS_XML}"
           --source-label "MUnique.OpenMU.Network.Packets v${OPENMU_PACKETS_VERSION} (NuGet)"
           --output "${WIRE_SIZES_GEN_HEADER}"
+  COMMAND "${CMAKE_COMMAND}" -E touch "${WIRE_SIZES_GEN_STAMP}"
   DEPENDS "${WIRE_SIZES_GEN_SCRIPT}" "${OPENMU_PACKETS_XML}"
   COMMENT "Generating wire_sizes.generated.h from OpenMU NuGet packet XML..."
   VERBATIM
 )
-add_custom_target(GenWireSizes DEPENDS "${WIRE_SIZES_GEN_HEADER}")
+add_custom_target(GenWireSizes DEPENDS "${WIRE_SIZES_GEN_STAMP}")
 # WSclient.h includes wire_sizes.generated.h, and WSclient.cpp compiles into the
 # MuClient library, not Main. The codegen ordering must therefore hang off
 # MuClient so the header is generated before any consuming TU compiles.
@@ -1079,6 +1084,7 @@ if (DOTNET_EXECUTABLE)
 
   file(GLOB RESX_FILES CONFIGURE_DEPENDS "${RESX_INPUT_DIR}/*.resx")
   file(GLOB_RECURSE RESXGEN_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../tools/ResxGen/*.cs")
+  list(FILTER RESXGEN_SOURCES EXCLUDE REGEX "/(bin|obj)/")
 
   if (RESX_FILES)
     # Compute groups from filenames: Editor.en.resx -> group "Editor".
@@ -1102,8 +1108,10 @@ if (DOTNET_EXECUTABLE)
     mu_native_path("${RESX_INPUT_DIR}" RESX_INPUT_DIR_NATIVE)
     mu_native_path("${RESX_OUTPUT_DIR}" RESX_OUTPUT_DIR_NATIVE)
 
+    set(RESX_GEN_STAMP "${RESX_OUTPUT_DIR}/generation.stamp")
     add_custom_command(
-      OUTPUT ${RESX_GEN_HEADERS} ${RESX_GEN_SOURCES}
+      OUTPUT "${RESX_GEN_STAMP}"
+      BYPRODUCTS ${RESX_GEN_HEADERS} ${RESX_GEN_SOURCES}
       # -c Release (NOT $<CONFIG>) is deliberate: RESX_OUTPUT_DIR is shared between the Debug and
       # Release C++ builds (not config-suffixed), but Ninja Multi-Config generates a separate rule
       # per config for whatever command produces a given OUTPUT. With $<CONFIG> here, building
@@ -1121,12 +1129,13 @@ if (DOTNET_EXECUTABLE)
               "${DOTNET_EXECUTABLE}" run --project "${RESXGEN_PROJ_NATIVE}" -c Release
               -- --input "${RESX_INPUT_DIR_NATIVE}" --output "${RESX_OUTPUT_DIR_NATIVE}"
               --wide-groups Game,Dialog
+      COMMAND "${CMAKE_COMMAND}" -E touch "${RESX_GEN_STAMP}"
       DEPENDS ${RESX_FILES} ${RESXGEN_SOURCES} "${RESXGEN_PROJ}"
       COMMENT "ResxGen: regenerating C++ I18N accessors from .resx"
       VERBATIM
     )
 
-    add_custom_target(ResxGen DEPENDS ${RESX_GEN_HEADERS} ${RESX_GEN_SOURCES})
+    add_custom_target(ResxGen DEPENDS "${RESX_GEN_STAMP}")
     add_dependencies(MuClient ResxGen)
     target_sources(MuClient PRIVATE ${RESX_GEN_SOURCES})
     target_include_directories(MuClient PUBLIC "${CMAKE_BINARY_DIR}/Generated")

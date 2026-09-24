@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "Core/Input/KeyState.h"
+#include "Core/Platform/WinCompat.h"
 
 #include <SDL3/SDL.h>
 #include <array>
@@ -9,6 +9,13 @@ namespace Core::Input
     namespace
     {
         std::array<bool, 256> g_virtualKeys{};
+        std::array<bool, SDL_SCANCODE_COUNT> g_keyboardPresses{};
+
+        bool IsScancodeDown(SDL_Scancode scancode)
+        {
+            const bool* state = SDL_GetKeyboardState(nullptr);
+            return g_keyboardPresses[scancode] || (state != nullptr && state[scancode]);
+        }
 
         // Map a Win32 virtual-key code (or ASCII letter/digit) to an SDL
         // scancode. Returns SDL_SCANCODE_UNKNOWN for keys we don't translate.
@@ -86,17 +93,28 @@ namespace Core::Input
         case VK_LBUTTON: return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)) != 0;
         case VK_RBUTTON: return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT)) != 0;
         case VK_MBUTTON: return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_MASK(SDL_BUTTON_MIDDLE)) != 0;
-        case VK_SHIFT:   return (SDL_GetModState() & SDL_KMOD_SHIFT) != 0;
-        case VK_CONTROL: return (SDL_GetModState() & SDL_KMOD_CTRL) != 0;
-        case VK_MENU:    return (SDL_GetModState() & SDL_KMOD_ALT) != 0;
+        case VK_SHIFT:   return (SDL_GetModState() & SDL_KMOD_SHIFT) != 0 || g_keyboardPresses[SDL_SCANCODE_LSHIFT] || g_keyboardPresses[SDL_SCANCODE_RSHIFT];
+        case VK_CONTROL: return (SDL_GetModState() & SDL_KMOD_CTRL) != 0 || g_keyboardPresses[SDL_SCANCODE_LCTRL] || g_keyboardPresses[SDL_SCANCODE_RCTRL];
+        case VK_MENU:    return (SDL_GetModState() & SDL_KMOD_ALT) != 0 || g_keyboardPresses[SDL_SCANCODE_LALT] || g_keyboardPresses[SDL_SCANCODE_RALT];
+        case VK_RETURN:  return IsScancodeDown(SDL_SCANCODE_RETURN) || IsScancodeDown(SDL_SCANCODE_KP_ENTER);
         default: break;
         }
 
         const SDL_Scancode sc = VkToScancode(virtualKey);
         if (sc == SDL_SCANCODE_UNKNOWN) return false;
 
-        const bool* state = SDL_GetKeyboardState(nullptr);
-        return state != nullptr && state[sc];
+        return IsScancodeDown(sc);
+    }
+
+    void RecordKeyboardPress(int scancode)
+    {
+        if (scancode > SDL_SCANCODE_UNKNOWN && scancode < SDL_SCANCODE_COUNT)
+            g_keyboardPresses[scancode] = true;
+    }
+
+    void ClearKeyboardPresses()
+    {
+        g_keyboardPresses.fill(false);
     }
 
     void SetVirtualKeyDown(int virtualKey, bool down)

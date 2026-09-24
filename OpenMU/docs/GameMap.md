@@ -51,3 +51,11 @@ Instead of partitioning a map into buckets (where a lot of them are empty), we
 could try to use some other 2d index structures, like
 [R-trees](https://en.wikipedia.org/wiki/R-tree) or [B-Trees](https://en.wikipedia.org/wiki/B-tree)
 with [Z-Ordering](https://en.wikipedia.org/wiki/Z-order_curve).
+
+## Terrain boundaries and random placement
+
+Terrain coordinates cover the full 256 by 256 grid, including coordinate 255 in
+both dimensions. A map without terrain data defaults to walkable tiles across
+the whole grid. Nearby drop and movement placement samples the inclusive radius
+within those boundaries, tries up to 21 points, and falls back to the original
+point only when none of those points is walkable.

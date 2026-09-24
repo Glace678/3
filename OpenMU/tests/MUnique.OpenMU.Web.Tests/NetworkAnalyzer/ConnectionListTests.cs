@@ -7,6 +7,7 @@ namespace MUnique.OpenMU.Web.Tests.NetworkAnalyzer;
 using Bunit;
 using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Web.AdminPanel.Components.NetworkAnalyzer;
+using MUnique.OpenMU.Web.AdminPanel.Properties;
 
 /// <summary>
 /// Tests for the <see cref="ConnectionList"/>.
@@ -25,7 +26,7 @@ public class ConnectionListTests
         var component = context.Render<ConnectionList>(parameters => parameters
             .Add(list => list.Connections, []));
 
-        Assert.That(component.Markup, Does.Contain("No connections found"));
+        Assert.That(component.Find("em").TextContent, Is.EqualTo(Resources.NoConnectionsFound));
     }
 
     /// <summary>

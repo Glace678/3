@@ -149,7 +149,7 @@ void CMsgBoxIGSBuySelectItem::RenderTexts()
 
     g_pRenderText->RenderText(GetPos().x + IGS_TEXT_PRICE_POS_X, GetPos().y + IGS_TEXT_PRICE_POX_Y, m_szPrice, IGS_TEXT_PRICE_WIDTH, 0, RT3_SORT_RIGHT);
 
-#ifdef FOR_WORK
+#if defined(FOR_WORK) && defined(_DEBUG)
     // debug
     wchar_t szText[256] = { 0, };
     g_pRenderText->SetTextColor(255, 0, 0, 255);

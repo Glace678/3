@@ -6,6 +6,7 @@ namespace MUnique.OpenMU.Web.Tests;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using MUnique.OpenMU.DataModel.Configuration.Items;
 using MUnique.OpenMU.Web.AdminPanel.API;
 
 /// <summary>
@@ -14,6 +15,43 @@ using MUnique.OpenMU.Web.AdminPanel.API;
 [TestFixture]
 public class MobileGmServiceTests
 {
+    /// <summary>Only bits for available option numbers may be requested, including sparse definitions.</summary>
+    /// <param name="mask">The requested option bits.</param>
+    /// <param name="expected">Whether the request is valid.</param>
+    [TestCase(0, true)]
+    [TestCase(2, true)]
+    [TestCase(8, true)]
+    [TestCase(10, true)]
+    [TestCase(1, false)]
+    [TestCase(4, false)]
+    [TestCase(11, false)]
+    [TestCase(16, false)]
+    [TestCase(-1, false)]
+    public void ExcellentOptionsMustExistInTheItemDefinition(int mask, bool expected)
+    {
+        var options = new[]
+        {
+            new IncreasableItemOption { Number = 2 },
+            new IncreasableItemOption { Number = 4 },
+        };
+
+        Assert.That(MobileGmService.HasValidExcellentOptions(mask, options), Is.EqualTo(expected));
+    }
+
+    /// <summary>Invalid definition numbers cannot wrap around and enable an unrelated bit.</summary>
+    [Test]
+    public void InvalidExcellentOptionNumbersCannotEnableOtherBits()
+    {
+        var options = new[]
+        {
+            new IncreasableItemOption { Number = 0 },
+            new IncreasableItemOption { Number = 32 },
+            new IncreasableItemOption { Number = 33 },
+        };
+
+        Assert.That(MobileGmService.HasValidExcellentOptions(1, options), Is.False);
+    }
+
     /// <summary>Valid requests accept the documented limits.</summary>
     [TestCase(1, 0)]
     [TestCase(10, 255)]

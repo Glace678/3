@@ -333,6 +333,7 @@ public:
     void RefreshPalList();
 
 protected:
+    void OpenSelectedFriendChat();
     virtual void RenderSub();
     virtual BOOL HandleMessage();
     virtual void DoActionSub(BOOL bMessageOnly);

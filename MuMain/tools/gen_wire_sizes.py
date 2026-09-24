@@ -92,7 +92,9 @@ def emit_header(lengths: dict[str, int], out: Path, source_label: str) -> int:
             "",
         ]
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text("\n".join(lines), encoding="utf-8")
+    content = "\n".join(lines)
+    if not out.exists() or out.read_text(encoding="utf-8") != content:
+        out.write_text(content, encoding="utf-8")
     print(f"wrote {out} ({len(PACKET_MAPPING)} asserts)", file=sys.stderr)
     return 0
 

@@ -17,10 +17,12 @@ public class GameMapTerrain
     /// </summary>
     private const int MapSize = 256;
 
+    private const int MaximumRandomCoordinateAttempts = 21;
+
     /// <summary>
     /// The default terrain where all coordinates are walkable and not a safezone.
     /// </summary>
-    private static readonly byte[] DefaultTerrain = Enumerable.Repeat<byte>(0, short.MaxValue).ToArray();
+    private static readonly byte[] DefaultTerrain = new byte[MapSize * MapSize];
 
     /// <summary>
     /// Pre-computed array of walkable, non-safezone points.
@@ -140,23 +142,31 @@ public class GameMapTerrain
     /// <param name="maximumRadius">The maximum radius around the specified coordinate.</param>
     /// <returns>The random drop coordinate.</returns>
     public Point GetRandomCoordinate(Point point, byte maximumRadius)
+        => this.GetRandomCoordinate(point, maximumRadius, Rand.GetRandomizer());
+
+    /// <summary>Samples nearby walkable tiles using the supplied random source.</summary>
+    /// <param name="point">The target point and fallback when all attempts fail.</param>
+    /// <param name="maximumRadius">The maximum distance in each dimension.</param>
+    /// <param name="randomizer">The random source.</param>
+    /// <returns>A sampled walkable point, or the original point.</returns>
+    internal Point GetRandomCoordinate(Point point, byte maximumRadius, IRandomizer randomizer)
     {
-        byte tempx = (byte)Rand.NextInt(Math.Max(0, point.X - maximumRadius), Math.Min(255, point.X + maximumRadius + 1));
-        byte tempy = (byte)Rand.NextInt(Math.Max(0, point.Y - maximumRadius), Math.Min(255, point.Y + maximumRadius + 1));
-        int i = 0;
-        while (!this.WalkMap[tempx, tempy] && i < 20)
+        var minX = Math.Max(0, point.X - maximumRadius);
+        var minY = Math.Max(0, point.Y - maximumRadius);
+        var maxXExclusive = Math.Min(MapSize, point.X + maximumRadius + 1);
+        var maxYExclusive = Math.Min(MapSize, point.Y + maximumRadius + 1);
+
+        for (var attempt = 0; attempt < MaximumRandomCoordinateAttempts; attempt++)
         {
-            tempx = (byte)Rand.NextInt(Math.Max(0, point.X - maximumRadius), Math.Min(255, point.X + maximumRadius + 1));
-            tempy = (byte)Rand.NextInt(Math.Max(0, point.Y - maximumRadius), Math.Min(255, point.Y + maximumRadius + 1));
-            i++;
+            var x = (byte)randomizer.NextInt(minX, maxXExclusive);
+            var y = (byte)randomizer.NextInt(minY, maxYExclusive);
+            if (this.WalkMap[x, y])
+            {
+                return new Point(x, y);
+            }
         }
 
-        if (i == 20)
-        {
-            return point;
-        }
-
-        return new Point(tempx, tempy);
+        return point;
     }
 
     /// <summary>

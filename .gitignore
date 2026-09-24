@@ -15,8 +15,10 @@ __pycache__/
 *.bak*
 *.obj
 *.pdb
+*.dmp
 **/python-libs/
 /_premigration_backup.zip
+/_codex-repair/
 /lib/
 /发布包/Server/
 /发布包/Game/

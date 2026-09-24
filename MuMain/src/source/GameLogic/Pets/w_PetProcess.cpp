@@ -2,6 +2,10 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Data/DataHandler/PetDataLayout.h"
+#include <array>
+#include <cmath>
+#include <memory>
 #include "w_PetActionStand.h"
 #include "w_PetActionRound.h"
 #include "w_PetActionDemon.h"
@@ -174,111 +178,89 @@ void PetProcess::UnRegister(CHARACTER* Owner, int itemType, bool isUnregistAll)
     }
 }
 
+namespace
+{
+    std::optional<Data::Pets::PetDataLayout> ReadPetData(FILE* file, std::vector<BYTE>& payload)
+    {
+        if (fseek(file, 0, SEEK_END) != 0)
+            return std::nullopt;
+        const auto fileSize = ftell(file);
+        if (fileSize < 0 || fseek(file, 0, SEEK_SET) != 0)
+            return std::nullopt;
+        std::array<std::int32_t, 3> header {};
+        if (fread(header.data(), sizeof(header), 1, file) != 1)
+            return std::nullopt;
+        const auto layout = Data::Pets::PetDataLayout::Validate(header[1], header[2], static_cast<std::size_t>(fileSize));
+        if (!layout)
+            return std::nullopt;
+        payload.resize(layout->payloadSize);
+        DWORD checksum = 0;
+        if (fread(payload.data(), 1, payload.size(), file) != payload.size()
+            || fread(&checksum, sizeof(checksum), 1, file) != 1
+            || checksum != GenerateCheckSum2(payload.data(), layout->payloadSize, 0x7F1D))
+            return std::nullopt;
+        return layout;
+    }
+
+    PetInfoPtr ReadPetRecord(BYTE* record, const Data::Pets::PetDataLayout& layout,
+        int& type, std::vector<int>& actions, std::vector<float>& speeds)
+    {
+        BuxConvert(record, layout.recordSize);
+        int blendMesh = -1;
+        float scale = 0;
+        int count = 0;
+        constexpr int BlendMeshOffset = sizeof(std::int32_t);
+        constexpr int ScaleOffset = 2 * sizeof(std::int32_t);
+        constexpr int CountOffset = 3 * sizeof(std::int32_t);
+        memcpy(&type, record, sizeof(type));
+        memcpy(&blendMesh, record + BlendMeshOffset, sizeof(blendMesh));
+        memcpy(&scale, record + ScaleOffset, sizeof(scale));
+        memcpy(&count, record + CountOffset, sizeof(count));
+        constexpr int MaximumPetActions = 100;
+        constexpr int MaximumPetType = 10000;
+        if (type < 0 || type > MaximumPetType || count <= 0 || count > layout.actionSlots
+            || count > MaximumPetActions || !std::isfinite(scale))
+            return {};
+
+        constexpr int RecordHeaderSize = 4 * sizeof(std::int32_t);
+        memcpy(actions.data(), record + RecordHeaderSize, sizeof(int) * layout.actionSlots);
+        memcpy(speeds.data(), record + RecordHeaderSize + sizeof(int) * layout.actionSlots, sizeof(float) * layout.actionSlots);
+        if (!std::all_of(speeds.begin(), speeds.begin() + count, [](float speed) { return std::isfinite(speed); }))
+            return {};
+        auto info = PetInfo::Make();
+        info->SetBlendMesh(blendMesh);
+        info->SetScale(scale);
+        info->SetActions(count, actions.data(), speeds.data());
+        return info;
+    }
+}
+
 bool PetProcess::LoadData()
 {
-    wchar_t FileName[100];
-    mu_swprintf(FileName, L"Data\\Local\\pet.bmd");
-
-    int _ver;
-    int _array;
-
-    FILE* fp = _wfopen(FileName, L"rb");
-    if (fp == NULL)
+    constexpr auto FileName = L"Data\\Local\\pet.bmd";
+    using FileHandle = std::unique_ptr<FILE, decltype(&fclose)>;
+    FileHandle file(_wfopen(FileName, L"rb"), &fclose);
+    std::vector<BYTE> payload;
+    const auto layout = file ? ReadPetData(file.get(), payload) : std::nullopt;
+    if (!layout)
     {
-        wchar_t Text[256];
-        mu_swprintf(Text, L"%ls - File not exist.", FileName);
-        g_ErrorReport.Write(Text);
-        MessageBox(g_hWnd, Text, NULL, MB_OK);
+        constexpr auto Message = L"Data\\Local\\pet.bmd is missing, truncated, or corrupt.";
+        g_ErrorReport.Write(Message);
+        MessageBox(g_hWnd, Message, nullptr, MB_OK);
         SendMessage(g_hWnd, WM_DESTROY, 0, 0);
-
-        return FALSE;
+        return false;
     }
 
-    fread(&_ver, sizeof(int), 1, fp);
-    fread(&_array, sizeof(int), 1, fp);
-
-    int _type;
-    int _blendMesh;
-    float _scale;
-    int _count;
-    int* _action = new int[_array];
-    float* _speed = new float[_array];
-
-    int _listSize = 0;
-    fread(&_listSize, sizeof(DWORD), 1, fp);
-
-    int Size = sizeof(int) + sizeof(int) + sizeof(float) + sizeof(int) + ((sizeof(int) + sizeof(float)) * _array);
-    BYTE* Buffer = new BYTE[Size * _listSize];
-
-    fread(Buffer, Size * _listSize, 1, fp);
-
-    DWORD dwCheckSum;
-    fread(&dwCheckSum, sizeof(DWORD), 1, fp);
-
-    if (dwCheckSum != GenerateCheckSum2(Buffer, Size * _listSize, 0x7F1D))
+    std::vector<int> actions(layout->actionSlots);
+    std::vector<float> speeds(layout->actionSlots);
+    for (int index = 0; index < layout->recordCount; ++index)
     {
-        wchar_t Text[256];
-        mu_swprintf(Text, L"%ls - File corrupted.", FileName);
-        g_ErrorReport.Write(Text);
-        MessageBox(g_hWnd, Text, NULL, MB_OK);
-        SendMessage(g_hWnd, WM_DESTROY, 0, 0);
-
-        return FALSE;
+        int type = 0;
+        auto info = ReadPetRecord(payload.data() + index * layout->recordSize, *layout, type, actions, speeds);
+        if (info)
+            m_petsInfo.insert(make_pair(ITEM_HELPER + type, info));
     }
-    else
-    {
-        BYTE* pSeek = Buffer;
-        for (int i = 0; i < _listSize; i++)
-        {
-            _type = 0;
-            _scale = 0.0f;
-            _blendMesh = -1;
-            _count = 0;
-            ZeroMemory(_action, sizeof(_action));
-            ZeroMemory(_speed, sizeof(_speed));
-
-            BuxConvert(pSeek, Size);
-
-            memcpy(&_type, pSeek, sizeof(_type));
-            pSeek += sizeof(_type);
-
-            memcpy(&_blendMesh, pSeek, sizeof(_blendMesh));
-            pSeek += sizeof(_blendMesh);
-
-            memcpy(&_scale, pSeek, sizeof(_scale));
-            pSeek += sizeof(_scale);
-
-            memcpy(&_count, pSeek, sizeof(_count));
-            pSeek += sizeof(_count);
-
-            memcpy(_action, pSeek, sizeof(int) * _array);
-            pSeek += sizeof(int) * _array;
-
-            // sizeof(float), not sizeof(_speed): _speed is a pointer, and on a
-            // 64-bit build its size (8) overruns the 4-bytes-per-entry record
-            // layout `Size` was computed with, overflowing the allocation.
-            memcpy(_speed, pSeek, sizeof(float) * _array);
-            pSeek += sizeof(float) * _array;
-
-            constexpr int MAX_PET_ACTIONS = 100;
-            if (_type < 0 || _type > 10000 || _count <= 0 || _count > _array || _count > MAX_PET_ACTIONS)
-            {
-                continue;
-            }
-
-            PetInfoPtr petInfo = PetInfo::Make();
-            petInfo->SetBlendMesh(_blendMesh);
-            petInfo->SetScale(_scale);
-            petInfo->SetActions(_count, _action, _speed);
-
-            m_petsInfo.insert(make_pair(ITEM_HELPER + _type, petInfo));
-        }
-    }
-    delete[] _action;
-    delete[] _speed;
-    delete[] Buffer;
-
-    return TRUE;
+    return true;
 }
 
 bool PetProcess::IsPet(int itemType)

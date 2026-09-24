@@ -1,5 +1,13 @@
 # OpenMU 鸿蒙（HarmonyOS / OpenHarmony）移植版
 
+构建检查会读取真正的 JSON5 配置，验证基础配置及构建模式覆盖项。游戏包默认地址
+必须为 localhost 或私网 IPv4；GM 的 `DEFAULT_SERVER_URL` 在公网使用 HTTPS。
+缺少配对密钥或地址时会停止构建，避免产生启动后才失败的安装包。
+`OPENMU_ALLOW_PLACEHOLDER_MOBILE_KEY=1` 仅允许本地联调占位密钥，不会关闭地址校验。
+共享校验代码位于 `build-tools`，每个项目的 hvigor 配置固定使用 JSON5 2.2.3。
+无需 DevEco 的回归检查可运行 `npm ci --prefix build-tools`，然后
+`npm test --prefix build-tools`。此检查不替代 HAP 原生编译和设备验证。
+
 本目录是 OpenMU 在鸿蒙系统上的移植工程，覆盖三类设备形态：
 
 | 工程 | 目标设备 | 形态 |

@@ -8,6 +8,11 @@ namespace Core::Input
     // or digit, matching what the existing call sites already pass.
     bool IsKeyDown(int virtualKey);
 
+    // Preserve key-down events until a game frame consumes them, even when the
+    // corresponding key-up was drained in the same SDL event pump.
+    void RecordKeyboardPress(int scancode);
+    void ClearKeyboardPresses();
+
     // Controller and other non-keyboard backends feed the existing legacy key
     // state machine through these overrides. The main thread owns all calls.
     void SetVirtualKeyDown(int virtualKey, bool down);

@@ -57,6 +57,8 @@ public:
     BYTE GetState() { return m_byState; }
 
 protected:
+    void CreateBackground(SImgInfo* piiBack, SImgInfo* piiGauge, RECT* prcGauge);
+    void UpdateGaugeValue();
     void SetThumbPosition();
     void LineUp();
     void LineDown();

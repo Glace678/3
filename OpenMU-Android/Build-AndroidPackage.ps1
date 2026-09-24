@@ -180,7 +180,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # llvm-strip 位于 NDK 按宿主平台命名的 prebuilt 目录，Windows/macOS/Linux 通用。
 $ndkPrebuiltHost = if ($IsMacOS) { 'darwin-x86_64' } elseif ($IsLinux) { 'linux-x86_64' } else { 'windows-x86_64' }
-$llvmStripName = if ($IsWindows) { 'llvm-strip.exe' } else { 'llvm-strip' }
+$llvmStripName = if ($env:OS -eq 'Windows_NT') { 'llvm-strip.exe' } else { 'llvm-strip' }
 $llvmStrip = Join-Path $androidNdkRoot "toolchains/llvm/prebuilt/$ndkPrebuiltHost/bin/$llvmStripName"
 if (-not (Test-Path -LiteralPath $llvmStrip -PathType Leaf)) {
     throw "NDK llvm-strip was not found: $llvmStrip"

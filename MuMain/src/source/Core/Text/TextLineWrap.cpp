@@ -3,6 +3,7 @@
 #include <string>
 #include <cwchar>
 #include <cstring>
+#include <algorithm>
 #include "Core/Platform/SecureCrt.h"  // wcsncpy_s / _TRUNCATE on non-Windows (#462)
 
 namespace
@@ -107,7 +108,7 @@ void TrimTrailingSpaces(std::wstring& line)
 }
 }
 
-std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth, const MeasureTextWidth& measureWidth)
+std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth, const MeasureTextWidth& measureWidth, int firstLineInset)
 {
     std::vector<std::wstring> lines;
     if (text.empty() || maxWidth <= 0 || !measureWidth)
@@ -116,6 +117,8 @@ std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth
     }
 
     std::wstring line;
+    if (firstLineInset >= maxWidth)
+        lines.emplace_back();
     // Where the current line may be broken, which is behind the last space it
     // has seen. npos while it has none.
     size_t breakAt = std::wstring::npos;
@@ -138,7 +141,8 @@ std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth
             continue;
         }
 
-        if (measureWidth(line.c_str(), line.size()) <= maxWidth)
+        const int availableWidth = lines.empty() ? maxWidth - std::max(0, firstLineInset) : maxWidth;
+        if (measureWidth(line.c_str(), line.size()) <= availableWidth)
         {
             continue;
         }
@@ -148,7 +152,8 @@ std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth
             std::wstring rest = line.substr(breakAt);
             line.erase(breakAt);
             TrimTrailingSpaces(line);
-            lines.push_back(line);
+            if (!line.empty())
+                lines.push_back(line);
             line = std::move(rest);
         }
         else if (line.size() > 1)
@@ -169,6 +174,56 @@ std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth
     }
 
     return lines;
+}
+
+namespace
+{
+std::wstring NormalizeParagraphs(const wchar_t* text, bool indentParagraphs, wchar_t paragraphSeparator)
+{
+    std::wstring normalized;
+    bool paragraphStart = true;
+    for (const wchar_t* cursor = text; *cursor != L'\0'; ++cursor)
+    {
+        if (*cursor == paragraphSeparator || *cursor == L'\n')
+        {
+            normalized += L'\n';
+            paragraphStart = true;
+        }
+        else if (*cursor != L'\r')
+        {
+            if (paragraphStart && indentParagraphs)
+                normalized += L' ';
+            normalized += *cursor;
+            paragraphStart = false;
+        }
+    }
+
+    return normalized;
+}
+}
+
+int WrapTextToBuffer(const wchar_t* text, wchar_t* output, int rows, int columns,
+    int maxWidth, const MeasureTextWidth& measureWidth, bool indentParagraphs, wchar_t paragraphSeparator, int firstLineInset)
+{
+    if (text == nullptr || output == nullptr || rows <= 0 || columns <= 1 || maxWidth <= 0 || !measureWidth)
+        return 0;
+    std::fill_n(output, static_cast<std::size_t>(rows) * columns, L'\0');
+    const auto normalized = NormalizeParagraphs(text, indentParagraphs, paragraphSeparator);
+
+    int written = 0;
+    for (const auto& line : WrapTextToWidth(normalized, maxWidth, measureWidth, firstLineInset))
+    {
+        std::size_t offset = 0;
+        do
+        {
+            if (written == rows)
+                return written;
+            const auto count = std::min(line.size() - offset, static_cast<std::size_t>(columns - 1));
+            std::copy_n(line.data() + offset, count, output + static_cast<std::size_t>(written++) * columns);
+            offset += count;
+        } while (offset < line.size());
+    }
+    return written;
 }
 
 void CutText(const wchar_t* Text, wchar_t* Text1, wchar_t* Text2, size_t maxLength)

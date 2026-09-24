@@ -8,6 +8,7 @@ using Bunit;
 using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Network.PlugIns;
 using MUnique.OpenMU.Web.AdminPanel.Components.NetworkAnalyzer;
+using MUnique.OpenMU.Web.AdminPanel.Properties;
 
 /// <summary>
 /// Tests for the <see cref="PacketDetail"/>.
@@ -27,7 +28,7 @@ public class PacketDetailTests
 
         var component = context.Render<PacketDetail>();
 
-        Assert.That(component.Markup, Does.Contain("Select a packet"));
+        Assert.That(component.Find("em").TextContent, Is.EqualTo(Resources.SelectAPacket));
     }
 
     /// <summary>

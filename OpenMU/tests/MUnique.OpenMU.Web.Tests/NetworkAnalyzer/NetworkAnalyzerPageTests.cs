@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.Web.Tests.NetworkAnalyzer;
 
 using Bunit;
+using MUnique.OpenMU.Web.AdminPanel.Properties;
 using Microsoft.Extensions.DependencyInjection;
 using MUnique.OpenMU.Network.Analyzer;
 using MUnique.OpenMU.Web.AdminPanel.Components.NetworkAnalyzer;
@@ -28,7 +29,7 @@ public class NetworkAnalyzerPageTests
 
         var component = context.Render<NetworkAnalyzer>();
 
-        Assert.That(component.Markup, Does.Contain("only available in the all-in-one deployment"));
+        Assert.That(component.Find(".alert-info").TextContent, Is.EqualTo(Resources.NetworkAnalyzerNotAvailable));
         Assert.That(component.FindAll(".list-group-item"), Is.Empty);
     }
 
@@ -44,7 +45,7 @@ public class NetworkAnalyzerPageTests
         var component = context.Render<NetworkAnalyzer>();
 
         Assert.That(component.Markup, Does.Contain("TestCharacter"));
-        Assert.That(component.Markup, Does.Contain("Select a connection"));
+        Assert.That(component.Find("em").TextContent, Is.EqualTo(Resources.SelectAConnection));
     }
 
     /// <summary>
@@ -60,7 +61,7 @@ public class NetworkAnalyzerPageTests
         component.Find(".list-group-item").Click();
 
         Assert.That(connection.Sinks, Has.Count.EqualTo(1), "The capture should be registered at the connection.");
-        Assert.That(component.Markup, Does.Contain("No packets captured yet"));
+        Assert.That(component.Find("em").TextContent, Is.EqualTo(Resources.NoPacketsCaptured));
     }
 
     /// <summary>
@@ -107,7 +108,7 @@ public class NetworkAnalyzerPageTests
         Assert.That(grid.Packets[1].PacketData, Is.EqualTo("C1 04 F1 02"), "The newest packet comes last.");
         Assert.That(grid.AutoScroll, Is.True, "The traffic is followed by default.");
 
-        component.Find("button[title*='newest packet']").Click();
+        component.FindAll("button").Single(button => button.GetAttribute("title") == Resources.FollowNewPacketsHint).Click();
 
         Assert.That(component.FindComponent<PacketGrid>().Instance.AutoScroll, Is.False);
     }
@@ -126,7 +127,7 @@ public class NetworkAnalyzerPageTests
 
         var component = context.Render<NetworkAnalyzer>();
         component.Find(".list-group-item").Click();
-        component.Find("button[title*='newest packet']").Click(); // stop following
+        component.FindAll("button").Single(button => button.GetAttribute("title") == Resources.FollowNewPacketsHint).Click(); // stop following
 
         var capture = (LiveCapturedConnection)service.GetRunningCapture(connection.Id)!;
         var renderCount = component.RenderCount;
@@ -136,7 +137,7 @@ public class NetworkAnalyzerPageTests
         Assert.That(component.FindComponent<PacketGrid>().Instance.Packets, Is.Empty, "A view which doesn't follow should not take the new packet.");
         Assert.That(component.RenderCount, Is.EqualTo(renderCount), "Such a view should not be rendered again, it would just flicker.");
 
-        component.Find("button[title*='newest packet']").Click(); // follow again
+        component.FindAll("button").Single(button => button.GetAttribute("title") == Resources.FollowNewPacketsHint).Click(); // follow again
         component.WaitForState(
             () => component.FindComponent<PacketGrid>().Instance.Packets.Count == 1,
             TimeSpan.FromSeconds(10));
@@ -187,10 +188,10 @@ public class NetworkAnalyzerPageTests
 
         var component = context.Render<NetworkAnalyzer>();
         component.Find(".list-group-item").Click();
-        component.Find("button[title*='newest packet']").Click(); // stop following
+        component.FindAll("button").Single(button => button.GetAttribute("title") == Resources.FollowNewPacketsHint).Click(); // stop following
         Assert.That(component.FindComponent<PacketGrid>().Instance.AutoScroll, Is.False);
 
-        component.FindAll("button").First(button => button.TextContent.Contains("Clear")).Click();
+        component.FindAll("button").Single(button => button.TextContent.Trim() == Resources.ClearPackets).Click();
 
         Assert.That(component.FindComponent<PacketGrid>().Instance.AutoScroll, Is.True);
     }

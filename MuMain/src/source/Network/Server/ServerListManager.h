@@ -47,6 +47,7 @@ public:
     int GetTotalServer();
 
 protected:
+    CServerGroup* GetOrCreateServerGroup(int serverGroupIndex);
     const SServerGroupInfo* GetServerGroupInfoInScript(WORD wServerGroupIndex);
     bool MakeServerGroup(IN int iServerGroupIndex, OUT CServerGroup* pServerGroup);
     void InsertServer(CServerGroup* pServerGroup, int iConnectIndex, int iServerPercent);

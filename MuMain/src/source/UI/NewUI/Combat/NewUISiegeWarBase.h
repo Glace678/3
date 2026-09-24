@@ -61,6 +61,8 @@ namespace SEASON3B
         };
 
     protected:
+        static bool GetCommandIconSize(int command, int& width, int& height, int& textureWidth);
+
         POINT		m_MiniMapFramePos;
         POINT		m_MiniMapPos;
         POINT		m_TimeUIPos;

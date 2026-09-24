@@ -20,6 +20,7 @@ public sealed class PackageManifestValidator
         "README-简体中文.txt",
         "App/Server/MUnique.OpenMU.Startup.exe",
         "App/Game/Main.exe",
+        "App/Game/MUnique.Client.Library.dll",
         "App/Game/config.ini.template",
         "Runtime/PostgreSQL/bin/initdb.exe",
         "Runtime/PostgreSQL/bin/pg_ctl.exe",
@@ -80,7 +81,7 @@ public sealed class PackageManifestValidator
         foreach (var entry in entries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (string.IsNullOrWhiteSpace(entry.Path) || string.IsNullOrWhiteSpace(entry.Sha256))
+            if (entry is null || string.IsNullOrWhiteSpace(entry.Path) || string.IsNullOrWhiteSpace(entry.Sha256))
             {
                 throw new InvalidDataException("便携程序包清单中包含空路径或空 SHA-256 值。");
             }

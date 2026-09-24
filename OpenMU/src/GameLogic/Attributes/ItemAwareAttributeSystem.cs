@@ -21,7 +21,7 @@ public sealed class ItemAwareAttributeSystem : AttributeSystem, IDisposable
     public ItemAwareAttributeSystem(Account account, Character character, GameConfiguration gameConfiguration)
         : base(
             character.Attributes.Concat(account.Attributes),
-            character.CharacterClass!.BaseAttributeValues.Concat(gameConfiguration.GlobalBaseAttributeValues),
+            character.CharacterClass!.BaseAttributeValues.Concat(SoloBalance.GetComposableBaseAttributes(gameConfiguration)),
             character.CharacterClass.AttributeCombinations.Concat(gameConfiguration.GlobalAttributeCombinations))
     {
         this.ItemPowerUps = new Dictionary<Item, IReadOnlyList<PowerUpWrapper>>();

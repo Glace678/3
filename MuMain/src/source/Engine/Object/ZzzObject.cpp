@@ -1,6 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Data/World/ObjectPlacementData.h"
+#include "Core/IO/BinaryFile.h"
+#include <SDL3/SDL_log.h>
+#include <limits>
+#include <memory>
 #include "Core/Time/FrameScaling.h"
 #include "Camera/CameraMove.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
@@ -4937,153 +4942,82 @@ void DeleteObjectTile(int x, int y)
     }
 }
 
+namespace
+{
+    int LoadWorldObjects(const wchar_t* fileName, bool encrypted)
+    {
+        constexpr auto MaximumFileSize = 4
+            + std::numeric_limits<std::int16_t>::max() * Data::WorldObjects::ObjectPlacementData::RecordSize;
+        auto bytes = Core::IO::ReadBinaryFile(fileName, MaximumFileSize);
+        if (bytes && encrypted)
+        {
+            std::vector<std::uint8_t> decrypted(bytes->size());
+            MapFileDecrypt(decrypted.data(), bytes->data(), static_cast<int>(bytes->size()));
+            bytes = std::move(decrypted);
+        }
+
+        auto parsed = bytes
+            ? Data::WorldObjects::ObjectPlacementData::Parse(*bytes, encrypted, MAX_MODELS)
+            : std::nullopt;
+        if (!parsed)
+        {
+            wchar_t message[256];
+            mu_swprintf(message, L"%ls is missing, unreadable, or contains invalid world objects.", fileName);
+            MessageBox(g_hWnd, message, nullptr, MB_OK);
+            SendMessage(g_hWnd, WM_DESTROY, 0, 0);
+            return -1;
+        }
+
+        if (encrypted)
+            g_iTotalObj = static_cast<int>(parsed->objects.size());
+        if (parsed->skippedObjects != 0)
+            SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Skipped %zu invalid world objects on map %u.",
+                parsed->skippedObjects, static_cast<unsigned>(parsed->mapNumber));
+        for (auto& placement : parsed->objects)
+            CreateObject(placement.type, placement.position.data(), placement.angle.data(), placement.scale);
+        return parsed->mapNumber;
+    }
+}
+
 int OpenObjects(wchar_t* FileName)
 {
-    FILE* fp = _wfopen(FileName, L"rb");
-    if (fp == NULL)
-    {
-        wchar_t Text[256];
-        mu_swprintf(Text, L"%ls file not found.", FileName);
-        MessageBox(g_hWnd, Text, NULL, MB_OK);
-        SendMessage(g_hWnd, WM_DESTROY, 0, 0);
-        return (-1);
-    }
-    fseek(fp, 0, SEEK_END);
-    int EncBytes = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    auto* EncData = new unsigned char[EncBytes];
-    fread(EncData, 1, EncBytes, fp);
-    fclose(fp);
-
-    unsigned char* Data = EncData;
-    int DataBytes = EncBytes;
-
-    int DataPtr = 0;
-
-    BYTE Version = *((BYTE*)(Data + DataPtr)); DataPtr += 1;
-
-    int iMapNumber = 0;
-    short Count = *((short*)(Data + DataPtr)); DataPtr += 2;
-    for (int i = 0; i < Count; i++)
-    {
-        vec3_t Position;
-        vec3_t Angle;
-        short Type = *((short*)(Data + DataPtr)); DataPtr += 2;
-        memcpy(Position, Data + DataPtr, sizeof(vec3_t)); DataPtr += sizeof(vec3_t);
-        memcpy(Angle, Data + DataPtr, sizeof(vec3_t)); DataPtr += sizeof(vec3_t);
-        float Scale = *((float*)(Data + DataPtr)); DataPtr += 4;
-        CreateObject(Type, Position, Angle, Scale);
-    }
-    delete[] Data;
-
-    return iMapNumber;
+    return LoadWorldObjects(FileName, false);
 }
 
 int OpenObjectsEnc(wchar_t* FileName)
 {
-    FILE* fp = _wfopen(FileName, L"rb");
-    if (fp == NULL)
-    {
-        wchar_t Text[256];
-        mu_swprintf(Text, L"%ls file not found.", FileName);
-        MessageBox(g_hWnd, Text, NULL, MB_OK);
-        SendMessage(g_hWnd, WM_DESTROY, 0, 0);
-        return (-1);
-    }
-    fseek(fp, 0, SEEK_END);
-    int EncBytes = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    auto* EncData = new unsigned char[EncBytes];
-    fread(EncData, 1, EncBytes, fp);
-    fclose(fp);
-
-    int DataBytes = MapFileDecrypt(NULL, EncData, EncBytes);
-    auto* Data = new unsigned char[DataBytes];
-    MapFileDecrypt(Data, EncData, EncBytes);
-    delete[] EncData;
-
-    int DataPtr = 0;
-    DataPtr += 1;
-    int iMapNumber = (int)*((BYTE*)(Data + DataPtr)); DataPtr += 1;
-    short Count = *((short*)(Data + DataPtr)); DataPtr += 2;
-    g_iTotalObj = Count;
-    for (int i = 0; i < Count; i++)
-    {
-        vec3_t Position;
-        vec3_t Angle;
-        short Type = *((short*)(Data + DataPtr)); DataPtr += 2;
-        memcpy(Position, Data + DataPtr, sizeof(vec3_t)); DataPtr += sizeof(vec3_t);
-        memcpy(Angle, Data + DataPtr, sizeof(vec3_t)); DataPtr += sizeof(vec3_t);
-        float Scale = *((float*)(Data + DataPtr)); DataPtr += 4;
-        CreateObject(Type, Position, Angle, Scale);
-    }
-    delete[] Data;
-
-    return iMapNumber;
+    return LoadWorldObjects(FileName, true);
 }
 
 bool SaveObjects(wchar_t* FileName, int iMapNumber)
 {
-    FILE* fp = _wfopen(FileName, L"wb");
-
-    short ObjectCount = 0;
-    int CounterPoint = 3;
-    BYTE Version = 0;
-    fwrite(&Version, sizeof(BYTE), 1, fp);
-    fwrite(&iMapNumber, 1, 1, fp);
-    fseek(fp, 4, SEEK_SET);
-    for (int i = 0; i < 16; i++)
+    Data::WorldObjects::ObjectPlacementData data;
+    data.mapNumber = static_cast<std::uint8_t>(iMapNumber);
+    for (const auto& block : ObjectBlock)
     {
-        for (int j = 0; j < 16; j++)
+        for (auto* object = block.Head; object != nullptr; object = object->Next)
         {
-            OBJECT_BLOCK* ob = &ObjectBlock[i * 16 + j];
-            OBJECT* o = ob->Head;
-            while (1)
-            {
-                if (o != NULL)
-                {
-                    if (o->Live)
-                    {
-                        fwrite(&o->Type, 2, 1, fp);
-                        fwrite(o->Position, sizeof(vec3_t), 1, fp);
-                        fwrite(o->Angle, sizeof(vec3_t), 1, fp);
-                        fwrite(&o->Scale, sizeof(float), 1, fp);
-                    }
-                    ObjectCount++;
-                    if (o->Next == NULL) break;
-                    o = o->Next;
-                }
-                else break;
-            }
+            if (!object->Live)
+                continue;
+            Data::WorldObjects::ObjectPlacementData::Placement placement;
+            placement.type = static_cast<std::uint16_t>(object->Type);
+            std::copy_n(object->Position, placement.position.size(), placement.position.begin());
+            std::copy_n(object->Angle, placement.angle.size(), placement.angle.begin());
+            placement.scale = object->Scale;
+            data.objects.push_back(placement);
         }
     }
-    int EndPoint = ftell(fp);
-    fseek(fp, 2, SEEK_SET);
-    fwrite(&ObjectCount, 2, 1, fp);
-    fseek(fp, EndPoint, SEEK_SET);
 
-    fclose(fp);
+    auto bytes = data.Serialize(MAX_MODELS);
+    if (!bytes)
+        return false;
+    std::vector<std::uint8_t> encrypted(bytes->size());
+    MapFileEncrypt(encrypted.data(), bytes->data(), static_cast<int>(bytes->size()));
 
-    {
-        fp = _wfopen(FileName, L"rb");
-        fseek(fp, 0, SEEK_END);
-        int EncBytes = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        auto* EncData = new unsigned char[EncBytes];
-        fread(EncData, 1, EncBytes, fp);
-        fclose(fp);
-
-        int DataBytes = MapFileEncrypt(NULL, EncData, EncBytes);
-        auto* Data = new unsigned char[DataBytes];
-        MapFileEncrypt(Data, EncData, EncBytes);
-        delete[] EncData;
-
-        fp = _wfopen(FileName, L"wb");
-        fwrite(Data, DataBytes, 1, fp);
-        fclose(fp);
-        delete[] Data;
-    }
-    return true;
+    using FileHandle = std::unique_ptr<FILE, decltype(&fclose)>;
+    FileHandle file(_wfopen(FileName, L"wb"), &fclose);
+    return file && fwrite(encrypted.data(), 1, encrypted.size(), file.get()) == encrypted.size()
+        && fflush(file.get()) == 0;
 }
 
 void SaveTrapObjects(wchar_t* FileName)

@@ -907,15 +907,7 @@ bool SEASON3B::CNewUIInventoryCtrl::UpdateMouseEvent()
         ITEM* pItem = this->FindItem(m_iPointedSquareIndex);
         if (pItem != nullptr && pItem != m_pToolTipItem)
         {
-            CreateItemToolTip(pItem);
-
-            if ((pItem->Type == ITEM_DARK_HORSE_ITEM) || (pItem->Type == ITEM_DARK_RAVEN_ITEM))
-            {
-                const ITEM_ATTRIBUTE* pItemAttr = &ItemAttribute[m_pToolTipItem->Type];
-                const int iTargetX = m_Pos.x + m_pToolTipItem->x * INVENTORY_SQUARE_WIDTH + pItemAttr->Width * INVENTORY_SQUARE_WIDTH / 2;
-                const int iTargetY = m_Pos.y + m_pToolTipItem->y * INVENTORY_SQUARE_HEIGHT;
-                giPetManager::RequestPetInfo(iTargetX, iTargetY, pItem);
-            }
+            UpdateItemToolTip(pItem);
         }
     }
     return true;
@@ -1402,6 +1394,20 @@ bool SEASON3B::CNewUIInventoryCtrl::CanMoveToPt(int x, int y, ITEM* pItem)
 void SEASON3B::CNewUIInventoryCtrl::SetToolTipType(TOOLTIP_TYPE ToolTipType)
 {
     m_ToolTipType = ToolTipType;
+}
+
+void SEASON3B::CNewUIInventoryCtrl::UpdateItemToolTip(ITEM* item)
+{
+    CreateItemToolTip(item);
+    if (m_pToolTipItem == nullptr ||
+        (item->Type != ITEM_DARK_HORSE_ITEM && item->Type != ITEM_DARK_RAVEN_ITEM))
+        return;
+
+    const auto& attributes = ItemAttribute[m_pToolTipItem->Type];
+    const int targetX = m_Pos.x + m_pToolTipItem->x * INVENTORY_SQUARE_WIDTH +
+        attributes.Width * INVENTORY_SQUARE_WIDTH / 2;
+    const int targetY = m_Pos.y + m_pToolTipItem->y * INVENTORY_SQUARE_HEIGHT;
+    giPetManager::RequestPetInfo(targetX, targetY, item);
 }
 
 void SEASON3B::CNewUIInventoryCtrl::CreateItemToolTip(ITEM* pItem)

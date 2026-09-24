@@ -256,15 +256,11 @@ void SEASON3B::CNewUISiegeWarCommander::RenderGuildMemberPosInMiniMap()
 
 void SEASON3B::CNewUISiegeWarCommander::RenderCmdIconAtMouse()
 {
-    int iWidth, iHeight;
+    int iWidth, iHeight, textureWidth;
     wchar_t szText[256] = { 0, };
 
-    switch (m_iCurSelectBtnCommand)
-    {
-    case 0: iWidth = COMMAND_ATTACK_WIDTH; iHeight = COMMAND_ATTACK_HEIGHT; break;
-    case 1: iWidth = COMMAND_DEFENCE_WIDTH; iHeight = COMMAND_DEFENCE_HEIGHT; break;
-    case 2: iWidth = COMMAND_WAIT_WIDTH; iHeight = COMMAND_WAIT_HEIGHT; break;
-    }
+    if (!GetCommandIconSize(m_iCurSelectBtnCommand, iWidth, iHeight, textureWidth))
+        return;
 
     mu_swprintf(szText, L"%d", m_iCurSelectBtnGroup + 1);
     g_pRenderText->RenderText(MouseX - 13, MouseY - 6, szText);

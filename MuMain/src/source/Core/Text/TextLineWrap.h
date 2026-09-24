@@ -36,7 +36,13 @@ using MeasureTextWidth = std::function<int(const wchar_t* text, size_t length)>;
  * @param measureWidth Measures a piece of the source string.
  * @return             The lines, in order. Empty when there is nothing to draw.
  */
-std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth, const MeasureTextWidth& measureWidth);
+std::vector<std::wstring> WrapTextToWidth(const std::wstring& text, int maxWidth, const MeasureTextWidth& measureWidth, int firstLineInset = 0);
+
+// Writes measured lines into a bounded legacy 2D buffer. Every row is terminated
+// and unused rows are cleared, including when the input contains many paragraphs.
+int WrapTextToBuffer(const wchar_t* text, wchar_t* output, int rows, int columns,
+    int maxWidth, const MeasureTextWidth& measureWidth, bool indentParagraphs = false,
+    wchar_t paragraphSeparator = L'\n', int firstLineInset = 0);
 
 /**
  * @brief Splits Text into two parts near its midpoint at a space.

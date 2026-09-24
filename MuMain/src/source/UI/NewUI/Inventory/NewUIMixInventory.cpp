@@ -1038,6 +1038,11 @@ bool CNewUIMixInventory::ProcessMixItemAutoMoveToInventory()
 void CNewUIMixInventory::CheckMixInventory()
 {
     g_MixRecipeMgr.ResetMixItemInventory();
+    if (m_pNewInventoryCtrl == nullptr)
+    {
+        g_MixRecipeMgr.CheckMixInventory();
+        return;
+    }
     ITEM* pItem = NULL;
     for (int i = 0; i < (int)m_pNewInventoryCtrl->GetNumberOfItems(); ++i)
     {

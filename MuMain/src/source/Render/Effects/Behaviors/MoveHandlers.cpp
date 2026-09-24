@@ -22,6 +22,38 @@
 
 namespace Render::Effects::Behaviors
 {
+    namespace
+    {
+        void MoveHomingSkillTrail(OBJECT* effect, int trailType, int trailSubtype, bool createMagic)
+        {
+            if (effect->Owner == nullptr)
+                return;
+            vec3_t target;
+            VectorAdd(effect->Owner->Position, effect->StartPosition, target);
+            for (int step = 1; step < effect->Gravity; ++step)
+            {
+                if (rand_fps_check(2))
+                    effect->Angle[0] += (effect->Angle[0] < -90.f ? 20.f : -20.f) * FPS_ANIMATION_FACTOR;
+                MoveHumming(effect->Position, effect->Angle, target, effect->Velocity);
+                effect->Velocity += 0.4f * FPS_ANIMATION_FACTOR;
+                if (effect->LifeTime < 10)
+                {
+                    effect->Velocity += 0.1f * FPS_ANIMATION_FACTOR;
+                    if (createMagic)
+                        CreateEffectFpsChecked(BITMAP_MAGIC + 1, effect->Position, effect->Angle, effect->Light, 1, effect);
+                }
+                float matrix[3][4];
+                vec3_t offset;
+                AngleMatrix(effect->Angle, matrix);
+                VectorRotate(effect->Direction, matrix, offset);
+                VectorAddScaled(effect->Position, offset, effect->Position, FPS_ANIMATION_FACTOR);
+                CreateEffectFpsChecked(trailType, effect->Position, effect->Angle, effect->Light, trailSubtype, effect);
+            }
+            effect->Gravity += 0.1f * FPS_ANIMATION_FACTOR;
+            PlayBuffer(SOUND_ATTACK_FIRE_BUST_EXP);
+        }
+    }
+
     // MODEL_DRAGON
     bool Move_MODEL_DRAGON(OBJECT* o, int index, float Luminosity)
     {
@@ -2219,6 +2251,7 @@ namespace Render::Effects::Behaviors
             if (o->Owner == NULL || o->Owner->Live == false)
             {
                 o->Live = false;
+                return true;
             }
 
             VectorCopy(o->Owner->Position, o->Position);
@@ -5543,45 +5576,7 @@ namespace Render::Effects::Behaviors
     {
         if (o->SubType == 0)
         {
-            if (o->Owner != NULL)
-            {
-                VectorCopy(o->Owner->Position, p);
-                VectorAdd(p, o->StartPosition, p);
-
-                float Distance;
-                for (int i = 1; i < o->Gravity; ++i)
-                {
-                    if (rand_fps_check(2))
-                    {
-                        if (o->Angle[0] < -90)
-                            o->Angle[0] += (20.f) * FPS_ANIMATION_FACTOR;
-                        else
-                            o->Angle[0] -= (20.f) * FPS_ANIMATION_FACTOR;
-                    }
-                    Distance = MoveHumming(o->Position, o->Angle, p, o->Velocity);
-                    o->Velocity += (0.4f) * FPS_ANIMATION_FACTOR;
-
-                    if (o->LifeTime < 10)
-                    {
-                        o->Velocity += (0.1f) * FPS_ANIMATION_FACTOR;
-                        CreateEffectFpsChecked(BITMAP_MAGIC + 1, Position, o->Angle, o->Light, 1, o);
-                    }
-
-                    AngleMatrix(o->Angle, Matrix);
-                    VectorRotate(o->Direction, Matrix, Position);
-                    VectorAddScaled(o->Position, Position, o->Position, FPS_ANIMATION_FACTOR);
-
-                    CreateEffectFpsChecked(MODEL_TAIL, o->Position, o->Angle, o->Light, 0, o);
-                }
-                if (Distance < 40 && (int)o->LifeTime == 5)
-                {
-                    VectorCopy(o->Position, Position);
-                    Position[2] = RequestTerrainHeight(o->Position[0], o->Position[1]);
-                }
-                o->Gravity += (0.1f) * FPS_ANIMATION_FACTOR;
-
-                PlayBuffer(SOUND_ATTACK_FIRE_BUST_EXP);
-            }
+            MoveHomingSkillTrail(o, MODEL_TAIL, 0, true);
         }
         else if (o->SubType == 1)
         {
@@ -5603,44 +5598,7 @@ namespace Render::Effects::Behaviors
         vec3_t p;
         if (o->SubType == 0)
         {
-            if (o->Owner != NULL)
-            {
-                VectorCopy(o->Owner->Position, p);
-                VectorAdd(p, o->StartPosition, p);
-
-                float Distance;
-                for (int i = 1; i < o->Gravity; ++i)
-                {
-                    if (rand_fps_check(2))
-                    {
-                        if (o->Angle[0] < -90)
-                            o->Angle[0] += (20.f) * FPS_ANIMATION_FACTOR;
-                        else
-                            o->Angle[0] -= (20.f) * FPS_ANIMATION_FACTOR;
-                    }
-                    Distance = MoveHumming(o->Position, o->Angle, p, o->Velocity);
-                    o->Velocity += (0.4f) * FPS_ANIMATION_FACTOR;
-
-                    if (o->LifeTime < 10)
-                    {
-                        o->Velocity += (0.1f) * FPS_ANIMATION_FACTOR;
-                    }
-
-                    AngleMatrix(o->Angle, Matrix);
-                    VectorRotate(o->Direction, Matrix, Position);
-                    VectorAddScaled(o->Position, Position, o->Position, FPS_ANIMATION_FACTOR);
-
-                    CreateEffectFpsChecked(MODEL_PIER_PART, o->Position, o->Angle, o->Light, 1, o);
-                }
-                if (Distance < 40 && (int)o->LifeTime == 5)
-                {
-                    VectorCopy(o->Position, Position);
-                    Position[2] = RequestTerrainHeight(o->Position[0], o->Position[1]);
-                }
-                o->Gravity += (0.1f) * FPS_ANIMATION_FACTOR;
-
-                PlayBuffer(SOUND_ATTACK_FIRE_BUST_EXP);
-            }
+            MoveHomingSkillTrail(o, MODEL_PIER_PART, 1, false);
         }
         else if (o->SubType == 2)
         {
@@ -9565,6 +9523,7 @@ namespace Render::Effects::Behaviors
             else
             {
                 o->LifeTime = 0;
+                return true;
             }
 
             if (g_isCharacterBuff(o->Owner, eBuff_Cloaking))
@@ -9654,6 +9613,9 @@ namespace Render::Effects::Behaviors
             o->LifeTime = 0;
         }
 
+        // Subtypes 3/4 are independent terrain lights and may have no owner.
+        if (o->Owner == nullptr)
+            return true;
         if (g_isCharacterBuff(o->Owner, eBuff_Cloaking) && (o->SubType != 3))
             return true;
 

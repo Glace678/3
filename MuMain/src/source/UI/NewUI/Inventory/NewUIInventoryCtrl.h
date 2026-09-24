@@ -158,6 +158,7 @@ namespace SEASON3B
         bool CanChangeItemColorState(ITEM* pItem);
 
         void UpdateProcess();
+        void UpdateItemToolTip(ITEM* item);
 
         ITEM* FindItemFromSlotIndex(int slotIndex, bool recoverIfMissing);
         void ClearSlotKey(DWORD key);

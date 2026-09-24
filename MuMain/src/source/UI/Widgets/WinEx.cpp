@@ -114,9 +114,12 @@ int CWinEx::SetLine(int nLine)
 
 void CWinEx::SetSize(int nHeight)
 {
+    const int sideHeight = GetSideTextureHeight();
+    if (sideHeight <= 0)
+        return;
     int nLine = (nHeight - CWin::m_psprBg[WE_BG_TOP].GetHeight()
         - CWin::m_psprBg[WE_BG_BOTTOM].GetHeight())
-        / CWin::m_psprBg[WE_BG_LEFT].GetTexHeight();
+        / sideHeight;
 
     SetLine(nLine);
 }
@@ -162,6 +165,9 @@ void CWinEx::Show(bool bShow)
 
 void CWinEx::CheckAdditionalState()
 {
+    const int sideHeight = GetSideTextureHeight();
+    if (sideHeight <= 0)
+        return;
     CInput& rInput = CInput::Instance();
 
     if (rInput.IsLBtnDn())
@@ -169,7 +175,7 @@ void CWinEx::CheckAdditionalState()
         if (CursorInWin(WA_EXTEND_UP))
         {
             m_nBasisY = CWin::m_ptPos.y
-                + CWin::m_psprBg[WE_BG_LEFT].GetTexHeight() * m_nBgSideNow;
+                + sideHeight * m_nBgSideNow;
             CWin::m_nState = WS_EXTEND_UP;
         }
 
@@ -187,24 +193,24 @@ void CWinEx::CheckAdditionalState()
     case WS_EXTEND_UP:
         nBgSideHeight = m_nBasisY - rInput.GetCursorY();
         if (nBgSideHeight
-            < CWin::m_psprBg[WE_BG_LEFT].GetTexHeight() * m_nBgSideMin)
+            < sideHeight * m_nBgSideMin)
             SetLine(m_nBgSideMin);
         else
-            SetLine(nBgSideHeight / CWin::m_psprBg[WE_BG_LEFT].GetTexHeight()
+            SetLine(nBgSideHeight / sideHeight
                 + 1);
 
         SetPosition(CWin::m_ptPos.x, m_nBasisY
-            - CWin::m_psprBg[WE_BG_LEFT].GetTexHeight() * m_nBgSideNow);
+            - sideHeight * m_nBgSideNow);
 
         break;
 
     case WS_EXTEND_DN:
         nBgSideHeight = rInput.GetCursorY() - m_nBasisY;
         if (nBgSideHeight
-            < CWin::m_psprBg[WE_BG_LEFT].GetTexHeight() * m_nBgSideMin)
+            < sideHeight * m_nBgSideMin)
             SetLine(m_nBgSideMin);
         else
-            SetLine(nBgSideHeight / CWin::m_psprBg[WE_BG_LEFT].GetTexHeight()
+            SetLine(nBgSideHeight / sideHeight
                 + 1);
 
         break;
@@ -220,4 +226,8 @@ void CWinEx::Render()
 
         RenderControls();
     }
+}
+int CWinEx::GetSideTextureHeight() const
+{
+    return CWin::m_psprBg != nullptr ? CWin::m_psprBg[WE_BG_LEFT].GetTexHeight() : 0;
 }

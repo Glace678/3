@@ -8,15 +8,19 @@
 
 #include "stdafx.h"
 #include "Core/Utilities/UsefulDef.h"
+#include "Core/Text/TextLineWrap.h"
 #include "UI/Legacy/UIControls.h"
 
 
 
 bool ReduceStringByPixel(LPTSTR lpszDst, int nDstSize, LPCTSTR lpszSrc, int nPixel)
 {
+    if (lpszDst == nullptr || lpszSrc == nullptr || nDstSize <= 0)
+        return false;
     SIZE size;
     GetTextExtentPoint32(g_pRenderText->GetFontDC(), lpszSrc, lstrlen(lpszSrc), &size);
-    int nSrcWidth = int(size.cx / g_fScreenRate_x);
+    const float screenScale = g_fScreenRate_x > 0 ? g_fScreenRate_x : 1.0f;
+    int nSrcWidth = int(size.cx / screenScale);
 
     if (nSrcWidth <= nPixel)
     {
@@ -25,9 +29,13 @@ bool ReduceStringByPixel(LPTSTR lpszDst, int nDstSize, LPCTSTR lpszSrc, int nPix
         return false;
     }
 
-    // CutText3/CutStr copy at most nDstSize-2 characters but write no null
-    // terminator; a stale buffer let wcscat scan and append past the buffer.
     ::wmemset(lpszDst, L'\0', nDstSize);
+    constexpr int EllipsisLength = 3;
+    if (nDstSize <= EllipsisLength)
+    {
+        std::fill_n(lpszDst, nDstSize - 1, L'.');
+        return true;
+    }
     ::CutText3(lpszSrc, lpszDst, nPixel - 6, 1, nDstSize);
     lpszDst[nDstSize - 4] = L'\0'; // reserve room for L"..."
     ::wcscat(lpszDst, L"...");
@@ -36,33 +44,15 @@ bool ReduceStringByPixel(LPTSTR lpszDst, int nDstSize, LPCTSTR lpszSrc, int nPix
 
 int DivideStringByPixel(wchar_t* alpszDst, int nDstRow, int nDstColumn, const wchar_t* lpszSrc, int nPixelPerLine, bool bSpaceInsert, const wchar_t szNewlineChar)
 {
-    if (nullptr == alpszDst || 0 >= nDstRow || 0 >= nDstColumn || nullptr == lpszSrc || 16 > nPixelPerLine)
-        return 0;
-
-    std::wstring szWorkSrc(lpszSrc);  // Convert lpszSrc to std::wstring
-
-    wchar_t szWorkToken[1024];
-    int nLine = 0;
-
-    wchar_t* context = nullptr;
-    wchar_t* pszToken = wcstok_s(&szWorkSrc[0], &szNewlineChar, &context);
-
-    while (pszToken != nullptr)
+    const auto measure = [](const wchar_t* text, std::size_t length)
     {
-        if (bSpaceInsert)
-        {
-            mu_swprintf(szWorkToken, L" %ls", pszToken);
-            nLine += CutText3(szWorkToken, alpszDst + nLine * nDstColumn, nPixelPerLine, nDstRow, nDstColumn);
-        }
-        else
-        {
-            nLine += CutText3(pszToken, alpszDst + nLine * nDstColumn, nPixelPerLine, nDstRow, nDstColumn);
-        }
-
-        pszToken = wcstok_s(nullptr, &szNewlineChar, &context);
-    }
-
-    return nLine;
+        SIZE size {};
+        GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, static_cast<int>(length), &size);
+        const float screenScale = g_fScreenRate_x > 0 ? g_fScreenRate_x : 1.0f;
+        return static_cast<int>(std::ceil(size.cx / screenScale));
+    };
+    return WrapTextToBuffer(lpszSrc, alpszDst, nDstRow, nDstColumn,
+        nPixelPerLine, measure, bSpaceInsert, szNewlineChar);
 }
 
 int DivideString(LPTSTR alpszDst, int nDstRow, int nDstColumn, LPCTSTR lpszSrc)

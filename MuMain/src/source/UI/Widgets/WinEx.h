@@ -42,6 +42,7 @@ public:
 
 protected:
     void CheckAdditionalState();
+    int GetSideTextureHeight() const;
 };
 
 #endif // !defined(AFX_WINEX_H__9E5A6837_4907_4DD0_95E8_14FFD2BF57DC__INCLUDED_)

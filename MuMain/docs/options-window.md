@@ -6,6 +6,20 @@ and the `config.ini` it writes to.
 
 For the camera architecture see [`camera-system.md`](camera-system.md).
 
+The item explanation window supports arbitrary resized window widths, including
+1366, 1920 and 2560 pixels. It uses the nearest smaller legacy layout, with a
+minimum layout below 800 pixels, so opening item help at a nonstandard resolution
+does not divide by zero.
+
+Keyboard presses are retained until the next game frame. A quick tap of an
+inventory, map, or other shortcut is recognized even when SDL receives the key
+press and release between two rendered frames. Losing focus clears pending
+presses so they do not fire after returning to the game.
+
+Shop confirmation text wraps within the available lines without displaying
+uninitialized trailing characters. Release builds hide internal shop packet
+identifiers and script-version diagnostics.
+
 ---
 
 ## What changed

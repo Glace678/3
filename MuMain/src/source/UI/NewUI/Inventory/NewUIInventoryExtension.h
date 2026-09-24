@@ -34,7 +34,7 @@ namespace SEASON3B
         static constexpr float EXT_BORDER = 3.0f;
 
         CNewUIManager* m_pNewUIMng;
-        CNewUIInventoryCtrl* m_extensions[MAX_INVENTORY_EXT_COUNT];
+        CNewUIInventoryCtrl* m_extensions[MAX_INVENTORY_EXT_COUNT]{};
         POINT m_Pos;
 
         CNewUIButton m_BtnExit;

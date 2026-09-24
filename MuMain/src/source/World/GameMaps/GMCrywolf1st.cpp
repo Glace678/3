@@ -1562,31 +1562,24 @@ bool M34CryWolf1st::RenderCryWolf1stMonsterObjectMesh(OBJECT* o, BMD* b, int Ext
     return false;
 }
 
-bool M34CryWolf1st::RenderCryWolf1stMonsterVisual(CHARACTER* c, OBJECT* o, BMD* b)
+namespace
 {
-    if (!IsCyrWolf1st() && !(gMapManager.InDevilSquare()))
-        return false;
-
-    switch (o->Type)
-    {
-    case MODEL_CRYWOLF_ALTAR1:
-    case MODEL_CRYWOLF_ALTAR2:
-    case MODEL_CRYWOLF_ALTAR3:
-    case MODEL_CRYWOLF_ALTAR4:
-    case MODEL_CRYWOLF_ALTAR5:
+    void RenderCrywolfAltarVisual(OBJECT* o)
     {
         vec3_t Light;
-        float fRotation1, fRotation2;
+        constexpr float RotationSpeed = 0.01f;
+        const float fRotation1 = WorldTime * RotationSpeed;
+        const float fRotation2 = -fRotation1;
         float Luminosity = sinf(WorldTime * 0.002f) * 0.1f + 0.28f;
         float Luminosity2 = sinf(WorldTime * 0.002f) * 0.04f + 0.2f;
+
+        Vector(0.15f, 0.15f, Luminosity, Light);
 
         EnableAlphaBlend();
 
         if (g_isCharacterBuff(o, eBuff_CrywolfAltarContracted))
         {
             Vector(Luminosity2, Luminosity2, 0.05f, Light);
-            fRotation1 = WorldTime * 0.01f;
-            fRotation2 = -WorldTime * 0.01f;
             Vector(0.09f, 0.09f, 0.04f, o->Light);
 
             CreateParticleFpsChecked(BITMAP_EFFECT, o->Position, o->Angle, o->Light);
@@ -1602,7 +1595,6 @@ bool M34CryWolf1st::RenderCryWolf1stMonsterVisual(CHARACTER* c, OBJECT* o, BMD* 
         }
         if (g_isCharacterBuff(o, eBuff_CrywolfAltarEnable) || g_isCharacterBuff(o, eBuff_CrywolfAltarAttempt))
         {
-            fRotation1 = WorldTime * 0.01f;
             Vector(0.15f, 0.15f, Luminosity, Light);
         }
 
@@ -1611,9 +1603,23 @@ bool M34CryWolf1st::RenderCryWolf1stMonsterVisual(CHARACTER* c, OBJECT* o, BMD* 
         RenderTerrainAlphaBitmap(BITMAP_MAGIC_CIRCLE, o->Position[0], o->Position[1], 2.8f, 2.8f, Light, fRotation1);
         RenderTerrainAlphaBitmap(BITMAP_MAGIC_CIRCLE, o->Position[0], o->Position[1], 3.6f, 3.6f, Light, fRotation2);
         DisableAlphaBlend();
+    }
+}
 
-        if (fRotation1 >= 360.0f) fRotation1 = 0.0f;
-        if (fRotation2 >= 360.0f) fRotation2 = 0.0f;
+bool M34CryWolf1st::RenderCryWolf1stMonsterVisual(CHARACTER* c, OBJECT* o, BMD* b)
+{
+    if (!IsCyrWolf1st() && !(gMapManager.InDevilSquare()))
+        return false;
+
+    switch (o->Type)
+    {
+    case MODEL_CRYWOLF_ALTAR1:
+    case MODEL_CRYWOLF_ALTAR2:
+    case MODEL_CRYWOLF_ALTAR3:
+    case MODEL_CRYWOLF_ALTAR4:
+    case MODEL_CRYWOLF_ALTAR5:
+    {
+        RenderCrywolfAltarVisual(o);
     }
     break;
     case MODEL_BALGASS:

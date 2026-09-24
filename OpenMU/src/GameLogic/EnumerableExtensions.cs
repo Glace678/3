@@ -104,23 +104,39 @@ public static class EnumerableExtensions
     {
         var list = enumerable as IList<T> ?? enumerable.ToList();
         var weightList = weights as IList<int> ?? weights.ToList();
-        if (list.Count > 0 && weightList.Count == list.Count)
+        if (list.Count == 0 || weightList.Count != list.Count)
         {
-            var roll = randomizer.NextInt(0, weights.Sum());
-            int inc = 0;
-            for (int i = 0; i < weightList.Count; i++)
-            {
-                inc += weightList[i];
-                if (roll < inc)
-                {
-                    return list[i];
-                }
-            }
-
-            return SelectRandom(enumerable, randomizer);  // Fallback in case there are no weights assigned (>0)
+            return default;
         }
 
-        return default;
+        long totalWeight = 0;
+        foreach (var weight in weightList)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(weight, nameof(weights));
+            totalWeight += weight;
+        }
+
+        if (totalWeight == 0)
+        {
+            return SelectRandom(list, randomizer);
+        }
+
+        // Keep the integer random source for normal gameplay weights, and
+        // avoid overflowing the total for large custom item configurations.
+        var roll = totalWeight <= int.MaxValue
+            ? randomizer.NextInt(0, (int)totalWeight)
+            : Math.Min(totalWeight - 1, (long)(randomizer.NextDouble() * totalWeight));
+        for (var i = 0; i < weightList.Count; i++)
+        {
+            if (roll < weightList[i])
+            {
+                return list[i];
+            }
+
+            roll -= weightList[i];
+        }
+
+        return SelectRandom(list, randomizer);
     }
 
     /// <summary>

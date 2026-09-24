@@ -1,5 +1,14 @@
 # OpenMU Local package
 
+The Windows package manifest must include `App/Game/MUnique.Client.Library.dll`
+as well as `Main.exe`: the protocol library is required to connect to the game
+server. An incomplete package is rejected before starting the database.
+
+The solo profile grants three additional stat points per normal level, on top
+of the character's class and quest rewards. These points are awarded on level
+up; logging in never rewrites the character's saved stats. Older solo databases
+which stored this bonus under `PointsPerLevelUp` remain usable without a reset.
+
 ## Separate desktop entries
 
 The shared lifecycle implementation is now built by

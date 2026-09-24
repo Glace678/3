@@ -1,6 +1,7 @@
 {
   "modelVersion": "5.0.0",
   "dependencies": {
+    "json5": "2.2.3"
   },
   "execution": {
     "analyzeEnabled": false,

@@ -21,6 +21,16 @@ namespace MuMain.Tools.ResxGen;
 ///   I18N/All.cpp
 internal static class CppEmitter
 {
+    private static void WriteIfChanged(string path, string content)
+    {
+        if (File.Exists(path) && string.Equals(File.ReadAllText(path), content, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        File.WriteAllText(path, content);
+    }
+
     /// Root C++ namespace for everything we emit.
     private const string RootNamespace = "I18N";
 
@@ -120,7 +130,7 @@ internal static class CppEmitter
 
             """);
 
-        File.WriteAllText(Path.Combine(outputDir, $"{group.Name}.h"), sb.ToString());
+        WriteIfChanged(Path.Combine(outputDir, $"{group.Name}.h"), sb.ToString());
     }
 
     public static void WriteGroupSource(string outputDir, ResourceGroup group, IReadOnlyList<string> masterLocales)
@@ -165,7 +175,7 @@ internal static class CppEmitter
 
             """);
 
-        File.WriteAllText(Path.Combine(outputDir, $"{group.Name}.cpp"), sb.ToString());
+        WriteIfChanged(Path.Combine(outputDir, $"{group.Name}.cpp"), sb.ToString());
     }
 
     public static void WriteMasterHeader(string outputDir, IReadOnlyList<ResourceGroup> groups)
@@ -236,7 +246,7 @@ internal static class CppEmitter
 
             """);
 
-        File.WriteAllText(Path.Combine(outputDir, $"{MasterFileName}.h"), sb.ToString());
+        WriteIfChanged(Path.Combine(outputDir, $"{MasterFileName}.h"), sb.ToString());
     }
 
     public static void WriteMasterSource(string outputDir, IReadOnlyList<ResourceGroup> groups)
@@ -430,7 +440,7 @@ internal static class CppEmitter
 
             """);
 
-        File.WriteAllText(Path.Combine(outputDir, $"{MasterFileName}.cpp"), sb.ToString());
+        WriteIfChanged(Path.Combine(outputDir, $"{MasterFileName}.cpp"), sb.ToString());
     }
 
     private static void WriteLocaleRegistry(StringBuilder sb, IReadOnlyList<ResourceGroup> groups)

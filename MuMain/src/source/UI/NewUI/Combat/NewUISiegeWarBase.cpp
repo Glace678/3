@@ -397,6 +397,32 @@ void SEASON3B::CNewUISiegeWarBase::UpdateHeroPos()
     m_fMiniMapTexV = (float)(m_MiniMapScaleOffset.y) / (256.f / (float)m_iMiniMapScale);
 }
 
+bool SEASON3B::CNewUISiegeWarBase::GetCommandIconSize(int command, int& width, int& height, int& textureWidth)
+{
+    constexpr int SmallTextureWidth = 16;
+    constexpr int WideTextureWidth = 32;
+    switch (command)
+    {
+    case 0:
+        width = COMMAND_ATTACK_WIDTH;
+        height = COMMAND_ATTACK_HEIGHT;
+        textureWidth = SmallTextureWidth;
+        return true;
+    case 1:
+        width = COMMAND_DEFENCE_WIDTH;
+        height = COMMAND_DEFENCE_HEIGHT;
+        textureWidth = WideTextureWidth;
+        return true;
+    case 2:
+        width = COMMAND_WAIT_WIDTH;
+        height = COMMAND_WAIT_HEIGHT;
+        textureWidth = SmallTextureWidth;
+        return true;
+    default:
+        return false;
+    }
+}
+
 void SEASON3B::CNewUISiegeWarBase::RenderCmdIconInMiniMap()
 {
     int iWidth, iHeight;
@@ -407,12 +433,8 @@ void SEASON3B::CNewUISiegeWarBase::RenderCmdIconInMiniMap()
     for (int i = 0; i < MAX_COMMANDGROUP; i++)
     {
         int iBWidth;
-        switch (m_CmdBuffer[i].byCmd)
-        {
-        case 0: iWidth = COMMAND_ATTACK_WIDTH; iHeight = COMMAND_ATTACK_HEIGHT; iBWidth = 16; break;
-        case 1: iWidth = COMMAND_DEFENCE_WIDTH; iHeight = COMMAND_DEFENCE_HEIGHT; iBWidth = 32; break;
-        case 2: iWidth = COMMAND_WAIT_WIDTH; iHeight = COMMAND_WAIT_HEIGHT; iBWidth = 16; break;
-        }
+        if (!GetCommandIconSize(m_CmdBuffer[i].byCmd, iWidth, iHeight, iBWidth))
+            continue;
 
         if (m_CmdBuffer[i].byCmd != 3 && m_CmdBuffer[i].byTeam >= 0 && m_CmdBuffer[i].byTeam <= 6)
         {

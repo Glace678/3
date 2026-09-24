@@ -3584,6 +3584,39 @@ void CUIFriendListTabWindow::RenderSub()
     DisableAlphaBlend();
 }
 
+void CUIFriendListTabWindow::OpenSelectedFriendChat()
+{
+    constexpr BYTE OfflineServer = 0xFF;
+    constexpr BYTE LastOnlineServer = 0xFC;
+    BYTE server = OfflineServer;
+    const wchar_t* selectedName = GetCurrentSelectedFriend(nullptr, &server);
+    if (selectedName == nullptr || server > LastOnlineServer)
+        return;
+
+    wchar_t name[MAX_USERNAME_SIZE + 1]{};
+    wcsncpy(name, selectedName, MAX_USERNAME_SIZE);
+    const DWORD existingRoom = g_pFriendMenu->CheckChatRoomDuplication(name);
+    if (existingRoom == 0)
+    {
+        if (!g_pWindowMgr->GetChatReject() && !g_pFriendMenu->IsRequestWindow(name))
+        {
+            g_pFriendMenu->AddRequestWindow(name);
+            SocketClient->ToGameServer()->SendChatRoomCreateRequest(name);
+        }
+        return;
+    }
+
+    constexpr DWORD PendingRoom = static_cast<DWORD>(-1);
+    if (existingRoom != PendingRoom)
+    {
+        if (auto* window = g_pWindowMgr->GetWindow(existingRoom))
+        {
+            window->SetState(UISTATE_HIDE);
+            g_pWindowMgr->SendUIMessage(UI_MESSAGE_SELECT, existingRoom, 0);
+        }
+    }
+}
+
 BOOL CUIFriendListTabWindow::HandleMessage()
 {
     if (m_WorkMessage.m_iMessage == UI_MESSAGE_LISTDBLCLICK)
@@ -3616,31 +3649,8 @@ BOOL CUIFriendListTabWindow::HandleMessage()
         }
         break;
         case 3:
-        {
-            if (GetCurrentSelectedFriend() == NULL) break;
-            wchar_t pszName[MAX_USERNAME_SIZE] = { 0 };
-            BYTE Server;
-            wcsncpy(pszName, GetCurrentSelectedFriend(NULL, &Server), MAX_USERNAME_SIZE);
-            if (Server <= 0xFC)
-            {
-                DWORD dwDuplicationCheck = g_pFriendMenu->CheckChatRoomDuplication(pszName);
-                if (dwDuplicationCheck == 0)
-                {
-                    if (g_pWindowMgr->GetChatReject() == FALSE && g_pFriendMenu->IsRequestWindow(pszName) == FALSE)
-                    {
-                        g_pFriendMenu->AddRequestWindow(pszName);
-                        SocketClient->ToGameServer()->SendChatRoomCreateRequest(pszName);
-                    }
-                }
-                else if (dwDuplicationCheck == -1);
-                else
-                {
-                    g_pWindowMgr->GetWindow(dwDuplicationCheck)->SetState(UISTATE_HIDE);
-                    g_pWindowMgr->SendUIMessage(UI_MESSAGE_SELECT, dwDuplicationCheck, 0);
-                }
-            }
-        }
-        break;
+            OpenSelectedFriendChat();
+            break;
         case 4:		// 편지쓰기
         {
             wchar_t temp[MAX_TEXT_LENGTH + 1];

@@ -24,18 +24,7 @@ void CSlider::Create(SImgInfo* piiThumb, SImgInfo* piiBack, SImgInfo* piiGauge, 
 {
     m_btnThumb.Create(piiThumb->nWidth, piiThumb->nHeight, piiThumb->nTexID);
 
-    SAFE_DELETE(m_pGaugeBar);
-    SAFE_DELETE(m_psprBack);
-
-    if (piiGauge)
-    {
-        m_pGaugeBar = new CGaugeBar;
-        m_pGaugeBar->Create(piiGauge->nWidth, piiGauge->nHeight, piiGauge->nTexID, prcGauge, piiBack->nWidth, piiBack->nHeight, piiBack->nTexID);
-    }
-    else if (-1 < piiBack->nTexID)
-    {
-        m_psprBack->Create(piiBack);
-    }
+    CreateBackground(piiBack, piiGauge, prcGauge);
 
     m_bVertical = bVertical;
     m_byState = SLD_STATE_IDLE;
@@ -63,11 +52,34 @@ void CSlider::Create(SImgInfo* piiThumb, SImgInfo* piiBack, SImgInfo* piiGauge, 
     m_nThumbRange = nThumbRange < 0 ? 0 : nThumbRange;
 }
 
+void CSlider::CreateBackground(SImgInfo* piiBack, SImgInfo* piiGauge, RECT* prcGauge)
+{
+    SAFE_DELETE(m_pGaugeBar);
+    SAFE_DELETE(m_psprBack);
+
+    if (piiGauge)
+    {
+        m_pGaugeBar = new CGaugeBar;
+        m_pGaugeBar->Create(piiGauge->nWidth, piiGauge->nHeight, piiGauge->nTexID, prcGauge, piiBack->nWidth, piiBack->nHeight, piiBack->nTexID);
+    }
+    else if (-1 < piiBack->nTexID)
+    {
+        m_psprBack = new CSprite;
+        m_psprBack->Create(piiBack);
+    }
+}
+
 void CSlider::Release()
 {
     m_btnThumb.Release();
     SAFE_DELETE(m_pGaugeBar);
     SAFE_DELETE(m_psprBack);
+}
+
+void CSlider::UpdateGaugeValue()
+{
+    if (m_pGaugeBar)
+        m_pGaugeBar->SetValue(m_nSlidePos, m_nSlideRange);
 }
 
 void CSlider::SetThumbPosition()
@@ -82,7 +94,7 @@ void CSlider::SetThumbPosition()
     {
         fThumbPos = float(m_ptPos.x) + (float)m_nThumbRange / m_nSlideRange * m_nSlidePos;
         m_btnThumb.SetPosition((int)fThumbPos, m_ptPos.y);
-        m_pGaugeBar->SetValue(m_nSlidePos, m_nSlideRange);
+        UpdateGaugeValue();
     }
 }
 
@@ -117,7 +129,7 @@ void CSlider::LineUp()
     {
         float fThumbXPos = float(m_ptPos.x) + (float)m_nThumbRange / m_nSlideRange * --m_nSlidePos;
         m_btnThumb.SetPosition((int)fThumbXPos, m_ptPos.y);
-        m_pGaugeBar->SetValue(m_nSlidePos, m_nSlideRange);
+        UpdateGaugeValue();
     }
 }
 
@@ -141,7 +153,7 @@ void CSlider::LineDown()
             fThumbPos = float(m_ptPos.x) + (float)m_nThumbRange / m_nSlideRange * m_nSlidePos;
 
         m_btnThumb.SetPosition((int)fThumbPos, m_ptPos.y);
-        m_pGaugeBar->SetValue(m_nSlidePos, m_nSlideRange);
+        UpdateGaugeValue();
     }
 }
 
@@ -283,7 +295,7 @@ void CSlider::Update(double dDeltaTick)
 
             float fPixelPerPos = (float)m_nThumbRange / m_nSlideRange;
             m_nSlidePos = int((float(m_btnThumb.GetXPos() - m_ptPos.x) + (fPixelPerPos / 2)) / fPixelPerPos);
-            m_pGaugeBar->SetValue(m_nSlidePos, m_nSlideRange);
+            UpdateGaugeValue();
         }	// if (m_bVertical) else¹® ³¡.
     }
 }

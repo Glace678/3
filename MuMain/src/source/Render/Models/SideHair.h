@@ -14,6 +14,8 @@ class CSideHair : CShadowVolume
 public:
     CSideHair();
     virtual ~CSideHair();
+    CSideHair(const CSideHair&) = delete;
+    CSideHair& operator=(const CSideHair&) = delete;
 
     virtual void Create(vec3_t ppVertexTransformed[MAX_MESH][MAX_VERTICES], BMD* b, OBJECT* o, bool SkipTga = true);
     virtual void Destroy(void);

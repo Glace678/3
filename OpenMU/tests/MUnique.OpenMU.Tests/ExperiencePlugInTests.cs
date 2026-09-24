@@ -93,19 +93,24 @@ public class ExperiencePlugInTests
     /// <summary>
     /// Tests that a master level up is reported to the corresponding plugin point.
     /// </summary>
-    [Test]
-    public async ValueTask MasterLevelUpIsReportedToPlugInAsync()
+    /// <param name="preventOverflow">Whether excess experience should be discarded.</param>
+    /// <param name="overflow">The amount granted beyond the first master level threshold.</param>
+    [TestCase(false, 0)]
+    [TestCase(false, 1)]
+    [TestCase(true, 1)]
+    public async ValueTask MasterLevelUpIsReportedToPlugInAsync(bool preventOverflow, int overflow)
     {
         var player = await this.CreatePlayerAsync(maximumLevel: 10, isMasterClass: true, level: 10).ConfigureAwait(false);
         var plugIn = new MasterLevelUpRecordingPlugIn();
         player.GameContext.PlugInManager.RegisterPlugInAtPlugInPoint<ICharacterMasterLevelUpPlugIn>(plugIn);
-        // The level up happens when the required experience is exceeded, so one more point is needed.
-        var requiredExperience = player.GameContext.MasterExperienceTable[1] + 1;
+        player.GameContext.Configuration.PreventExperienceOverflow = preventOverflow;
+        var requiredExperience = player.GameContext.MasterExperienceTable[1] + overflow;
 
         await player.AddMasterExperienceAsync((int)requiredExperience, null).ConfigureAwait(false);
 
         Assert.That((int)player.Attributes![Stats.MasterLevel], Is.EqualTo(1));
-        Assert.That(player.SelectedCharacter!.MasterExperience, Is.EqualTo(player.GameContext.MasterExperienceTable[1]));
+        var expectedExperience = player.GameContext.MasterExperienceTable[1] + (preventOverflow ? 0 : overflow);
+        Assert.That(player.SelectedCharacter!.MasterExperience, Is.EqualTo(expectedExperience));
         Assert.That(plugIn.LevelUpCount, Is.EqualTo(1));
     }
 

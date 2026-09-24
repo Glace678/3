@@ -180,7 +180,7 @@ void CMsgBoxIGSBuyConfirm::RenderTexts()
         g_pRenderText->RenderText(GetPos().x, GetPos().y + IGS_TEXT_NOTICE_POS_Y + (i * 10), m_szNotice[i], IMAGE_IGS_FRAME_WIDTH, 0, RT3_SORT_CENTER);
     }
 
-#ifdef FOR_WORK
+#if defined(FOR_WORK) && defined(_DEBUG)
     wchar_t szText[256] = { 0, };
     g_pRenderText->SetTextColor(255, 0, 0, 255);
     if (m_wItemCode == 65535)

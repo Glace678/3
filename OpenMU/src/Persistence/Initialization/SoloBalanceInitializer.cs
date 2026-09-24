@@ -70,7 +70,10 @@ public sealed class SoloBalanceInitializer : InitializerBase
         config.DamagePerOneItemDurability *= 5;
         config.DamagePerOnePetDurability *= 10;
         config.HitsPerOneItemDurability *= 5;
-        this.AddBaseAttribute(Stats.PointsPerLevelUp, 3);
+        var levelPointBonus = this.Context.CreateNew<AttributeDefinition>(
+            SoloBalance.LevelUpPointBonusAttributeId, "Solo level point bonus", "Additional points per normal level in the solo profile.");
+        config.Attributes.Add(levelPointBonus);
+        this.AddBaseAttribute(levelPointBonus, 3);
         this.AddBaseAttribute(Stats.MaximumHealth, 100);
         this.AddBaseAttribute(Stats.HealthAfterMonsterKillMultiplier, 0.03f);
         this.AddBaseAttribute(Stats.ManaAfterMonsterKillMultiplier, 0.03f);

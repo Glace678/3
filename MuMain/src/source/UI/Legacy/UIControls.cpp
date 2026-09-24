@@ -6,6 +6,7 @@
 #include "Core/Input/KeyState.h"
 #include "Core/Time/FrameTimerScheduler.h"
 #include "Core/Text/TextBoxLayout.h"
+#include "Core/Text/TextLineWrap.h"
 #include "GameLogic/Items/CComGem.h"
 #include "UIControls.h"
 #include "UIWindows.h"
@@ -44,61 +45,18 @@ extern BOOL g_bUseWindowMode;
 int CutStr(const wchar_t* pszSrcText, wchar_t* pTextOut, const int iTargetPixelWidth, const int iMaxOutLine, const int iOutStrLength, const int iFirstLineTab /* = 0 */)
 {
     if (iFirstLineTab < 0)
-    {
-      return 0;
-    }
-
-    if (pszSrcText == nullptr)
-    {
-        assert(!"CutStr Error");
         return 0;
-    }
-
-    auto tempString = std::wstring(pszSrcText);
-    int iCharIndex = 0, iLineIndex = 0;
-    const int iScreenRatePixelWidth = iTargetPixelWidth * g_fScreenRate_x - 5;
-
-    const int totalCharacters = tempString.length();
-    int processedSourceCharacters = 0;
-    SIZE iSize;
-    while (!tempString.empty() && iLineIndex < iMaxOutLine)
+    const float screenScale = g_fScreenRate_x > 0 ? g_fScreenRate_x : 1.0f;
+    const auto measure = [screenScale](const wchar_t* text, std::size_t length)
     {
-        GetTextExtentPoint32(g_pRenderText->GetFontDC(), tempString.c_str(), tempString.length(), &iSize);
-
-        if (iLineIndex == 0)
-            iSize.cx += iFirstLineTab;
-
-        const auto isTooWideInPixels = iSize.cx >= iScreenRatePixelWidth;
-        const auto isTooLongInCharacters = (int)tempString.length() >= iOutStrLength - 1;
-        if (isTooWideInPixels || isTooLongInCharacters)
-        {
-          // then remove the last word/token from the string and try next loop iteration again ...
-          const auto iPosLastSpace = tempString.find_last_of(L' ');
-          iCharIndex = (iPosLastSpace == std::wstring::npos) ? tempString.length() - 1 : iPosLastSpace;
-          tempString = tempString.substr(0, iCharIndex);
-        }
-        else
-        {
-            // we can copy that to the destination
-            tempString.copy(pTextOut, tempString.length(), 0);
-            iLineIndex++;
-            processedSourceCharacters += tempString.length();
-
-            pTextOut += iOutStrLength; // move destination pointer to the next line
-            if (processedSourceCharacters < totalCharacters)
-            {
-              tempString = std::wstring(pszSrcText + processedSourceCharacters);
-            }
-            else
-            {
-              tempString = L"";
-              break;
-            }
-        }
-    }
-
-
-    return iLineIndex;
+        SIZE size {};
+        GetTextExtentPoint32(g_pRenderText->GetFontDC(), text, static_cast<int>(length), &size);
+        return static_cast<int>(std::ceil(size.cx / screenScale));
+    };
+    constexpr int RightPaddingPixels = 5;
+    const int width = iTargetPixelWidth - static_cast<int>(std::ceil(RightPaddingPixels / screenScale));
+    return WrapTextToBuffer(pszSrcText, pTextOut, iMaxOutLine, iOutStrLength,
+        width, measure, false, L'\n', iFirstLineTab);
 }
 
 int CutText3(const wchar_t* pszText, wchar_t* pTextOut, const int TargetWidth, const int iMaxOutLine, const int iOutStrLength, const int iFirstLineTab, const BOOL bReverseWrite)

@@ -21,6 +21,29 @@ using MUnique.OpenMU.PlugIns;
 [TestFixture]
 public class ExperienceRateSplitTest
 {
+    /// <summary>Solo bonuses add to earned normal-level points without changing the underlying class value.</summary>
+    /// <param name="legacy">Whether the profile uses the original conflicting attribute name.</param>
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task SoloNormalLevelsIncludeConfiguredBonusAsync(bool legacy)
+    {
+        var context = this.CreateGameServerContext(1, 1, maximumLevel: 3, maximumMasterLevel: 200);
+        var player = await this.CreatePlayerAsync(context, level: 1, totalLevel: 1, isMasterClass: false).ConfigureAwait(false);
+        using var configurationContext = context.PersistenceContextProvider.CreateNewContext(context.Configuration);
+        var marker = configurationContext.CreateNew<AttributeDefinition>(SoloBalance.ProfileAttributeId, "Solo", string.Empty);
+        var bonus = configurationContext.CreateNew<AttributeDefinition>(
+            legacy ? Stats.PointsPerLevelUp.Id : SoloBalance.LevelUpPointBonusAttributeId, "Solo level bonus", string.Empty);
+        context.Configuration.GlobalBaseAttributeValues.Add(configurationContext.CreateNew<ConstValueAttribute>(1, marker, AggregateType.AddRaw));
+        context.Configuration.GlobalBaseAttributeValues.Add(configurationContext.CreateNew<ConstValueAttribute>(3, bonus, AggregateType.AddRaw));
+        player.Attributes!.AddElement(new SimpleElement(5, AggregateType.AddRaw), Stats.PointsPerLevelUp);
+        var previousPoints = player.SelectedCharacter!.LevelUpPoints;
+
+        await player.AddExperienceAsync((int)context.ExperienceTable[2], null).ConfigureAwait(false);
+
+        Assert.That(player.SelectedCharacter.LevelUpPoints, Is.EqualTo(previousPoints + 8));
+        Assert.That(player.Attributes[Stats.PointsPerLevelUp], Is.EqualTo(5));
+    }
+
     /// <summary>
     /// Verifies that master classes receive master experience at the global master rate,
     /// while non-master classes receive normal experience.

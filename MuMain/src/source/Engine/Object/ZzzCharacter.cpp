@@ -192,20 +192,14 @@ int GetFenrirType(CHARACTER* c)
 
 void FallingMonster(CHARACTER* c, OBJECT* o)
 {
-    float AngleY;
     const float frameScale = FPS_ANIMATION_FACTOR;
     o->Gravity += Core::Time::ScaleLinearStep(2.5f, frameScale);
     o->Angle[0] -= Core::Time::ScaleLinearStep(4.0f, frameScale);
     o->m_bActionStart = true;
     o->Direction[1] += Core::Time::ScaleLinearStep(o->Direction[0], frameScale);
 
-    if (o->Gravity >= 1.f)
-        AngleY = o->Angle[2];
-
     if (o->Angle[0] <= -90.0f)
         o->Angle[0] = -90.0f;
-
-    o->Angle[2] = AngleY;
 
     if (o->Gravity >= 150.0f)
         o->Gravity = 150.0f;
@@ -6647,6 +6641,31 @@ void RenderBrightEffect(BMD* b, int Bitmap, int Link, float Scale, vec3_t Light,
 
 OBJECT g_ItemObject[ITEM_ETC + MAX_ITEM_INDEX];
 
+namespace
+{
+    void SetStatueWeaponTransform(int type, vec3_t angle, float matrix[3][4])
+    {
+        vec3_t offset;
+        if (type == MODEL_DIVINE_STAFF_OF_ARCHANGEL || type == MODEL_DIVINE_SWORD_OF_ARCHANGEL)
+        {
+            Vector(90.f, 0.f, 90.f, angle);
+            Vector(0.f, 80.f, 120.f, offset);
+        }
+        else if (type == MODEL_DIVINE_CB_OF_ARCHANGEL)
+        {
+            Vector(10.f, 0.f, 0.f, angle);
+            Vector(0.f, 110.f, 80.f, offset);
+        }
+        else
+        {
+            return;
+        }
+        AngleMatrix(angle, matrix);
+        for (int axis = 0; axis < 3; ++axis)
+            matrix[axis][3] = offset[axis];
+    }
+}
+
 void RenderLinkObject(float x, float y, float z, CHARACTER* c, PART_t* f, int Type, int Level, int Option1, bool Link, bool Translate, int RenderType, bool bRightHandItem)
 {
     OBJECT* o = &c->Object;
@@ -6707,27 +6726,12 @@ void RenderLinkObject(float x, float y, float z, CHARACTER* c, PART_t* f, int Ty
 
     if (Link)
     {
-        vec3_t Angle;
-        float Matrix[3][4];
+        vec3_t Angle {};
+        float Matrix[3][4] { { 1.f, 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
 
         if (c->MonsterIndex >= MONSTER_STATUE_OF_SAINT_1 && c->MonsterIndex <= MONSTER_STATUE_OF_SAINT_3)
         {
-            if (Type == MODEL_DIVINE_STAFF_OF_ARCHANGEL || Type == MODEL_DIVINE_SWORD_OF_ARCHANGEL)
-            {
-                Vector(90.f, 0.f, 90.f, Angle);
-                AngleMatrix(Angle, Matrix);
-                Matrix[0][3] = 0.f;
-                Matrix[1][3] = 80.f;
-                Matrix[2][3] = 120.f;
-            }
-            else if (Type == MODEL_DIVINE_CB_OF_ARCHANGEL)
-            {
-                Vector(10.f, 0.f, 0.f, Angle);
-                AngleMatrix(Angle, Matrix);
-                Matrix[0][3] = 0.f;
-                Matrix[1][3] = 110.f;
-                Matrix[2][3] = 80.f;
-            }
+            SetStatueWeaponTransform(Type, Angle, Matrix);
         }
         else if (Type == MODEL_SWORD_35_WING)
         {

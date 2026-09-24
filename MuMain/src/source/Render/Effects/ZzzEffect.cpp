@@ -1,4 +1,4 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -331,6 +331,55 @@ void CreateEffectFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Ligh
     }
 }
 
+namespace
+{
+    bool RequiresOwnerForLegacyCreation(int type, int subtype)
+    {
+        switch (type)
+        {
+        case MODEL_BUTTERFLY01:
+        case MODEL_SUMMONER_EQUIP_HEAD_LAGUL:
+        case MODEL_XMAS2008_SNOWMAN_HEAD:
+        case MODEL_XMAS2008_SNOWMAN_BODY:
+        case MODEL_SKILL_JAVELIN:
+        case MODEL_FENRIR_SKILL_DAMAGE:
+        case MODEL_PROTECTGUILD:
+        case MODEL_WOLF_HEAD_EFFECT:
+        case BITMAP_SBUMB:
+        case MODEL_DOWN_ATTACK_DUMMY_L:
+        case MODEL_DOWN_ATTACK_DUMMY_R:
+        case MODEL_SHOCKWAVE02:
+        case BITMAP_DAMAGE1:
+        case MODEL_SHOCKWAVE_SPIN01:
+        case MODEL_WOLF_HEAD_EFFECT2:
+        case MODEL_DRAGON_KICK_DUMMY:
+        case BITMAP_LAVA:
+            return true;
+        case MODEL_SUMMONER_EQUIP_HEAD_SAHAMUTT:
+        case MODEL_SUMMONER_EQUIP_HEAD_NEIL:
+        case MODEL_FENRIR_THUNDER:
+        case MODEL_EFFECT_SAPITRES_ATTACK_1:
+        case MODEL_EFFECT_FLAME_STRIKE:
+            return subtype == 0;
+        case MODEL_SUMMONER_SUMMON_LAGUL:
+        case MODEL_DEATH_SPI_SKILL:
+        case MODEL_PIER_PART:
+            return subtype == 1;
+        case MODEL_PIERCING:
+            return subtype == 0 || subtype == 3;
+        case MODEL_BONE1:
+        case MODEL_BONE2:
+        case MODEL_BIG_STONE1:
+        case MODEL_BIG_STONE2:
+            return subtype == 5;
+        case MODEL_BLOW_OF_DESTRUCTION:
+            return subtype == 0 || subtype == 2;
+        default:
+            return false;
+        }
+    }
+}
+
 void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, OBJECT* Owner, short PKKey, WORD SkillIndex, WORD Skill, WORD SkillSerialNum, float Scale, short int sTargetIndex)
 {
     for (int icntEffect = 0; icntEffect < MAX_EFFECTS; icntEffect++)
@@ -395,6 +444,14 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                     Render::Effects::ApplyCreateParams(o, *desc->create);
                 if (desc->onCreate)
                     desc->onCreate(o);
+                return;
+            }
+
+            // Registry callbacks above keep their own contracts. Only the
+            // legacy cases which dereference an owner require one here.
+            if (o->Owner == nullptr && RequiresOwnerForLegacyCreation(Type, o->SubType))
+            {
+                o->Live = false;
                 return;
             }
 
@@ -1509,7 +1566,7 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                 o->BlendMeshLight = 1.f;
                 o->Gravity = 0;
 
-                switch (SubType)
+                switch (o->SubType)
                 {
                 case 0:
                 {
@@ -2363,8 +2420,6 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                 o->Velocity = 1.2f;
 
                 o->PKKey = -1;
-                o->Owner = Owner;
-
                 o->Direction[0] = o->Owner->Direction[0];
                 o->Direction[1] = o->Owner->Direction[1];
                 o->Direction[2] = o->Owner->Direction[2];
@@ -4799,8 +4854,11 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                     AngleMatrix(o->Owner->Angle, Matrix);
                     VectorRotate(vPos, Matrix, vPos2);
                     VectorAdd(vPos2, o->Position, o->Position);
-                    if (o->Owner->m_sTargetIndex < 0)
+                    if (o->Owner->m_sTargetIndex < 0 || o->Owner->m_sTargetIndex >= MAX_CHARACTERS_CLIENT)
+                    {
+                        o->Live = false;
                         break;
+                    }
                     VectorCopy(CharactersClient[o->Owner->m_sTargetIndex].Object.Position, o->StartPosition);
                     o->Scale = 0.5f;
                 }
@@ -7003,10 +7061,12 @@ void MoveEffect(OBJECT* o, int iIndex)
         }
         else if (o->SubType == 1)
         {
-            if (o->Owner != NULL && o->Owner->Live == true && g_isCharacterBuff(o->Owner, eBuff_Life))
-                o->LifeTime = 10;
-            else
+            if (o->Owner == nullptr || !o->Owner->Live || !g_isCharacterBuff(o->Owner, eBuff_Life))
+            {
                 o->LifeTime = 0;
+                break;
+            }
+            o->LifeTime = 10;
 
             if (g_isCharacterBuff(o->Owner, eBuff_Cloaking)) break;
 
@@ -7027,10 +7087,12 @@ void MoveEffect(OBJECT* o, int iIndex)
         }
         else if (o->SubType == 2)
         {
-            if (o->Owner != NULL && o->Owner->Live == true && g_isCharacterBuff(o->Owner, eBuff_AddAG))
-                o->LifeTime = 10;
-            else
+            if (o->Owner == nullptr || !o->Owner->Live || !g_isCharacterBuff(o->Owner, eBuff_AddAG))
+            {
                 o->LifeTime = 0;
+                break;
+            }
+            o->LifeTime = 10;
 
             if (g_isCharacterBuff(o->Owner, eBuff_Cloaking)) break;
 
@@ -9944,6 +10006,8 @@ void RenderEffectShadows()
                     }
                     else if (o->SubType == 2)
                     {
+                        constexpr float PeakMagicCircleScale = 5.5f;
+                        Scale = PeakMagicCircleScale;
                         if (o->LifeTime > 10)
                         {
                             Scale = (20 - o->LifeTime) * 0.55f;

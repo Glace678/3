@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zapier 穷举功能百科 + 薅额度全攻略 + 全仓分析最省方案</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --border: #2a2d3a;
+    --text: #e4e6ed; --muted: #8b8fa3; --accent: #4f8cff;
+    --green: #34d399; --red: #f87171; --yellow: #fbbf24; --orange: #fb923c; --purple: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7; padding: 24px; max-width: 1300px; margin: 0 auto; }
+  h1 { font-size: 1.8em; margin-bottom: 8px; }
+  h2 { font-size: 1.4em; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+  h3 { font-size: 1.15em; margin: 24px 0 10px; color: var(--accent); }
+  h4 { font-size: 1.05em; margin: 16px 0 8px; color: var(--green); }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.95em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .highlight { background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(79,140,255,0.1)); border: 1px solid rgba(52,211,153,0.3); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.78em; font-weight: 600; }
+  .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+  .badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .badge-blue { background: rgba(79,140,255,0.15); color: var(--accent); }
+  .badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88em; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: rgba(79,140,255,0.08); color: var(--accent); font-weight: 600; white-space: nowrap; }
+  tr:hover { background: rgba(255,255,255,0.02); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .best { color: var(--green); font-weight: 700; }
+  .worst { color: var(--red); font-weight: 600; }
+  code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+  pre { background: #0d0f14; border: 1px solid var(--border); border-radius: 8px; padding: 14px; overflow-x: auto; font-size: 0.82em; line-height: 1.5; margin: 10px 0; }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 3px 0; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ol { columns: 2; column-gap: 40px; }
+  .warn { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .danger { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.82em; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .grid2 { grid-template-columns: 1fr; } .toc ol { columns: 1; } }
+  .src { color: var(--muted); font-size: 0.78em; }
+  .zero-task { color: var(--green); font-weight: 600; }
+  .one-task { color: var(--yellow); font-weight: 600; }
+  .five-task { color: var(--red); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>🔬 Zapier 穷举功能百科 + 薅额度全攻略 + 全仓分析最省方案</h1>
+<p class="subtitle">Glace678/3 全仓代码审核场景 · 2026-09-25 实测 · 覆盖 Zap/Agent/GitHub/Chatbot/MCP 全功能</p>
+
+<!-- 目录 -->
+<div class="toc">
+  <strong>📑 目录</strong>
+  <ol>
+    <li><a href="#summary">核心结论速览</a></li>
+    <li><a href="#A">A. Zap 编辑器功能百科</a></li>
+    <li><a href="#B">B. Agents 平台深度解析</a></li>
+    <li><a href="#C">C. GitHub 集成穷举</a></li>
+    <li><a href="#D">D. 薅额度全攻略</a></li>
+    <li><a href="#E">E. 实测证据</a></li>
+    <li><a href="#F">F. 全仓分析最省方案</a></li>
+    <li><a href="#G">G. Chatbot & MCP 简介</a></li>
+  </ol>
+</div>
+
+<!-- 核心结论 -->
+<div id="summary" class="card highlight">
+  <h3 style="color:var(--green);margin-top:0;">🏆 核心结论</h3>
+  <div class="grid2">
+    <div>
+      <h4>全仓审核最低消耗（确定数字）</h4>
+      <ul>
+        <li><strong>SDK Beta 期间：1 task / Issue</strong>（Code dispatch 一次，72 批模型调用经 SDK 免费）</li>
+        <li><strong>Beta 后（484K 可靠容量）：129 tasks / Issue</strong>（1 Code + 128 SDK × 1）</li>
+        <li><strong>Beta 后（950K 若可行）：73 tasks / Issue</strong></li>
+        <li><strong>Agent 路径：~5-10 activities / run</strong>，Free 400/月 ≈ 40-80 次全仓</li>
+      </ul>
+    </div>
+    <div>
+      <h4>薅额度 TOP 5</h4>
+      <ol>
+        <li><strong>SDK Open Beta 免费</strong>——当前最大羊毛，9000+ app 全免费</li>
+        <li><strong>0-task 白名单</strong>：Filter/Formatter/Paths/Delay/Looping/Storage/Tables/Digest/Manager 全免费</li>
+        <li><strong>AI 步骤降档</strong>：默认 Premium(5x) → Standard(1x)，立省 80%</li>
+        <li><strong>Filter 放最前</strong>：挡掉无关事件，后续 action 根本不跑</li>
+        <li><strong>Code 合并多步</strong>：3-4 个 action → 1 个 Code step = 1 task</li>
+      </ol>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:16px;">
+    <strong>⚠️ 红线：</strong>注册多个免费账号刷额度违反 Zapier Acceptable Use Policy（"create multiple accounts to circumvent limitations"），会被批量封禁。Test step 是 live 的，成功就扣 task。
+  </div>
+</div>
+
+<!-- ==================== A. Zap 功能百科 ==================== -->
+<h2 id="A">A. Zap 编辑器功能百科</h2>
+
+<div class="card">
+  <h3>A0. 计费总规则（省额度根基）</h3>
+  <table>
+    <tr><th>规则</th><th class="num">数字</th><th>来源</th></tr>
+    <tr><td>成功的标准动作步骤</td><td class="num one-task">1 task / 步</td><td class="src">zapier.com/pricing/rates</td></tr>
+    <tr><td>触发器（instant/polling）</td><td class="num zero-task">0 task</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>0-task 内置工具白名单</td><td class="num zero-task">0 task</td><td class="src">Formatter/Paths/Filter/Delay/Looping/Digest/Storage/Manager/Tables/Forms</td></tr>
+    <tr><td>报错/被 Filter 跳过的步骤</td><td class="num zero-task">0 task</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>Search 设"找不到就停"</td><td class="num zero-task">0 task</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>Human in the Loop 审批</td><td class="num one-task">1 task / 次</td><td class="src">zapier.com/blog</td></tr>
+    <tr><td>Call/Return Sub-Zap</td><td class="num one-task">各 1 task</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>Code by Zapier</td><td class="num one-task">1 task/步 + 超时费</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>AI by Zapier Standard</td><td class="num one-task">1 task</td><td class="src" rowspan="3">help.zapier.com</td></tr>
+    <tr><td>AI by Zapier Advanced</td><td class="num" style="color:var(--orange);font-weight:600;">3 task</td></tr>
+    <tr><td>AI by Zapier Premium</td><td class="num five-task">5 task</td></tr>
+    <tr><td>AI BYOK（自带 key）</td><td class="num one-task">1 task</td><td class="src">help.zapier.com</td></tr>
+    <tr><td>Lead Router</td><td class="num five-task">5 task / 线索</td><td class="src">zapier.com/pricing/rates</td></tr>
+    <tr><td>Zapier MCP</td><td class="num" style="color:var(--orange);font-weight:600;">2 task / 调用</td><td class="src">zapier.com/pricing/rates</td></tr>
+    <tr><td>Zapier SDK（Beta）</td><td class="num zero-task">0 task</td><td class="src">zapier.com/sdk</td></tr>
+  </table>
+  <p style="margin-top:8px;"><strong>套餐基线</strong>：Free = 100 task/月、两步 Zap、15min 轮询；Professional $19.99 = 750 task/月、多步 Zap、2min 轮询；Team $69 = 2000 task/月、1min 轮询。额度按注册 anniversary 日重置，非自然月。</p>
+</div>
+
+<div class="card">
+  <h3>A1. Flow controls（流程控制，7 项）</h3>
+  <table>
+    <tr><th>功能</th><th>是什么</th><th class="num">task</th><th>省额度 & GitHub 场景</th></tr>
+    <tr><td><strong>Delay</strong></td><td>暂停后继续：Delay For / Until / After Queue</td><td class="num zero-task">0</td><td>Issue 后 Delay 24h 未标记则提醒；最长挂起 30 天</td></tr>
+    <tr><td><strong>Filter</strong></td><td>if 判断门，不满足终止后续全部步骤</td><td class="num zero-task">0</td><td><span class="best">最核心省额度工具</span>——只对 label:bug 的 Issue 跑通知，dependabot 直接过滤</td></tr>
+    <tr><td><strong>Human in the Loop</strong></td><td>暂停等人审批/补数据：Request Approval / Collect Data</td><td class="num one-task">1</td><td>AI 生成的 Issue 回复草稿先让人过目，批准后才发 GitHub</td></tr>
+    <tr><td><strong>Looping</strong></td><td>展开 line items，对每个元素各跑一遍</td><td class="num zero-task">0（步骤本身）</td><td>⚠️ 循环内每个 action 每个元素各扣 1 task（100 item = 100 task），总 task 不变只省 trigger</td></tr>
+    <tr><td><strong>Paths</strong></td><td>if/elif/else 多分支路由</td><td class="num zero-task">0</td><td>Issue 按 label 分流：bug→#bug-triage、feature→#ideas、question→@维护者</td></tr>
+    <tr><td><strong>Schedule</strong></td><td>定时触发器：每小时/天/周/月</td><td class="num zero-task">0（触发器）</td><td>每周一定时跑 GitHub → 汇总上周 Issue/PR 成 Slack 周报</td></tr>
+    <tr><td><strong>Sub-Zap</strong></td><td>可复用迷你工作流：Start→Call→Return</td><td class="num one-task">Call/Return 各 1</td><td>把"打标签+指定人+发 Slack"抽成 Sub-Zap，多事件复用；⚠️ 内部 action 仍各 1 task</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>A2. Utilities（内置工具，24 项）</h3>
+  <table>
+    <tr><th>#</th><th>工具</th><th>是什么</th><th class="num">task</th><th>关键限制 / GitHub 场景</th></tr>
+    <tr><td>1</td><td><strong>AI by Zapier</strong></td><td>Zap 内直接调大模型（详见 A3）</td><td class="num">1/3/5</td><td>默认 Premium(5x)，手动降 Standard(1x) 省 80%</td></tr>
+    <tr><td>2</td><td><strong>API by Zapier</strong></td><td>裸 HTTP 请求（method/headers/body/query）</td><td class="num one-task">1</td><td>直接打 GitHub REST API（批量关 stale issue），省得找/装 app</td></tr>
+    <tr><td>3</td><td><strong>App Status</strong></td><td>检查 app 是否故障</td><td class="num one-task">1</td><td>配合 Filter 只在 status=down 时报警</td></tr>
+    <tr><td>4</td><td><strong>Code</strong></td><td>跑 JS/Python 自定义代码</td><td class="num one-task">1+超时</td><td>Pro/Team 30s、Enterprise 2min；超时 1 task/30s。<span class="best">合并多步 action 的利器</span></td></tr>
+    <tr><td>5</td><td><strong>Digest</strong></td><td>攒数据成合集，到点一次性发</td><td class="num zero-task">0</td><td>把 N 条事件攒成 1 条通知，下游从 N task 降到 1 task</td></tr>
+    <tr><td>6</td><td><strong>Email</strong></td><td>用 @zapiermail.com 收发邮件</td><td class="num one-task">1</td><td>Free 每天 5 封、付费 10 封/小时</td></tr>
+    <tr><td>7</td><td><strong>Email Parser</strong></td><td>解析邮箱内容成结构化字段</td><td class="num one-task">1</td><td>解析 GitHub 通知邮件出 Issue 编号</td></tr>
+    <tr><td>8</td><td><strong>Files</strong></td><td>读写文件 / 从 CSV 触发</td><td class="num one-task">1</td><td>单文件 ≤4MB、6 万行、每 30min 只能触发 1 个 CSV</td></tr>
+    <tr><td>9</td><td><strong>Formatter</strong></td><td>数据清洗：文本/数字/日期/JSON</td><td class="num zero-task">0</td><td><span class="best">省额度首选</span>——纯清洗全用 Formatter，别建 Code 或 app 动作</td></tr>
+    <tr><td>10</td><td><strong>IMAP</strong></td><td>通过 IMAP 读任意邮箱</td><td class="num zero-task">0（触发器）</td><td>接自有邮箱收 GitHub 通知</td></tr>
+    <tr><td>11</td><td><strong>Lead Score</strong></td><td>给线索打分（营销工具）</td><td class="num one-task">1</td><td>偏营销，GitHub 场景用不上</td></tr>
+    <tr><td>12</td><td><strong>Retrograde</strong></td><td>水星逆行日历（趣味工具）</td><td class="num zero-task">0</td><td>与工程无关</td></tr>
+    <tr><td>13</td><td><strong>RSS</strong></td><td>订阅 RSS 源，新条目触发</td><td class="num zero-task">0（触发器）</td><td>订阅 GitHub Releases Atom feed 做发布通知，0 task</td></tr>
+    <tr><td>14</td><td><strong>SMS</strong></td><td>给自己手机发短信</td><td class="num one-task">1</td><td>只在关键故障时发，别滥用</td></tr>
+    <tr><td>15</td><td><strong>SMTP</strong></td><td>通过自有 SMTP 发邮件</td><td class="num one-task">1</td><td>用自有域名发 GitHub 通知</td></tr>
+    <tr><td>16</td><td><strong>Space</strong></td><td>NASA 每日太空图（趣味）</td><td class="num zero-task">0</td><td>与工程无关</td></tr>
+    <tr><td>17</td><td><strong>Storage</strong></td><td>极简键值存储，跨 Zap 存/取</td><td class="num zero-task">0</td><td>≤500 key、value≤25KB、2 个月不用自动删。记录"上次处理到哪个 Issue"做增量</td></tr>
+    <tr><td>18</td><td><strong>Translate</strong></td><td>文本翻译（老牌动作）</td><td class="num one-task">1</td><td>优先用 AI by Zapier Translate 统一走模型档位</td></tr>
+    <tr><td>19</td><td><strong>URL Shortener</strong></td><td>缩短长链接（Premium app）</td><td class="num one-task">1</td><td>缩短 GitHub release 链接</td></tr>
+    <tr><td>20</td><td><strong>Weather</strong></td><td>天气触发器（趣味）</td><td class="num zero-task">0</td><td>与工程无关</td></tr>
+    <tr><td>21</td><td><strong>Web Parser</strong></td><td>给 URL 抓网页标题和正文</td><td class="num one-task">1</td><td>解析 GitHub Release 页正文喂给 AI 总结</td></tr>
+    <tr><td>22</td><td><strong>Webhooks</strong></td><td>收：Catch Hook（即时）；发：GET/POST/PUT</td><td class="num">收 0 / 发 1</td><td><span class="best">GitHub 原生 webhook 直接推到 Catch Hook URL</span>，即时触发 0 task</td></tr>
+    <tr><td>23</td><td><strong>Chrome extension</strong></td><td>浏览器点按钮触发 Zap</td><td class="num zero-task">0（触发器）</td><td>在 GitHub 仓库页一键触发"加星/建 issue"</td></tr>
+    <tr><td>24</td><td><strong>Manager</strong></td><td>运维动作：开关 Zap、重跑失败等</td><td class="num zero-task">0</td><td>自动停掉报错的 Zap，0 成本做运维</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>A3. AI by Zapier 分类</h3>
+  <h4>计费公式（2026-06-15 起）</h4>
+  <pre><code>每次 run 消耗 = (1 × 模型倍率) + (工具调用次数 × 模型倍率)</code></pre>
+  <table>
+    <tr><th>档位</th><th class="num">倍率</th><th class="num">工具调用</th><th>代表模型</th><th>适用场景</th></tr>
+    <tr><td>Standard</td><td class="num one-task">1 task</td><td class="num">不支持</td><td>GPT-5 mini/nano、Gemini 2.5 Flash</td><td>高量简单：分类、抽取、短摘要</td></tr>
+    <tr><td>Advanced</td><td class="num" style="color:var(--orange);font-weight:600;">3 task</td><td class="num">3 task/次</td><td>GPT-4.1、o3-mini、Claude 4.5 Haiku</td><td>复杂 prompt、需要工具</td></tr>
+    <tr class="worst"><td>Premium</td><td class="num five-task">5 task</td><td class="num five-task">5 task/次</td><td>GPT-5.6 Sol、Claude Fable 5</td><td>深度推理（<span class="worst">新建步骤默认这个，最贵</span>）</td></tr>
+    <tr><td>BYOK（自带 key）</td><td class="num one-task">1 task</td><td class="num one-task">1 task/次</td><td>用自己的 OpenAI/Anthropic 账号</td><td>工具密集型最划算</td></tr>
+  </table>
+  <p style="margin-top:8px;">举例：Premium 步骤带 2 次工具调用 = (1×5)+(2×5) = <strong>15 task</strong>。Free 版只能在未发布 Zap 里预览 Standard。</p>
+
+  <h4>8 个快捷动作（底层都是同一 AI 调用，task 只取决于档位）</h4>
+  <table>
+    <tr><th>快捷动作</th><th>干什么</th><th>GitHub 场景</th></tr>
+    <tr><td><strong>Extract</strong></td><td>从文档抽结构化字段</td><td>从 Issue 正文抽"预计影响版本"</td></tr>
+    <tr><td><strong>Summarize</strong></td><td>长文本/会议/PR 讨论摘要</td><td>PR 长讨论摘要贴成评论</td></tr>
+    <tr><td><strong>Classify</strong></td><td>文本分类/情感极性</td><td>Issue 分 bug/feature/question</td></tr>
+    <tr><td><strong>Write</strong></td><td>生成文本</td><td>写 Release Note、Issue 回复草稿</td></tr>
+    <tr><td><strong>Translate</strong></td><td>多语言翻译</td><td>多语言 Issue 翻译</td></tr>
+    <tr><td><strong>Analyze</strong></td><td>综合分析+结构化数据</td><td>Custom prompt 的引导版</td></tr>
+    <tr><td><strong>Transcribe</strong></td><td>音视频转写</td><td>—</td></tr>
+    <tr><td><strong>Search</strong></td><td>在多个 URL/PDF 里搜信息</td><td>搜 GitHub 文档/Release 页</td></tr>
+  </table>
+  <div class="warn" style="margin-top:12px;">
+    <strong>💡 省额度：</strong>①新步骤默认 Premium(5)，简单任务手动改 Standard(1)，立省 80%；②工具调用很贵（Premium 每次 5 task），能不用 knowledge source 就不用；③高频走 BYOK 降到 1 task；④用 Filter 把不该跑 AI 的事件先挡掉。
+  </div>
+</div>
+
+<div class="card">
+  <h3>A4. Products（产品级，5 项）</h3>
+  <table>
+    <tr><th>产品</th><th>是什么</th><th>计费</th><th>免费额度</th><th>GitHub 场景</th></tr>
+    <tr><td><strong>Agents</strong></td><td>长期运行 AI agent，跨 9000+ app 自主干活</td><td>按 activity（<strong>不走 task</strong>）</td><td>Free 400/月、Pro 1500/月</td><td>定期扫 GitHub 未回复 Issue、起草跟进</td></tr>
+    <tr><td><strong>Chatbots</strong></td><td>嵌网页的 AI 客服，连知识源、触发 Zap</td><td>独立订阅 $20/月起</td><td>14 天试用</td><td>挂 bot 到开源项目 README 回答"怎么安装"</td></tr>
+    <tr><td><strong>Forms</strong></td><td>拖拽建表单，提交触发 Zap</td><td class="zero-task">步骤 0 task</td><td>Free 10 个 form 页</td><td>建"报 bug/求功能"表单，自动转 GitHub Issue</td></tr>
+    <tr><td><strong>Lead Router</strong></td><td>线索自动分配</td><td class="five-task">5 task / 线索</td><td>付费功能</td><td>与 GitHub 关联弱</td></tr>
+    <tr><td><strong>Tables</strong></td><td>内置数据库，被 Zap 读写</td><td class="zero-task">步骤 0 task</td><td>Free 2500 条记录</td><td>轻量存 Issue 状态、star 名单，0 task</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>A5. Custom（自定义，4 项）</h3>
+  <table>
+    <tr><th>项</th><th>是什么</th><th class="num">task</th><th>GitHub 场景</th></tr>
+    <tr><td><strong>Code</strong></td><td>JS/Python 自定义逻辑</td><td class="num one-task">1 + 超时</td><td>复杂 payload 转换、批量调 GitHub API</td></tr>
+    <tr><td><strong>API by Zapier</strong></td><td>裸 HTTP 请求</td><td class="num one-task">1</td><td>打 GitHub 没有现成封装的 REST 端点</td></tr>
+    <tr><td><strong>Custom actions</strong></td><td>开发者平台为自建 app 定义动作（Beta）</td><td class="num one-task">1</td><td>封装内部系统动作</td></tr>
+    <tr><td><strong>Webhooks</strong></td><td>Catch Hook 收 / GET POST 发</td><td class="num">收 0 / 发 1</td><td>GitHub 原生 webhook → Catch Hook，即时 0 task</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>A6. 触发器类型（instant / polling / webhook / REST hook）</h3>
+  <table>
+    <tr><th>类型</th><th>怎么触发</th><th class="num">计 task</th><th>Free 可用</th><th>频率</th></tr>
+    <tr><td><strong>Polling（轮询）</strong></td><td>Zapier 定期主动问 app</td><td class="num zero-task">0</td><td>是</td><td>Free 15min / Pro 2min / Team 1min</td></tr>
+    <tr><td><strong>Instant（即时）</strong></td><td>app 主动推 webhook</td><td class="num zero-task">0</td><td>看 app（很多是 Premium）</td><td>近实时</td></tr>
+    <tr><td><strong>Webhooks Catch Hook</strong></td><td>自己 POST 到 Zapier URL</td><td class="num zero-task">0</td><td>Pro 起</td><td>即时</td></tr>
+    <tr><td><strong>REST Hook</strong></td><td>开发者自建 app 的 webhook 订阅</td><td class="num zero-task">0</td><td>开发者平台</td><td>近实时</td></tr>
+  </table>
+  <p style="margin-top:8px;"><strong>关键事实</strong>：轮询不计 task——官方原文"polling triggers… never use tasks"。Free/试用限流：每 Zap 每 10 分钟超 200 次 poll 请求会被 held。<strong>GitHub 场景</strong>：GitHub 支持原生 webhook，直接配 Zapier Catch Hook URL 作为 payload URL，即时触发且 0 task；RSS 订阅 releases.atom 是零成本备用。</p>
+</div>
+
+<!-- ==================== B. Agents ==================== -->
+<h2 id="B">B. Agents 平台深度解析（agents.zapier.com）</h2>
+
+<div class="card">
+  <h3>B1. Builder 四块详解</h3>
+  <h4>1) Trigger（触发器）</h4>
+  <ul>
+    <li><strong>On Demand</strong>：手动点 Run 或聊天发消息才运行</li>
+    <li><strong>Schedule by Zapier</strong>：按固定间隔自动运行</li>
+    <li><strong>Trigger via Zap workflows & MCP</strong>：由另一个 Zap 或 MCP 调用触发</li>
+    <li><strong>App trigger</strong>：直接选某个 app 的事件作为触发</li>
+  </ul>
+  <p><strong>是否耗 activity</strong>：<span class="one-task">是</span>——"An agent uses a trigger" = 1 activity。</p>
+
+  <h4>2) Instructions to follow（指令）</h4>
+  <p>自然语言 prompt 框，支持用 <code>/</code> 插入工具和知识源 pill。<strong>写指令本身不耗 activity</strong>，只有实际运行时执行的动作才耗。</p>
+
+  <h4>3) Tools（工具）</h4>
+  <ul>
+    <li><strong>Default Tools: Visit Site & Web Search</strong>（所有 agent 自带）
+      <ul>
+        <li>Visit site：访问指定 URL 抓公开页面内容。<span class="worst">不能登录需要鉴权的站点</span>（官方明确："cannot log in to websites"）</li>
+        <li>Web search：按关键词做网页搜索</li>
+        <li>每次实际调用 = 1 activity</li>
+      </ul>
+    </li>
+    <li><strong>+ Add Tool（9,000+ apps）</strong>：从 Zapier 全 app 库挑 action 作为工具。每跑一次 action = 1 activity。两个 tab：Find data（搜索/读）、Take action（写/改）</li>
+    <li><strong>Call an agent</strong>：子任务委托给另一个 agent。子 agent 运行时自身产生的 action 照常计 activity</li>
+  </ul>
+
+  <h4>4) Knowledge sources（知识源）</h4>
+  <ul>
+    <li><strong>上传文件</strong>：CSV/PDF/ODT/PPTX/DOCX/TXT，单文件 ≤100MB</li>
+    <li><strong>从 app 添加</strong>：Zapier Tables、Google Docs 等</li>
+    <li><strong>是否耗 activity</strong>：<span class="one-task">是</span>——"agent answers a question using a knowledge source" = 1 activity</li>
+  </ul>
+
+  <h4>5) Agent Preview（预览/聊天面板）</h4>
+  <p>右侧实时聊天/测试面板。<strong>Free 计划：测试计入 activity 配额；Paid 计划：测试不计</strong>。</p>
+</div>
+
+<div class="card">
+  <h3>B2. 计量规则（activities）——5 个关键问题</h3>
+
+  <h4>① 一个 activity 的精确定义</h4>
+  <p>官方原文：<strong>"An activity is any billable action that your agent takes."</strong> 以下每发生一次 = 1 activity：</p>
+  <ol>
+    <li>agent 使用一次 trigger（触发）</li>
+    <li>agent 用知识源回答一次问题</li>
+    <li>agent 跑一次 action（工具调用）</li>
+    <li>agent 做一次网页浏览/抓取</li>
+    <li>agent 做一次网页搜索</li>
+    <li>通过 Chrome Extension 给 agent 发一条消息</li>
+  </ol>
+  <div class="warn">
+    <strong>关键结论：</strong>activity <strong>不是</strong>「一条聊天消息」，也<strong>不是</strong>「一次完整任务」，而是「一次可计费动作」。<strong>多轮对话/一次运行 = 多个 activity</strong>。官方示例：每天跑一次、只命中 1 封邮件 = <strong>4 activities</strong>（查邮箱+总结+加 Trello+发 Slack）；命中 2 封 = <strong>7 activities</strong>。
+  </div>
+
+  <h4>各计划对比</h4>
+  <table>
+    <tr><th>Plan</th><th class="num">Activities/月</th><th>测试计配额</th><th class="num">每次运行上限</th><th>Agent 共享</th></tr>
+    <tr><td>Free</td><td class="num"><strong>400</strong></td><td>是</td><td class="num">10</td><td>否</td></tr>
+    <tr><td>Pro</td><td class="num">1,500</td><td>否</td><td class="num">40</td><td>否</td></tr>
+    <tr><td>Enterprise</td><td class="num">自定义</td><td>否</td><td class="num">40</td><td>是</td></tr>
+  </table>
+  <p>activities 与 Zap 的 task <strong>互不影响</strong>（两个独立计数器）。触顶后 agent 不再运行，但仍可聊天。80% 和 100% 会邮件通知。</p>
+
+  <h4>② 模型选择 & 高级模型是否多耗 activity</h4>
+  <ul>
+    <li><strong>独立 Agents Builder</strong>：官方文档<strong>没有暴露模型选择面板</strong>；agent 使用 Zapier 默认模型。GPT-5.6 Sol / Claude Fable 5 在独立 Agents Builder 里<strong>未确认</strong>可选</li>
+    <li><strong>迁移后（AI by Zapier 步骤）</strong>：才有模型层级选择，按 task 倍数计费（Standard 1x / Advanced 3x / Premium 5x / BYOK 1x）</li>
+    <li><strong>独立 Agents 的 activity 是否因选高级模型而多扣</strong>：官方 activity 文档里<strong>没有按模型加价的条款</strong> → 未确认（activity 计量与模型解耦）</li>
+  </ul>
+
+  <h4>③ Professional trial 对 Agent 是否叠加更多 activities</h4>
+  <p>14 天 Professional 试用针对的是 Zap tasks（750 tasks/mo）。Agents 是独立 add-on：Agents Free = 400 activities/mo；Agents Pro = $33.33/月（年付 $400/年）= 1,500 activities/mo。官方<strong>未说明</strong> trial 会给独立 Agents 叠加额外 activities → <strong>未确认</strong>。按现有文档，trial 期间 Agents 仍按 Free（400 activities，且测试计配额）口径走。</p>
+
+  <h4>④ "New pod" 是什么</h4>
+  <p><strong>Pod = agent 的分组空间/文件夹</strong>，不是计费单位，也不是新环境。用于把工作流相近的 agent 归到一起，方便统一查看 pod activity。一个 agent 可同时属于多个 pod。</p>
+
+  <h4>⑤ "Agents 正迁移到 AI by Zapier" 的影响</h4>
+  <ul>
+    <li><strong>迁移方向</strong>：agents.zapier.com 独立产品 → AI by Zapier（Zap 编辑器内的一个步骤）</li>
+    <li><strong>时间线</strong>：2026-07-15 AI by Zapier GA；2026-07-15~08-15 Enterprise trial 客户迁移窗口；2026-08-15 Enterprise trial 到期</li>
+    <li><strong>计费变化</strong>：迁移前按 activities（400/1500…）；迁移后并入 Zap 的 task-based 计费，AI 步骤按模型层级 1×/3×/5×；单次 run 超 75 tasks 自动暂停待审</li>
+    <li><strong>功能变化</strong>：每个 agent 自动转成一个 Zap（原生 trigger + 单个 AI by Zapier 步骤）。新增：模型层级选择、per-tool 审批、结构化输入输出、Zap history 全可观测</li>
+    <li><strong>旧版还能用多久</strong>：Free/Pro 账号的旧版独立 Agents 最终下线日期<strong>未确认</strong>（当前仍可访问，My agents 列表顶部出现 "Migrate your Zap" 横幅）</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>B3. 左侧导航</h3>
+  <table>
+    <tr><th>导航项</th><th>是什么</th></tr>
+    <tr><td><strong>+ New agent</strong></td><td>新建 agent（自定义或模板）</td></tr>
+    <tr><td><strong>My agents / All agents</strong></td><td>列出所有 agent，含状态、最后运行、activities used；迁移期顶部有 "Migrate your Zap" 横幅</td></tr>
+    <tr><td><strong>Shared with me</strong></td><td>仅 Enterprise 支持 agent sharing（Free/Pro 均为 "No"）</td></tr>
+    <tr><td><strong>All activity / Activities</strong></td><td>查看每个 agent 的 activity 消耗明细；默认近 2 天 run 历史</td></tr>
+    <tr><td><strong>Pods（+ New pod）</strong></td><td>agent 分组空间（见 B2-④）</td></tr>
+    <tr><td><strong>Data & usage</strong></td><td>查看 activity 用量；CSV 导出能力<strong>未确认</strong></td></tr>
+  </table>
+</div>
+
+<!-- ==================== C. GitHub ==================== -->
+<h2 id="C">C. GitHub 集成穷举</h2>
+
+<div class="card">
+  <h3>C1. Triggers（全部为 Polling；Free 15 分钟轮询）</h3>
+  <p class="src">重要事实：官方 app 页面上<strong>所有 GitHub trigger 都标注为 "Polling"</strong>，未出现 "Instant" 标签。Free 计划轮询间隔 15 分钟。GitHub 未被标为 Premium app。</p>
+  <table>
+    <tr><th>Trigger</th><th>触发条件</th><th>类型</th><th class="num">计 task</th></tr>
+    <tr><td>New Issue</td><td>新建 issue（可按 org/repo/label 过滤）</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>Issue Closed</td><td>issue 被关闭</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Pull Request</td><td>新建 PR</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Commit</td><td>新 commit（可指定 head）</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Branch</td><td>新建 branch</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Release</td><td>新 release</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Watcher</td><td>新 watcher/star（GitHub API 的 watcher=star）</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Mention</td><td>用户名在 commit/comment/issue/PR 中被提及</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Repo Event</td><td>repo 上任意事件（可勾 issue_only）</td><td>Polling</td><td class="num zero-task">0</td></tr>
+    <tr><td>New Label / Milestone / Repository / Organization / Team / Collaborator / Gist / Notification / Commit Comment / Review Request / Global Event</td><td>对应事件</td><td>Polling</td><td class="num zero-task">0</td></tr>
+  </table>
+  <p class="src">来源：zapier.com/apps/github/integrations</p>
+</div>
+
+<div class="card">
+  <h3>C2. Actions（每个成功 action = 1 task；GitHub 非 Premium app）</h3>
+  <h4>Write 类（创建/更新）</h4>
+  <table>
+    <tr><th>Action</th><th>作用</th><th class="num">task</th></tr>
+    <tr><td>Create Issue</td><td>建 issue（title 必填，body/assignee/milestone/labels 可选）</td><td class="num one-task">1</td></tr>
+    <tr><td>Update Issue</td><td>更新已有 issue</td><td class="num one-task">1</td></tr>
+    <tr><td>Add Labels to Issue</td><td>给 issue 追加 label（不覆盖已有）</td><td class="num one-task">1</td></tr>
+    <tr><td>Create Branch</td><td>建 branch（repo/branch name/source branch or SHA 必填）</td><td class="num one-task">1</td></tr>
+    <tr><td>Delete Branch</td><td>删除 branch</td><td class="num one-task">1</td></tr>
+    <tr><td>Create Comment</td><td>建评论</td><td class="num one-task">1</td></tr>
+    <tr><td>Set Profile Status</td><td>设 GitHub 个人状态</td><td class="num one-task">1</td></tr>
+  </table>
+  <h4>Search 类</h4>
+  <table>
+    <tr><th>Action</th><th>作用</th><th class="num">task</th></tr>
+    <tr><td>Find Branch</td><td>按名找 branch 或列全部</td><td class="num one-task">1（找不到设停=0）</td></tr>
+    <tr><td>Find Repository</td><td>找指定 repo</td><td class="num one-task">1</td></tr>
+    <tr><td>Find Pull Request</td><td>找指定 PR</td><td class="num one-task">1</td></tr>
+    <tr><td>Check Organization Membership</td><td>查某用户是否在 org</td><td class="num one-task">1</td></tr>
+    <tr><td>Find or Create an Issue</td><td>按 title 找，找不到则建</td><td class="num one-task">1</td></tr>
+  </table>
+  <div class="warn">
+    <strong>⚠️ 未在官方页面确认存在的 action</strong>：Create Pull Request、Merge Pull Request、Dispatch/Trigger a Workflow run、Get File Contents、Create/Submit Review、Lock Issue、Create Release。这些<strong>未确认</strong>是否在当前 Zapier GitHub app 中可用（需在编辑器里实测确认）。
+  </div>
+</div>
+
+<div class="card">
+  <h3>C3. 完成"全仓代码分析"最省的组合</h3>
+  <div class="danger">
+    <strong>残酷事实：</strong>Zapier GitHub app 的已确认 action 里<strong>没有「读仓库文件内容」「触发 GitHub Actions workflow」「建 PR」</strong>这类能真正拉取全仓代码的动作；agent 的默认 Visit Site 又<strong>不能登录、不能访问私有 repo</strong>。因此「全仓代码分析」靠 Zapier 原生 GitHub action 链<strong>无法直接完成</strong>。
+  </div>
+  <p>在已确认能力范围内，最省的触发组合是：</p>
+  <ul>
+    <li><strong>Trigger</strong>：New Issue / New Pull Request（Polling，Free 15 min；trigger 本身 0 task）</li>
+    <li><strong>Action</strong>：只接一个 Code 步骤做分析。要真正读代码，需要走 <strong>Code by Zapier</strong>（1 task/step）内调用 GitHub API——这部分不在 GitHub app action 列表内，属额外步骤</li>
+    <li><strong>更优方案（实测可行）</strong>：GitHub 原生 webhook → Zapier Catch Hook（即时 0 task）→ Code by Zapier（1 task）dispatch GitHub Actions → Actions 内用 SDK 调模型（Beta 免费）。这就是当前生产架构（Zap ID 381096178）</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>C4. Zap 路径 vs Agent 路径成本对比</h3>
+  <table>
+    <tr><th>维度</th><th>Zap 路径（task 口径）</th><th>独立 Agent 路径（activity 口径）</th></tr>
+    <tr><td>免费额度</td><td><strong>100 tasks/月</strong></td><td><strong>400 activities/月</strong></td></tr>
+    <tr><td>单次成功 action 成本</td><td>1 task/step</td><td>1 activity/动作（trigger/action/知识源/浏览/搜索各算 1）</td></tr>
+    <tr><td>AI 步骤加价</td><td>按模型层级 1×/3×/5× tasks</td><td>无按模型加价条款（未确认）</td></tr>
+    <tr><td>单次运行安全阀</td><td>AI run > 75 tasks 自动暂停</td><td>10 activities（Free）/ 40（Paid）</td></tr>
+    <tr><td>测试成本</td><td>Test step 是 live 的，成功扣 task</td><td>Free 测试计 activity；Paid 不计</td></tr>
+    <tr><td>两计数器关系</td><td colspan="2">tasks 与 activities <strong>互不影响</strong>（独立 add-on）</td></tr>
+  </table>
+  <p style="margin-top:8px;"><strong>省不省的判断：</strong></p>
+  <ul>
+    <li>单步固定动作（如新 Issue 建 Trello 卡）→ <strong>Zap 更省</strong>：只耗 1 task</li>
+    <li>agent 自主多步推理（查知识源→搜索→跑多个 action）→ <strong>一次 run 吃 5-10 activities</strong>，Free 400 额度 ≈ 40-80 次复杂任务</li>
+    <li>迁移后两者合并为 task 口径：AI by Zapier 步骤按 1×/3×/5× 计费</li>
+  </ul>
+</div>
+
+<!-- ==================== D. 薅额度 ==================== -->
+<h2 id="D">D. 薅额度全攻略</h2>
+
+<div class="card">
+  <h3>D1. 官方免费额度与付费计划</h3>
+  <h4>Free 计划（永久免费）</h4>
+  <table>
+    <tr><th>项目</th><th>数值</th></tr>
+    <tr><td>Tasks / 月</td><td><strong>100</strong>（Zap + MCP 共享池）</td></tr>
+    <tr><td>Zaps 数量</td><td>无上限（受 task 上限约束）</td></tr>
+    <tr><td>步数上限</td><td><strong>两步 Zap</strong>（1 trigger + 1 action），不支持多步</td></tr>
+    <tr><td>轮询频率</td><td>15 分钟</td></tr>
+    <tr><td>Tables</td><td>2,500 records/账号</td></tr>
+    <tr><td>Forms</td><td>10 pages</td></tr>
+    <tr><td>Filter/Paths/Webhooks/Premium apps</td><td><strong>不提供</strong>（Pro 起）</td></tr>
+    <tr><td>超额行为</td><td>到达 100 tasks 后新 run 被 <strong>held（挂起，不丢失）</strong>，可等额度重置后 replay</td></tr>
+  </table>
+  <p class="src">注意：网上流传"Free 只能建 5 个 Zap"的说法与官方"unlimited Zaps"矛盾——以官方为准。</p>
+
+  <h4>Professional 14 天试用</h4>
+  <ul>
+    <li>时长：<strong>14 天</strong>，注册即自动开通</li>
+    <li><strong>不需要信用卡</strong></li>
+    <li>试用结束<strong>不会自动扣费</strong>，自动降级回 Free</li>
+    <li>试用期间额度等同 Professional（750 tasks/mo 按天折算）</li>
+  </ul>
+
+  <h4>现行付费计划（2026-09）</h4>
+  <table>
+    <tr><th>计划</th><th class="num">月付价（年付）</th><th class="num">Tasks/月</th><th>用户数</th><th>关键能力</th></tr>
+    <tr><td>Free</td><td class="num">$0</td><td class="num">100</td><td>1</td><td>两步 Zap、15min 轮询</td></tr>
+    <tr><td>Professional</td><td class="num">$19.99/月</td><td class="num">750</td><td>1</td><td>多步 Zap、Premium apps、Webhooks、Filter/Paths、2min 轮询</td></tr>
+    <tr><td>Team</td><td class="num">$69/月</td><td class="num">2,000</td><td>≤25</td><td>共享 Zaps、SAML SSO、1min 轮询</td></tr>
+    <tr><td>Enterprise</td><td class="num">定制</td><td class="num">定制</td><td>不限</td><td>SCIM、TAM、用量告警</td></tr>
+  </table>
+  <p class="src">用户提到的 "Starter/Company" 在 2026 pricing 页已不存在，现四档为 Free/Professional/Team/Enterprise。</p>
+
+  <h4>超额（pay-per-task）规则</h4>
+  <ul>
+    <li>到达上限后默认自动切 pay-per-task，单价 = 基础 task 单价的 <strong>1.25 倍</strong></li>
+    <li>pay-per-task 上限 = 计划 tasks 的 <strong>3 倍</strong>；到达后所有新 run 被 held</li>
+    <li>可在 Billing 设置里<strong>主动关闭</strong> pay-per-task，让超额 run 直接 held</li>
+  </ul>
+
+  <h4>计费周期与重置</h4>
+  <p>按账号升级/订阅日的 <strong>anniversary date 重置，不是自然月</strong>。例：1/10 注册，则每月 10 号重置。年付相比月付约省 33%。</p>
+</div>
+
+<div class="card">
+  <h3>D2. Beta 与免费预览（当前最大羊毛）</h3>
+  <table>
+    <tr><th>项目</th><th>现状</th><th>可信度</th></tr>
+    <tr><td><strong>Zapier SDK</strong></td><td><span class="best">Open Beta 期间完全免费</span>，含 9,000+ app、30,000+ actions、3,000+ raw API。Beta 结束前会邮件通知。Enterprise/Team 默认不参与。</td><td>✅ 官方</td></tr>
+    <tr><td><strong>Zapier MCP</strong></td><td>每个成功 tool call = <strong>2 tasks</strong>（比 Zap 还贵 1 倍）；失败 = 0 tasks</td><td>✅ 官方</td></tr>
+    <tr><td><strong>AI by Zapier</strong></td><td>2026-06-15 起按模型倍率：Standard 1x / Advanced 3x / Premium 5x；BYOK 1x</td><td>✅ 官方</td></tr>
+    <tr><td><strong>Zapier Agents</strong></td><td>独立 activity 池，<strong>不占 tasks</strong>。Free 400/月（测试也算配额）；Pro 1500/月（测试不算）</td><td>✅ 官方</td></tr>
+    <tr><td><strong>Chatbots add-on</strong></td><td>第一个 Chatbot 自动开 14 天 Advanced 试用。Pro $160/年（5 chatbots）；Advanced $800/年（20 chatbots）</td><td>✅ 官方</td></tr>
+    <tr><td><strong>Facebook Conversions 促销</strong></td><td>2025-07-23 起 6 个月内，每用 "Send Funnel Event" 送 2,000 免费 tasks/月</td><td>✅ 官方</td></tr>
+  </table>
+  <div class="warn" style="margin-top:12px;">
+    <strong>💡 薅 Beta 红利窗口期：</strong>SDK open beta 是当前最大羊毛——写代码直接调 9,000+ app 完全免费，比走 Zap（1 task/action）或 MCP（2 tasks/call）都便宜。但官方明示"beta 结束前会通知计费"，不要把生产流程压在上面。
+  </div>
+</div>
+
+<div class="card">
+  <h3>D3. 计费边界——哪些操作不算 task</h3>
+  <div class="grid2">
+    <div>
+      <h4 style="color:var(--green);">✅ 明确 0 task</h4>
+      <ul>
+        <li><strong>Trigger</strong>（无论 instant 还是 polling）——轮询再频繁也不扣</li>
+        <li><strong>Filter / Paths</strong></li>
+        <li><strong>Formatter / Delay / Looping（步骤本身）</strong></li>
+        <li><strong>Digest / Storage / Zapier Manager</strong></li>
+        <li><strong>Tables / Forms 步骤</strong></li>
+        <li><strong>失败 / halt / 没跑到的 step</strong></li>
+        <li><strong>Search 设"找不到就停"</strong></li>
+        <li><strong>Agent activity</strong>（走独立池，不占 tasks）</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--red);">❌ 明确算 task</h4>
+      <ul>
+        <li>任何 <strong>action step</strong>（连外部 app 的写操作）</li>
+        <li>error handler 路径里成功跑的 step</li>
+        <li><strong>整个 Zap run replay</strong>——之前成功的 step 会<strong>重新扣一遍</strong></li>
+        <li>Sub-Zap：内部每个 action + Call + Return 各 1 task</li>
+        <li>Search 设"找不到也继续" = 1 task</li>
+        <li><strong>Test step 是 live 的</strong>，成功就扣 task</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4 style="margin-top:16px;">倍率计费的特殊步骤</h4>
+  <table>
+    <tr><th>产品</th><th class="num">倍率</th></tr>
+    <tr><td>AI by Zapier Standard</td><td class="num one-task">1 task/run（+ tool calls × 1）</td></tr>
+    <tr><td>AI by Zapier Advanced</td><td class="num" style="color:var(--orange);font-weight:600;">3 task/run（+ tool calls × 3）</td></tr>
+    <tr><td>AI by Zapier Premium</td><td class="num five-task">5 task/run（+ tool calls × 5）</td></tr>
+    <tr><td>Code by Zapier</td><td class="num one-task">1 task/run 起；超时每 30s 加 1 task</td></tr>
+    <tr><td>Zapier MCP tool call</td><td class="num" style="color:var(--orange);font-weight:600;">2 tasks/call</td></tr>
+    <tr><td>Zapier Lead Router</td><td class="num five-task">5 tasks / 每条成功路由的 lead</td></tr>
+  </table>
+
+  <h4 style="margin-top:16px;">逐条核实</h4>
+  <table>
+    <tr><th>问题</th><th>结论</th><th>可信度</th></tr>
+    <tr><td>Instant/polling trigger 计 task？</td><td>都不计</td><td>✅ 官方</td></tr>
+    <tr><td>Filter/Formatter/Paths/Looping 计 task？</td><td>都不计</td><td>✅ 官方</td></tr>
+    <tr><td>编辑器点 "Test step" 算 task？</td><td><strong>算</strong>——"Testing is live"，成功即扣 1 task</td><td>✅ 官方</td></tr>
+    <tr><td>草稿 Zap（未 Publish）计 task？</td><td>不跑就不扣；但编辑器里 Test step 仍会真实执行</td><td>✅ 官方逻辑</td></tr>
+    <tr><td>Zap 暂停期间计 task？</td><td>暂停后 trigger 不再 fire，不扣</td><td>✅ 官方逻辑</td></tr>
+    <tr><td>Autoreplay 扣 task？</td><td>临时错误自动重试不重复扣；但<strong>手动 replay 整个历史 run</strong>会重新扣一遍</td><td>✅ 官方</td></tr>
+    <tr><td>多步 Zap 怎么计数？</td><td><strong>每个成功 action step 各 1 task</strong>，不是每次运行 1 task。1 trigger→3 actions = 3 tasks/run</td><td>✅ 官方示例</td></tr>
+    <tr><td>75 task/步暂停规则</td><td>AI by Zapier step 单次 live run 累计到 <strong>75 tasks</strong> 会 pause for feedback</td><td>✅ 官方</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>D4. 降本技巧（合规、官方鼓励）</h3>
+  <ol>
+    <li><strong>把 Filter 放最前面</strong>——Filter 本身 0 task，但能挡掉不满足条件的 trigger，让后续 action 根本不跑。最核心省额度工具。</li>
+    <li><strong>用免费内置工具替代付费 action</strong>——Formatter、Paths、Delay、Looping、Storage、Tables、Digest 全是 0 task。数据清洗、字符串处理、日期计算、缓存查表全部用这些做。</li>
+    <li><strong>Search action 设成 "No，not proceed if nothing found"</strong>——找不到记录时 0 task；设成 "Yes, continue" 会白扣 1 task。</li>
+    <li><strong>用 Code by Zapier 一步合并多步操作</strong>——1 次 Code step = 1 task（30s 内）。把 "Find record → Formatter → Update row → Send Slack" 合并成一段代码，3 tasks → 1 task。注意超时会加扣。</li>
+    <li><strong>用 Webhook + 自有后端替代多步 Zap</strong>——外部系统 POST 到 Zapier Webhook URL = 1 trigger（免费）→ 后端处理 = 1 action task。5 action Zap 从 5 tasks 降到 2 tasks。</li>
+    <li><strong>用 Tables / Storage 做缓存避免重复 Find</strong>——处理过的记录打 "processed" 标记存 Tables，下次 trigger 先查表，已处理就 Filter 掉。也能防 Agent ↔ Zap 死循环。</li>
+    <li><strong>Looping 的真相（坑）</strong>——Looping 步骤本身 0 task，但 loop 内每个 action 对每个 item 各扣 1 task。100 个 item = 100 tasks。<strong>总 task 数不变</strong>，只是省 trigger 调用。上限 500 iterations/loop。</li>
+    <li><strong>Sub-Zap 复用逻辑</strong>——内部 action 仍各扣 1 task，不省 task；但省维护成本。注意 Call/Return 本身各扣 1 task——如果 Sub-Zap 里只有 1 个 action，反而比直接写多扣 2 task。</li>
+    <li><strong>轮询频率</strong>——轮询本身免费，但频率越高越容易在短时间内 fire 更多 action = 更多 task。非实时场景用 Schedule 设成每小时/每天。</li>
+    <li><strong>AI by Zapier 降本</strong>——默认 Advanced = 3 tasks/run，日常简单文本处理切到 <strong>Standard（1x）</strong>，立省 2/3。复杂推理才用 Premium（5x）。能写死 if/then 逻辑的别让 LLM 每次重算。用 <strong>BYOK</strong>（自带 key）= 1x 倍率。</li>
+    <li><strong>关掉 pay-per-task</strong>——超额后默认 1.25x 自动扣。在 Billing 关掉，让 run held，等下月重置或手动 upgrade。</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h3>D5. 促销 / 教育 / 开源 / 非营利 / referral</h3>
+  <table>
+    <tr><th>项目</th><th>现状</th><th>可信度</th></tr>
+    <tr><td><strong>非营利组织</strong></td><td>任何付费计划 <strong>15% off</strong>（不含 pay-per-task）。需提供慈善资质证明，通过 zapier.com/non-profits 申请</td><td>✅ 官方</td></tr>
+    <tr><td><strong>年付折扣</strong></td><td>年付比月付约 <strong>33% off</strong>（最大众、最稳的折扣）</td><td>✅ 官方</td></tr>
+    <tr><td><strong>Startup 计划</strong></td><td>第三方 perk 站称 "14 天试用 + 年付 33% off"，需通过合作加速器（Y Combinator、Techstars 等）。官网无独立 startup 申请页</td><td>🟡 第三方</td></tr>
+    <tr><td><strong>教育优惠</strong></td><td><strong>未找到官方教育折扣页</strong>。第三方列出但无官方佐证。不要假设存在</td><td>⚪ 传闻</td></tr>
+    <tr><td><strong>开源项目优惠</strong></td><td><strong>无官方 OSS discount 页面</strong>。需联系 sales 个案谈</td><td>⚪ 未核实</td></tr>
+    <tr><td><strong>Referral 邀请奖励</strong></td><td><strong>Zapier 官方已无 C 端邀请得额度的计划</strong>。搜索结果全是"用 Zapier 搭建别人的 referral program"的模板</td><td>❌ 已失效</td></tr>
+    <tr><td><strong>Black Friday / 季节性促销</strong></td><td>第三方记录 2025 BF 约 <strong>25–35% off 年付</strong>。官方无固定 BF 页面，每年邮件发放 coupon。Q4 是谈判窗口</td><td>🟡 第三方</td></tr>
+    <tr><td><strong>谈判技巧</strong></td><td>Team/Company 历史折扣区间 15–25%；拿 Make.com/n8n 比价是常用话术</td><td>🟡 第三方</td></tr>
+    <tr><td><strong>广告平台联合促销</strong></td><td>偶尔有联合送免费 tasks（如 2025 年 Facebook Conversions 送 2,000 tasks/月 × 6 个月）。关注 zapier.com/l/deals</td><td>✅ 官方</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>D6. 第三方"薅羊毛"技巧核实与风险</h3>
+  <table>
+    <tr><th>技巧</th><th>是否真实</th><th>违反 TOS</th><th>警告</th></tr>
+    <tr><td><strong>注册多个免费账号刷额度</strong></td><td>技术上能</td><td class="worst">❌ 明确违反</td><td>AUP 明文禁止"create multiple accounts to circumvent limitations"，会被批量封禁。<span class="worst">不要做</span></td></tr>
+    <tr><td><strong>试用期到期前再注册新号刷 14 天 Pro</strong></td><td>技术上能</td><td class="worst">❌ 同上</td><td>属"circumvent limitations"。高风险</td></tr>
+    <tr><td><strong>用 Test step 反复测试不扣 task</strong></td><td class="worst">❌ 假</td><td>—</td><td>Test step 是 live 的，成功就扣 task。别信</td></tr>
+    <tr><td><strong>把失败 action 当免费操作</strong></td><td>半真</td><td>🟡 灰区</td><td>失败 step 0 task，但不能故意制造失败——这是为错误处理设计的，不是漏洞</td></tr>
+    <tr><td><strong>用 Instant trigger 代替 polling 省 task</strong></td><td>不省 task</td><td>✅ 合规</td><td>trigger 本来就免费，但 instant 省延迟、省 flood held。推荐</td></tr>
+    <tr><td><strong>用 SDK / MCP 代替 Zap</strong></td><td>SDK 真免费；MCP 2 tasks/call（比 Zap 贵 1 倍）</td><td>✅ 合规</td><td>SDK 是真羊毛，但 beta 结束会计费</td></tr>
+    <tr><td><strong>把 Zap 拆成多个 2-step Zap 绕过 Free 两步限制</strong></td><td>技术上能</td><td>🟡 灰区</td><td>Free 允许建 unlimited Zaps，但跨 Zap 传数据要靠 Tables/Storage 中转。小打小闹可用，别大规模工业化</td></tr>
+    <tr><td><strong>找 Lifetime deal / AppSumo 买 Zapier</strong></td><td class="worst">❌ 假</td><td>—</td><td>Zapier 官方从未在 AppSumo 卖过 lifetime deal。网上都是竞品广告，别被骗</td></tr>
+    <tr><td><strong>用 Make / n8n / Pipedream 替代</strong></td><td class="best">真</td><td>✅ 合规</td><td>Make 按 operation 计费更便宜，n8n 开源自托管完全免费。如果 task 成本扛不住，这是最正当的降本</td></tr>
+  </table>
+</div>
+
+<div class="card highlight">
+  <h3 style="color:var(--green);margin-top:0;">📋 一句话行动清单（按 ROI 排序）</h3>
+  <ol>
+    <li><strong>先把 Filter 移到 trigger 之后第一步</strong>，挡掉无关数据（0 成本，立省）</li>
+    <li><strong>AI step 从 Advanced/Premium 切到 Standard</strong>，能写死逻辑的别用 LLM（立省 2/3 AI tasks）</li>
+    <li><strong>Search action 设成 "not proceed if nothing found"</strong>（白捡）</li>
+    <li><strong>Test step 用假数据</strong>，别在生产记录上点（避免意外扣费）</li>
+    <li><strong>Code step 合并多步 action</strong>，3 tasks → 1 task</li>
+    <li><strong>用 Tables/Storage 做 processed 标记</strong>，防重复 + 防 Agent 死循环</li>
+    <li><strong>关掉 pay-per-task</strong>，设 80% 邮件告警，避免月底爆炸账单</li>
+    <li><strong>年付省 33%</strong>；非营利 15%；等 Black Friday 再升级</li>
+    <li><strong>SDK open beta 期间</strong>用 npx zapier / TypeScript SDK 跑高频自动化，免费</li>
+    <li><strong>不要</strong>注册多账号刷免费额度——AUP 明文禁止，会封号</li>
+  </ol>
+</div>
+
+<!-- ==================== E. 实测证据 ==================== -->
+<h2 id="E">E. 实测证据</h2>
+
+<div class="card">
+  <h3>E1. 账户用量基线（2026-09-25）</h3>
+  <table>
+    <tr><th>指标</th><th class="num">数值</th><th>说明</th></tr>
+    <tr><td>当前计划</td><td>Professional Trial（剩 11 天，至 2026-10-07）</td><td>注册即赠 14 天，无需信用卡，到期自动降级 Free</td></tr>
+    <tr><td>Tasks 已用</td><td class="num"><strong>4 / 1,000</strong></td><td>Professional 试用额度按天折算</td></tr>
+    <tr><td>计费周期</td><td>2026-09-23 至 2026-10-23</td><td>按注册 anniversary 日重置</td></tr>
+    <tr><td>Zaps 数量</td><td>Unlimited</td><td>Professional 试用</td></tr>
+    <tr><td>Agent activities</td><td class="num">0 / 400</td><td>独立计数器，不占 tasks</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>E2. 已验证的计费点</h3>
+  <table>
+    <tr><th>计费点</th><th class="num">实测消耗</th><th>验证方式</th><th>证据</th></tr>
+    <tr><td><strong>Code by Zapier</strong></td><td class="num one-task">1 task / run</td><td>生产 Zap 381096178 每次 Issue 触发 → Code dispatch → 用量 +1</td><td>账户用量从 1→2→3→4，每次 Code 运行 +1</td></tr>
+    <tr><td><strong>GitHub trigger（Polling）</strong></td><td class="num zero-task">0 task</td><td>生产 Zap 触发器运行多次，用量无对应增长</td><td>触发器轮询不计 task（官方确认 + 实测一致）</td></tr>
+    <tr><td><strong>Filter by Zapier</strong></td><td class="num zero-task">0 task</td><td>生产 Zap 含 Filter 步骤，用量无对应增长</td><td>Filter 不计 task（官方确认 + 实测一致）</td></tr>
+    <tr><td><strong>Zapier SDK（Beta）</strong></td><td class="num zero-task">0 task</td><td>GitHub Actions Run #36039575229 内 SDK 调用（含 usage read），用量前后 3→3 无增长</td><td>SDK Beta 免费（官方确认 + 实测一致）</td></tr>
+    <tr><td><strong>AI by Zapier Standard</strong></td><td class="num one-task">1 task / run</td><td>官方费率页确认；编辑器自动化因 SPA 复杂性未完成独立实测</td><td>zapier.com/pricing/rates + help.zapier.com 多方确认</td></tr>
+    <tr><td><strong>AI by Zapier Premium</strong></td><td class="num five-task">5 task / run</td><td>官方费率页确认；公式 (1×5)+(工具数×5)</td><td>zapier.com/pricing/rates + help.zapier.com</td></tr>
+    <tr><td><strong>Agent activity</strong></td><td class="num">1 / 可计费动作</td><td>官方文档确认；当前账户 0/400 未产生消耗</td><td>help.zapier.com Agents usage 文档</td></tr>
+  </table>
+  <div class="warn" style="margin-top:12px;">
+    <strong>📝 说明：</strong>AI by Zapier 和 Agent 的独立实测因 Zapier 编辑器/Agents 平台的 SPA 自动化复杂性（富文本编辑器、动态加载、ref 失效）未能完成端到端跑通。其计费数字均来自官方费率页和帮助文档的多方交叉确认，可信度为 ✅ 官方。如需进一步实测，建议在浏览器中手动操作完成。
+  </div>
+</div>
+
+<div class="card">
+  <h3>E3. 全仓分批准备实测（Run #36036394204）</h3>
+  <table>
+    <tr><th>指标</th><th class="num">数值</th></tr>
+    <tr><td>文本文件数</td><td class="num">18,940</td></tr>
+    <tr><td>二进制文件数</td><td class="num">23,460</td></tr>
+    <tr><td>Dictionary tokens</td><td class="num">61,721,176</td></tr>
+    <tr><td>批次数（950K target）</td><td class="num">72</td></tr>
+    <tr><td>每批 raw input tokens</td><td class="num">~900K–934K</td></tr>
+    <tr><td>Zapier task 消耗</td><td class="num zero-task">0（GitHub Actions 手动触发，不经 Zap）</td></tr>
+  </table>
+  <h3>E4. 单批可靠容量（历史实测）</h3>
+  <table>
+    <tr><th>批次大小</th><th>格式</th><th>结果</th></tr>
+    <tr class="best"><td>~484K tokens（232 文件）</td><td>.txt 文件 URL</td><td>✅ 成功</td></tr>
+    <tr class="worst"><td>~920K tokens</td><td>.md 文件 URL</td><td>❌ 失败：file type not supported</td></tr>
+    <tr class="worst"><td>~1.47M tokens</td><td>.txt 文件 URL</td><td>❌ 失败：file type not supported</td></tr>
+    <tr><td>~950K tokens（72 批）</td><td>.md 文件 URL</td><td>⚠️ 已准备，模型调用前 guard 停止（未验证）</td></tr>
+  </table>
+  <p><strong>确定的可靠单批容量：~484K tokens</strong>。若 950K 经修复可工作，批次数从 128 降至 72。</p>
+</div>
+
+<!-- ==================== F. 最省方案 ==================== -->
+<h2 id="F">F. 全仓分析最省方案</h2>
+
+<div class="card highlight">
+  <h3 style="color:var(--green);margin-top:0;">🏆 确定数字（两种口径）</h3>
+  <div class="grid2">
+    <div>
+      <h4>口径一：全便宜模型（Luna Standard 1x）</h4>
+      <table>
+        <tr><th>阶段</th><th class="num">SDK Beta 期间</th><th class="num">Beta 后（484K）</th></tr>
+        <tr><td>Code dispatch</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td>SDK 模型调用</td><td class="num zero-task">0（免费）</td><td class="num">128 × 1 = 128</td></tr>
+        <tr><td>Filter / 触发器</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr style="font-weight:700;background:rgba(52,211,153,0.05);"><td>合计 / Issue</td><td class="num best">1</td><td class="num">129</td></tr>
+      </table>
+    </div>
+    <div>
+      <h4>口径二：混合高级模型（Luna + Premium 复核 10 批）</h4>
+      <table>
+        <tr><th>阶段</th><th class="num">SDK Beta 期间</th><th class="num">Beta 后（484K）</th></tr>
+        <tr><td>Code dispatch</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td>Luna 全量扫描（1x）</td><td class="num zero-task">0</td><td class="num">118 × 1 = 118</td></tr>
+        <tr><td>Premium 复核（5x，10 批）</td><td class="num zero-task">0</td><td class="num">10 × 5 = 50</td></tr>
+        <tr style="font-weight:700;background:rgba(251,191,36,0.05);"><td>合计 / Issue</td><td class="num best">1</td><td class="num">169</td></tr>
+      </table>
+    </div>
+  </div>
+  <p style="margin-top:12px;"><strong>Agent 路径（activity 口径）</strong>：一次全仓分析需 agent 自主多步推理（读文件→分析→写报告），约 <strong>5-10 activities / run</strong>。Free 400 activities/月 ≈ <strong>40-80 次全仓</strong>。但 agent 的 Visit Site 不能登录私有 repo，且无读文件 action，全仓分析需通过 Code/SDK 间接完成。</p>
+</div>
+
+<div class="card">
+  <h3>F2. 当前生产架构（已最优，可直接运行）</h3>
+  <pre><code>GitHub Issue（触发器，0 task）
+  → Filter by Zapier（0 task，验证所有者/非PR/开放）
+  → Code by Zapier（1 task，dispatch GitHub Actions）
+      → GitHub Actions: luna-autonomous.yml
+          → prepare-full-audit.mjs（分批，72 批 @950K）
+          → 逐批 sdk.createActionRun(app=AICLIAPI@4.0.28, action=get_completion)
+              authentication_id='0'（Zapier 托管）, model_id=openai/gpt-5.6-luna
+          → validateAnswer（覆盖校验）
+          → 汇总 → 中文报告 → 草稿 PR（不自动合并）</code></pre>
+  <h4>设计要点</h4>
+  <ul>
+    <li><strong>一次 Issue 仅 dispatch 一次</strong>：Code 步骤只触发 Actions，所有分批循环在 Actions 内完成</li>
+    <li><strong>SDK Beta 免费</strong>：72 次模型调用经 SDK，Beta 期间 0 task</li>
+    <li><strong>Luna = Standard 1x</strong>：Zapier 托管最便宜模型，上下文 1.05M</li>
+    <li><strong>免费逻辑步骤</strong>：Filter 免费；去重/装箱/覆盖校验在 Actions Node.js 中完成</li>
+    <li><strong>安全护栏</strong>：max_tasks 预算、usageGuard、请求状态不明禁止重发</li>
+  </ul>
+  <h4>落地文件（仓库 Glace678/3 内已有）</h4>
+  <table>
+    <tr><th>文件</th><th>作用</th></tr>
+    <tr><td><code>.github/workflows/luna-autonomous.yml</code></td><td>主 workflow</td></tr>
+    <tr><td><code>.github/zapier-review/autonomous.mjs</code></td><td>主流程</td></tr>
+    <tr><td><code>.github/zapier-review/native-sdk.mjs</code></td><td>SDK 调用封装</td></tr>
+    <tr><td><code>.github/zapier-review/prepare-full-audit.mjs</code></td><td>全仓分批准备</td></tr>
+    <tr><td><code>.github/zapier-review/usage-guard.mjs</code></td><td>用量护栏</td></tr>
+    <tr><td>Zap ID 381096178</td><td>「3仓库·Issue一键全仓审核与修复」published, on</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>F3. 各路径对比与推荐</h3>
+  <table>
+    <tr><th>路径</th><th class="num">Zapier tasks/次</th><th class="num">Agent activities/次</th><th>高级模型可用</th><th>全仓分析可行</th><th>推荐</th></tr>
+    <tr class="best"><td><strong>当前架构（Code + Actions + SDK + Luna）</strong></td><td class="num best">1（Beta）/ 129（Beta后）</td><td class="num">0</td><td>需改集成</td><td>✅</td><td><span class="badge badge-green">推荐</span></td></tr>
+    <tr><td>AI by Zapier Premium 直接在 Zap 内</td><td class="num worst">~360（72批×5）</td><td class="num">0</td><td>✅</td><td>✅</td><td><span class="badge badge-red">最贵</span></td></tr>
+    <tr><td>AI by Zapier BYOK（Zap 内）</td><td class="num">~73（72批×1+1）</td><td class="num">0</td><td>✅（自备 key）</td><td>✅</td><td><span class="badge badge-yellow">备选</span></td></tr>
+    <tr><td>Agent 路径（独立 Agents）</td><td class="num">0</td><td class="num">~5-10</td><td>未确认</td><td>⚠️ 需间接</td><td><span class="badge badge-blue">可选</span></td></tr>
+    <tr><td>纯 GitHub Actions（不经 Zapier）</td><td class="num zero-task">0</td><td class="num">0</td><td>需自备 key</td><td>✅</td><td><span class="badge badge-yellow">用户已否决</span></td></tr>
+  </table>
+  <div class="warn" style="margin-top:12px;">
+    <strong>⚠️ 已知问题：</strong>①usageGuard/requireFreeSdk 导致模型调用前停止（Run #36039575229，modelRequests=0），需修复；②950K .md 批次未通过模型验证，建议改用 .txt 或降至 484K；③Premium 模型未接入当前 AICLIAPI 集成（硬编码 Luna）。
+  </div>
+</div>
+
+<!-- ==================== G. Chatbot & MCP ==================== -->
+<h2 id="G">G. Chatbot & MCP 简介</h2>
+
+<div class="card">
+  <h3>G1. Chatbots（Zapier Chatbots）</h3>
+  <ul>
+    <li><strong>是什么</strong>：嵌入网页的 AI 客服机器人，可连接知识源（文档/网站），能触发 Zap 执行动作</li>
+    <li><strong>计费</strong>：独立订阅 add-on，不占 tasks。Pro $160/年（$13.33/月，5 chatbots）；Advanced $800/年（$66.67/月，20 chatbots，可去 Zapier 标识）</li>
+    <li><strong>免费试用</strong>：创建第一个 Chatbot 自动开 14 天 Advanced 试用</li>
+    <li><strong>GitHub 场景</strong>：挂一个 bot 到开源项目 README/文档站，回答"怎么安装""常见 issue"，知识源同步 GitHub Wiki/Docs</li>
+    <li><strong>与全仓分析的关系</strong>：不直接相关。Chatbot 是面向终端用户的问答界面，不是批量代码分析工具</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>G2. Zapier MCP（Model Context Protocol）</h3>
+  <ul>
+    <li><strong>是什么</strong>：让 AI 客户端（如 Claude Desktop、Cursor）通过 MCP 协议调用 Zapier 的 9000+ app 工具</li>
+    <li><strong>计费</strong>：<span class="worst">每个成功 tool call = 2 tasks</span>（从现有 task 池扣）；失败 call = 0 tasks。比 Zap 的 1 task/action 贵 1 倍</li>
+    <li><strong>所有计划可用</strong>：Free/Pro/Team/Enterprise 均可使用 MCP</li>
+    <li><strong>GitHub 场景</strong>：在 Claude Desktop/Cursor 里通过 MCP 调用 Zapier 的 GitHub action（建 Issue、加 label 等），但每次调用 2 tasks 比直接用 GitHub API 贵</li>
+    <li><strong>与全仓分析的关系</strong>：不推荐用于批量代码分析——2 tasks/call 的成本太高，且 MCP 是交互式工具调用，不适合批量异步处理</li>
+    <li><strong>Early Access</strong>：从 AI 工具"build a Zap"免费；运行 next-gen Zap 在 Early Access 后按标准 1 task/action 计费</li>
+  </ul>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p><strong>研究日期</strong>：2026-09-25 · <strong>数据来源</strong>：zapier.com/pricing/rates、help.zapier.com、zapier.com/sdk、zapier.com/apps/github、agents.zapier.com 官方文档、GitHub Actions Run #36036394204 / #36039575229、账户实测用量</p>
+  <p><strong>仓库</strong>：Glace678/3 · <strong>确定值</strong>：Beta 期间 1 task/Issue；Beta 后 129 tasks/Issue（484K 可靠容量，全 Luna Standard 1x）</p>
+  <p><strong>可信度标注</strong>：✅ 官方确认 / 🟡 第三方验证 / ⚪ 传闻 / ❌ 已失效或违规</p>
+</div>
+
+</body>
+</html>

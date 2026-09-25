@@ -134,13 +134,49 @@ public class ComposableAttribute : BaseAttribute, IComposableAttribute
             return 0;
         }
 
-        var rawValues = elements.Where(e => e.AggregateType == AggregateType.AddRaw).Sum(e => e.Value);
-        var multiValues = elements.Where(e => e.AggregateType == AggregateType.Multiplicate).Select(e => e.Value).Concat(Enumerable.Repeat(1.0F, 1)).Aggregate((a, b) => a * b);
-        var finalValues = elements.Where(e => e.AggregateType == AggregateType.AddFinal).Sum(e => e.Value);
-        var maxValues = elements.Where(e => e.AggregateType == AggregateType.Maximum).MaxBy(e => e.Value)?.Value ?? 0;
-        rawValues += maxValues;
+        var rawValues = 0.0F;
+        var multiValues = 1.0F;
+        var finalValues = 0.0F;
+        var maxValue = 0.0F;
+        var hasMaximum = false;
+        var hasNonMultiplier = false;
+        foreach (var element in elements)
+        {
+            switch (element.AggregateType)
+            {
+                case AggregateType.AddRaw:
+                    rawValues += element.Value;
+                    hasNonMultiplier = true;
+                    break;
+                case AggregateType.Multiplicate:
+                    multiValues *= element.Value;
+                    break;
+                case AggregateType.AddFinal:
+                    finalValues += element.Value;
+                    hasNonMultiplier = true;
+                    break;
+                case AggregateType.Maximum:
+                    var value = element.Value;
+                    if (!hasMaximum || Comparer<float>.Default.Compare(value, maxValue) > 0)
+                    {
+                        maxValue = value;
+                        hasMaximum = true;
+                    }
 
-        if (elements.All(e => e.AggregateType == AggregateType.Multiplicate))
+                    hasNonMultiplier = true;
+                    break;
+                default:
+                    hasNonMultiplier = true;
+                    break;
+            }
+        }
+
+        if (hasMaximum)
+        {
+            rawValues += maxValue;
+        }
+
+        if (!hasNonMultiplier)
         {
             rawValues = 1;
         }

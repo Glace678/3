@@ -41,6 +41,29 @@ namespace Core::Input
         void SetPointerPosition(float pointerX, float pointerY);
 
     private:
+        struct ProcessedAxes
+        {
+            float leftX{};
+            float leftY{};
+            float pointerX{};
+            float pointerY{};
+        };
+
+        GamepadFrameState BeginFrame() const;
+        bool ReleaseInputOwnership(
+            GamepadFrameState& frame,
+            const GamepadSnapshot& snapshot,
+            bool acceptInput);
+        bool ConsumeNeutralSample(const GamepadSnapshot& snapshot);
+        ProcessedAxes ProcessAxes(const GamepadSnapshot& snapshot, InputContext context) const;
+        void MovePointer(
+            GamepadFrameState& frame,
+            const ProcessedAxes& axes,
+            double deltaSeconds,
+            float pointerWidth,
+            float pointerHeight) const;
+        void PopulateDigitalActions(GamepadFrameState& frame, const GamepadSnapshot& snapshot) const;
+        void PopulateAnalogActions(GamepadFrameState& frame, const ProcessedAxes& axes) const;
         float ApplyDeadZone(float value, float deadZone) const;
         float ApplyTriggerDeadZone(float value) const;
         bool ButtonDown(const GamepadSnapshot& snapshot, GamepadButton button) const;

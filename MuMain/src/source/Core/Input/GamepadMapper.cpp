@@ -1,7 +1,9 @@
 #include "Core/Input/GamepadMapper.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <utility>
 
 namespace Core::Input
 {
@@ -9,6 +11,28 @@ namespace Core::Input
     {
         constexpr float TriggerPressed = 0.5f;
         constexpr float NeutralThreshold = 0.25f;
+        constexpr double MaximumPointerDeltaSeconds = 0.1;
+
+        constexpr auto DigitalActionMappings = std::to_array<std::pair<InputAction, RemappableGamepadAction>>({
+            {InputAction::Confirm, RemappableGamepadAction::Confirm},
+            {InputAction::Cancel, RemappableGamepadAction::Cancel},
+            {InputAction::PrimaryAttack, RemappableGamepadAction::PrimaryAttack},
+            {InputAction::ContextAction, RemappableGamepadAction::ContextAction},
+            {InputAction::SecondaryAction, RemappableGamepadAction::PrimaryAttack},
+            {InputAction::Details, RemappableGamepadAction::ContextAction},
+            {InputAction::PreviousPage, RemappableGamepadAction::PreviousPage},
+            {InputAction::NextPage, RemappableGamepadAction::NextPage},
+            {InputAction::QuickItem1, RemappableGamepadAction::QuickItem1},
+            {InputAction::QuickItem2, RemappableGamepadAction::QuickItem2},
+            {InputAction::QuickItem3, RemappableGamepadAction::QuickItem3},
+            {InputAction::QuickItem4, RemappableGamepadAction::QuickItem4},
+            {InputAction::Map, RemappableGamepadAction::Map},
+            {InputAction::Menu, RemappableGamepadAction::Menu},
+            {InputAction::AutoMove, RemappableGamepadAction::AutoMove},
+            {InputAction::NextTarget, RemappableGamepadAction::NextTarget},
+            {InputAction::UseSkill, RemappableGamepadAction::UseSkill},
+            {InputAction::LockTarget, RemappableGamepadAction::LockTarget},
+        });
 
         std::size_t Index(InputAction action)
         {
@@ -29,170 +53,161 @@ namespace Core::Input
         float pointerHeight,
         bool acceptInput)
     {
+        auto frame = BeginFrame();
+        if (ReleaseInputOwnership(frame, snapshot, acceptInput))
+            return frame;
+        if (ConsumeNeutralSample(snapshot))
+            return frame;
+
+        const auto axes = ProcessAxes(snapshot, context);
+        MovePointer(frame, axes, deltaSeconds, pointerWidth, pointerHeight);
+        PopulateDigitalActions(frame, snapshot);
+        PopulateAnalogActions(frame, axes);
+
+        m_pointer = frame.pointer;
+        m_previous = snapshot;
+        return frame;
+    }
+
+    GamepadFrameState GamepadMapper::BeginFrame() const
+    {
         GamepadFrameState frame;
         frame.pointer = m_pointer;
         frame.pointer.leftPressed = false;
         frame.pointer.leftReleased = false;
         frame.pointer.rightPressed = false;
         frame.pointer.rightReleased = false;
+        return frame;
+    }
 
-        if (!m_settings.enabled || !snapshot.connected || !acceptInput)
+    bool GamepadMapper::ReleaseInputOwnership(
+        GamepadFrameState& frame,
+        const GamepadSnapshot& snapshot,
+        bool acceptInput)
+    {
+        if (m_settings.enabled && snapshot.connected && acceptInput)
+            return false;
+
+        if (m_previous.connected)
         {
-            if (m_previous.connected)
-            {
-                frame.pointer.leftReleased = m_pointer.leftDown;
-                frame.pointer.rightReleased = m_pointer.rightDown;
-            }
-            frame.pointer.leftDown = false;
-            frame.pointer.rightDown = false;
-            m_pointer = frame.pointer;
-            m_previous = {};
-            m_requireNeutral = true;
-            return frame;
+            frame.pointer.leftReleased = m_pointer.leftDown;
+            frame.pointer.rightReleased = m_pointer.rightDown;
         }
+        frame.pointer.leftDown = false;
+        frame.pointer.rightDown = false;
+        m_pointer = frame.pointer;
+        m_previous = {};
+        m_requireNeutral = true;
+        return true;
+    }
+
+    bool GamepadMapper::ConsumeNeutralSample(const GamepadSnapshot& snapshot)
+    {
+        if (!m_requireNeutral)
+            return false;
 
         const float maxAxis = std::max({
             std::abs(snapshot.leftX), std::abs(snapshot.leftY),
             std::abs(snapshot.rightX), std::abs(snapshot.rightY),
             ApplyTriggerDeadZone(snapshot.leftTrigger),
             ApplyTriggerDeadZone(snapshot.rightTrigger) });
-        if (m_requireNeutral)
-        {
-            m_requireNeutral = maxAxis > NeutralThreshold;
-            for (bool down : snapshot.buttons)
-            {
-                if (down)
-                {
-                    m_requireNeutral = true;
-                    break;
-                }
-            }
+        m_requireNeutral = maxAxis > NeutralThreshold
+            || std::any_of(snapshot.buttons.begin(), snapshot.buttons.end(), [](bool down) { return down; });
 
-            // Consume the first fully neutral sample as part of the ownership
-            // handoff too. Falling through with a held previous snapshot would
-            // synthesize release edges for the controls we intentionally hid.
-            m_previous = snapshot;
-            return frame;
-        }
+        // Consume the first fully neutral sample as part of the ownership
+        // handoff too, so hidden controls cannot synthesize release edges.
+        m_previous = snapshot;
+        return true;
+    }
 
-        const float leftX = ApplyDeadZone(snapshot.leftX, m_settings.stickDeadZone);
-        const float leftY = ApplyDeadZone(snapshot.leftY, m_settings.stickDeadZone);
-        const float rightX = ApplyDeadZone(snapshot.rightX, m_settings.stickDeadZone);
-        float rightY = ApplyDeadZone(snapshot.rightY, m_settings.stickDeadZone);
-        if (m_settings.invertPointerY) rightY = -rightY;
+    GamepadMapper::ProcessedAxes GamepadMapper::ProcessAxes(
+        const GamepadSnapshot& snapshot,
+        InputContext context) const
+    {
+        ProcessedAxes axes;
+        axes.leftX = ApplyDeadZone(snapshot.leftX, m_settings.stickDeadZone);
+        axes.leftY = ApplyDeadZone(snapshot.leftY, m_settings.stickDeadZone);
+        axes.pointerX = ApplyDeadZone(snapshot.rightX, m_settings.stickDeadZone);
+        axes.pointerY = ApplyDeadZone(snapshot.rightY, m_settings.stickDeadZone);
+        if (m_settings.invertPointerY)
+            axes.pointerY = -axes.pointerY;
 
-        float pointerX = rightX;
-        float pointerY = rightY;
-        if (context != InputContext::World)
-        {
-            const float pointerLeftY = m_settings.invertPointerY ? -leftY : leftY;
-            if (std::abs(leftX) > std::abs(pointerX)) pointerX = leftX;
-            if (std::abs(pointerLeftY) > std::abs(pointerY)) pointerY = pointerLeftY;
+        if (context == InputContext::World)
+            return axes;
 
-            const float dpadX = ButtonDown(snapshot, GamepadButton::DpadRight)
-                - ButtonDown(snapshot, GamepadButton::DpadLeft);
-            const float dpadY = ButtonDown(snapshot, GamepadButton::DpadDown)
-                - ButtonDown(snapshot, GamepadButton::DpadUp);
-            if (dpadX != 0.0f) pointerX = dpadX;
-            if (dpadY != 0.0f) pointerY = dpadY;
-        }
+        const float pointerLeftY = m_settings.invertPointerY ? -axes.leftY : axes.leftY;
+        if (std::abs(axes.leftX) > std::abs(axes.pointerX))
+            axes.pointerX = axes.leftX;
+        if (std::abs(pointerLeftY) > std::abs(axes.pointerY))
+            axes.pointerY = pointerLeftY;
 
-        const float seconds = static_cast<float>(std::clamp(deltaSeconds, 0.0, 0.1));
+        const float dpadX = ButtonDown(snapshot, GamepadButton::DpadRight)
+            - ButtonDown(snapshot, GamepadButton::DpadLeft);
+        const float dpadY = ButtonDown(snapshot, GamepadButton::DpadDown)
+            - ButtonDown(snapshot, GamepadButton::DpadUp);
+        if (dpadX != 0.0f)
+            axes.pointerX = dpadX;
+        if (dpadY != 0.0f)
+            axes.pointerY = dpadY;
+        return axes;
+    }
+
+    void GamepadMapper::MovePointer(
+        GamepadFrameState& frame,
+        const ProcessedAxes& axes,
+        double deltaSeconds,
+        float pointerWidth,
+        float pointerHeight) const
+    {
+        const float seconds = static_cast<float>(
+            std::clamp(deltaSeconds, 0.0, MaximumPointerDeltaSeconds));
         frame.pointer.x = std::clamp(
-            frame.pointer.x + pointerX * m_settings.pointerSpeed * seconds,
+            frame.pointer.x + axes.pointerX * m_settings.pointerSpeed * seconds,
             0.0f,
             std::max(0.0f, pointerWidth - 1.0f));
         frame.pointer.y = std::clamp(
-            frame.pointer.y + pointerY * m_settings.pointerSpeed * seconds,
+            frame.pointer.y + axes.pointerY * m_settings.pointerSpeed * seconds,
             0.0f,
             std::max(0.0f, pointerHeight - 1.0f));
+    }
 
-        const auto down = [this](const GamepadSnapshot& state, RemappableGamepadAction action) {
-            return ActionDown(state, action);
-        };
-        const bool confirm = down(snapshot, RemappableGamepadAction::Confirm);
-        const bool previousConfirm = down(m_previous, RemappableGamepadAction::Confirm);
-        const bool skill = down(snapshot, RemappableGamepadAction::UseSkill);
-        const bool previousSkill = down(m_previous, RemappableGamepadAction::UseSkill);
-        const bool lockTarget = down(snapshot, RemappableGamepadAction::LockTarget);
-        const bool previousLockTarget = down(m_previous, RemappableGamepadAction::LockTarget);
+    void GamepadMapper::PopulateDigitalActions(
+        GamepadFrameState& frame,
+        const GamepadSnapshot& snapshot) const
+    {
+        for (const auto& [inputAction, gamepadAction] : DigitalActionMappings)
+        {
+            SetDigitalAction(
+                frame,
+                inputAction,
+                ActionDown(snapshot, gamepadAction),
+                ActionDown(m_previous, gamepadAction));
+        }
 
-        frame.pointer.leftDown = confirm;
-        frame.pointer.leftPressed = confirm && !previousConfirm;
-        frame.pointer.leftReleased = !confirm && previousConfirm;
-        frame.pointer.rightDown = skill;
-        frame.pointer.rightPressed = skill && !previousSkill;
-        frame.pointer.rightReleased = !skill && previousSkill;
+        const auto& confirm = frame.actions[Index(InputAction::Confirm)];
+        const auto& skill = frame.actions[Index(InputAction::UseSkill)];
+        frame.pointer.leftDown = confirm.down;
+        frame.pointer.leftPressed = confirm.pressed;
+        frame.pointer.leftReleased = confirm.released;
+        frame.pointer.rightDown = skill.down;
+        frame.pointer.rightPressed = skill.pressed;
+        frame.pointer.rightReleased = skill.released;
+    }
 
-        SetDigitalAction(frame, InputAction::Confirm, confirm, previousConfirm);
-        SetDigitalAction(frame, InputAction::Cancel,
-            down(snapshot, RemappableGamepadAction::Cancel),
-            down(m_previous, RemappableGamepadAction::Cancel));
-        SetDigitalAction(frame, InputAction::PrimaryAttack,
-            down(snapshot, RemappableGamepadAction::PrimaryAttack),
-            down(m_previous, RemappableGamepadAction::PrimaryAttack));
-        SetDigitalAction(frame, InputAction::ContextAction,
-            down(snapshot, RemappableGamepadAction::ContextAction),
-            down(m_previous, RemappableGamepadAction::ContextAction));
-        SetDigitalAction(frame, InputAction::SecondaryAction,
-            down(snapshot, RemappableGamepadAction::PrimaryAttack),
-            down(m_previous, RemappableGamepadAction::PrimaryAttack));
-        SetDigitalAction(frame, InputAction::Details,
-            down(snapshot, RemappableGamepadAction::ContextAction),
-            down(m_previous, RemappableGamepadAction::ContextAction));
-        SetDigitalAction(frame, InputAction::PreviousPage,
-            down(snapshot, RemappableGamepadAction::PreviousPage),
-            down(m_previous, RemappableGamepadAction::PreviousPage));
-        SetDigitalAction(frame, InputAction::NextPage,
-            down(snapshot, RemappableGamepadAction::NextPage),
-            down(m_previous, RemappableGamepadAction::NextPage));
-        SetDigitalAction(frame, InputAction::QuickItem1,
-            down(snapshot, RemappableGamepadAction::QuickItem1),
-            down(m_previous, RemappableGamepadAction::QuickItem1));
-        SetDigitalAction(frame, InputAction::QuickItem2,
-            down(snapshot, RemappableGamepadAction::QuickItem2),
-            down(m_previous, RemappableGamepadAction::QuickItem2));
-        SetDigitalAction(frame, InputAction::QuickItem3,
-            down(snapshot, RemappableGamepadAction::QuickItem3),
-            down(m_previous, RemappableGamepadAction::QuickItem3));
-        SetDigitalAction(frame, InputAction::QuickItem4,
-            down(snapshot, RemappableGamepadAction::QuickItem4),
-            down(m_previous, RemappableGamepadAction::QuickItem4));
-        SetDigitalAction(frame, InputAction::Map,
-            down(snapshot, RemappableGamepadAction::Map),
-            down(m_previous, RemappableGamepadAction::Map));
-        SetDigitalAction(frame, InputAction::Menu,
-            down(snapshot, RemappableGamepadAction::Menu),
-            down(m_previous, RemappableGamepadAction::Menu));
-        SetDigitalAction(frame, InputAction::AutoMove,
-            down(snapshot, RemappableGamepadAction::AutoMove),
-            down(m_previous, RemappableGamepadAction::AutoMove));
-        SetDigitalAction(frame, InputAction::NextTarget,
-            down(snapshot, RemappableGamepadAction::NextTarget),
-            down(m_previous, RemappableGamepadAction::NextTarget));
-        SetDigitalAction(frame, InputAction::UseSkill, skill, previousSkill);
-        SetDigitalAction(frame, InputAction::LockTarget, lockTarget, previousLockTarget);
+    void GamepadMapper::PopulateAnalogActions(
+        GamepadFrameState& frame,
+        const ProcessedAxes& axes) const
+    {
+        frame.moveX = axes.leftX;
+        frame.moveY = axes.leftY;
 
         auto& move = frame.actions[Index(InputAction::Move)];
-        const float moveX = leftX;
-        const float moveY = leftY;
-        frame.moveX = moveX;
-        frame.moveY = moveY;
-        move.value = std::sqrt(moveX * moveX + moveY * moveY);
+        move.value = std::hypot(axes.leftX, axes.leftY);
         move.down = move.value > 0.0f;
 
         auto& point = frame.actions[Index(InputAction::Point)];
-        point.value = std::sqrt(pointerX * pointerX + pointerY * pointerY);
+        point.value = std::hypot(axes.pointerX, axes.pointerY);
         point.down = point.value > 0.0f;
-
-        // UI uses A as the complete pointer press/hold/release lifecycle. In the
-        // world, the same state feeds the existing movement/interact state
-        // machine while RT feeds the existing skill/right-button path.
-        (void)context;
-
-        m_pointer = frame.pointer;
-        m_previous = snapshot;
-        return frame;
     }
 
     void GamepadMapper::Reset(float pointerX, float pointerY)

@@ -1,8 +1,8 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
-#include <vector>
 
 namespace Core::Input
 {
@@ -47,10 +47,28 @@ namespace Core::Input
         float y{};
     };
 
+    class MobileGestureActions
+    {
+    public:
+        using const_iterator = const MobileGestureAction*;
+
+        void push_back(const MobileGestureAction& action) { m_actions[m_size++] = action; }
+        bool empty() const { return m_size == 0; }
+        std::size_t size() const { return m_size; }
+        const MobileGestureAction& front() const { return m_actions.front(); }
+        const_iterator begin() const { return m_actions.data(); }
+        const_iterator end() const { return m_actions.data() + m_size; }
+
+    private:
+        static constexpr std::size_t Capacity = 3;
+        std::array<MobileGestureAction, Capacity> m_actions{};
+        std::size_t m_size{};
+    };
+
     class MobileGestureMapper
     {
     public:
-        std::vector<MobileGestureAction> Handle(const TouchSample& sample);
+        MobileGestureActions Handle(const TouchSample& sample);
         void SetLeftHanded(bool leftHanded) { m_leftHanded = leftHanded; }
         void Reset();
 
@@ -63,8 +81,13 @@ namespace Core::Input
         std::size_t ActiveCount() const;
         void StartMultiGesture();
         void StartThreeFingerGesture();
-        void ReleaseActiveButton(std::vector<MobileGestureAction>& actions, float x, float y);
-        void CancelActiveButton(std::vector<MobileGestureAction>& actions, float x, float y);
+        MobileGestureActions HandleDown(const TouchSample& sample);
+        MobileGestureActions HandleMove(Finger& finger);
+        MobileGestureActions HandleUp(Finger& finger, const TouchSample& sample);
+        void AppendMultiGestureAction(MobileGestureActions& actions);
+        void AppendThreeFingerAction(MobileGestureActions& actions);
+        void ReleaseActiveButton(MobileGestureActions& actions, float x, float y);
+        void CancelActiveButton(MobileGestureActions& actions, float x, float y);
         bool IsActionRegion(float x) const;
 
         static constexpr std::size_t MaxFingers = 10;

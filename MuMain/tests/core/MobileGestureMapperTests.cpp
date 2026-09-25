@@ -11,7 +11,7 @@ using Core::Input::TouchSample;
 
 namespace
 {
-    bool Has(const std::vector<Core::Input::MobileGestureAction>& actions,
+    bool Has(const Core::Input::MobileGestureActions& actions,
         MobileGestureActionType type)
     {
         return std::any_of(actions.begin(), actions.end(),
@@ -44,6 +44,35 @@ TEST_CASE("right-half double tap casts with the legacy right mouse button")
     CHECK_FALSE(Has(secondDown, MobileGestureActionType::LeftButtonDown));
     auto secondUp = mapper.Handle({2, TouchPhase::Up, 0.76f, 0.51f, 350});
     CHECK(Has(secondUp, MobileGestureActionType::RightButtonUp));
+}
+
+TEST_CASE("double-tap recognition includes exact time and distance boundaries")
+{
+    MobileGestureMapper mapper;
+    mapper.Handle({1, TouchPhase::Down, 0.70f, 0.50f, 100});
+    mapper.Handle({1, TouchPhase::Up, 0.70f, 0.50f, 170});
+
+    const auto boundary = mapper.Handle({2, TouchPhase::Down, 0.765f, 0.50f, 500});
+    CHECK(Has(boundary, MobileGestureActionType::RightButtonDown));
+
+    MobileGestureMapper lateMapper;
+    lateMapper.Handle({1, TouchPhase::Down, 0.70f, 0.50f, 100});
+    lateMapper.Handle({1, TouchPhase::Up, 0.70f, 0.50f, 170});
+    const auto outsideWindow = lateMapper.Handle({2, TouchPhase::Down, 0.70f, 0.50f, 501});
+    CHECK(Has(outsideWindow, MobileGestureActionType::LeftButtonDown));
+    CHECK_FALSE(Has(outsideWindow, MobileGestureActionType::RightButtonDown));
+}
+
+TEST_CASE("touch coordinates are clamped after contact begins")
+{
+    MobileGestureMapper mapper;
+    mapper.Handle({1, TouchPhase::Down, 0.2f, 0.5f, 100});
+
+    const auto move = mapper.Handle({1, TouchPhase::Move, -0.25f, 1.25f, 120});
+    REQUIRE(move.size() == 1);
+    CHECK(move.front().type == MobileGestureActionType::PointerMove);
+    CHECK(move.front().x == 0.0f);
+    CHECK(move.front().y == 1.0f);
 }
 
 TEST_CASE("left-handed mode swaps action zones without mirroring pointer coordinates")

@@ -21,18 +21,6 @@ public class BinaryMinHeap<T> : IPriorityQueue<T>
     private readonly List<T> _innerList = new();
     private readonly IComparer<T> _elementComparer;
 
-    /// <summary>Reused variable to reduce stack allocations.</summary>
-    private int _i;
-
-    /// <summary>Reused variable to reduce stack allocations.</summary>
-    private int _parentIndex;
-
-    /// <summary>Reused variable to reduce stack allocations.</summary>
-    private int _left;
-
-    /// <summary>Reused variable to reduce stack allocations.</summary>
-    private int _right;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="BinaryMinHeap{T}"/> class.
     /// </summary>
@@ -67,20 +55,20 @@ public class BinaryMinHeap<T> : IPriorityQueue<T>
     /// <inheritdoc/>
     public void Push(T item)
     {
-        this._i = this._innerList.Count;
+        var index = this._innerList.Count;
         this._innerList.Add(item);
         do
         {
-            if (this._i == 0)
+            if (index == 0)
             {
                 break;
             }
 
-            this._parentIndex = unchecked(this._i - 1) >> 1;
-            if (this.OnCompareWithElementOfI(this._parentIndex) < 0)
+            var parentIndex = unchecked(index - 1) >> 1;
+            if (this.OnCompareWithElement(index, parentIndex) < 0)
             {
-                this.SwitchElementsParentWithI();
-                this._i = this._parentIndex;
+                this.SwitchElements(index, parentIndex);
+                index = parentIndex;
             }
             else
             {
@@ -99,30 +87,30 @@ public class BinaryMinHeap<T> : IPriorityQueue<T>
         }
 
         var result = this._innerList[0];
-        this._i = 0;
+        var index = 0;
         this._innerList[0] = this._innerList[^1];
         this._innerList.RemoveAt(this._innerList.Count - 1);
         do
         {
-            this._parentIndex = this._i;
-            this._left = unchecked((this._i << 1) + 1);
-            this._right = unchecked((this._i << 1) + 2);
-            if (this._innerList.Count > this._left && this.OnCompareWithElementOfI(this._left) > 0)
+            var parentIndex = index;
+            var left = unchecked((index << 1) + 1);
+            var right = unchecked((index << 1) + 2);
+            if (this._innerList.Count > left && this.OnCompareWithElement(index, left) > 0)
             {
-                this._i = this._left;
+                index = left;
             }
 
-            if (this._innerList.Count > this._right && this.OnCompareWithElementOfI(this._right) > 0)
+            if (this._innerList.Count > right && this.OnCompareWithElement(index, right) > 0)
             {
-                this._i = this._right;
+                index = right;
             }
 
-            if (this._i == this._parentIndex)
+            if (index == parentIndex)
             {
                 break;
             }
 
-            this.SwitchElementsParentWithI();
+            this.SwitchElements(index, parentIndex);
         }
         while (true);
 
@@ -150,16 +138,16 @@ public class BinaryMinHeap<T> : IPriorityQueue<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void SwitchElementsParentWithI()
+    private void SwitchElements(int index, int parentIndex)
     {
-        T h = this._innerList[this._i];
-        this._innerList[this._i] = this._innerList[this._parentIndex];
-        this._innerList[this._parentIndex] = h;
+        T h = this._innerList[index];
+        this._innerList[index] = this._innerList[parentIndex];
+        this._innerList[parentIndex] = h;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private int OnCompareWithElementOfI(int j)
+    private int OnCompareWithElement(int index, int otherIndex)
     {
-        return this._elementComparer.Compare(this._innerList[this._i], this._innerList[j]);
+        return this._elementComparer.Compare(this._innerList[index], this._innerList[otherIndex]);
     }
 }

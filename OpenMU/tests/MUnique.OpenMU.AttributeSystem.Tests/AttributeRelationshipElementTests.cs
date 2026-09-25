@@ -98,6 +98,54 @@ public class AttributeRelationshipElementTests
     }
 
     /// <summary>
+    /// Tests that a single-use input enumerable is only enumerated once and can still be calculated.
+    /// </summary>
+    [Test]
+    public void InputElementsAreSnapshottedFromSingleUseEnumerable()
+    {
+        var element1 = new SimpleElement { Value = 1 };
+        var element2 = new SimpleElement { Value = 2 };
+        var enumerationCount = 0;
+        IEnumerable<IElement> SingleUseElements()
+        {
+            if (enumerationCount++ != 0)
+            {
+                throw new InvalidOperationException("The input was enumerated more than once.");
+            }
+
+            yield return element1;
+            yield return element2;
+        }
+
+        var relationshipElement = new AttributeRelationshipElement(SingleUseElements(), new ConstantElement(10), InputOperator.Add);
+
+        Assert.That(relationshipElement.Value, Is.EqualTo(13));
+        Assert.That(relationshipElement.InputElements, Is.EqualTo(new[] { element1, element2 }));
+        Assert.That(enumerationCount, Is.EqualTo(1));
+    }
+
+    /// <summary>
+    /// Tests that later mutations of the source collection don't change the calculation or subscriptions.
+    /// </summary>
+    [Test]
+    public void InputElementsAreDetachedFromMutableSource()
+    {
+        var originalElement = new SimpleElement { Value = 1 };
+        var addedElement = new SimpleElement { Value = 100 };
+        var source = new List<IElement> { originalElement };
+        var relationshipElement = new AttributeRelationshipElement(source, new ConstantElement(10), InputOperator.Add);
+        var eventCount = 0;
+        relationshipElement.ValueChanged += (_, _) => eventCount++;
+
+        source.Add(addedElement);
+        addedElement.Value = 200;
+
+        Assert.That(relationshipElement.Value, Is.EqualTo(11));
+        Assert.That(relationshipElement.InputElements, Is.EqualTo(new[] { originalElement }));
+        Assert.That(eventCount, Is.Zero);
+    }
+
+    /// <summary>
     /// Tests if the <see cref="SimpleElement.ValueChanged"/> is called when one of the elements value changed.
     /// </summary>
     [Test]

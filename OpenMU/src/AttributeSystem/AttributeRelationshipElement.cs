@@ -29,7 +29,7 @@ public class AttributeRelationshipElement : SimpleElement
     /// <param name="inputOperator">The input operator.</param>
     public AttributeRelationshipElement(IEnumerable<IElement> inputElements, IElement inputOperand, InputOperator inputOperator)
     {
-        this.InputElements = inputElements;
+        this.InputElements = inputElements.ToArray();
         this.InputOperand = inputOperand;
         this.InputOperator = inputOperator;
         foreach (var element in this.InputElements)

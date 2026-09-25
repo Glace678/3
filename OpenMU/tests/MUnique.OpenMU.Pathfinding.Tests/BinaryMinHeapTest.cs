@@ -46,6 +46,29 @@ internal class BinaryMinHeapTest
     }
 
     /// <summary>
+    /// Tests that all values are popped in sorted order, including duplicates and boundary values.
+    /// </summary>
+    [Test]
+    public void PopsAllValuesInSortedOrder()
+    {
+        int[] values = [5, -1, 5, 0, int.MaxValue, int.MinValue, 3, 3, -10, 42];
+        var heap = new BinaryMinHeap<int>();
+        foreach (var value in values)
+        {
+            heap.Push(value);
+        }
+
+        var poppedValues = new int[values.Length];
+        for (var i = 0; i < poppedValues.Length; i++)
+        {
+            poppedValues[i] = heap.Pop();
+        }
+
+        Assert.That(poppedValues, Is.EqualTo(values.Order()));
+        Assert.That(heap.Count, Is.Zero);
+    }
+
+    /// <summary>
     /// Compares the performance between <see cref="BinaryMinHeap{T}"/> and <see cref="IndexedLinkedList{T}"/>.
     /// </summary>
     [Test]

@@ -65,7 +65,7 @@ namespace Core::Input
     }
 
     void MobileGestureMapper::ReleaseActiveButton(
-        std::vector<MobileGestureAction>& actions, float x, float y)
+        MobileGestureActions& actions, float x, float y)
     {
         if (m_mode == Mode::SingleLeft)
             actions.push_back({MobileGestureActionType::LeftButtonUp, x, y});
@@ -74,7 +74,7 @@ namespace Core::Input
     }
 
     void MobileGestureMapper::CancelActiveButton(
-        std::vector<MobileGestureAction>& actions, float x, float y)
+        MobileGestureActions& actions, float x, float y)
     {
         if (m_mode == Mode::SingleLeft)
             actions.push_back({MobileGestureActionType::CancelLeftButton, x, y});
@@ -127,61 +127,16 @@ namespace Core::Input
         m_mode = Mode::Three;
     }
 
-    std::vector<MobileGestureAction> MobileGestureMapper::Handle(const TouchSample& sample)
+    MobileGestureActions MobileGestureMapper::Handle(const TouchSample& sample)
     {
-        std::vector<MobileGestureAction> actions;
+        if (sample.phase == TouchPhase::Down)
+            return HandleDown(sample);
 
+        MobileGestureActions actions;
         if (sample.phase == TouchPhase::Cancel)
         {
             CancelActiveButton(actions, sample.x, sample.y);
             Reset();
-            return actions;
-        }
-
-        if (sample.phase == TouchPhase::Down)
-        {
-            Finger* finger = FirstFree();
-            if (finger == nullptr)
-                return actions;
-            *finger = {true, sample.fingerId, sample.x, sample.y,
-                sample.x, sample.y, sample.timestampMs};
-
-            const std::size_t count = ActiveCount();
-            if (count == 1)
-            {
-                actions.push_back({MobileGestureActionType::PointerMove, sample.x, sample.y});
-                const bool inActionRegion = IsActionRegion(sample.x);
-                const bool closeInTime = m_lastRightTapAtMs > 0
-                    && sample.timestampMs >= m_lastRightTapAtMs
-                    && sample.timestampMs - m_lastRightTapAtMs <= DoubleTapWindowMs;
-                const bool closeInSpace = Distance(sample.x, sample.y,
-                    m_lastRightTapX, m_lastRightTapY) <= DoubleTapDistance;
-                if (inActionRegion && closeInTime && closeInSpace)
-                {
-                    m_mode = Mode::SingleRight;
-                    m_lastRightTapAtMs = 0;
-                    actions.push_back({MobileGestureActionType::RightButtonDown, sample.x, sample.y});
-                }
-                else
-                {
-                    m_mode = Mode::SingleLeft;
-                    actions.push_back({MobileGestureActionType::LeftButtonDown, sample.x, sample.y});
-                }
-            }
-            else if (count == 2)
-            {
-                CancelActiveButton(actions, sample.x, sample.y);
-                StartMultiGesture();
-            }
-            else if (count == 3)
-            {
-                CancelActiveButton(actions, sample.x, sample.y);
-                StartThreeFingerGesture();
-            }
-            else
-            {
-                m_mode = Mode::Suppressed;
-            }
             return actions;
         }
 
@@ -192,117 +147,184 @@ namespace Core::Input
         finger->y = std::clamp(sample.y, 0.0f, 1.0f);
 
         if (sample.phase == TouchPhase::Move)
-        {
-            if (m_mode == Mode::SingleLeft || m_mode == Mode::SingleRight)
-            {
-                actions.push_back({MobileGestureActionType::PointerMove, finger->x, finger->y});
-            }
-            else if (m_mode == Mode::Multi && ActiveCount() == 2)
-            {
-                const Finger* first = nullptr;
-                const Finger* second = nullptr;
-                for (const auto& active : m_fingers)
-                {
-                    if (!active.active)
-                        continue;
-                    if (first == nullptr)
-                        first = &active;
-                    else
-                    {
-                        second = &active;
-                        break;
-                    }
-                }
-                const float centerX = (first->x + second->x) * 0.5f;
-                const float centerY = (first->y + second->y) * 0.5f;
-                const float distance = Distance(first->x, first->y, second->x, second->y);
-                const float pinch = distance - m_anchorDistance;
-                const float dx = centerX - m_anchorX;
-                const float dy = centerY - m_anchorY;
-
-                const float centerTravel = std::hypot(dx, dy);
-                if (std::abs(pinch) >= PinchStep && centerTravel <= PinchStep)
-                {
-                    actions.push_back({pinch > 0
-                        ? MobileGestureActionType::ZoomIn
-                        : MobileGestureActionType::ZoomOut, centerX, centerY});
-                    m_anchorDistance = distance;
-                    m_anchorX = centerX;
-                    m_anchorY = centerY;
-                }
-                else if (std::abs(dx) >= SwipeStep && std::abs(dx) > std::abs(dy))
-                {
-                    actions.push_back({dx > 0
-                        ? MobileGestureActionType::NextSkill
-                        : MobileGestureActionType::PreviousSkill, centerX, centerY});
-                    m_anchorX = centerX;
-                    m_anchorY = centerY;
-                }
-                else if (std::abs(dy) >= SwipeStep)
-                {
-                    actions.push_back({dy < 0
-                        ? MobileGestureActionType::ZoomIn
-                        : MobileGestureActionType::ZoomOut, centerX, centerY});
-                    m_anchorX = centerX;
-                    m_anchorY = centerY;
-                }
-            }
-            return actions;
-        }
-
+            return HandleMove(*finger);
         if (sample.phase == TouchPhase::Up)
-        {
-            if (m_mode == Mode::SingleLeft || m_mode == Mode::SingleRight)
-            {
-                actions.push_back({MobileGestureActionType::PointerMove, finger->x, finger->y});
-                ReleaseActiveButton(actions, finger->x, finger->y);
-                const bool wasLeft = m_mode == Mode::SingleLeft;
-                const bool wasTap = sample.timestampMs >= finger->downAtMs
-                    && sample.timestampMs - finger->downAtMs <= TapDurationMs
-                    && Distance(finger->startX, finger->startY, finger->x, finger->y) <= TapTravel;
-                if (wasLeft && wasTap && IsActionRegion(finger->x))
-                {
-                    m_lastRightTapAtMs = sample.timestampMs;
-                    m_lastRightTapX = finger->x;
-                    m_lastRightTapY = finger->y;
-                }
-            }
-            else if (m_mode == Mode::Three && !m_threeActionSent)
-            {
-                float x = 0.0f;
-                float y = 0.0f;
-                int count = 0;
-                for (const auto& active : m_fingers)
-                {
-                    if (!active.active)
-                        continue;
-                    x += active.x;
-                    y += active.y;
-                    ++count;
-                }
-                if (count > 0)
-                {
-                    const float centerX = x / static_cast<float>(count);
-                    const float centerY = y / static_cast<float>(count);
-                    const float dy = centerY - m_threeStartY;
-                    const float dx = centerX - m_threeStartX;
-                    if (std::abs(dy) >= ThreeFingerSwipe && std::abs(dy) > std::abs(dx))
-                    {
-                        actions.push_back({dy < 0
-                            ? MobileGestureActionType::OpenMap
-                            : MobileGestureActionType::OpenSettings, centerX, centerY});
-                        m_threeActionSent = true;
-                    }
-                }
-            }
+            return HandleUp(*finger, sample);
+        return actions;
+    }
 
-            finger->active = false;
-            if (ActiveCount() == 0)
-                m_mode = Mode::Idle;
-            else if (m_mode != Mode::Three)
-                m_mode = Mode::Suppressed;
+    MobileGestureActions MobileGestureMapper::HandleDown(const TouchSample& sample)
+    {
+        MobileGestureActions actions;
+        Finger* finger = FirstFree();
+        if (finger == nullptr)
+            return actions;
+        *finger = {true, sample.fingerId, sample.x, sample.y,
+            sample.x, sample.y, sample.timestampMs};
+
+        const std::size_t count = ActiveCount();
+        if (count == 1)
+        {
+            actions.push_back({MobileGestureActionType::PointerMove, sample.x, sample.y});
+            const bool closeInTime = m_lastRightTapAtMs > 0
+                && sample.timestampMs >= m_lastRightTapAtMs
+                && sample.timestampMs - m_lastRightTapAtMs <= DoubleTapWindowMs;
+            const bool closeInSpace = Distance(sample.x, sample.y,
+                m_lastRightTapX, m_lastRightTapY) <= DoubleTapDistance;
+            if (IsActionRegion(sample.x) && closeInTime && closeInSpace)
+            {
+                m_mode = Mode::SingleRight;
+                m_lastRightTapAtMs = 0;
+                actions.push_back({MobileGestureActionType::RightButtonDown, sample.x, sample.y});
+            }
+            else
+            {
+                m_mode = Mode::SingleLeft;
+                actions.push_back({MobileGestureActionType::LeftButtonDown, sample.x, sample.y});
+            }
+        }
+        else if (count == 2)
+        {
+            CancelActiveButton(actions, sample.x, sample.y);
+            StartMultiGesture();
+        }
+        else if (count == 3)
+        {
+            CancelActiveButton(actions, sample.x, sample.y);
+            StartThreeFingerGesture();
+        }
+        else
+        {
+            m_mode = Mode::Suppressed;
         }
         return actions;
+    }
+
+    MobileGestureActions MobileGestureMapper::HandleMove(Finger& finger)
+    {
+        MobileGestureActions actions;
+        if (m_mode == Mode::SingleLeft || m_mode == Mode::SingleRight)
+            actions.push_back({MobileGestureActionType::PointerMove, finger.x, finger.y});
+        else if (m_mode == Mode::Multi && ActiveCount() == 2)
+            AppendMultiGestureAction(actions);
+        return actions;
+    }
+
+    MobileGestureActions MobileGestureMapper::HandleUp(
+        Finger& finger,
+        const TouchSample& sample)
+    {
+        MobileGestureActions actions;
+        if (m_mode == Mode::SingleLeft || m_mode == Mode::SingleRight)
+        {
+            actions.push_back({MobileGestureActionType::PointerMove, finger.x, finger.y});
+            ReleaseActiveButton(actions, finger.x, finger.y);
+            const bool wasLeft = m_mode == Mode::SingleLeft;
+            const bool wasTap = sample.timestampMs >= finger.downAtMs
+                && sample.timestampMs - finger.downAtMs <= TapDurationMs
+                && Distance(finger.startX, finger.startY, finger.x, finger.y) <= TapTravel;
+            if (wasLeft && wasTap && IsActionRegion(finger.x))
+            {
+                m_lastRightTapAtMs = sample.timestampMs;
+                m_lastRightTapX = finger.x;
+                m_lastRightTapY = finger.y;
+            }
+        }
+        else if (m_mode == Mode::Three && !m_threeActionSent)
+        {
+            AppendThreeFingerAction(actions);
+        }
+
+        finger.active = false;
+        if (ActiveCount() == 0)
+            m_mode = Mode::Idle;
+        else if (m_mode != Mode::Three)
+            m_mode = Mode::Suppressed;
+        return actions;
+    }
+
+    void MobileGestureMapper::AppendMultiGestureAction(
+        MobileGestureActions& actions)
+    {
+        const Finger* first = nullptr;
+        const Finger* second = nullptr;
+        for (const auto& active : m_fingers)
+        {
+            if (!active.active)
+                continue;
+            if (first == nullptr)
+                first = &active;
+            else
+            {
+                second = &active;
+                break;
+            }
+        }
+        if (first == nullptr || second == nullptr)
+            return;
+
+        const float centerX = (first->x + second->x) * 0.5f;
+        const float centerY = (first->y + second->y) * 0.5f;
+        const float distance = Distance(first->x, first->y, second->x, second->y);
+        const float pinch = distance - m_anchorDistance;
+        const float dx = centerX - m_anchorX;
+        const float dy = centerY - m_anchorY;
+
+        if (std::abs(pinch) >= PinchStep && std::hypot(dx, dy) <= PinchStep)
+        {
+            actions.push_back({pinch > 0
+                ? MobileGestureActionType::ZoomIn
+                : MobileGestureActionType::ZoomOut, centerX, centerY});
+            m_anchorDistance = distance;
+            m_anchorX = centerX;
+            m_anchorY = centerY;
+        }
+        else if (std::abs(dx) >= SwipeStep && std::abs(dx) > std::abs(dy))
+        {
+            actions.push_back({dx > 0
+                ? MobileGestureActionType::NextSkill
+                : MobileGestureActionType::PreviousSkill, centerX, centerY});
+            m_anchorX = centerX;
+            m_anchorY = centerY;
+        }
+        else if (std::abs(dy) >= SwipeStep)
+        {
+            actions.push_back({dy < 0
+                ? MobileGestureActionType::ZoomIn
+                : MobileGestureActionType::ZoomOut, centerX, centerY});
+            m_anchorX = centerX;
+            m_anchorY = centerY;
+        }
+    }
+
+    void MobileGestureMapper::AppendThreeFingerAction(
+        MobileGestureActions& actions)
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        int count = 0;
+        for (const auto& active : m_fingers)
+        {
+            if (!active.active)
+                continue;
+            x += active.x;
+            y += active.y;
+            ++count;
+        }
+        if (count == 0)
+            return;
+
+        const float centerX = x / static_cast<float>(count);
+        const float centerY = y / static_cast<float>(count);
+        const float dy = centerY - m_threeStartY;
+        const float dx = centerX - m_threeStartX;
+        if (std::abs(dy) < ThreeFingerSwipe || std::abs(dy) <= std::abs(dx))
+            return;
+
+        actions.push_back({dy < 0
+            ? MobileGestureActionType::OpenMap
+            : MobileGestureActionType::OpenSettings, centerX, centerY});
+        m_threeActionSent = true;
     }
 
     void MobileGestureMapper::Reset()

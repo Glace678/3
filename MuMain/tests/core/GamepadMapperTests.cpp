@@ -199,6 +199,61 @@ TEST_CASE("GamepadMapper exposes UI secondary and details actions")
     CHECK(frame.actions[static_cast<std::size_t>(InputAction::Details)].pressed);
 }
 
+TEST_CASE("Gamepad action aliases preserve matching press hold release edges")
+{
+    GamepadMapper mapper;
+    GamepadSnapshot snapshot;
+    snapshot.connected = true;
+    mapper.Update(snapshot, InputContext::UserInterface, 0.0, 640.0f, 480.0f, true);
+
+    snapshot.buttons[Index(GamepadButton::West)] = true;
+    const auto pressed = mapper.Update(
+        snapshot, InputContext::UserInterface, 0.016, 640.0f, 480.0f, true);
+    const auto primary = static_cast<std::size_t>(InputAction::PrimaryAttack);
+    const auto secondary = static_cast<std::size_t>(InputAction::SecondaryAction);
+    CHECK(pressed.actions[primary].pressed);
+    CHECK(pressed.actions[secondary].pressed);
+    CHECK(pressed.actions[primary].down == pressed.actions[secondary].down);
+
+    const auto held = mapper.Update(
+        snapshot, InputContext::UserInterface, 0.016, 640.0f, 480.0f, true);
+    CHECK_FALSE(held.actions[primary].pressed);
+    CHECK_FALSE(held.actions[secondary].pressed);
+    CHECK(held.actions[primary].down);
+    CHECK(held.actions[secondary].down);
+
+    snapshot.buttons[Index(GamepadButton::West)] = false;
+    const auto released = mapper.Update(
+        snapshot, InputContext::UserInterface, 0.016, 640.0f, 480.0f, true);
+    CHECK(released.actions[primary].released);
+    CHECK(released.actions[secondary].released);
+    CHECK_FALSE(released.actions[primary].down);
+    CHECK_FALSE(released.actions[secondary].down);
+}
+
+TEST_CASE("Gamepad dead zone boundary remains neutral")
+{
+    GamepadSettings settings;
+    settings.stickDeadZone = 0.2f;
+    GamepadMapper mapper(settings);
+
+    GamepadSnapshot snapshot;
+    snapshot.connected = true;
+    mapper.Update(snapshot, InputContext::World, 0.0, 640.0f, 480.0f, true);
+
+    snapshot.leftX = settings.stickDeadZone;
+    const auto boundary = mapper.Update(
+        snapshot, InputContext::World, 0.016, 640.0f, 480.0f, true);
+    CHECK(boundary.moveX == 0.0f);
+    CHECK_FALSE(boundary.actions[static_cast<std::size_t>(InputAction::Move)].down);
+
+    snapshot.leftX = settings.stickDeadZone + 0.01f;
+    const auto beyond = mapper.Update(
+        snapshot, InputContext::World, 0.016, 640.0f, 480.0f, true);
+    CHECK(beyond.moveX > 0.0f);
+    CHECK(beyond.actions[static_cast<std::size_t>(InputAction::Move)].down);
+}
+
 TEST_CASE("Gamepad rebinding swaps occupied controls without conflicts")
 {
     GamepadBindings bindings = DefaultGamepadBindings();
